@@ -1,6 +1,6 @@
-#Dekoratør for interne arbeidsflater
+# Dekoratør for interne arbeidsflater
 
-##Utvikling
+## Utvikling
 
 ```
 cd web/src/frontend
@@ -8,7 +8,7 @@ npm install
 npm run dev
 ```
 
-##Deploy
+## Deploy
 
 ```
 cd web/src/frontend
