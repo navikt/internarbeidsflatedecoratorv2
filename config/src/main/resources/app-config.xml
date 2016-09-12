@@ -6,7 +6,7 @@
 
     <name>internarbeidsflatedecorator</name>
     <artifacts>
-        <ear groupId="no.nav.sbl" artifactId="internarbeidsflatedecorator-ear"/>
+        <ear groupId="no.nav.sbl.dialogarena.internarbeidsflate-decorator" artifactId="ear"/>
     </artifacts>
 
 
