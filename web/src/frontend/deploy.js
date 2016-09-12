@@ -14,7 +14,7 @@ const skrivTilFil = (html) => {
 }
 
 const rendre = (fragmenter) => {
-    const promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         fs.readFile('./index.html', function (err, data) {
             if (err) {
                 reject();
@@ -28,7 +28,6 @@ const rendre = (fragmenter) => {
             resolve(html);
         });
     });
-    return promise;
 }
 
 fs.readdir(`./${htmlMappe}`, function(error, filer) {
