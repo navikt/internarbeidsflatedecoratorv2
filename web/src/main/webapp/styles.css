@@ -1,3 +1,190 @@
-.siterheader p {
-    font-size: 22rem;
+.dekorator {
+  /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+}
+.dekorator html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+.dekorator body {
+  margin: 0;
+}
+.dekorator article,
+.dekorator aside,
+.dekorator details,
+.dekorator figcaption,
+.dekorator figure,
+.dekorator footer,
+.dekorator header,
+.dekorator hgroup,
+.dekorator main,
+.dekorator nav,
+.dekorator section,
+.dekorator summary {
+  display: block;
+}
+.dekorator audio,
+.dekorator canvas,
+.dekorator progress,
+.dekorator video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+.dekorator audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+.dekorator [hidden],
+.dekorator template {
+  display: none;
+}
+.dekorator a {
+  background: transparent;
+}
+.dekorator a:active,
+.dekorator a:hover {
+  outline: 0;
+}
+.dekorator abbr[title] {
+  border-bottom: 1px dotted;
+}
+.dekorator b,
+.dekorator strong {
+  font-weight: bold;
+}
+.dekorator dfn {
+  font-style: italic;
+}
+.dekorator h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+.dekorator mark {
+  background: #ff0;
+  color: #000;
+}
+.dekorator small {
+  font-size: 80%;
+}
+.dekorator sub,
+.dekorator sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.dekorator sup {
+  top: -0.5em;
+}
+.dekorator sub {
+  bottom: -0.25em;
+}
+.dekorator img {
+  border: 0;
+}
+.dekorator svg:not(:root) {
+  overflow: hidden;
+}
+.dekorator figure {
+  margin: 1em 40px;
+}
+.dekorator hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+.dekorator pre {
+  overflow: auto;
+}
+.dekorator code,
+.dekorator kbd,
+.dekorator pre,
+.dekorator samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+.dekorator button,
+.dekorator input,
+.dekorator optgroup,
+.dekorator select,
+.dekorator textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+.dekorator button {
+  overflow: visible;
+}
+.dekorator button,
+.dekorator select {
+  text-transform: none;
+}
+.dekorator button,
+.dekorator html input[type="button"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+.dekorator button[disabled],
+.dekorator html input[disabled] {
+  cursor: default;
+}
+.dekorator button input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+.dekorator input {
+  line-height: normal;
+}
+.dekorator input[type="reset"],
+.dekorator input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+.dekorator input[type="checkbox"],
+.dekorator input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+.dekorator input[type="number"]::-webkit-inner-spin-button,
+.dekorator input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+.dekorator input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.dekorator input[type="search"]::-webkit-search-cancel-button,
+.dekorator input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+.dekorator fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+.dekorator legend {
+  border: 0;
+  padding: 0;
+}
+.dekorator textarea {
+  overflow: auto;
+}
+.dekorator optgroup {
+  font-weight: bold;
+}
+.dekorator table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.dekorator td,
+.dekorator th {
+  padding: 0;
+}
+.dekorator .hode {
+  background: green;
+}
+.dekorator .fot {
+  background: red;
 }

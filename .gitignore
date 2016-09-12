@@ -2,3 +2,4 @@ target
 *.iml
 .idea
 *.log
+web/src/frontend/node_modules
