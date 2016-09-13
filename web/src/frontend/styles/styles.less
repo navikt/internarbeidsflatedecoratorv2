@@ -1,6 +1,19 @@
+@import '_variabler.less';
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: @modia-bakgrunn;
+}
+
 .dekorator {
+    font-size: 125%; // 1em === 20px
+
     // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
     @import "_normalize.less";
     @import "_hode.less";
-    @import "_fot.less";
-}
+
+    a:focus {
+        outline: 2px solid @modia-fokus;
+    }
+} 

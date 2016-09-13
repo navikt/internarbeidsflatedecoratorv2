@@ -1,4 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+}
 .dekorator {
+  font-size: 125%;
   /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 }
 .dekorator html {
@@ -182,9 +188,25 @@
 .dekorator th {
   padding: 0;
 }
-.dekorator .hode {
-  background: green;
+.dekorator .modia-logo {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
 }
-.dekorator .fot {
-  background: red;
+.dekorator .modia-logo a {
+  display: inline-block;
+}
+.dekorator .modia-logo svg {
+  vertical-align: middle;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+}
+.dekorator .modia-hode {
+  padding: 1em;
+  background-color: #3a3a3a;
+  position: relative;
+}
+.dekorator a:focus {
+  outline: 2px solid orange;
 }
