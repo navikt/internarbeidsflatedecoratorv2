@@ -9,7 +9,7 @@
             <module name="org.slf4j"/>
         </exclusions>
     </deployment>
-    <sub-deployment name="web.war">
+    <sub-deployment name="internarbeidsflatedecorator-web.war">
         <exclusions>
             <module name="org.slf4j"/>
             <module name="javaee.api"/>
