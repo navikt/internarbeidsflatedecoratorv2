@@ -195,6 +195,7 @@ body {
 }
 .dekorator .modia-logo a {
   display: inline-block;
+  border: 0;
 }
 .dekorator .modia-logo svg {
   vertical-align: middle;
