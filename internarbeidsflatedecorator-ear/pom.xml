@@ -5,19 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>no.nav.sbl.dialogarena.internarbeidsflate-decorator</groupId>
-        <artifactId>internarbeidsflate-decorator</artifactId>
+        <groupId>no.nav.sbl.dialogarena</groupId>
+        <artifactId>internarbeidsflatedecorator</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <packaging>ear</packaging>
 
-    <artifactId>ear</artifactId>
+    <artifactId>internarbeidsflatedecorator-ear</artifactId>
 
 
     <dependencies>
         <dependency>
-            <groupId>no.nav.sbl.dialogarena.internarbeidsflate-decorator</groupId>
-            <artifactId>web</artifactId>
+            <groupId>no.nav.sbl.dialogarena</groupId>
+            <artifactId>internarbeidsflatedecorator-web</artifactId>
             <version>${project.version}</version>
             <type>war</type>
             <scope>runtime</scope>
@@ -33,9 +33,9 @@
                     <modules>
                         <webModule>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>web</artifactId>
+                            <artifactId>internarbeidsflatedecorator-web</artifactId>
                             <contextRoot>/internarbeidsflatedecorator</contextRoot>
-                            <bundleFileName>web.war</bundleFileName>
+                            <bundleFileName>internarbeidsflatedecorator-web.war</bundleFileName>
                         </webModule>
                     </modules>
                     <displayName>internarbeidsflatedecorator</displayName>
