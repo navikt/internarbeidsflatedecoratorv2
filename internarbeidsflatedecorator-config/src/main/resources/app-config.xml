@@ -5,12 +5,18 @@
              http://maven.adeo.no/xsd/appconfig.xsd ">
 
     <name>internarbeidsflatedecorator</name>
+    <selftest>
+        <path>internarbeidsflatedecorator/internal/selftest</path>
+        <humanReadablePath>internarbeidsflatedecorator/internal/selftest</humanReadablePath>
+    </selftest>
+
+
     <artifacts>
         <ear groupId="no.nav.sbl.dialogarena" artifactId="internarbeidsflatedecorator-ear"/>
     </artifacts>
 
 
-    <loadBalancer />
+    <loadBalancer isAlive="internarbeidsflatedecorator/internal/isAlive" />
 
 
 </application>
