@@ -6,7 +6,7 @@
   "scripts": {
     "start": "parallelshell \"npm run fragments:build\" \"npm run styles:build\"",
     "fragments:build": "node deploy.js",
-    "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css",
+    "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css --autoprefix=\"last 3 versions\"",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
     "fragments:watch": "nodemon -q -w html --ext \"html\" --exec \"npm run fragments:build\"",
     "dev": "parallelshell \"npm run fragments:watch\" \"npm run styles:watch\""
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "async": "2.0.1",
+    "less-plugin-autoprefix": "1.5.1",
     "mustache": "2.2.1",
     "nodemon": "1.10.2",
     "promise": "7.1.1"

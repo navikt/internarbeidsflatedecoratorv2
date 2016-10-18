@@ -1,28 +1,29 @@
 .dekorator__hode {
-    padding: 10px;
+    padding: 1em; 
     background-color: @dekorator-svart;
     position: relative;
     color: #fff;
+
+    h1 {
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        display: inline-block; 
+    }
 }
 
 .dekorator__hode__logo {
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
     line-height: 2;
-
-    a {
-        display: inline-block;
-        border: 0;
-        text-decoration: none;
-    }
+    display: flex; 
+    width: auto;
+    text-decoration: none;
+    align-items: center;
 
     svg {
         vertical-align: middle;
         display: inline-block;
-        width: 40px;
-        height: 40px; 
-        margin-right: .5em;
+        height: 32px;
+        margin-right: 1em;
     }
 }
 
@@ -31,5 +32,6 @@
     display: inline-block;
     color: #fff;
     border-left: 2px solid #fff;
-    padding-left: .5em;
+    padding-left: 1em;
+    font-size: 20px;
 }

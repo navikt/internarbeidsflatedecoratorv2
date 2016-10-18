@@ -100,7 +100,6 @@ body {
   margin: 1em 40px;
 }
 .dekorator hr {
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 0;
 }
@@ -162,8 +161,6 @@ body {
 }
 .dekorator input[type="search"] {
   -webkit-appearance: textfield;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
 .dekorator input[type="search"]::-webkit-search-cancel-button,
@@ -194,35 +191,39 @@ body {
   padding: 0;
 }
 .dekorator .dekorator__hode {
-  padding: 10px;
+  padding: 1em;
   background-color: #3a3a3a;
   position: relative;
   color: #fff;
 }
-.dekorator .dekorator__hode__logo {
+.dekorator .dekorator__hode h1 {
   margin: 0;
   padding: 0;
   font-size: 20px;
-  line-height: 2;
-}
-.dekorator .dekorator__hode__logo a {
   display: inline-block;
-  border: 0;
+}
+.dekorator .dekorator__hode__logo {
+  line-height: 2;
+  display: -ms-flexbox;
+  display: flex;
+  width: auto;
   text-decoration: none;
+  -ms-flex-align: center;
+      align-items: center;
 }
 .dekorator .dekorator__hode__logo svg {
   vertical-align: middle;
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  margin-right: .5em;
+  height: 32px;
+  margin-right: 1em;
 }
 .dekorator .dekorator__hode__tittel {
   font-family: Modus, Arial, Helvetica;
   display: inline-block;
   color: #fff;
   border-left: 2px solid #fff;
-  padding-left: .5em;
+  padding-left: 1em;
+  font-size: 20px;
 }
 .dekorator a:focus {
   outline: 2px solid orange;
