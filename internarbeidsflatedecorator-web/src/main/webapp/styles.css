@@ -217,6 +217,7 @@ body {
   vertical-align: middle;
   display: inline-block;
   height: 32px;
+  width: 50px;
   margin-right: 1em;
 }
 .dekorator .dekorator__hode__tittel {
