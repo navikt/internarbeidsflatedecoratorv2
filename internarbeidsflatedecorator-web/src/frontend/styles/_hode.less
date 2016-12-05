@@ -1,6 +1,7 @@
 .dekorator__hode {
     padding: 16px; 
     background-color: @dekorator-svart;
+    font-family: Arial, Helvetica, Sans-serif;
     position: relative;
     color: #fff;
 
@@ -31,7 +32,6 @@
 
 .dekorator__hode__tittel {
     font-weight: 400;
-    font-family: Modus, Arial, Helvetica;
     display: inline-block;
     color: #fff;
     border-left: 2px solid #fff;
@@ -39,4 +39,30 @@
     font-size: 20px;
     height: 32px;
     line-height: 32px;
+}
+
+.dekorator__hode__toggleMeny {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    height: 32px;
+    line-height: 32px;
+    font-size: 20px;
+    background-color: transparent;
+    text-transform: uppercase;
+
+    &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 2px @dekorator-fokus;
+    }
+}
+
+.dekorator__banner {
+    display: flex;
+    height: 2em;
+
+    h1 {
+        flex: 1;
+    }
 }

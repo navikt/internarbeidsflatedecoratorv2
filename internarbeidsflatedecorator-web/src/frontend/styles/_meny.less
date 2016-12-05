@@ -1,0 +1,39 @@
+.dekorator__nav {
+    height: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+    transition: height 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+}
+
+.dekorator__nav--apen {
+    height: auto;
+    overflow: visible;
+}
+
+.dekorator__meny {
+    padding-top: 2em;
+    padding-bottom: 2em;
+
+    h2 {
+        font-size: 1.25em;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    line-height: 1.5;
+
+    li {
+        margin-bottom: .5em;
+    }
+
+    ul, li {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+}
