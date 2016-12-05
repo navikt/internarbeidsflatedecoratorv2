@@ -81,6 +81,7 @@
                         navContainer.style.height = hoyde + "px";
                     } else {
                         navContainer.style.height = nav.offsetHeight + "px";
+                        navContainer.style.overflow = "hidden";
                         setTimeout(function() {
                             navContainer.style.height = "0"; 
                         }, 0);
