@@ -228,24 +228,55 @@ body {
 .dekorator .dekorator__hode__toggleMeny {
   border: 0;
   margin: 0;
-  padding: 0;
+  padding: 0 1.25em 0 0;
   color: #fff;
   height: 32px;
   line-height: 32px;
   font-size: 20px;
   background-color: transparent;
   text-transform: uppercase;
+  position: relative;
 }
 .dekorator .dekorator__hode__toggleMeny:focus {
   outline: 0;
   box-shadow: 0 0 0 2px #ffbd66;
+}
+.dekorator .dekorator__hode__toggleMeny:after,
+.dekorator .dekorator__hode__toggleMeny:before {
+  font-size: .5em;
+  content: "";
+  background-color: #fff;
+  display: block;
+  width: calc(1em + 1px);
+  height: 2px;
+  position: absolute;
+  top: 1.5em;
+  transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+}
+.dekorator .dekorator__hode__toggleMeny:after {
+  right: 0;
+  -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+}
+.dekorator .dekorator__hode__toggleMeny:before {
+  right: 0.70710678em;
+  -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+}
+.dekorator .dekorator__hode__toggleMeny--apen:after {
+  -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+}
+.dekorator .dekorator__hode__toggleMeny--apen:before {
+  -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
 }
 .dekorator .dekorator__banner {
   display: -ms-flexbox;
   display: flex;
   height: 2em;
 }
-.dekorator .dekorator__banner h1 {
+.dekorator .dekorator__tittel {
   -ms-flex: 1;
       flex: 1;
 }
@@ -265,13 +296,17 @@ body {
   line-height: 1.5;
 }
 .dekorator .dekorator__meny h2 {
-  font-size: 1.25em;
+  font-size: 1em;
   font-weight: 400;
   text-transform: uppercase;
 }
 .dekorator .dekorator__meny a {
   color: #fff;
   text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+.dekorator .dekorator__meny a:hover {
+  border-bottom-color: #fff;
 }
 .dekorator .dekorator__meny li {
   margin-bottom: .5em;

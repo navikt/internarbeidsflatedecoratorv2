@@ -3,9 +3,9 @@
         <div class="dekorator__hode" role="banner">
             <div class="dekorator__container" id="js-dekorator-hode-container">
                 <header class="dekorator__banner">
-                    <h1>
-                        <a href="/" class="dekorator__hode__logo">
-                            <svg titleversion="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    <h1 class="dekorator__tittel">
+                        <a href="/" class="dekorator__hode__logo" id="js-dekorator-hjem">
+                            <svg focusable="false" titleversion="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                 viewBox="0 0 148.2 94.9" style="enable-background:new 0 0 148.2 94.9;" xml:space="preserve">
                                 <title>NAV-logo</title>
                                 <style type="text/css">
@@ -35,9 +35,9 @@
                 </header>
                 <div id="js-dekorator-nav-container" class="dekorator__nav" aria-controlledby="js-dekorator-toggle-meny">
                     <nav id="js-dekorator-nav" class="dekorator__meny">
-                        <h2>Meny</h2>
+                        <h2>Lenker</h2>
                         <ul>
-                            <li><a href="/moteoversikt">Møteoversikt</a></li>
+                            <li><a href="/moteoversikt">Dine møter</a></li>
                             <li><a href="/modiabrukerdialog">Modia</a></li>
                         </ul>
                     </nav>
@@ -49,12 +49,13 @@
                 var knapp = document.getElementById("js-dekorator-toggle-meny");
                 var navContainer = document.getElementById("js-dekorator-nav-container");
                 var nav = document.getElementById("js-dekorator-nav");
-                var apen = false;
+                var hjemLenke = document.getElementById("js-dekorator-hjem");
 
+                hjemLenke.setAttribute("href", window.location.pathname);
+
+                var apen = false;
                 var menyInnhold = nav.innerHTML;
                 nav.innerHTML = "";
-
-                console.log(menyInnhold);
 
                 function whichTransitionEvent(){
                     var t;
@@ -79,12 +80,14 @@
                         nav.innerHTML = menyInnhold;
                         var hoyde = nav.offsetHeight;
                         navContainer.style.height = hoyde + "px";
+                        knapp.className += " dekorator__hode__toggleMeny--apen";
                     } else {
                         navContainer.style.height = nav.offsetHeight + "px";
                         navContainer.style.overflow = "hidden";
                         setTimeout(function() {
                             navContainer.style.height = "0"; 
                         }, 0);
+                        knapp.className = "dekorator__hode__toggleMeny";
                     }
                     apen = !apen;
                     knapp.setAttribute("aria-pressed", apen);
