@@ -5,6 +5,7 @@ body {
 }
 .dekorator {
   font-size: 100%;
+  color: #fff;
   /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 }
 .dekorator html {
@@ -215,10 +216,14 @@ body {
   width: 50px;
   margin-right: 1em;
 }
+.dekorator .dekorator__hode__logo:focus {
+  background-color: transparent;
+  box-shadow: 0 0 0 2px #ffbd66;
+  color: #fff;
+}
 .dekorator .dekorator__hode__tittel {
   font-weight: 400;
   display: inline-block;
-  color: #fff;
   border-left: 2px solid #fff;
   padding-left: 1em;
   font-size: 20px;
@@ -308,6 +313,9 @@ body {
 .dekorator .dekorator__meny a:hover {
   border-bottom-color: #fff;
 }
+.dekorator .dekorator__meny a:focus {
+  border-bottom-color: #000;
+}
 .dekorator .dekorator__meny li {
   margin-bottom: .5em;
 }
@@ -317,8 +325,13 @@ body {
   margin: 0;
   list-style-type: none;
 }
+.dekorator a {
+  color: #fff;
+}
 .dekorator a:focus {
-  outline: 2px solid #ffbd66;
+  background-color: #ffbd66;
+  color: #000;
+  outline: none;
 }
 .dekorator .dekorator__container {
   max-width: 60em;

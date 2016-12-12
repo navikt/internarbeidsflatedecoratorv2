@@ -8,14 +8,22 @@ body {
 
 .dekorator {
     font-size: 100%; // 1em === 16px
+    color: #fff;
 
     // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
     @import "_normalize.less";
     @import "_hode.less";
     @import "_meny.less";
 
+
+    a {
+        color: #fff;   
+    }
+
     a:focus {
-        outline: 2px solid @dekorator-fokus;
+        background-color: @dekorator-fokus;
+        color: #000;
+        outline: none;  
     }
 
     .dekorator__container {
