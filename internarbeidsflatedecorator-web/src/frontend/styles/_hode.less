@@ -1,16 +1,19 @@
 .dekorator__hode {
-    padding: 16px; 
+    padding: 1em; 
     background-color: @dekorator-svart;
-    font-family: Arial, Helvetica, Sans-serif;
     position: relative;
     color: #fff;
 
     h1 {
         margin: 0;
         padding: 0;
-        font-size: 20px;
+        font-size: 1.25em;
         display: inline-block;
     }
+}
+
+.dekorator__hode--apen {
+    border-bottom: 1px solid #7f756c;
 }
 
 .dekorator__hode__logo {
@@ -31,7 +34,7 @@
 
     &:focus {
         background-color: transparent;
-        box-shadow: 0 0 0 2px @dekorator-fokus; 
+        box-shadow: 0 0 0 2px @fokusOrange; 
         color: #fff;
     }
 }
@@ -53,26 +56,27 @@
     color: #fff;
     height: 32px;
     line-height: 32px;
-    font-size: 20px;
+    font-size: 1em;
     background-color: transparent;
-    text-transform: uppercase;
+    text-transform: lowercase;
     position: relative;
+    transition: color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
 
     &:focus {
         outline: 0;
-        box-shadow: 0 0 0 2px @dekorator-fokus;
+        box-shadow: 0 0 0 2px @fokusOrange;
     }
 
     &:after, &:before {
-        font-size: .5em; 
+        font-size: .4em; 
         content: "";
         background-color: #fff;
         display: block;
         width: ~"calc(1em + 1px)";
-        height: 2px;
+        height: 1px;
         position: absolute;
-        top: 1.5em;
-        transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        top: 2.5em;
+        transition: all 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
     }
 
     &:after {
@@ -87,11 +91,16 @@
 }
 
 .dekorator__hode__toggleMeny--apen {
+
+    color: @infoOrange;
+
     &:after {
+        background-color: @infoOrange;
         transform: rotate(45deg);
     }
 
     &:before {
+        background-color: @infoOrange;
         transform: rotate(-45deg);
     }
 }

@@ -9,6 +9,7 @@ body {
 .dekorator {
     font-size: 100%; // 1em === 16px
     color: #fff;
+    font-family: Arial, Sans-serif;
 
     // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
     @import "_normalize.less";
@@ -21,8 +22,8 @@ body {
     }
 
     a:focus {
-        background-color: @dekorator-fokus;
-        color: #000;
+        background-color: @fokusOrange;
+        color: @dekorator-svart;
         outline: none;  
     }
 

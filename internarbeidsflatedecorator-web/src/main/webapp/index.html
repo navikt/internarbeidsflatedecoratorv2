@@ -8,11 +8,11 @@
 
     <body>
         <div id="styles">
-            <link href="http://localhost:8186/internarbeidsflatedecorator/styles.css?_ts=1481536630144" rel="stylesheet">
+            <link href="http://localhost:8186/internarbeidsflatedecorator/styles.css?_ts=1481704140319" rel="stylesheet">
         </div>
         <div id="header-withmenu">
     <div class="dekorator">
-        <div class="dekorator__hode" role="banner">
+        <div class="dekorator__hode" role="banner" id="js-dekorator-hode">
             <div class="dekorator__container" id="js-dekorator-hode-container">
                 <header class="dekorator__banner">
                     <h1 class="dekorator__tittel">
@@ -45,19 +45,20 @@
                     </h1>
                     <button aria-pressed="false" class="dekorator__hode__toggleMeny" id="js-dekorator-toggle-meny">Meny</button>
                 </header>
-                <div id="js-dekorator-nav-container" class="dekorator__nav" aria-controlledby="js-dekorator-toggle-meny">
-                    <nav id="js-dekorator-nav" class="dekorator__meny">
-                        <h2>Lenker</h2>
-                        <ul>
-                            <li><a href="/moteoversikt">Dine møter</a></li>
-                            <li><a href="/modiabrukerdialog">Modia</a></li>
-                        </ul>
-                    </nav>
-                </div>
             </div>
+        </div>
+        <div id="js-dekorator-nav-container" class="dekorator__nav" aria-controlledby="js-dekorator-toggle-meny">
+            <nav id="js-dekorator-nav" class="dekorator__container dekorator__meny">
+                <h2>Lenker</h2>
+                <ul>
+                    <li><a href="/moteoversikt">Mine dialogmøter</a></li>
+                    <li><a href="/modiabrukerdialog">Modia</a></li>
+                </ul>
+            </nav>
         </div>
         <script type="text/javascript">
             (function() {
+                var hode = document.getElementById("js-dekorator-hode");
                 var knapp = document.getElementById("js-dekorator-toggle-meny");
                 var navContainer = document.getElementById("js-dekorator-nav-container");
                 var nav = document.getElementById("js-dekorator-nav");
@@ -93,6 +94,7 @@
                         var hoyde = nav.offsetHeight;
                         navContainer.style.height = hoyde + "px";
                         knapp.className += " dekorator__hode__toggleMeny--apen";
+                        hode.className += " dekorator__hode--apen";
                     } else {
                         navContainer.style.height = nav.offsetHeight + "px";
                         navContainer.style.overflow = "hidden";
@@ -113,6 +115,7 @@
                         navContainer.className = "dekorator__nav";
                         navContainer.removeAttribute("style");
                         nav.innerHTML = "";
+                        hode.className = "dekorator__hode";
                     }
                 });
             })();
