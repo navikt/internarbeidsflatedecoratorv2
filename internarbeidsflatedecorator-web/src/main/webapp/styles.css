@@ -336,7 +336,8 @@ body {
   margin: 0;
   list-style-type: none;
 }
-.dekorator a {
+.dekorator a,
+.dekorator a:visited {
   color: #fff;
 }
 .dekorator a:focus {
