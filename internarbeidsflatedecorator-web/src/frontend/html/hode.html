@@ -106,6 +106,36 @@
                         hode.className = "dekorator__hode";
                     }
                 });
+
+                nav.addEventListener("keyup", function(event) {
+                    var OPP = 38;
+                    var NED = 40;
+                    var settFokus = function(liEl) {
+                        if (!liEl) {
+                            return;
+                        }
+                        var lenke = liEl.getElementsByTagName("a")[0];
+                        lenke.focus();
+                    }
+                    var target = event.target;
+                    var tagName = event.target.tagName;
+                    if (tagName.toUpperCase() === "A") {
+                        switch (event.keyCode) {
+                            case OPP: {
+                                var forrige = event.target.parentNode.previousElementSibling;
+                                settFokus(forrige);
+                                return;
+                            }
+                            case NED: {
+                                var neste = event.target.parentNode.nextElementSibling;
+                                settFokus(neste);
+                                return;
+                            }
+                            return;
+                        }
+                    }
+                });
+
             })();
         </script>
     </div>
