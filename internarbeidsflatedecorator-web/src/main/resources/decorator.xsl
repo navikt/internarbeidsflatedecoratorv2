@@ -12,8 +12,7 @@
 
             <body>
                 <div id="styles">
-                    <link href="http://localhost:8186/internarbeidsflatedecorator/styles.css?_ts=1481804612826"
-                          rel="stylesheet" />
+                    <link href="/internarbeidsflatedecorator/styles.css?_ts=1481804612826" rel="stylesheet" />
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">
