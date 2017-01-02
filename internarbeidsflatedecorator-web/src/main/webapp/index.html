@@ -8,7 +8,7 @@
 
     <body>
         <div id="styles">
-            <link href="http://localhost:8186/internarbeidsflatedecorator/styles.css?_ts=1482220997320" rel="stylesheet">
+            <link href="http://localhost:8186/internarbeidsflatedecorator/styles.css?_ts=1483359427499" rel="stylesheet">
         </div>
         <div id="header-withmenu">
     <div class="dekorator">
@@ -134,11 +134,13 @@
                     if (tagName.toUpperCase() === "A") {
                         switch (event.keyCode) {
                             case OPP: {
+                                event.preventDefault();
                                 var forrige = event.target.parentNode.previousElementSibling;
                                 settFokus(forrige);
                                 return;
                             }
                             case NED: {
+                                event.preventDefault();
                                 var neste = event.target.parentNode.nextElementSibling;
                                 settFokus(neste);
                                 return;
