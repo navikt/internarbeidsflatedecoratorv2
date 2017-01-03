@@ -5,14 +5,14 @@
     <xsl:template match="/*:decoratorXMLWrapper">
         <html lang="no">
             <head>
-                <meta charset="UTF-8" />
+                <meta charset="UTF-8"/>
                 <title>Dekoratør for interne arbeidsflater</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
             </head>
 
             <body>
                 <div id="styles">
-                    <link href="/internarbeidsflatedecorator/styles.css?_ts=1481804612826" rel="stylesheet" />
+                    <link href="/internarbeidsflatedecorator/styles.css?_ts=1481804612826" rel="stylesheet"/>
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">
@@ -137,6 +137,39 @@
                             hode.className = "dekorator__hode";
                             }
                             });
+
+                            nav.addEventListener("keyup", function(event) {
+                            var OPP = 38;
+                            var NED = 40;
+                            var settFokus = function(liEl) {
+                            if (!liEl) {
+                            return;
+                            }
+                            var lenke = liEl.getElementsByTagName("a")[0];
+                            lenke.focus();
+                            }
+                            var target = event.target;
+                            var tagName = event.target.tagName;
+                            if (tagName.toUpperCase() === "A") {
+                            switch (event.keyCode) {
+                            case OPP: {
+                            event.preventDefault();
+                            var forrige = event.target.parentNode.previousElementSibling;
+                            settFokus(forrige);
+                            return;
+                            }
+                            case NED: {
+                            event.preventDefault();
+                            var neste = event.target.parentNode.nextElementSibling;
+                            settFokus(neste);
+                            return;
+                            }
+                            return;
+                            }
+                            }
+                            });
+
+
                             })();
                         </script>
                     </div>
