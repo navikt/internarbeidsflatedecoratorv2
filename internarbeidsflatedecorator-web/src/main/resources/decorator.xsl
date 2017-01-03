@@ -8,6 +8,7 @@
                 <meta charset="UTF-8"/>
                 <title>Dekoratør for interne arbeidsflater</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <script src="/internarbeidsflatedecorator/init.js" />
             </head>
 
             <body>
@@ -21,7 +22,7 @@
                                 <header class="dekorator__banner">
                                     <h1 class="dekorator__tittel">
                                         <a href="/" class="dekorator__hode__logo" id="js-dekorator-hjem">
-                                            <svg focusable="false" titleversion="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            <svg focusable="false" titleversion="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                                 viewBox="0 0 148.2 94.9" style="enable-background:new 0 0 148.2 94.9;" xml:space="preserve">
                                 <title>NAV-logo</title>
                                 <style type="text/css">
@@ -75,103 +76,6 @@
                                 </ul>
                             </nav>
                         </div>
-                        <script type="text/javascript">
-                            (function() {
-                            var hode = document.getElementById("js-dekorator-hode");
-                            var knapp = document.getElementById("js-dekorator-toggle-meny");
-                            var navContainer = document.getElementById("js-dekorator-nav-container");
-                            var nav = document.getElementById("js-dekorator-nav");
-                            var hjemLenke = document.getElementById("js-dekorator-hjem");
-
-                            hjemLenke.setAttribute("href", window.location.pathname);
-
-                            var apen = false;
-                            var menyInnhold = nav.innerHTML;
-                            nav.innerHTML = "";
-
-                            function whichTransitionEvent(){
-                            var t;
-                            var el = document.createElement('fakeelement');
-                            var transitions = {
-                            'transition':'transitionend',
-                            'OTransition':'oTransitionEnd',
-                            'MozTransition':'transitionend',
-                            'WebkitTransition':'webkitTransitionEnd'
-                            }
-
-                            for(t in transitions){
-                            if( el.style[t] !== undefined ){
-                            return transitions[t];
-                            }
-                            }
-                            }
-
-                            knapp.addEventListener("click", function(event) {
-                            event.preventDefault();
-                            if (!apen) {
-                            nav.innerHTML = menyInnhold;
-                            var hoyde = nav.offsetHeight;
-                            navContainer.style.height = hoyde + "px";
-                            knapp.className += " dekorator__hode__toggleMeny--apen";
-                            hode.className += " dekorator__hode--apen";
-                            } else {
-                            navContainer.style.height = nav.offsetHeight + "px";
-                            navContainer.style.overflow = "hidden";
-                            setTimeout(function() {
-                            navContainer.style.height = "0";
-                            }, 0);
-                            knapp.className = "dekorator__hode__toggleMeny";
-                            }
-                            apen = !apen;
-                            knapp.setAttribute("aria-pressed", apen);
-                            });
-
-                            navContainer.addEventListener(whichTransitionEvent(), function(event) {
-                            if (apen) {
-                            navContainer.className = "dekorator__nav dekorator__nav--apen";
-                            navContainer.removeAttribute("style");
-                            } else {
-                            navContainer.className = "dekorator__nav";
-                            navContainer.removeAttribute("style");
-                            nav.innerHTML = "";
-                            hode.className = "dekorator__hode";
-                            }
-                            });
-
-                            nav.addEventListener("keyup", function(event) {
-                            var OPP = 38;
-                            var NED = 40;
-                            var settFokus = function(liEl) {
-                            if (!liEl) {
-                            return;
-                            }
-                            var lenke = liEl.getElementsByTagName("a")[0];
-                            lenke.focus();
-                            }
-                            var target = event.target;
-                            var tagName = event.target.tagName;
-                            if (tagName.toUpperCase() === "A") {
-                            switch (event.keyCode) {
-                            case OPP: {
-                            event.preventDefault();
-                            var forrige = event.target.parentNode.previousElementSibling;
-                            settFokus(forrige);
-                            return;
-                            }
-                            case NED: {
-                            event.preventDefault();
-                            var neste = event.target.parentNode.nextElementSibling;
-                            settFokus(neste);
-                            return;
-                            }
-                            return;
-                            }
-                            }
-                            });
-
-
-                            })();
-                        </script>
                     </div>
                 </div>
             </body>
