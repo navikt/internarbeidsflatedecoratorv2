@@ -8,12 +8,17 @@
                 <meta charset="UTF-8"/>
                 <title>Dekoratør for interne arbeidsflater</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <script src="/internarbeidsflatedecorator/init.js" />
+                <script src="/internarbeidsflatedecorator/init.js"/>
+
+                <xsl:if test="visVarsel='true'">
+                    <script src="/internarbeidsflatedecorator/varsel.js"/>
+                </xsl:if>
+
             </head>
 
             <body>
                 <div id="styles">
-                    <link href="/internarbeidsflatedecorator/styles.css?_ts=1481804612826" rel="stylesheet"/>
+                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804612826" rel="stylesheet"/>
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">
@@ -53,7 +58,12 @@
                                     </xsl:if>
 
                                     <xsl:if test="visVarsel='true'">
-                                        <p>Varsel lissom</p>
+                                        <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle"/>
+                                        <div id="js-dekorator-varsel-liste" class="dekorator__varselliste"
+                                             aria-controlledby="js-dekorator-varsel-button">
+                                            <ol id="js-dekorator-varsel-liste-elementer" class="dekorator__varselliste__elementer">
+                                            </ol>
+                                        </div>
                                     </xsl:if>
 
                                     <button aria-pressed="false" class="dekorator__hode__toggleMeny"
