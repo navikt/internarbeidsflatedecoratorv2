@@ -8,7 +8,7 @@
                 <meta charset="UTF-8"/>
                 <title>Dekoratør for interne arbeidsflater</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <script src="/internarbeidsflatedecorator/init.js"/>
+                <script src="/internarbeidsflatedecorator/init.js?_ts=2481804612826"/>
 
                 <xsl:if test="visVarsel='true'">
                     <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612826"/>

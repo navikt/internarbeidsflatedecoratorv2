@@ -1,4 +1,4 @@
-window.onload = function () {
+document.addEventListener('DOMContentLoaded', function () {
     var hode = document.getElementById("js-dekorator-hode");
     var knapp = document.getElementById("js-dekorator-toggle-meny");
     var navContainer = document.getElementById("js-dekorator-nav-container");
@@ -90,4 +90,4 @@ window.onload = function () {
             }
         }
     });
-};
+}, false);
