@@ -352,7 +352,7 @@ body {
 }
 
 .dekorator .dekorator__varselbjelle {
-    background: transparent url("svg/alarm.svg") no-repeat;
+    background: transparent url("svg/alarm_blaa.svg") no-repeat;
     border: none;
     border: 0;
     margin-right: 1.5em;
@@ -361,6 +361,10 @@ body {
     width: 24px;
     line-height: 32px;
     position: relative;
+}
+
+.dekorator .dekorator__varselbjelle .harvarsler {
+    background-image: url("svg/alarm.svg");
 }
 
 .dekorator .dekorator__varselliste {

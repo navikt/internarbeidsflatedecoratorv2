@@ -58,7 +58,7 @@
                                     </xsl:if>
 
                                     <xsl:if test="visVarsel='true'">
-                                        <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle"/>
+                                        <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle" aria-pressed="false"/>
                                         <div id="js-dekorator-varsel-liste" class="dekorator__varselliste"
                                              aria-controlledby="js-dekorator-varsel-button">
                                             <ul id="js-dekorator-varsel-liste-elementer" class="dekorator__varselliste__elementer">
