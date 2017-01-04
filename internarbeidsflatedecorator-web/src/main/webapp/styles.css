@@ -368,8 +368,29 @@ body {
     width: 200px;
     padding: 20px 16px 20px 16px;
     z-index: 1;
-    background-color: black;
+    background-color: #3a3a3a;
     box-shadow: 0 1px 4px 2px rgba(0,0,0,0.1);
     font-size: 0.875rem;
     display: none;
 }
+
+.dekorator .dekorator__varselliste__elementer {
+    margin: 0 0 5px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.dekorator .dekorator__varselliste__elementer li {
+    border-bottom: #A9A9A9 1px solid;
+    padding-bottom: 12px;
+}
+
+.dekorator .dekorator__varselliste__elementer .lest {
+   color: #A9A9A9;
+}
+
+.dekorator .dekorator__varselliste__elementer .lest a {
+    color: #A9A9A9;
+}
+
+

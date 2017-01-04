@@ -18,7 +18,7 @@
 
             <body>
                 <div id="styles">
-                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804612826" rel="stylesheet"/>
+                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804614826" rel="stylesheet"/>
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">
@@ -61,8 +61,8 @@
                                         <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle"/>
                                         <div id="js-dekorator-varsel-liste" class="dekorator__varselliste"
                                              aria-controlledby="js-dekorator-varsel-button">
-                                            <ol id="js-dekorator-varsel-liste-elementer" class="dekorator__varselliste__elementer">
-                                            </ol>
+                                            <ul id="js-dekorator-varsel-liste-elementer" class="dekorator__varselliste__elementer">
+                                            </ul>
                                         </div>
                                     </xsl:if>
 

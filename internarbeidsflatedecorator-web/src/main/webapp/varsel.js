@@ -29,11 +29,14 @@ function populerVarselListe() {
 
     if (!varsler) {
         varselliste.innerHTML += '<p>Du har ingen varsler</p>';
-    }
+    } else {
 
-    JSON.parse(varsler).forEach(function (varsel) {
-        varselliste.innerHTML += '<li><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.lenke + '>' + varsel.tekst + '</a></li>';
-    });
+
+        JSON.parse(varsler).forEach(function (varsel) {
+            var lest = varsel.lest ? ' class=\"lest\"' : '';
+            varselliste.innerHTML += '<li' + lest + '><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.lenke + '>' + varsel.tekst + '</a></li>';
+        });
+    }
 };
 
 function pad(nr) {
