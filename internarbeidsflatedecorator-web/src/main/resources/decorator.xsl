@@ -11,14 +11,14 @@
                 <script src="/internarbeidsflatedecorator/init.js?_ts=2481804612826"/>
 
                 <xsl:if test="visVarsel='true'">
-                    <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612826"/>
+                    <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612836"/>
                 </xsl:if>
 
             </head>
 
             <body>
                 <div id="styles">
-                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804614826" rel="stylesheet"/>
+                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804614836" rel="stylesheet"/>
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">

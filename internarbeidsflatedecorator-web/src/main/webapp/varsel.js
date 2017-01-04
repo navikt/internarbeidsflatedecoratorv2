@@ -22,7 +22,7 @@ window.onload = function () {
     });
 
     if (varsler && varsler.length > 0) {
-        varselbjelle.className += " harvarsler";
+        varselbjelle.style.backgroundImage = 'url("../svg/alarm.svg")';
         populerVarselListe(varsler);
     } else {
         varselliste.innerHTML += '<p>Du har ingen varsler</p>';
@@ -34,7 +34,7 @@ function populerVarselListe(varsler) {
     varsler.sort(function (a, b) {
         return b.opprettetTidspunkt - a.opprettetTidspunkt;
     }).forEach(function (varsel) {
-        if (sjekkOmVarselSkalMarkeresSomLest(varsel)) {
+        if (sjekkOmVarselSkalMarkeresSomLest(varsel) === true) {
             markerVarselSomLest(varsel);
             varsel.lest = true;
         }
