@@ -4,8 +4,14 @@ window.onload = function () {
     var apen = false;
     varselbjelle.addEventListener("click", function (event) {
         event.preventDefault();
+
         if (!apen) {
             varsler.style.display = "block";
+
+            var top = document.getElementById("js-dekorator-hode").clientHeight + 1;
+            var left = varselbjelle.offsetLeft + (varselbjelle.clientWidth / 2) - (document.getElementById("js-dekorator-varsel-liste").clientWidth / 2);
+            varsler.style.top = top;
+            varsler.style.left = left;
         } else {
             varsler.style.display = "none";
         }
@@ -19,8 +25,13 @@ window.onload = function () {
 
 function populerVarselListe() {
     var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
+    var varsler = getVarsler();
 
-    JSON.parse(getVarsler()).forEach(function (varsel) {
+    if (!varsler) {
+        varselliste.innerHTML += '<p>Du har ingen varsler</p>';
+    }
+
+    JSON.parse(varsler).forEach(function (varsel) {
         varselliste.innerHTML += '<li><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.lenke + '>' + varsel.tekst + '</a></li>';
     });
 };
@@ -44,7 +55,8 @@ function getTidFraZulu(zulutid) {
 
 function getVarsler() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarsel/rest/varsler', false);
+    // xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarsel/rest/varsler', false);
+    xmlHttp.open("GET", 'http://localhost:8380/veiledervarsel/rest/varsler', false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }

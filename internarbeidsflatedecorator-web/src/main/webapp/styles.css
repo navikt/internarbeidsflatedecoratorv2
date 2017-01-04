@@ -364,9 +364,6 @@ body {
 }
 
 .dekorator .dekorator__varselliste {
-    top: 65px;
-    right: 260px;
-    left: auto;
     position: absolute;
     width: 200px;
     padding: 20px 16px 20px 16px;

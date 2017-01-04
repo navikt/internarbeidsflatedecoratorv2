@@ -11,7 +11,7 @@
                 <script src="/internarbeidsflatedecorator/init.js"/>
 
                 <xsl:if test="visVarsel='true'">
-                    <script src="/internarbeidsflatedecorator/varsel.js"/>
+                    <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612826"/>
                 </xsl:if>
 
             </head>
