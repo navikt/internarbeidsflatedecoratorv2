@@ -53,7 +53,7 @@ function sjekkOmVarselSkalMarkeresSomLest(varsel) {
 
 function markerVarselSomLest(varsel) {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", 'https://' + window.location.host + '/veiledervarsel/rest/varsler/' + varsel.id + '/lest', true);
+    xmlHttp.open("POST", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler/' + varsel.id + '/lest', true);
     xmlHttp.send(null);
 }
 
@@ -75,8 +75,8 @@ function getTidFraZulu(zulutid) {
 
 function getVarsler() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarsel/rest/varsler', false);
-    // xmlHttp.open("GET", 'http://localhost:8380/veiledervarsel/rest/varsler', false);
+    xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler', false);
+    // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler', false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }
