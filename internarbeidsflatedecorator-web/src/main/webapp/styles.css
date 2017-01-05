@@ -363,7 +363,7 @@ body {
     position: relative;
 }
 
-.dekorator .dekorator__varselbjelle .harvarsler {
+.dekorator .harvarsler {
     background-image: url("svg/alarm.svg");
 }
 

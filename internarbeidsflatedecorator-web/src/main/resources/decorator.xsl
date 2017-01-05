@@ -8,17 +8,11 @@
                 <meta charset="UTF-8"/>
                 <title>Dekoratør for interne arbeidsflater</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-                <script src="/internarbeidsflatedecorator/init.js?_ts=2481804612826"/>
-
-                <xsl:if test="visVarsel='true'">
-                    <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612836"/>
-                </xsl:if>
-
             </head>
 
             <body>
                 <div id="styles">
-                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804614836" rel="stylesheet"/>
+                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804614856" rel="stylesheet"/>
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">
@@ -87,6 +81,11 @@
                             </nav>
                         </div>
                     </div>
+                    <script src="/internarbeidsflatedecorator/init.js?_ts=2481804612826"/>
+
+                    <xsl:if test="visVarsel='true'">
+                        <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612836"/>
+                    </xsl:if>
                 </div>
             </body>
 
