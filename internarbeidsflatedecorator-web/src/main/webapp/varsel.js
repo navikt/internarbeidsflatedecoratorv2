@@ -13,11 +13,10 @@
 
         if (!apen) {
             varselliste.style.display = "block";
-
-            var top = document.getElementById("js-dekorator-hode").clientHeight + 1;
-            var left = varselbjelle.offsetLeft + (varselbjelle.clientWidth / 2) - (document.getElementById("js-dekorator-varsel-liste").clientWidth / 2);
-            varselliste.style.top = top;
-            varselliste.style.left = left;
+            var dekoratortopp = (document.getElementById("js-dekorator-hode").clientHeight + 1);
+            var dekoratorleft = (varselbjelle.offsetLeft + (varselbjelle.clientWidth / 2) - (document.getElementById("js-dekorator-varsel-liste").clientWidth / 2));
+            varselliste.style.top = dekoratortopp + 'px';
+            varselliste.style.left = dekoratorleft + 'px';
         } else {
             varselliste.style.display = "none";
         }
@@ -37,7 +36,7 @@
 function populerVarselListe(varsler) {
     var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
     varsler.sort(function (a, b) {
-        return b.opprettetTidspunkt - a.opprettetTidspunkt;
+        return b.id - a.id;
     }).forEach(function (varsel) {
         if (sjekkOmVarselSkalMarkeresSomLest(varsel) === true) {
             markerVarselSomLest(varsel);
@@ -54,8 +53,7 @@ function sjekkOmVarselSkalMarkeresSomLest(varsel) {
 
 function markerVarselSomLest(varsel) {
     var xmlHttp = new XMLHttpRequest();
-    // xmlHttp.open("POST", 'http://localhost:8380/veiledervarsel/rest/varsler/' + varsel.id, true);
-    xmlHttp.open("POST", 'https://' + window.location.host + '/veiledervarsel/rest/varsler/' + varsel.id, true);
+    xmlHttp.open("POST", 'https://' + window.location.host + '/veiledervarsel/rest/varsler/' + varsel.id + '/lest', true);
     xmlHttp.send(null);
 }
 
