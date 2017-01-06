@@ -12,7 +12,7 @@
 
             <body>
                 <div id="styles">
-                    <link href="/internarbeidsflatedecorator/styles.css?_ts=2481804614856" rel="stylesheet"/>
+                    <link href="/internarbeidsflatedecorator/styles.css" rel="stylesheet"/>
                 </div>
                 <div id="header-withmenu">
                     <div class="dekorator">
@@ -58,6 +58,7 @@
                                             <ul id="js-dekorator-varsel-liste-elementer" class="dekorator__varselliste__elementer">
                                             </ul>
                                         </div>
+
                                     </xsl:if>
 
                                     <button aria-pressed="false" class="dekorator__hode__toggleMeny"
@@ -81,10 +82,10 @@
                             </nav>
                         </div>
                     </div>
-                    <script src="/internarbeidsflatedecorator/init.js?_ts=2481804612826"/>
+                    <script src="/internarbeidsflatedecorator/init.js"/>
 
                     <xsl:if test="visVarsel='true'">
-                        <script src="/internarbeidsflatedecorator/varsel.js?_ts=2481804612836"/>
+                        <script src="/internarbeidsflatedecorator/varsel.js"/>
                     </xsl:if>
                 </div>
             </body>

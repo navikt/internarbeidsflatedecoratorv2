@@ -29,11 +29,14 @@
         varselbjelle.className += ' harvarsler';
         populerVarselListe(varsler);
     } else {
-        varselliste.innerHTML += '<p>Du har ingen varsler</p>';
+        varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
     }
 
+    varselliste.innerHTML +=  '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>'
 
-function populerVarselListe(varsler) {
+
+
+    function populerVarselListe(varsler) {
     var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
     varsler.sort(function (a, b) {
         return b.id - a.id;
@@ -75,8 +78,8 @@ function getTidFraZulu(zulutid) {
 
 function getVarsler() {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler', false);
-    // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler', false);
+    xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
+    // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
     xmlHttp.send(null);
     return xmlHttp.responseText;
 }
