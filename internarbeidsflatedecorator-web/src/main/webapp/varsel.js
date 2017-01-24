@@ -1,8 +1,8 @@
-(function() {
+(function () {
     var varsler;
     try {
-        varsler =  JSON.parse(getVarsler());
-    } catch(e) {
+        varsler = JSON.parse(getVarsler());
+    } catch (e) {
         varsler = [];
     }
     var varselbjelle = document.getElementById("js-dekorator-varsel-button");
@@ -25,62 +25,63 @@
         varselbjelle.setAttribute("aria-pressed", apen);
     });
 
-    if (varsler && varsler.length > 0) {
+    varsler = populerVarselListe(varsler);
+
+    if (varsler.length > 0) {
         varselbjelle.className += ' harvarsler';
-        populerVarselListe(varsler);
     } else {
         varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
     }
 
-    varselliste.innerHTML +=  '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>'
-
+    varselliste.innerHTML += '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>'
 
 
     function populerVarselListe(varsler) {
-    var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
-    varsler.sort(function (a, b) {
-        return b.id - a.id;
-    }).forEach(function (varsel) {
-        if (sjekkOmVarselSkalMarkeresSomLest(varsel) === true) {
-            markerVarselSomLest(varsel);
-            varsel.lest = true;
-        }
-        var lest = varsel.lest ? ' class=\"lest\"' : '';
-        varselliste.innerHTML += '<li' + lest + '><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.url + '>' + varsel.tekst + '</a></li>';
-    });
-}
+        var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
+        varsler.sort(function (a, b) {
+            return b.id - a.id;
+        }).forEach(function (varsel) {
+            if (sjekkOmVarselSkalMarkeresSomLest(varsel) === true) {
+                markerVarselSomLest(varsel);
+                varsel.lest = true;
+            }
+            var lest = varsel.lest ? ' class=\"lest\"' : '';
+            varselliste.innerHTML += '<li' + lest + '><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.url + '>' + varsel.tekst + '</a></li>';
+        });
+        return varsler;
+    }
 
-function sjekkOmVarselSkalMarkeresSomLest(varsel) {
-    return window.location.href.indexOf(varsel.url) !== -1;
-}
+    function sjekkOmVarselSkalMarkeresSomLest(varsel) {
+        return window.location.href.indexOf(varsel.url) !== -1;
+    }
 
-function markerVarselSomLest(varsel) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler/' + varsel.id + '/lest', true);
-    xmlHttp.send(null);
-}
+    function markerVarselSomLest(varsel) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler/' + varsel.id + '/lest', true);
+        xmlHttp.send(null);
+    }
 
-function pad(nr) {
-    return nr > 9 || nr.length > 1 ? nr : '0' + nr;
-}
+    function pad(nr) {
+        return nr > 9 || nr.length > 1 ? nr : '0' + nr;
+    }
 
-function getDatoFraZulu(zulutid) {
-    var d = new Date(zulutid);
-    var dag = pad(d.getDate());
-    var maned = pad(d.getMonth() + 1);
-    return dag + '.' + maned + '.' + d.getFullYear();
-}
+    function getDatoFraZulu(zulutid) {
+        var d = new Date(zulutid);
+        var dag = pad(d.getDate());
+        var maned = pad(d.getMonth() + 1);
+        return dag + '.' + maned + '.' + d.getFullYear();
+    }
 
-function getTidFraZulu(zulutid) {
-    var d = new Date(zulutid);
-    return getDatoFraZulu(zulutid) + ' kl. ' + pad(d.getHours()) + '.' + pad(d.getMinutes());
-}
+    function getTidFraZulu(zulutid) {
+        var d = new Date(zulutid);
+        return getDatoFraZulu(zulutid) + ' kl. ' + pad(d.getHours()) + '.' + pad(d.getMinutes());
+    }
 
-function getVarsler() {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
-    // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
-}
+    function getVarsler() {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+    }
 })();
