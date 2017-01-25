@@ -26,29 +26,31 @@
     });
 
     varsler = populerVarselListe(varsler);
-
     if (varsler.length > 0) {
         varselbjelle.className += ' harvarsler';
     } else {
         varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
     }
 
-    varselliste.innerHTML += '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>'
+    varselliste.innerHTML += '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>';
 
 
     function populerVarselListe(varsler) {
         var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
-        varsler.sort(function (a, b) {
+        return varsler.sort(function (a, b) {
             return b.id - a.id;
-        }).forEach(function (varsel) {
+        }).map(function (varsel) {
             if (sjekkOmVarselSkalMarkeresSomLest(varsel) === true) {
                 markerVarselSomLest(varsel);
                 varsel.lest = true;
+            } else {
+                varselliste.innerHTML += '<li><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.url + '>' + varsel.tekst + '</a></li>';
             }
-            var lest = varsel.lest ? ' class=\"lest\"' : '';
-            varselliste.innerHTML += '<li' + lest + '><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.url + '>' + varsel.tekst + '</a></li>';
+            return varsel;
+        }).filter(function (varsel) {
+            return varsel.lest === false;
         });
-        return varsler;
+
     }
 
     function sjekkOmVarselSkalMarkeresSomLest(varsel) {
@@ -79,8 +81,8 @@
 
     function getVarsler() {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
-        // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        // xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
