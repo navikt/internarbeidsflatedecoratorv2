@@ -28,6 +28,16 @@
     varsler = populerVarselListe(varsler);
     if (varsler.length > 0) {
         varselbjelle.className += ' harvarsler';
+        var varseltall = document.getElementById("js-dekorator-varsel-tall");
+        varseltall.innerHTML += varsler.length;
+        varseltall.style.display = 'block';
+        var varseltallLeft = varselbjelle.offsetLeft + varselbjelle.clientWidth - (varseltall.clientWidth / 2);
+        var varseltallTop = varselbjelle.offsetTop - (varseltall.clientHeight / 2);
+        var varseltallWidth = 10 + (varsler.length.toString().length * 10);
+
+        varseltall.style.top = varseltallTop + 'px';
+        varseltall.style.left = varseltallLeft + 'px';
+        varseltall.style.width = varseltallWidth + 'px';
     } else {
         varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
     }
@@ -81,8 +91,8 @@
 
     function getVarsler() {
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
-        // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        // xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
