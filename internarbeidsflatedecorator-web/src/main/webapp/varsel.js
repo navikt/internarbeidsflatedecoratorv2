@@ -49,11 +49,11 @@
         var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
         return varsler.sort(function (a, b) {
             return b.id - a.id;
-        }).map(function (varsel) {
+        }).map(function (varsel, index) {
             if (sjekkOmVarselSkalMarkeresSomLest(varsel) === true) {
                 markerVarselSomLest(varsel);
                 varsel.lest = true;
-            } else {
+            } else if (index < 5) {
                 varselliste.innerHTML += '<li><p>' + getTidFraZulu(varsel.opprettetTidspunkt) + '</p><a href=' + varsel.url + '>' + varsel.tekst + '</a></li>';
             }
             return varsel;
