@@ -31,9 +31,9 @@
         var varseltall = document.getElementById("js-dekorator-varsel-tall");
         varseltall.innerHTML += varsler.length;
         varseltall.style.display = 'block';
-        var varseltallLeft = varselbjelle.offsetLeft + varselbjelle.clientWidth - (varseltall.clientWidth / 2);
-        var varseltallTop = varselbjelle.offsetTop - (varseltall.clientHeight / 2);
         var varseltallWidth = 10 + (varsler.length.toString().length * 10);
+        var varseltallLeft = varselbjelle.offsetLeft + varselbjelle.clientWidth - (varseltallWidth / 2);
+        var varseltallTop = varselbjelle.offsetTop - (varseltall.clientHeight / 2);
 
         varseltall.style.top = varseltallTop + 'px';
         varseltall.style.left = varseltallLeft + 'px';
