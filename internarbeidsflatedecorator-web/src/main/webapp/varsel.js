@@ -28,6 +28,15 @@
     varsler = populerVarselListe(varsler);
     if (varsler.length > 0) {
         varselbjelle.className += ' harvarsler';
+        setTimeout(plasserBjelleTall(), 1000);
+    } else {
+        varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
+    }
+
+    varselliste.innerHTML += '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>';
+
+
+    function plasserBjelleTall() {
         var varseltall = document.getElementById("js-dekorator-varsel-tall");
         varseltall.innerHTML += varsler.length;
         varseltall.style.display = 'block';
@@ -38,11 +47,7 @@
         varseltall.style.top = varseltallTop + 'px';
         varseltall.style.left = varseltallLeft + 'px';
         varseltall.style.width = varseltallWidth + 'px';
-    } else {
-        varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
     }
-
-    varselliste.innerHTML += '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>';
 
 
     function populerVarselListe(varsler) {
