@@ -27,7 +27,7 @@
 
     varsler = populerVarselListe(varsler);
     if (varsler.length > 0) {
-        varselbjelle.className += ' harvarsler';
+        varselbjelle.className += ' dekorator__harvarsler';
         var varseltall = document.getElementById("js-dekorator-varsel-tall");
         varseltall.innerHTML += varsler.length;
         varseltall.style.display = 'block';
