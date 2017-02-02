@@ -96,8 +96,8 @@
 
     function getVarsler() {
         var xmlHttp = new XMLHttpRequest();
-        // xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
-        xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        //xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
