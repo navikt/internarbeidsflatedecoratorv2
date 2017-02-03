@@ -26,7 +26,7 @@
                                         </a>
                                     </h1>
                                     <xsl:if test="visSokefelt='true'">
-                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="text"></input>
+                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
                                     </xsl:if>
 
                                     <xsl:if test="visVarsel='true'">
