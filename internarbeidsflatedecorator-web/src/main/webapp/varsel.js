@@ -27,22 +27,28 @@
 
     varsler = populerVarselListe(varsler);
     if (varsler.length > 0) {
-        varselbjelle.className += ' harvarsler';
+        varselbjelle.className += ' dekorator__harvarsler';
         var varseltall = document.getElementById("js-dekorator-varsel-tall");
         varseltall.innerHTML += varsler.length;
         varseltall.style.display = 'block';
-        var varseltallWidth = 10 + (varsler.length.toString().length * 10);
-        var varseltallLeft = varselbjelle.offsetLeft + varselbjelle.clientWidth - (varseltallWidth / 2);
-        var varseltallTop = varselbjelle.offsetTop - (varseltall.clientHeight / 2);
 
-        varseltall.style.top = varseltallTop + 'px';
-        varseltall.style.left = varseltallLeft + 'px';
-        varseltall.style.width = varseltallWidth + 'px';
+        plasserVarseltall(varsler);
+
     } else {
         varselliste.innerHTML += '<p>Du har ingen uleste varsler</p>';
     }
 
     varselliste.innerHTML += '<a class="dekorator__knapp" href="/veiledervarsel/">Alle varsler</a>';
+
+    function plasserVarseltall(varsler) {
+        var varseltallWidth = 10 + (varsler.length.toString().length * 10);
+        var varseltallLeft = varselbjelle.offsetLeft + varselbjelle.clientWidth - (varseltallWidth / 2);
+        var varseltallTop = varselbjelle.offsetTop - (varseltall.clientHeight / 2);
+        varseltall.style.top = varseltallTop + 'px';
+        varseltall.style.left = varseltallLeft + 'px';
+        varseltall.style.width = varseltallWidth + 'px';
+        setTimeout(plasserVarseltall, 1000, varsler);
+    }
 
     function populerVarselListe(varsler) {
         var varselliste = document.getElementById("js-dekorator-varsel-liste-elementer");
@@ -91,7 +97,7 @@
     function getVarsler() {
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", 'https://' + window.location.host + '/veiledervarselrest/rest/varsler?bareUleste=true', false);
-        // xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
+        //xmlHttp.open("GET", 'http://localhost:8380/veiledervarselrest/rest/varsler?bareUleste=true', false);
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
