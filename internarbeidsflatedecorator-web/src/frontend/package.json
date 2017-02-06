@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Dekoratør for interne arbeidsflater i NAV",
   "scripts": {
-    "build": "\"npm run styles:build\"",
+    "build": "npm run styles:build",
     "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css --autoprefix=\"last 3 versions\"",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
     "dev": "parallelshell \"npm run styles:watch\""
