@@ -11,6 +11,7 @@ public class StartJetty {
     public static void main(String[] args) throws Exception {
         Jetty jetty = usingWar()
                 .at("/internarbeidsflatedecorator")
+                .overrideWebXml()
                 .port(PORT)
                 .buildJetty();
         jetty.startAnd(first(waitFor(gotKeypress())).then(jetty.stop));
