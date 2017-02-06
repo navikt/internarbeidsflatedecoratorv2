@@ -1,5 +1,4 @@
 (function () {
-    console.log("Hello");
     var sokefelt = document.getElementById("js-deokorator-sokefelt");
 
     function triggerPersonsokEvent(personnummer) {
