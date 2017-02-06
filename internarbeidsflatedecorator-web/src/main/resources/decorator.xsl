@@ -67,6 +67,9 @@
                     <xsl:if test="visVarsel='true'">
                         <script src="/internarbeidsflatedecorator/varsel.js"/>
                     </xsl:if>
+                    <xsl:if test="visSokefelt='true'">
+                        <script src="/internarbeidsflatedecorator/personsok.js"/>
+                    </xsl:if>
                 </div>
             </body>
 
