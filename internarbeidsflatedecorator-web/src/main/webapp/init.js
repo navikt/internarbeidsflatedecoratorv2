@@ -27,7 +27,6 @@
             }
         }
     }
-
     knapp.addEventListener("click", function (event) {
         event.preventDefault();
         if (!apen) {

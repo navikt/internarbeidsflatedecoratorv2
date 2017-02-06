@@ -25,6 +25,9 @@
                                             <span class="dekorator__hode__tittel">{{applicationName}}</span>
                                         </a>
                                     </h1>
+                                    <xsl:if test="visSokefelt='true'">
+                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
+                                    </xsl:if>
 
                                     <xsl:if test="visVarsel='true'">
                                         <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle" aria-pressed="false"/>
@@ -63,6 +66,9 @@
 
                     <xsl:if test="visVarsel='true'">
                         <script src="/internarbeidsflatedecorator/varsel.js"/>
+                    </xsl:if>
+                    <xsl:if test="visSokefelt='true'">
+                        <script src="/internarbeidsflatedecorator/personsok.js"/>
                     </xsl:if>
                 </div>
             </body>
