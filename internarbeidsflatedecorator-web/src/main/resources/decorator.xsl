@@ -25,9 +25,17 @@
                                             <span class="dekorator__hode__tittel">{{applicationName}}</span>
                                         </a>
                                     </h1>
+
+                                    <button aria-pressed="false" class="dekorator__hode__enhet">
+                                        0561 NAV Fredrikstad
+                                    </button>
+
                                     <xsl:if test="visSokefelt='true'">
                                         <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
                                     </xsl:if>
+
+                                    <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder">z606404</span>
+                                    <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder">Jan Nilelsen Ullmann</span>
 
                                     <xsl:if test="visVarsel='true'">
                                         <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle" aria-pressed="false"/>
