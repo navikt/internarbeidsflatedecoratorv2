@@ -23,12 +23,15 @@ public class DecoratorRessurs {
     @GET
     @Produces(TEXT_HTML)
     //kaster exceptionsene uten å håndtere noe mer. Ingen av disse skal kunne skje med mindre noe er virkelig galt.
-    public String hentDekorator(@QueryParam("visVarsel") Boolean visVarsel, @QueryParam("visSokefelt") Boolean visSokefelt,
-                                @QueryParam("visEnhet") Boolean visEnhet) throws FileNotFoundException, JAXBException, TransformerException {
+    public String hentDekorator(@QueryParam("visVarsel") Boolean visVarsel,
+                                @QueryParam("visSokefelt") Boolean visSokefelt,
+                                @QueryParam("visEnhet") Boolean visEnhet,
+                                @QueryParam("visSaksbehandler") Boolean visSaksbehandler) throws FileNotFoundException, JAXBException, TransformerException {
         DecoratorXMLWrapper decoratorXMLWrapper = new DecoratorXMLWrapper()
                 .withVisSokefelt(visSokefelt)
                 .withVisVarsel(visVarsel)
-                .withVisEnhet(visEnhet);
+                .withVisEnhet(visEnhet)
+                .withVisSaksbehandler(visSaksbehandler);
         return xmlTilHtml(marshall(decoratorXMLWrapper), this.getClass().getClassLoader().getResourceAsStream("decorator.xsl"));
     }
 

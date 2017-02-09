@@ -36,8 +36,11 @@
                                         <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
                                     </xsl:if>
 
-                                    <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder">z606404</span>
-                                    <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder">Jan Nilelsen Ullmann</span>
+                                    <xsl:if test="visSaksbehandler='true'">
+                                        <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder">z606404</span>
+                                        <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder">Jan Nilelsen Ullmann</span>
+                                    </xsl:if>
+
 
                                     <xsl:if test="visVarsel='true'">
                                         <button id="js-dekorator-varsel-button" class="dekorator__varselbjelle" aria-pressed="false"/>
