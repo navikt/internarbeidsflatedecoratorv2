@@ -26,9 +26,11 @@
                                         </a>
                                     </h1>
 
-                                    <button aria-pressed="false" class="dekorator__hode__enhet">
-                                        0561 NAV Fredrikstad
-                                    </button>
+                                    <xsl:if test="visEnhet='true'">
+                                        <button aria-pressed="false" class="dekorator__hode__enhet">
+                                            0561 NAV Fredrikstad
+                                        </button>
+                                    </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
                                         <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
