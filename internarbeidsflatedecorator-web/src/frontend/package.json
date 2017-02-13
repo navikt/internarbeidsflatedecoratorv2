@@ -4,7 +4,7 @@
   "description": "Dekoratør for interne arbeidsflater i NAV",
   "scripts": {
     "build": "npm run styles:build",
-    "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css --autoprefix=\"last 3 versions\"",
+    "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
     "dev": "parallelshell \"npm run styles:watch\""
   },
@@ -13,7 +13,7 @@
   "dependencies": {
     "async": "2.0.1",
     "less-plugin-autoprefix": "1.5.1",
-    "less": "2.6.0",
+    "less": "2.7.2",
     "less-loader": "2.2.2",
     "mustache": "2.2.1",
     "nodemon": "1.10.2",
