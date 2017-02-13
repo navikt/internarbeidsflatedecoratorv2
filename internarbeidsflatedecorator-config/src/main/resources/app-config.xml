@@ -16,7 +16,8 @@
     </artifacts>
 
     <exposed-services>
-        <exposedRest path="/internarbeidsflatedecorator/rest/decorator" name="iadecorator" description="Dekoratør FSS REST-API"/>
+        <exposedRest path="/internarbeidsflatedecorator/rest/decorator" name="iadecorator-filter" description="Dekoratør FSS REST-API"/>
+        <exposedRest path="/internarbeidsflatedecorator/head.js" name="iadecorator" description="Dekoratør FSS JS"/>
     </exposed-services>
 
     <loadBalancer isAlive="internarbeidsflatedecorator/internal/isAlive" />
