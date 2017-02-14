@@ -21,9 +21,13 @@
             if (valideringslinje) {
                 valideringslinje.classList.remove(ERROR_BANNER_CLASS);
             }
+            return true;
         } else {
             inputfelt.classList.add(ERROR_CLASS);
-            valideringslinje.classList.add(ERROR_BANNER_CLASS);
+            if (valideringslinje) {
+                valideringslinje.classList.add(ERROR_BANNER_CLASS);
+            }
+            return false;
         }
     }
 
@@ -31,8 +35,9 @@
         sokefelt.addEventListener("keyup", function (event) {
             var ENTER_KEY_CODE = 13;
             if (event.keyCode === ENTER_KEY_CODE) {
-                validerInput(event);
-                triggerPersonsokEvent(event.target.value);
+                if (validerInput(event)) {
+                    triggerPersonsokEvent(event.target.value);
+                }
             }
         });
     }
