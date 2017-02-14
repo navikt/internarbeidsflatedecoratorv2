@@ -1,7 +1,7 @@
 (function () {
     var sokefelt = document.getElementById("js-deokorator-sokefelt");
     var valideringslinje = document.getElementById("js-dekorator-feilmelding");
-    var valideringslinjeTekst = document.getElementById("js-dekorator-feilmelding");
+    var valideringslinjeTekst = document.getElementById("js-dekorator-feilmelding-tekst");
     var ERROR_CLASS = 'dekorator__sokefelt__valideringsfeil';
     var ERROR_BANNER_CLASS = 'dekorator__feilmelding__banner';
 
