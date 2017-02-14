@@ -1,8 +1,8 @@
 (function () {
     var sokefelt = document.getElementById("js-deokorator-sokefelt");
     var valideringslinje = document.getElementById("js-dekorator-feilmelding");
-    const ERROR_CLASS = 'error';
-    const ERROR_BANNER_CLASS = 'feilmeldingbanner';
+    const ERROR_CLASS = 'dekorator__sokefelt__valideringsfeil';
+    const ERROR_BANNER_CLASS = 'dekorator__feilmelding__banner';
 
     function triggerPersonsokEvent(personnummer) {
         var personsokEvent = new Event('dekorator-hode-personsok');
