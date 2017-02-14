@@ -60,9 +60,6 @@
                                 </header>
                             </div>
                         </div>
-                        <div class="dekorator__feilmelding" role="banner" id="js-dekorator-feilmelding">
-                            <span class="dekorator__fnrfeilmelding">Fødselsnummeret må inneholde 11 siffer</span>
-                        </div>
                         <div id="js-dekorator-nav-container" class="dekorator__nav"
                              aria-controlledby="js-dekorator-toggle-meny">
                             <nav id="js-dekorator-nav" class="dekorator__container dekorator__meny">
@@ -76,6 +73,9 @@
                                     </li>
                                 </ul>
                             </nav>
+                        </div>
+                        <div class="dekorator__feilmelding" role="banner" id="js-dekorator-feilmelding">
+                            <span class="dekorator__fnrfeilmelding">Fødselsnummeret må inneholde 11 siffer</span>
                         </div>
                     </div>
                     <script src="/internarbeidsflatedecorator/init.js"/>
