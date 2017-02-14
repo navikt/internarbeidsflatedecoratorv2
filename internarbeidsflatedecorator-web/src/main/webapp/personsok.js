@@ -39,12 +39,17 @@
         }
     }
 
+    function fjernSoketekst() {
+        sokefelt.value = '';
+    }
+
     if (sokefelt) {
         sokefelt.addEventListener("keyup", function (event) {
             var ENTER_KEY_CODE = 13;
             if (event.keyCode === ENTER_KEY_CODE) {
                 if (validerInput(event)) {
                     triggerPersonsokEvent(event.target.value);
+                    fjernSoketekst();
                 }
             } else {
                 markerSomGyldig(event.input);
