@@ -14,19 +14,27 @@
         return input.match(/^\d+$/) && input.length === 11;
     }
 
+    function markerSomGyldig() {
+        sokefelt.classList.remove(ERROR_CLASS);
+        if (valideringslinje) {
+            valideringslinje.classList.remove(ERROR_BANNER_CLASS);
+        }
+    }
+
+    function markerSomFeil() {
+        sokefelt.classList.add(ERROR_CLASS);
+        if (valideringslinje) {
+            valideringslinje.classList.add(ERROR_BANNER_CLASS);
+        }
+    }
+
     function validerInput (event) {
         const inputfelt = event.target;
         if (inputErGyldigPersonnummer(inputfelt.value)) {
-            inputfelt.classList.remove(ERROR_CLASS);
-            if (valideringslinje) {
-                valideringslinje.classList.remove(ERROR_BANNER_CLASS);
-            }
+            markerSomGyldig();
             return true;
         } else {
-            inputfelt.classList.add(ERROR_CLASS);
-            if (valideringslinje) {
-                valideringslinje.classList.add(ERROR_BANNER_CLASS);
-            }
+            markerSomFeil();
             return false;
         }
     }
@@ -38,6 +46,8 @@
                 if (validerInput(event)) {
                     triggerPersonsokEvent(event.target.value);
                 }
+            } else {
+                markerSomGyldig(event.input);
             }
         });
     }
