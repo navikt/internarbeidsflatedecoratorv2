@@ -11,6 +11,8 @@
     var IKKE_BARE_TALL_FEILMELDING = 'Personnummeret må kun inneholde tall';
     var IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Personnummeret er ikke gyldig';
 
+    var kontrollRekke1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
+    var kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 
     function triggerPersonsokEvent(personnummer) {
         var personsokEvent = new Event('dekorator-hode-personsok');
@@ -18,13 +20,31 @@
         document.dispatchEvent(personsokEvent);
     }
 
-    function lagPersonnummerfeilmelding (input) {
-        if (!input.match(/^\d+$/)) {
+    function kontrollSiffer(personnummer, kontrollrekke) {
+        var sum = 0;
+        for (var sifferNummer = 0; sifferNummer < personnummer.length; sifferNummer++) {
+            sum += personnummer[sifferNummer] * kontrollrekke[sifferNummer];
+        }
+        var kontrollSiffer = sum % 11;
+        return kontrollSiffer !== 0 ? 11 - kontrollSiffer : 0;
+    }
+
+    function erGyldigPersonnummer(personnummer) {
+        var personnummerListe = personnummer.split('').map(function (x) {return parseInt(x)});
+        var kontrollSiffer1 = kontrollSiffer(personnummerListe.slice(0, 9), kontrollRekke1);
+        var kontrollSiffer2 = kontrollSiffer(personnummerListe.slice(0, 10), kontrollRekke2);
+        return personnummerListe[9] === kontrollSiffer1 && personnummerListe[10] === kontrollSiffer2;
+    }
+
+    function lagPersonnummerfeilmelding (personnummer) {
+        if (!personnummer.match(/^\d+$/)) {
             return IKKE_BARE_TALL_FEILMELDING;
-        } else if (input.length > 11) {
+        } else if (personnummer.length > 11) {
             return FOR_MANGE_TEGN_FEILMELDING;
-        } else if (input.length < 11) {
+        } else if (personnummer.length < 11) {
             return FOR_FAA_TEGN_FEILMELDING;
+        } else if (!erGyldigPersonnummer(personnummer)) {
+            return IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING;
         }
         return null;
     }
