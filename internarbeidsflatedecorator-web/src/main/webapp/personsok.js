@@ -29,7 +29,33 @@
         return kontrollSiffer !== 0 ? 11 - kontrollSiffer : 0;
     }
 
+    function erGyldigPnummer(dag, maaned) {
+        return dag > 0 && dag <= 32
+            && maaned > 0 && maaned <= 12;
+    }
+
+    function erGyldigDNummer(dag, maaned) {
+        return dag > 40 && dag <= 72
+            && maaned > 0 && maaned <= 12;
+    }
+
+    function erGyldigHNummer(dag, maaned) {
+        return dag > 0 && dag <= 32
+            && maaned > 40 && maaned <= 52;
+    }
+
+    function erGyldigFodselsnummer(fodselsnummer) {
+        var dag = parseInt(fodselsnummer.substring(0, 2));
+        var maaned = parseInt(fodselsnummer.substring(2, 4));
+        return erGyldigPnummer(dag, maaned)
+            || erGyldigDNummer(dag, maaned)
+            || erGyldigHNummer(dag, maaned);
+    }
+
     function erGyldigPersonnummer(personnummer) {
+        if (!erGyldigFodselsnummer(personnummer.substring(0, 6))) {
+            return false;
+        }
         var personnummerListe = personnummer.split('').map(function (x) {return parseInt(x)});
         var kontrollSiffer1 = kontrollSiffer(personnummerListe.slice(0, 9), kontrollRekke1);
         var kontrollSiffer2 = kontrollSiffer(personnummerListe.slice(0, 10), kontrollRekke2);
