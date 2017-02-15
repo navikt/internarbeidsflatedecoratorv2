@@ -27,9 +27,9 @@
                                     </h1>
 
                                     <xsl:if test="visEnhet='true'">
-                                        <button aria-pressed="false" class="dekorator__hode__enhet">
-                                            0561 NAV Fredrikstad
-                                        </button>
+                                        <span aria-pressed="false" class="dekorator__hode__enhet">
+                                            NAV Fredrikstad
+                                        </span>
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
