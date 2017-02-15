@@ -27,9 +27,9 @@
                                     </h1>
 
                                     <xsl:if test="visEnhet='true'">
-                                        <button aria-pressed="false" class="dekorator__hode__enhet">
+                                        <span aria-pressed="false" class="dekorator__hode__enhet">
                                             NAV Fredrikstad
-                                        </button>
+                                        </span>
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
@@ -37,8 +37,8 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSaksbehandler='true'">
-                                        <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder_id">z606404</span>
-                                        <span id="js-dekorator-saksbehandler-tekst" class="dekorator__hode__veileder_navn">Jan Nilelsen Ullmann</span>
+                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id">z606404</span>
+                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn">Jan Nilelsen Ullmann</span>
                                     </xsl:if>
 
 
