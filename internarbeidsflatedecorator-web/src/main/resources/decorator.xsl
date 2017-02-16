@@ -37,8 +37,8 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSaksbehandler='true'">
-                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id">z606404</span>
                                         <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn">Jan Nilelsen Ullmann</span>
+                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id">(Z606404)</span>
                                     </xsl:if>
 
 
