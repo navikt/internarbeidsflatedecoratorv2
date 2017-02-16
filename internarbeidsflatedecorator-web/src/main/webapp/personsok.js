@@ -15,7 +15,8 @@
     var kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 
     function triggerPersonsokEvent(personnummer) {
-        var personsokEvent = new Event('dekorator-hode-personsok');
+        var personsokEvent = document.createEvent('Event');
+        personsokEvent.initEvent('dekorator-hode-personsok', true, true);
         personsokEvent.personnummer = personnummer;
         document.dispatchEvent(personsokEvent);
     }
