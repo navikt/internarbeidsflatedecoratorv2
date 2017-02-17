@@ -74,8 +74,8 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div class="dekorator__feilmelding" role="banner" id="js-dekorator-feilmelding">
-                            <span class="dekorator__feilmelding__tekst" id ="js-dekorator-feilmelding-tekst">Fødselsnummeret må inneholde 11 siffer</span>
+                        <div class="dekorator__feilmelding" aria-live="polite" role="alert" id="js-dekorator-feilmelding">
+                            <span class="dekorator__feilmelding__tekst" id ="js-dekorator-feilmelding-tekst"></span>
                         </div>
                     </div>
                     <script src="/internarbeidsflatedecorator/init.js"/>
