@@ -1,14 +1,11 @@
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     var hode = document.getElementById("js-dekorator-hode");
     var knapp = document.getElementById("js-dekorator-toggle-meny");
     var navContainer = document.getElementById("js-dekorator-nav-container");
     var nav = document.getElementById("js-dekorator-nav");
+    var hjemLenke = document.getElementById("js-dekorator-hjem");
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var hjemLenke = document.getElementById("js-dekorator-hjem");
-        hjemLenke.setAttribute("href", window.location.pathname);
-    });
-
+    hjemLenke.setAttribute("href", window.location.pathname);
     var apen = false;
     var menyInnhold = nav.innerHTML;
     nav.innerHTML = "";
@@ -91,4 +88,4 @@
             }
         }
     });
-})();
+});
