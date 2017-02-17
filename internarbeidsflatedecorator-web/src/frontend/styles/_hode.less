@@ -49,7 +49,7 @@
     line-height: 32px;
 }
 
-.dekorator__hode__toggleMeny {
+.dekorator__hode__button {
     border: 0;
     margin: 0;
     padding: 0 1.25em 0 0;
@@ -58,7 +58,6 @@
     line-height: 32px;
     font-size: 1em;
     background-color: transparent;
-    text-transform: lowercase;
     position: relative;
     transition: color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
 
@@ -68,7 +67,7 @@
     }
 
     &:after, &:before {
-        font-size: .4em; 
+        font-size: .4em;
         content: "";
         background-color: #fff;
         display: block;
@@ -88,6 +87,15 @@
         right: sqrt(.5em); // Pythagoras <3
         transform: rotate(45deg);
     }
+}
+
+.dekorator__hode__toggleMeny {
+    .dekorator__hode__button;
+    text-transform: lowercase;
+}
+
+.dekorator__hode__enhet {
+    margin-top: 0.45em;
 }
 
 .dekorator__hode__toggleMeny--apen {
@@ -118,6 +126,13 @@
     background-color: #1d1d1d;
     border-radius: 1px;
     margin-right: 25px;
+    margin-left: 2em;
     padding: 10px;
     border: none;
+    width: 100px;
+}
+
+.dekorator__hode__veileder {
+    padding-top: 8px;
+    padding-right: 25px;
 }
