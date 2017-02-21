@@ -37,8 +37,8 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSaksbehandler='true'">
-                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder">z606404</span>
-                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder">Jan Nilelsen Ullmann</span>
+                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn">Jan Nilelsen Ullmann</span>
+                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id">(Z606404)</span>
                                     </xsl:if>
 
 
@@ -73,6 +73,9 @@
                                     </li>
                                 </ul>
                             </nav>
+                        </div>
+                        <div class="dekorator__feilmelding" aria-live="polite" role="alert" id="js-dekorator-feilmelding">
+                            <span class="dekorator__feilmelding__tekst" id ="js-dekorator-feilmelding-tekst"></span>
                         </div>
                     </div>
                     <script src="/internarbeidsflatedecorator/init.js"/>

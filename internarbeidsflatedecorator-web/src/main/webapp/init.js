@@ -1,4 +1,4 @@
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     var hode = document.getElementById("js-dekorator-hode");
     var knapp = document.getElementById("js-dekorator-toggle-meny");
     var navContainer = document.getElementById("js-dekorator-nav-container");
@@ -6,7 +6,6 @@
     var hjemLenke = document.getElementById("js-dekorator-hjem");
 
     hjemLenke.setAttribute("href", window.location.pathname);
-
     var apen = false;
     var menyInnhold = nav.innerHTML;
     nav.innerHTML = "";
@@ -89,4 +88,4 @@
             }
         }
     });
-})();
+});
