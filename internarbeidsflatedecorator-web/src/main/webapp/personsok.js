@@ -93,9 +93,8 @@
         }
     }
 
-    function validerInput (event) {
-        var inputfelt = event.target;
-        var feilmelding  = lagPersonnummerfeilmelding(inputfelt.value);
+    function validerInput (input) {
+        var feilmelding  = lagPersonnummerfeilmelding(input);
         if (feilmelding) {
             markerSomFeil(feilmelding);
             return false;
@@ -113,8 +112,9 @@
         sokefelt.addEventListener("keyup", function (event) {
             var ENTER_KEY_CODE = 13;
             if (event.keyCode === ENTER_KEY_CODE) {
-                if (validerInput(event)) {
-                    triggerPersonsokEvent(event.target.value);
+                var input = event.target.value.replace(/\s/g, '');
+                if (validerInput(input)) {
+                    triggerPersonsokEvent(input);
                     fjernSoketekst();
                 }
             } else {
