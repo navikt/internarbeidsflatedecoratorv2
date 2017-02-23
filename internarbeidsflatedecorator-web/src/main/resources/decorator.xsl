@@ -78,13 +78,10 @@
                             <span class="dekorator__feilmelding__tekst" id ="js-dekorator-feilmelding-tekst"></span>
                         </div>
                     </div>
-                    <script src="/internarbeidsflatedecorator/init.js"/>
+                    <script src="/internarbeidsflatedecorator/js/app.min.js"/>
 
                     <xsl:if test="visVarsel='true'">
-                        <script src="/internarbeidsflatedecorator/varsel.js"/>
-                    </xsl:if>
-                    <xsl:if test="visSokefelt='true'">
-                        <script src="/internarbeidsflatedecorator/personsok.js"/>
+                        <script>document.varsel()</script>
                     </xsl:if>
                 </div>
             </body>

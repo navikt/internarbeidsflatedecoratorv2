@@ -1,4 +1,4 @@
-(function () {
+const varsel = () => {
     var varsler;
     try {
         varsler = JSON.parse(getVarsler());
@@ -101,4 +101,6 @@
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
-})();
+};
+
+export default varsel;
