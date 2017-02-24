@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Dekoratør for interne arbeidsflater i NAV",
   "scripts": {
+    "test": "mocha",
     "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css",
     "build-js": "set NODE_ENV=production&& webpack --optimize-minimize",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
@@ -26,6 +27,7 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
     "fs": "0.0.2",
+    "mocha": "^3.2.0",
     "parallelshell": "2.0.0",
     "webpack": "^2.2.1"
   }
