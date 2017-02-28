@@ -73,8 +73,11 @@ const personsok = () => {
     var sokefelt = document.getElementById("js-deokorator-sokefelt");
     var valideringslinje = document.getElementById("js-dekorator-feilmelding");
     var valideringslinjeTekst = document.getElementById("js-dekorator-feilmelding-tekst");
+    var forstorrelsesglassSokefelt = document.getElementById("forstorrelsesglass_sokefelt");
     var ERROR_CLASS = 'dekorator__sokefelt__valideringsfeil';
     var ERROR_BANNER_CLASS = 'dekorator__feilmelding__banner';
+    var ERROR_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_svart';
+    var VANLIG_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_hvit';
 
     function fjernSoketekst() {
         sokefelt.value = '';
@@ -85,6 +88,10 @@ const personsok = () => {
         if (valideringslinje) {
             valideringslinje.classList.remove(ERROR_BANNER_CLASS);
         }
+        if (forstorrelsesglassSokefelt) {
+            forstorrelsesglassSokefelt.classList.remove(ERROR_FORSTORRELSESGLASS_CLASS);
+            forstorrelsesglassSokefelt.classList.add(VANLIG_FORSTORRELSESGLASS_CLASS);
+        }
     }
 
     function markerSomFeil(feilmelding) {
@@ -94,6 +101,10 @@ const personsok = () => {
                 valideringslinjeTekst.textContent = feilmelding || DEFAULT_FEILMELDING;
             }
             valideringslinje.classList.add(ERROR_BANNER_CLASS);
+        }
+        if (forstorrelsesglassSokefelt) {
+            forstorrelsesglassSokefelt.classList.remove(VANLIG_FORSTORRELSESGLASS_CLASS);
+            forstorrelsesglassSokefelt.classList.add(ERROR_FORSTORRELSESGLASS_CLASS);
         }
     }
 

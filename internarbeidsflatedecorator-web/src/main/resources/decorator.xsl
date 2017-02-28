@@ -33,7 +33,10 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
-                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
+                                        <div class="dekorator__sokefelt">
+                                            <input id="js-deokorator-sokefelt" class="dekorator__sokefelt_input" placeholder="Personsøk" type="search"></input>
+                                            <img id="forstorrelsesglass_sokefelt" class="dekorator__sokefelt_forstorrelsesglass dekorator__forstorrelsesglass_hvit" />
+                                        </div>
                                     </xsl:if>
 
                                     <xsl:if test="visSaksbehandler='true'">

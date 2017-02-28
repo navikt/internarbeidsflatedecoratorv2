@@ -3,6 +3,7 @@
     background-color: @dekorator-svart;
     position: relative;
     color: #fff;
+    line-height: 1em;
 
     h1 {
         margin: 0;
@@ -92,10 +93,12 @@
 .dekorator__hode__toggleMeny {
     .dekorator__hode__button;
     text-transform: lowercase;
+    border-left: 1px solid white;
+    padding-left: 1em;
 }
 
 .dekorator__hode__enhet {
-    margin-top: 0.45em;
+    padding-top: 0.5em;
 }
 
 .dekorator__hode__toggleMeny--apen {
@@ -123,13 +126,42 @@
 }
 
 .dekorator__sokefelt {
+    position: relative;
+}
+
+.dekorator__sokefelt_input {
+    position: relative;
     background-color: #1d1d1d;
     border-radius: 1px;
     margin-right: 25px;
     margin-left: 2em;
-    padding: 10px;
+    padding: 0.5em 1em 0.5em 0.5em;
     width: 120px;
+    top: -0.125em;
     border: 1px solid #7f756c;
+}
+
+.dekorator__sokefelt_input::-ms-clear {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.dekorator__sokefelt_forstorrelsesglass {
+    position: absolute;
+    top: 5px;
+    right: 2em;
+    padding: 10px 12px;
+    width: 0;
+    height: 0;
+}
+
+.dekorator__forstorrelsesglass_hvit {
+    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-hvit.svg") no-repeat;
+}
+
+.dekorator__forstorrelsesglass_svart {
+    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-svart.svg") no-repeat;
 }
 
 .dekorator__sokefelt__valideringsfeil {
