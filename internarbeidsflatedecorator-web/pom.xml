@@ -124,6 +124,21 @@
                             <workingDirectory>src/frontend</workingDirectory>
                         </configuration>
                     </execution>
+
+                    <execution>
+                        <id>test</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>test</phase>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>test</argument>
+                            </arguments>
+                            <workingDirectory>src/frontend</workingDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
