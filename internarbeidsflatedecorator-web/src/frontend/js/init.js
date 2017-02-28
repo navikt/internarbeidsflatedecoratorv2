@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+const init = () => {
     var hode = document.getElementById("js-dekorator-hode");
     var knapp = document.getElementById("js-dekorator-toggle-meny");
     var navContainer = document.getElementById("js-dekorator-nav-container");
@@ -88,4 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-});
+};
+
+export default init;
