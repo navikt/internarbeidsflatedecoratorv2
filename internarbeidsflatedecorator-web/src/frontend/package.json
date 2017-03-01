@@ -29,6 +29,7 @@
     "fs": "0.0.2",
     "mocha": "^3.2.0",
     "parallelshell": "2.0.0",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "whatwg-fetch": "^2.0.2"
   }
 }
