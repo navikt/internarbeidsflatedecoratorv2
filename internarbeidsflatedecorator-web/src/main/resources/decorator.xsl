@@ -27,9 +27,7 @@
                                     </h1>
 
                                     <xsl:if test="visEnhet='true'">
-                                        <span aria-pressed="false" class="dekorator__hode__enhet">
-                                            NAV Fredrikstad
-                                        </span>
+                                        <span id="js-dekorator-enhet-navn" aria-pressed="false" class="dekorator__hode__enhet"/>
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
@@ -83,8 +81,8 @@
                     <xsl:if test="visVarsel='true'">
                         <script>document.varsel()</script>
                     </xsl:if>
-                    <xsl:if test="visSaksbehandler='true'">
-                        <script>document.saksbehandler()</script>
+                    <xsl:if test="visSaksbehandler='true' or visEnhet='true'">
+                        <script>document.saksbehandler(true, true)</script>
                     </xsl:if>
                 </div>
             </body>
