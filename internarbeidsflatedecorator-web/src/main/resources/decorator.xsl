@@ -34,8 +34,8 @@
 
                                     <xsl:if test="visSokefelt='true'">
                                         <form id="sokeform" class="dekorator__sokefelt">
-                                            <input id="js-deokorator-sokefelt" class="dekorator__sokefelt_input" placeholder="Personsøk" type="search" autocomplete="off"></input>
-                                            <img id="forstorrelsesglass_sokefelt" class="dekorator__sokefelt_forstorrelsesglass dekorator__forstorrelsesglass_hvit" />
+                                            <input id="js-deokorator-sokefelt" class="dekorator__sokefelt__input" placeholder="Personsøk" type="search" autocomplete="off"></input>
+                                            <img id="forstorrelsesglass_sokefelt" class="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit" />
                                         </form>
                                     </xsl:if>
 

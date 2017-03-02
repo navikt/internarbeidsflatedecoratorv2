@@ -77,8 +77,8 @@ const personsok = () => {
     const forstorrelsesglassSokefelt = document.getElementById("forstorrelsesglass_sokefelt");
     const ERROR_CLASS = 'dekorator__sokefelt__valideringsfeil';
     const ERROR_BANNER_CLASS = 'dekorator__feilmelding__banner';
-    const ERROR_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_svart';
-    const VANLIG_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_hvit';
+    const ERROR_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass__svart';
+    const VANLIG_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass__hvit';
 
     function fjernSoketekst() {
         sokefelt.value = '';
