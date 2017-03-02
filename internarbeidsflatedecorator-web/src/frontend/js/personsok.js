@@ -70,14 +70,15 @@ export const lagPersonnummerfeilmelding = (personnummer) => {
 };
 
 const personsok = () => {
-    var sokefelt = document.getElementById("js-deokorator-sokefelt");
-    var valideringslinje = document.getElementById("js-dekorator-feilmelding");
-    var valideringslinjeTekst = document.getElementById("js-dekorator-feilmelding-tekst");
-    var forstorrelsesglassSokefelt = document.getElementById("forstorrelsesglass_sokefelt");
-    var ERROR_CLASS = 'dekorator__sokefelt__valideringsfeil';
-    var ERROR_BANNER_CLASS = 'dekorator__feilmelding__banner';
-    var ERROR_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_svart';
-    var VANLIG_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_hvit';
+    const sokeform = document.getElementById("sokeform");
+    const sokefelt = document.getElementById("js-deokorator-sokefelt");
+    const valideringslinje = document.getElementById("js-dekorator-feilmelding");
+    const valideringslinjeTekst = document.getElementById("js-dekorator-feilmelding-tekst");
+    const forstorrelsesglassSokefelt = document.getElementById("forstorrelsesglass_sokefelt");
+    const ERROR_CLASS = 'dekorator__sokefelt__valideringsfeil';
+    const ERROR_BANNER_CLASS = 'dekorator__feilmelding__banner';
+    const ERROR_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_svart';
+    const VANLIG_FORSTORRELSESGLASS_CLASS = 'dekorator__forstorrelsesglass_hvit';
 
     function fjernSoketekst() {
         sokefelt.value = '';
@@ -119,20 +120,28 @@ const personsok = () => {
         }
     }
 
+    const sokefeltEndret = (event) => {
+        const ENTER_KEY_CODE = 13;
+        if (event.keyCode === ENTER_KEY_CODE) {
+            const input = event.target.value.replace(/\s/g, '');
+            if (validerInput(input)) {
+                triggerPersonsokEvent(input);
+                fjernSoketekst();
+            }
+        } else {
+            markerSomGyldig(event.input);
+        }
+    };
 
     if (sokefelt) {
-        sokefelt.addEventListener("keyup", function (event) {
-            var ENTER_KEY_CODE = 13;
-            if (event.keyCode === ENTER_KEY_CODE) {
-                var input = event.target.value.replace(/\s/g, '');
-                if (validerInput(input)) {
-                    triggerPersonsokEvent(input);
-                    fjernSoketekst();
-                }
-            } else {
-                markerSomGyldig(event.input);
-            }
-        });
+        sokefelt.addEventListener("keyup", sokefeltEndret);
+    }
+
+    if (sokeform) {
+        sokeform.onsubmit = (event) => {
+            event.preventDefault();
+            sokefeltEndret(event);
+        };
     }
 };
 

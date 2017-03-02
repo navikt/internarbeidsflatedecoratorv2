@@ -33,14 +33,14 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
-                                        <div class="dekorator__sokefelt">
-                                            <input id="js-deokorator-sokefelt" class="dekorator__sokefelt_input" placeholder="Personsøk" type="search"></input>
+                                        <form id="sokeform" class="dekorator__sokefelt">
+                                            <input id="js-deokorator-sokefelt" class="dekorator__sokefelt_input" placeholder="Personsøk" type="search" autocomplete="off"></input>
                                             <img id="forstorrelsesglass_sokefelt" class="dekorator__sokefelt_forstorrelsesglass dekorator__forstorrelsesglass_hvit" />
-                                        </div>
+                                        </form>
                                     </xsl:if>
 
                                     <xsl:if test="visSaksbehandler='true'">
-                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn">Jan Nilelsen Ullmann</span>
+                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn">Jan Nielsen Ullmann</span>
                                         <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id">(Z606404)</span>
                                     </xsl:if>
 
