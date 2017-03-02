@@ -81,8 +81,11 @@
                     <xsl:if test="visVarsel='true'">
                         <script>document.varsel()</script>
                     </xsl:if>
-                    <xsl:if test="visSaksbehandler='true' or visEnhet='true'">
-                        <script>document.saksbehandler(true, true)</script>
+                    <xsl:if test="visSaksbehandler='true'">
+                        <script>document.saksbehandler()</script>
+                    </xsl:if>
+                    <xsl:if test="visEnhet='true'">
+                        <script>document.enhet()</script>
                     </xsl:if>
                 </div>
             </body>
