@@ -31,7 +31,7 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
-                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
+                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"/>
                                     </xsl:if>
 
                                     <xsl:if test="visSaksbehandler='true'">
