@@ -34,7 +34,7 @@
                                         <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"/>
                                     </xsl:if>
 
-                                    <xsl:if test="visSaksbehandler='true'">
+                                    <xsl:if test="visVeileder='true'">
                                         <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn"/>
                                         <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id"/>
                                     </xsl:if>
@@ -81,11 +81,11 @@
                     <xsl:if test="visVarsel='true'">
                         <script>document.varsel()</script>
                     </xsl:if>
-                    <xsl:if test="visSaksbehandler='true'">
-                        <script>document.saksbehandler()</script>
+                    <xsl:if test="visVeileder='true'">
+                        <script>document.hentVeileder()</script>
                     </xsl:if>
                     <xsl:if test="visEnhet='true'">
-                        <script>document.enhet()</script>
+                        <script>document.hentEnheter()</script>
                     </xsl:if>
                 </div>
             </body>

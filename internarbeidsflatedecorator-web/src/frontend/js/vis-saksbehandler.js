@@ -2,29 +2,29 @@ import { fetchToJson } from './rest-utils';
 
 const VEILEDER_URL = `/veilarbveileder/tjenester/veileder`;
 
-const visSaksbehandler = (data) => {
-    if (!data.navn || !data.ident) {
+const visVeileder = (veileder) => {
+    if (!veileder.navn || !veileder.ident) {
         return;
     }
-    document.getElementById('js-dekorator-saksbehandler-navn').innerHTML = data.navn;
-    document.getElementById('js-dekorator-saksbehandler-ident').innerHTML = `(${data.ident})`;
+    document.getElementById('js-dekorator-saksbehandler-navn').innerText = veileder.navn;
+    document.getElementById('js-dekorator-saksbehandler-ident').innerText = `(${veileder.ident})`;
 };
 
-const visEnhet = (data) => {
-    if (!data.enhetliste || data.enhetliste.length === 0 || !data.enhetliste[0].navn) {
+const visEnhet = (veileder) => {
+    if (!veileder.enhetliste || veileder.enhetliste.length === 0 || !veileder.enhetliste[0].navn) {
         return;
     }
-    document.getElementById('js-dekorator-enhet-navn').innerHTML = data.enhetliste[0].navn;
+    document.getElementById('js-dekorator-enhet-navn').innerText = veileder.enhetliste[0].navn;
 };
 
 const handterFeil = (error) => {
     console.error(error, error.stack); //eslint-disable-line no-console
 };
 
-export const hentSaksbehandler = () => {
+export const hentVeileder = () => {
     return fetchToJson(`${VEILEDER_URL}/me`)
         .then(
-            visSaksbehandler,
+            visVeileder,
             handterFeil
         );
 };

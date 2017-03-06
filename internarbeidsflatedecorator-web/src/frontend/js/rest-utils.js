@@ -10,7 +10,8 @@ export function sjekkStatuskode(response) {
 }
 
 export function toJson(response) {
-    if (response.status !== 204) { // No content
+    const NO_CONTENT_STATUSCODE = 204;
+    if (response.status !== NO_CONTENT_STATUSCODE) {
         return response.json();
     }
     return response;
