@@ -35,8 +35,8 @@
                                     </xsl:if>
 
                                     <xsl:if test="visVeileder='true'">
-                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn"/>
-                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id"/>
+                                        <span id="js-dekorator-veileder-navn" class="dekorator__hode__veileder_navn"/>
+                                        <span id="js-dekorator-veileder-ident" class="dekorator__hode__veileder_id"/>
                                     </xsl:if>
 
 

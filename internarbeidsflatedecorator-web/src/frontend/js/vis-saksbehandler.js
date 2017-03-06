@@ -1,4 +1,5 @@
 import { fetchToJson } from './rest-utils';
+import visningsnavn from './brukernavn';
 
 const VEILEDER_URL = `/veilarbveileder/tjenester/veileder`;
 
@@ -6,8 +7,8 @@ const visVeileder = (veileder) => {
     if (!veileder.navn || !veileder.ident) {
         return;
     }
-    document.getElementById('js-dekorator-saksbehandler-navn').innerText = veileder.navn;
-    document.getElementById('js-dekorator-saksbehandler-ident').innerText = `(${veileder.ident})`;
+    document.getElementById('js-dekorator-veileder-navn').innerText = visningsnavn(veileder.navn);
+    document.getElementById('js-dekorator-veileder-ident').innerText = `(${veileder.ident})`;
 };
 
 const visEnhet = (veileder) => {
