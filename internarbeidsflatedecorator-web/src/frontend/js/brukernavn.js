@@ -1,5 +1,5 @@
 
-const MAKS_ANTALL_TEGN_I_NAVN = 25;
+const MAKS_ANTALL_TEGN_I_NAVN = 15;
 
 const fornavn = (navn) => (navn.split(/\s+/)[0]);
 
@@ -20,7 +20,7 @@ const forkortMellomnavn = (navn) => (
 );
 
 const forkortEtternavn = (navn) => (
-        fornavn(navn) + " " + tilInitial(etternavn(navn))
+        `${fornavn(navn)} ${mellomnavn(navn).map((x) => tilInitial(x)).join(' ')} ${tilInitial(etternavn(navn))}`
 );
 
 const visningsnavn = (navn) => {
