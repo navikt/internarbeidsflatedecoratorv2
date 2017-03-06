@@ -3,19 +3,34 @@ import visningsnavn from './brukernavn';
 
 const VEILEDER_URL = `/veilarbveileder/tjenester/veileder`;
 
-const visVeileder = (veileder) => {
-    if (!veileder.navn || !veileder.ident) {
-        return;
+export const hentVeilederNavn = (veileder) => {
+    if (!veileder.navn) {
+        return '';
     }
-    document.getElementById('js-dekorator-veileder-navn').innerText = visningsnavn(veileder.navn);
-    document.getElementById('js-dekorator-veileder-ident').innerText = `(${veileder.ident})`;
+    return visningsnavn(veileder.navn);
 };
 
-const visEnhet = (veileder) => {
-    if (!veileder.enhetliste || veileder.enhetliste.length === 0 || !veileder.enhetliste[0].navn) {
-        return;
+export const hentVeilederIdent = (veileder) => {
+    if (!veileder.ident) {
+        return '';
     }
-    document.getElementById('js-dekorator-enhet-navn').innerText = veileder.enhetliste[0].navn;
+    return `(${veileder.ident})`;
+};
+
+export const hentEnhetNavn = (veileder) => {
+    if (!veileder.enhetliste || veileder.enhetliste.length === 0 || !veileder.enhetliste[0].navn) {
+        return '';
+    }
+    return veileder.enhetliste[0].navn;
+};
+
+const visVeileder = (veileder) => {
+    document.getElementById('js-dekorator-veileder-navn').innerText = hentVeilederNavn(veileder);
+    document.getElementById('js-dekorator-veileder-ident').innerText = hentVeilederIdent(veileder);
+};
+
+export const visEnhet = (veileder) => {
+    document.getElementById('js-dekorator-enhet-navn').innerText = hentEnhetNavn(veileder);
 };
 
 const handterFeil = (error) => {

@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 
 export function sjekkStatuskode(response) {
-    if (response.status >= 200 && response.status < 300 && response.ok) {
+    if (response.status >= 200 && response.status < 300) {
         return response;
     }
     const error = new Error(response.statusText);
