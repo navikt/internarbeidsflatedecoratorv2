@@ -27,18 +27,16 @@
                                     </h1>
 
                                     <xsl:if test="visEnhet='true'">
-                                        <span aria-pressed="false" class="dekorator__hode__enhet">
-                                            NAV Fredrikstad
-                                        </span>
+                                        <span id="js-dekorator-enhet-navn" aria-pressed="false" class="dekorator__hode__enhet"/>
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
-                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"></input>
+                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"/>
                                     </xsl:if>
 
-                                    <xsl:if test="visSaksbehandler='true'">
-                                        <span id="js-dekorator-saksbehandler-navn" class="dekorator__hode__veileder_navn">Jan Nilelsen Ullmann</span>
-                                        <span id="js-dekorator-saksbehandler-ident" class="dekorator__hode__veileder_id">(Z606404)</span>
+                                    <xsl:if test="visVeileder='true'">
+                                        <span id="js-dekorator-veileder-navn" class="dekorator__hode__veileder_navn"/>
+                                        <span id="js-dekorator-veileder-ident" class="dekorator__hode__veileder_id"/>
                                     </xsl:if>
 
 
@@ -75,13 +73,19 @@
                             </nav>
                         </div>
                         <div class="dekorator__feilmelding" aria-live="polite" role="alert" id="js-dekorator-feilmelding">
-                            <span class="dekorator__feilmelding__tekst" id ="js-dekorator-feilmelding-tekst"></span>
+                            <span class="dekorator__feilmelding__tekst" id ="js-dekorator-feilmelding-tekst"/>
                         </div>
                     </div>
                     <script src="/internarbeidsflatedecorator/js/app.min.js"/>
 
                     <xsl:if test="visVarsel='true'">
                         <script>document.varsel()</script>
+                    </xsl:if>
+                    <xsl:if test="visVeileder='true'">
+                        <script>document.hentVeileder()</script>
+                    </xsl:if>
+                    <xsl:if test="visEnhet='true'">
+                        <script>document.hentEnheter()</script>
                     </xsl:if>
                 </div>
             </body>

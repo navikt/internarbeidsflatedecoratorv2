@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
         name = "",
-        propOrder = {"visVarsel", "visSokefelt", "visEnhet", "visSaksbehandler"}
+        propOrder = {"visVarsel", "visSokefelt", "visEnhet", "visVeileder"}
 )
 @XmlRootElement(
         name = "decoratorXMLWrapper"
@@ -18,7 +18,7 @@ public class DecoratorXMLWrapper {
     public Boolean visVarsel;
     public Boolean visSokefelt;
     public Boolean visEnhet;
-    public Boolean visSaksbehandler;
+    public Boolean visVeileder;
 
     public DecoratorXMLWrapper withVisVarsel(Boolean visVarsel) {
         this.visVarsel = !(visVarsel == null || !visVarsel);
@@ -35,8 +35,8 @@ public class DecoratorXMLWrapper {
         return this;
     }
 
-    public DecoratorXMLWrapper withVisSaksbehandler(Boolean visSaksbehandler) {
-        this.visSaksbehandler = !(visSaksbehandler == null || !visSaksbehandler);
+    public DecoratorXMLWrapper withVisVeileder(Boolean visVeileder) {
+        this.visVeileder = !(visVeileder == null || !visVeileder);
         return this;
     }
 }
