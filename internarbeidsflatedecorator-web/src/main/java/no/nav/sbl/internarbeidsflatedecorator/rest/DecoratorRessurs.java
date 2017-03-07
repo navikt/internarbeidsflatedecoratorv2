@@ -26,12 +26,12 @@ public class DecoratorRessurs {
     public String hentDekorator(@QueryParam("visVarsel") Boolean visVarsel,
                                 @QueryParam("visSokefelt") Boolean visSokefelt,
                                 @QueryParam("visEnhet") Boolean visEnhet,
-                                @QueryParam("visSaksbehandler") Boolean visSaksbehandler) throws FileNotFoundException, JAXBException, TransformerException {
+                                @QueryParam("visVeileder") Boolean visVeileder) throws FileNotFoundException, JAXBException, TransformerException {
         DecoratorXMLWrapper decoratorXMLWrapper = new DecoratorXMLWrapper()
                 .withVisSokefelt(visSokefelt)
                 .withVisVarsel(visVarsel)
                 .withVisEnhet(visEnhet)
-                .withVisSaksbehandler(visSaksbehandler);
+                .withVisVeileder(visVeileder);
         return xmlTilHtml(marshall(decoratorXMLWrapper), this.getClass().getClassLoader().getResourceAsStream("decorator.xsl"));
     }
 
