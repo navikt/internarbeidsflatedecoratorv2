@@ -6,3 +6,4 @@ document.addEventListener('DOMContentLoaded', init);
 document.addEventListener('DOMContentLoaded', personsok);
 
 document.varsel = varsel;
+document.internarbeidsflatedecoratorErLastet = true;
