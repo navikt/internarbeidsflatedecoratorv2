@@ -28,7 +28,6 @@
     "babel-preset-stage-2": "6.22.0",
     "fs": "0.0.2",
     "mocha": "^3.2.0",
-    "modig-frontend": "git+http://stash.devillo.no/scm/felles/modig-frontend.git#modig-frontend-4.0.11",
     "parallelshell": "2.0.0",
     "webpack": "^2.2.1"
   }
