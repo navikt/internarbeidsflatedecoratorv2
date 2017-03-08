@@ -6,7 +6,7 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 
-const Header = ({ applicationName, fnr, toggles = {}, enhet, saksbehandler, feilmelding }) => {
+const Header = ({ applicationName, fnr, toggles = {}, visMeny, enhet, saksbehandler, feilmelding }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner" id="js-dekorator-hode">
@@ -17,12 +17,12 @@ const Header = ({ applicationName, fnr, toggles = {}, enhet, saksbehandler, feil
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
                         <button aria-pressed="false" className="dekorator__hode__toggleMeny"
-                                id="js-dekorator-toggle-meny">Meny
+                                >Meny
                         </button>
                     </header>
                 </div>
             </div>
-            <Meny fnr={fnr} />
+            { visMeny && <Meny fnr={fnr} /> }
             <Feilmelding feilmelding={feilmelding} />
         </div>
     );
@@ -36,6 +36,7 @@ Header.propTypes = {
         visSaksbehandler: PropTypes.bool,
     }),
     fnr: PropTypes.string,
+    visMeny: PropTypes.bool,
     feilmelding: PropTypes.string,
     enhet: PropTypes.shape({
         navn: PropTypes.string,

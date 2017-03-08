@@ -53,7 +53,10 @@ module.exports = [
             extensions: ['.js', '.json'],
             alias: {
                 'react': 'react-lite',
-                'react-dom': 'react-lite'
+                'react-dom': 'react-lite',
+                'react-redux': 'react-lite',
+                'react-saga': 'react-lite',
+                'redux': 'react-lite'
             }
         },
         output: {
