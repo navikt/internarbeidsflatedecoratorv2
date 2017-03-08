@@ -18,7 +18,9 @@ export function toJson(response) {
 }
 
 export function fetchToJson(url, config = {}) {
-    return fetch(url, config) //eslint-disable-line
+    const credentials = 'same-origin';
+    const secConfig = { credentials };
+    return fetch(url, { ...secConfig, ...config})
         .then(sjekkStatuskode)
         .then(toJson);
 }
