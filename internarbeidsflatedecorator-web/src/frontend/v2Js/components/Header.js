@@ -6,7 +6,7 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 
-const Header = ({ applicationName, fnr, toggles = { visEnhet: true, visSokefelt: true, visSaksbehandler: true }, enhet, saksbehandler, feilmelding }) => {
+const Header = ({ applicationName, fnr, toggles = {}, enhet, saksbehandler, feilmelding }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner" id="js-dekorator-hode">
