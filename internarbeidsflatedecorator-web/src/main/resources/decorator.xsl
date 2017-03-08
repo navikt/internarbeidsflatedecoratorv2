@@ -31,12 +31,16 @@
                                     </xsl:if>
 
                                     <xsl:if test="visSokefelt='true'">
-                                        <input id="js-deokorator-sokefelt" class="dekorator__sokefelt" placeholder="Personsøk" type="search"/>
+                                        <form id="sokeform" class="dekorator__sokefelt">
+                                            <input id="js-deokorator-sokefelt" class="dekorator__sokefelt__input" placeholder="Personsøk" type="search" autocomplete="off"></input>
+                                            <img id="forstorrelsesglass_sokefelt" class="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit" />
+                                        </form>
                                     </xsl:if>
 
                                     <xsl:if test="visVeileder='true'">
                                         <span id="js-dekorator-veileder-navn" class="dekorator__hode__veileder_navn"/>
                                         <span id="js-dekorator-veileder-ident" class="dekorator__hode__veileder_id"/>
+
                                     </xsl:if>
 
 
