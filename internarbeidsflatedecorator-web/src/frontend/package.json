@@ -30,6 +30,7 @@
     "babel-preset-react": "6.23.0",
     "babel-preset-stage-2": "6.22.0",
     "css-loader": "^0.26.2",
+    "chai": "^3.5.0",
     "fs": "0.0.2",
     "jsx-loader": "0.13.2",
     "less": "2.7.2",
@@ -39,6 +40,7 @@
     "nodemon": "1.10.2",
     "parallelshell": "2.0.0",
     "style-loader": "^0.13.2",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "whatwg-fetch": "^2.0.2"
   }
 }
