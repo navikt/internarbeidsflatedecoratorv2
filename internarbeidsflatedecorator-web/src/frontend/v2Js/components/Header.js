@@ -6,14 +6,14 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 
-const Header = ({ applicationName, fnr, toggles = {}, visMeny, enhet, saksbehandler, feilmelding }) => {
+const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbehandler, feilmelding }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner" id="js-dekorator-hode">
                 <div className="dekorator__container" id="js-dekorator-hode-container">
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName} />
-                        { toggles.visEnhet && <Enhet enhet={enhet} /> }
+                        { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
                         <button aria-pressed="false" className="dekorator__hode__toggleMeny" onClick={() => console.log("klikket")}>Meny

@@ -1,9 +1,20 @@
 import React, { PropTypes } from 'react';
 
-const Enhet = ({ enhet }) => {
+const Enhet = ({ enheter }) => {
+    let navn = '';
+
+    if (enheter.henter) {
+        navn = 'Henter...';
+    } else if (enheter.hentingFeilet) {
+        navn = 'Fant ikke enhet';
+    } else {
+        navn = enheter.data.navn;
+    }
+
+
     return (
         <span aria-pressed="false" className="dekorator__hode__enhet">
-            { enhet && enhet.navn }
+            {navn}
         </span>
     );
 };

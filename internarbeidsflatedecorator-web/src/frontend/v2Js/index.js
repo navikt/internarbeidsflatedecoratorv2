@@ -6,13 +6,16 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index';
 import saksbehandler from './reducers/saksbehandler';
+import enheter from './reducers/enheter';
 import { hentSaksbehandler } from './actions/saksbehandler_actions';
+import { hentEnheter } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less'
 
-document.renderDecorator = function ({ toggles }) {
+document.renderDecorator = function ({ toggles } = config) {
     const rootReducer = combineReducers({
-        saksbehandler
+        saksbehandler,
+        enheter,
     });
 
     const sagaMiddleware = createSagaMiddleware();
@@ -20,6 +23,7 @@ document.renderDecorator = function ({ toggles }) {
     sagaMiddleware.run(rootSaga);
 
     toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
+    toggles.visEnhet && store.dispatch(hentEnheter());
 
     render(<Provider store={store}><HeaderContainer config={config} /></Provider>, document.getElementById('header'));
 };
