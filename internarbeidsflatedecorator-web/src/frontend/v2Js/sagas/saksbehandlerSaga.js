@@ -8,7 +8,7 @@ export function* saksbehandlerSaga(action) {
     yield put(actions.henterSaksbehandler());
     try {
         //TODO URL...
-        const data = yield call(get, `https://modapp.adeo.no/brukerinfo/`);
+        const data = yield call(get, `https://modapp.adeo.no/veilederendepunktet/`);
         yield put(actions.saksbehandlerHentet(data));
     } catch (e) {
         yield put(actions.hentSaksbehandlerFeilet());

@@ -1,28 +1,25 @@
+import './globals';
 import React from 'react';
 import { render } from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index';
-import testreducer from './reducers/saksbehandler';
+import saksbehandler from './reducers/saksbehandler';
 import { hentSaksbehandler } from './actions/saksbehandler_actions';
-
 import HeaderContainer from './containers/HeaderContainer';
+import './../styles/styles.less'
 
-const rootReducer = combineReducers({
-    testreducer
-});
+document.renderDecorator = function ({ toggles }) {
+    const rootReducer = combineReducers({
+        saksbehandler
+    });
 
-const sagaMiddleware = createSagaMiddleware();
+    const sagaMiddleware = createSagaMiddleware();
+    const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+    sagaMiddleware.run(rootSaga);
 
-const store = createStore(rootReducer,
-    applyMiddleware(sagaMiddleware)
-);
+    toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
 
-sagaMiddleware.run(rootSaga);
-
-store.dispatch(hentSaksbehandler());
-
-document.renderDecorator = function (toggles) {
-    render(<Provider store={store}><HeaderContainer toggles={toggles} /></Provider>, document.getElementById('header'));
+    render(<Provider store={store}><HeaderContainer config={config} /></Provider>, document.getElementById('header'));
 };

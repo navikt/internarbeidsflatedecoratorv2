@@ -3,28 +3,16 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import * as saksbehandlerActions from '../actions/saksbehandler_actions';
 
-class HeaderSide extends Component {
-    render() {
-        const { henter, hentingFeilet, saksbehandler } = this.props;
-        return <Header />
-    }
-}
-
-HeaderSide.propTypes = {
-    henter: PropTypes.bool,
-    hentingFeilet: PropTypes.bool,
-    saksbehandler: PropTypes.shape({
-        navn: PropTypes.string,
-        ident: PropTypes.string,
-    }),
-};
-
-export function mapStateToProps(state) {
-    console.log(state);
+export function mapStateToProps(state, ownProps) {
     return {
-        henter: state.saksbehandler.henter,
-        hentingFeilet: state.saksbehandler.hentingFeilet,
-        saksbehandler: state.saksbehandler.data,
+        saksbehandler: {
+            data: state.saksbehandler.data,
+            henter: state.saksbehandler.henter,
+            hentingFeilet: state.saksbehandler.hentingFeilet,
+        },
+        toggles: ownProps.config.toggles,
+        fnr: ownProps.config.fnr,
+        applicationName: ownProps.config.applicationName,
     };
 }
 

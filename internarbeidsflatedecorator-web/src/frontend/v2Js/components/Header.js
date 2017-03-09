@@ -16,8 +16,7 @@ const Header = ({ applicationName, fnr, toggles = {}, visMeny, enhet, saksbehand
                         { toggles.visEnhet && <Enhet enhet={enhet} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
-                        <button aria-pressed="false" className="dekorator__hode__toggleMeny"
-                                >Meny
+                        <button aria-pressed="false" className="dekorator__hode__toggleMeny" onClick={() => console.log("klikket")}>Meny
                         </button>
                     </header>
                 </div>
@@ -29,6 +28,8 @@ const Header = ({ applicationName, fnr, toggles = {}, visMeny, enhet, saksbehand
 };
 
 Header.propTypes = {
+    henterSaksbehandler: PropTypes.bool,
+    hentingSaksbehandlerFeilet: PropTypes.bool,
     applicationName: PropTypes.string,
     toggles: PropTypes.shape({
         visEnhet: PropTypes.bool,

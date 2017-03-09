@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
-const Enhet = ({ enhet = { navn: 'NAV Drammen' }}) => {
+const Enhet = ({ enhet }) => {
     return (
         <span aria-pressed="false" className="dekorator__hode__enhet">
-            { enhet.navn }
+            { enhet && enhet.navn }
         </span>
     );
 };
