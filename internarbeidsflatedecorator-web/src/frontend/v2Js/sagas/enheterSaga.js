@@ -4,10 +4,11 @@ import { get } from './api/index';
 import * as actions from '../actions/enheter_actions';
 import { HENT_ENHETER_FORESPURT } from '../actions/actiontyper';
 
-export function* enheterSaga(action) {
+export function* enheterSaga() {
     yield put(actions.henterEnheter());
     try {
-        //TODO URL...
+        //TODO URL...mulig man må ha miljø som et parameter i config'en som sender til renderDecorator og så bruke den her
+        //Kontekst-relative vil ikke fungere om klienten ligger på app-adeo.no/app
         const data = yield call(get, `https://modapp.adeo.no/enheterendepunktet/`);
         yield put(actions.enheterHentet(data));
     } catch (e) {
