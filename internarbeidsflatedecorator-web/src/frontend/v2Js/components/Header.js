@@ -16,7 +16,7 @@ const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbeha
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
-                        <button aria-pressed="false" value="Meny" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny --apen' : ''} `} onClick={() => {toggleMeny()}} />
+                        <button aria-pressed="false" value="Meny" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}} />
                     </header>
                 </div>
             </div>

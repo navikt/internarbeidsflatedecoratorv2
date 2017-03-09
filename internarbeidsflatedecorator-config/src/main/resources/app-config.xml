@@ -17,7 +17,7 @@
 
     <exposed-services>
         <exposedRest path="/internarbeidsflatedecorator/rest/decorator" name="iadecorator-rest" description="Dekoratør FSS REST-API"/>
-        <exposedRest path="/internarbeidsflatedecorator/head.js" name="iadecorator-js" description="Dekoratør FSS JS"/>
+        <exposedRest path="/internarbeidsflatedecorator/js/head.min.js" name="iadecorator-js" description="Dekoratør FSS JS"/>
     </exposed-services>
 
     <loadBalancer isAlive="internarbeidsflatedecorator/internal/isAlive" />

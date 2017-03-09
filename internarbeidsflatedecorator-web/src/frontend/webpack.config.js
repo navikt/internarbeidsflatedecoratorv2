@@ -64,7 +64,7 @@ module.exports = [
         },
         output: {
             path: "../main/webapp/",
-            filename: "js/js-app.min.js",
+            filename: "js/head.min.js",
             publicPath: '/internarbeidsflatedecorator/'
         },
         plugins: DEBUG ? [] : PRODUCTION_PLUGINS
