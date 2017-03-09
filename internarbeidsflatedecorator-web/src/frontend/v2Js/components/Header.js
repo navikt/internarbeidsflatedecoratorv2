@@ -6,7 +6,7 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 
-const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbehandler, feilmelding }) => {
+const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner" id="js-dekorator-hode">
@@ -16,8 +16,7 @@ const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbeha
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
-                        <button aria-pressed="false" className="dekorator__hode__toggleMeny" onClick={() => console.log("klikket")}>Meny
-                        </button>
+                        <button aria-pressed="false" value="Meny" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny --apen' : ''} `} onClick={() => {toggleMeny()}} />
                     </header>
                 </div>
             </div>
@@ -28,8 +27,6 @@ const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbeha
 };
 
 Header.propTypes = {
-    henterSaksbehandler: PropTypes.bool,
-    hentingSaksbehandlerFeilet: PropTypes.bool,
     applicationName: PropTypes.string,
     toggles: PropTypes.shape({
         visEnhet: PropTypes.bool,
@@ -38,13 +35,22 @@ Header.propTypes = {
     }),
     fnr: PropTypes.string,
     visMeny: PropTypes.bool,
+    toggleMeny: PropTypes.func,
     feilmelding: PropTypes.string,
-    enhet: PropTypes.shape({
-        navn: PropTypes.string,
+    enheter: PropTypes.shape({
+        data: PropTypes.shape({
+            navn: PropTypes.string,
+        }),
+        henter: PropTypes.bool,
+        hentingFeilet: PropTypes.bool,
     }),
     saksbehandler: PropTypes.shape({
-        navn: PropTypes.string,
-        ident: PropTypes.string,
+        data: PropTypes.shape({
+            navn: PropTypes.string,
+            ident: PropTypes.string,
+        }),
+        henter: PropTypes.bool,
+        hentingFeilet: PropTypes.bool,
     }),
 };
 

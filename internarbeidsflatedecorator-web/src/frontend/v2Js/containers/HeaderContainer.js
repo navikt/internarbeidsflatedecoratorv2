@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import * as saksbehandlerActions from '../actions/saksbehandler_actions';
 import * as enheterActions from '../actions/enheter_actions';
+import * as menyActions from '../actions/meny_actions';
 
 export function mapStateToProps(state, ownProps) {
     return {
@@ -19,9 +20,10 @@ export function mapStateToProps(state, ownProps) {
         toggles: ownProps.config.toggles,
         fnr: ownProps.config.fnr,
         applicationName: ownProps.config.applicationName,
+        visMeny: state.meny.visMeny,
     };
 }
 
-const HeaderContainer = connect(mapStateToProps, Object.assign({}, saksbehandlerActions, enheterActions))(Header);
+const HeaderContainer = connect(mapStateToProps, Object.assign({}, saksbehandlerActions, enheterActions, menyActions))(Header);
 
 export default HeaderContainer;

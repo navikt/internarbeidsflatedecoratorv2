@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index';
 import saksbehandler from './reducers/saksbehandler';
 import enheter from './reducers/enheter';
+import meny from './reducers/meny';
 import { hentSaksbehandler } from './actions/saksbehandler_actions';
 import { hentEnheter } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
@@ -16,6 +17,7 @@ document.renderDecorator = function ({ toggles } = config) {
     const rootReducer = combineReducers({
         saksbehandler,
         enheter,
+        meny,
     });
 
     const sagaMiddleware = createSagaMiddleware();
