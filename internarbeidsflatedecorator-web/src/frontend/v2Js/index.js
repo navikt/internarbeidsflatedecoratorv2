@@ -13,7 +13,7 @@ import { hentEnheter } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less'
 
-document.renderDecorator = function ({ toggles } = config) {
+window.renderDecorator = function ({ toggles } = config) {
     const rootReducer = combineReducers({
         saksbehandler,
         enheter,
@@ -27,5 +27,6 @@ document.renderDecorator = function ({ toggles } = config) {
     toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
     toggles.visEnhet && store.dispatch(hentEnheter());
 
-    render(<Provider store={store}><HeaderContainer config={config} /></Provider>, document.getElementById('header'));
+    const headerElement = document.getElementById('header');
+    render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);
 };

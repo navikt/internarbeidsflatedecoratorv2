@@ -20,7 +20,7 @@ Enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av konsumenten sin
             applicationName: 'Applikasjonsnavn',
         }
     ```
-    - Kall document.renderDecorator(config) for å bygge hodet.
+    - Kall window.renderDecorator(config) for å bygge hodet.
         
 ### Utvikling
 
@@ -30,7 +30,7 @@ npm install
 npm run dev
 ```
 
-Høyreklikk på index.html og ta "Open in browser". Kjør headeren ved å skrive document.renderDecorator(config) i consolen. 
+Høyreklikk på index.html og ta "Open in browser". Kjør headeren ved å skrive window.renderDecorator(config) i consolen. 
 
 
 ## REST-endepunkt
