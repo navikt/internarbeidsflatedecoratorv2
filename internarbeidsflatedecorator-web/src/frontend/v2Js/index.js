@@ -13,7 +13,7 @@ import { hentEnheter } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less'
 
-window.renderDecorator = function ({ toggles } = config) {
+window.renderDecorator = function ({ config }) {
     const rootReducer = combineReducers({
         saksbehandler,
         enheter,
@@ -24,8 +24,8 @@ window.renderDecorator = function ({ toggles } = config) {
     const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
     sagaMiddleware.run(rootSaga);
 
-    toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
-    toggles.visEnhet && store.dispatch(hentEnheter());
+    config.toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
+    config.toggles.visEnhet && store.dispatch(hentEnheter());
 
     const headerElement = document.getElementById('header');
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);
