@@ -1,6 +1,9 @@
 import { fetchToJson } from './rest-utils';
 import visningsnavn from './brukernavn';
 
+const emdashCharacterCode = 8212;
+const EMDASH = String.fromCharCode(emdashCharacterCode);
+
 const VEILEDER_URL = `/veilarbveileder/tjenester/veileder`;
 
 export const hentVeilederNavn = (veileder) => {
@@ -33,7 +36,13 @@ export const visEnhet = (veileder) => {
     document.getElementById('js-dekorator-enhet-navn').innerText = hentEnhetNavn(veileder);
 };
 
-const handterFeil = (error) => {
+const handterHentVeilederFeil = (error) => {
+    document.getElementById('js-dekorator-veileder-navn').innerText = EMDASH;
+    console.error(error, error.stack); //eslint-disable-line no-console
+};
+
+const handterHentEnheterFeil = (error) => {
+    document.getElementById('js-dekorator-enhet-navn').innerText = EMDASH;
     console.error(error, error.stack); //eslint-disable-line no-console
 };
 
@@ -41,7 +50,7 @@ export const hentVeileder = () => {
     return fetchToJson(`${VEILEDER_URL}/me`)
         .then(
             visVeileder,
-            handterFeil
+            handterHentVeilederFeil
         );
 };
 
@@ -49,7 +58,7 @@ export const hentEnheter = () => {
     return fetchToJson(`${VEILEDER_URL}/enheter`)
         .then(
             visEnhet,
-            handterFeil
+            handterHentEnheterFeil
         );
 };
 

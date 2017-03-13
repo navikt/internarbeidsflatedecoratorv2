@@ -1,3 +1,6 @@
+import Promise from 'bluebird';
+global.Promise = Promise;
+
 const init = () => {
     var hode = document.getElementById("js-dekorator-hode");
     var knapp = document.getElementById("js-dekorator-toggle-meny");

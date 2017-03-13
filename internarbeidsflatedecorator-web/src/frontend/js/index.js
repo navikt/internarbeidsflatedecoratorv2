@@ -7,5 +7,6 @@ document.addEventListener('DOMContentLoaded', init);
 document.addEventListener('DOMContentLoaded', personsok);
 
 document.varsel = varsel;
+document.internarbeidsflatedecoratorErLastet = true;
 document.hentVeileder = hentVeileder;
 document.hentEnheter = hentEnheter;
