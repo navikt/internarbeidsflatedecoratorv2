@@ -23,7 +23,14 @@ const forkortEtternavn = (navn) => (
         `${fornavn(navn)} ${mellomnavn(navn).map((x) => tilInitial(x)).join(' ')} ${tilInitial(etternavn(navn))}`
 );
 
+const settCasing = (fulltNavn) => {
+    return fulltNavn.split(" ").map(navn => {
+        return navn.charAt(0) + navn.slice(1).toLowerCase();
+    }).join(" ");
+};
+
 const visningsnavn = (navn) => {
+    navn = settCasing(navn);
     if (navn.length <= MAKS_ANTALL_TEGN_I_NAVN) {
         return navn;
     }
