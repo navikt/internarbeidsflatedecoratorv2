@@ -7,7 +7,7 @@ Enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av konsumenten sin
 
 ### Ta i bruk
     - Legg til en <div id="header"></div> der du ønsker at headern skal plasseres. 
-    - importer js-filen som logger på /internarbeidsflatedecorator/js/head.min.js
+    - importer js-filen som ligger på /internarbeidsflatedecorator/js/head.min.js
     - Bygg opp et config-objekt som ser ca. slik ut: 
     ```
     var config = {
