@@ -17,7 +17,8 @@
     "bluebird": "^3.5.0",
     "mustache": "2.2.1",
     "nodemon": "1.10.2",
-    "promise": "7.1.1"
+    "promise": "7.1.1",
+    "query-string": "^4.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

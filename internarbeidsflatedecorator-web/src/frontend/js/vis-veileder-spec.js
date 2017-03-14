@@ -1,6 +1,8 @@
 import assert from 'assert';
 import { hentVeilederNavn, hentVeilederIdent, hentEnhetNavn } from './vis-veileder';
 
+const valgtEnhet = {id : "0333", navn: "NAV Oslo"};
+
 const TESTVEILEDER = {
     navn: 'Testfornavn Testetternavn',
     ident: '***REMOVED***',
@@ -8,6 +10,10 @@ const TESTVEILEDER = {
         {
             id: 'id1',
             navn: 'NAV testenhet1'
+        },
+        {
+            id: '0333',
+            navn: 'NAV Oslo'
         }
     ]
 };
@@ -41,7 +47,19 @@ const TESTVEILEDER_ENHETUTENNAVN = {
     ]
 };
 
+const setValgtEnhetILocation = (valgtEnhet) => {
+    global.location = {search : `?valgtEnhet=${valgtEnhet.id}`};
+};
+
+const settQueriesTilIngenting = () => {
+    global.location = {search : ""};
+};
+
 describe('Visning av veileders navn, ident og enhet', () => {
+    before(function () {
+        settQueriesTilIngenting();
+    });
+
     describe('Vis riktig navn', () => {
         it('hentVeilederNavn skal returnere tom streng hvis navn ikke finnes', () => {
             assert.equal(hentVeilederNavn(TESTVEILEDER_UTENNAVN), '');
@@ -63,6 +81,7 @@ describe('Visning av veileders navn, ident og enhet', () => {
     });
 
     describe('Vis riktig enhet', () => {
+
         it('hentEnhetTekst skal returnere tom streng hvis enheter ikke finnes', () => {
             assert.equal(hentEnhetNavn(TESTVEILEDER_UTENENHETER), '');
         });
@@ -75,8 +94,28 @@ describe('Visning av veileders navn, ident og enhet', () => {
             assert.equal(hentEnhetNavn(TESTVEILEDER_ENHETUTENNAVN), '');
         });
 
-        it('hentEnhetTekst skal returnere navn på enhet', () => {
+        it('hentEnhetTekst skal returnere første enhet hvis enhet ikke er valgt', () => {
             assert.equal(hentEnhetNavn(TESTVEILEDER), 'NAV testenhet1');
         });
+
+        describe('når enhet er valgt i query parameter', () => {
+            beforeEach(function () {
+                setValgtEnhetILocation(valgtEnhet);
+            });
+
+            after(function () {
+                settQueriesTilIngenting();
+            });
+
+            it('hentEnhetTekst skal returnere navn på valgt enhet', () => {
+                assert.equal(hentEnhetNavn(TESTVEILEDER), valgtEnhet.navn);
+            });
+
+            it('hentEnhetTekst skal returnere første enhet hvis valgt enhet ikke er i enhetslisten til veileder', () => {
+                setValgtEnhetILocation('XXXX');
+                assert.equal(hentEnhetNavn(TESTVEILEDER), 'NAV testenhet1');
+            });
+        });
+
     });
 });

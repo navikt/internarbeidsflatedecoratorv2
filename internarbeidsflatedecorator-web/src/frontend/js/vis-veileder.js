@@ -1,4 +1,8 @@
+import queryString from 'query-string'
+
+import config from './config';
 import { fetchToJson } from './rest-utils';
+import { mockFetchVeileder, mockFetchEnheter} from './mock/mock';
 import visningsnavn from './brukernavn';
 
 const emdashCharacterCode = 8212;
@@ -20,11 +24,30 @@ export const hentVeilederIdent = (veileder) => {
     return `(${veileder.ident})`;
 };
 
+const hentValgtEnhetFraURL = (veileder) => {
+    const queries = queryString.parse(location.search);
+    return veileder.enhetliste.find(enhet => enhet.id === queries.valgtEnhet);
+};
+
+const hentValgtEnhet = (veileder) => {
+    const valgtEnhet = hentValgtEnhetFraURL(veileder);
+    if (!valgtEnhet) {
+        return veileder.enhetliste[0];
+    }
+    return valgtEnhet;
+};
+
 export const hentEnhetNavn = (veileder) => {
-    if (!veileder.enhetliste || veileder.enhetliste.length === 0 || !veileder.enhetliste[0].navn) {
+    if (!veileder.enhetliste || veileder.enhetliste.length === 0) {
         return '';
     }
-    return veileder.enhetliste[0].navn;
+
+    const valgtEnhet = hentValgtEnhet(veileder);
+    if (!valgtEnhet.navn) {
+        return '';
+    }
+
+    return valgtEnhet.navn;
 };
 
 const visVeileder = (veileder) => {
@@ -47,6 +70,10 @@ const handterHentEnheterFeil = (error) => {
 };
 
 export const hentVeileder = () => {
+    if (config.mockVeilederKall) {
+        return mockFetchVeileder().then(visVeileder);
+    }
+
     return fetchToJson(`${VEILEDER_URL}/me`)
         .then(
             visVeileder,
@@ -55,6 +82,10 @@ export const hentVeileder = () => {
 };
 
 export const hentEnheter = () => {
+    if (config.mockEnheterKall) {
+        return mockFetchEnheter().then(visEnhet);
+    }
+
     return fetchToJson(`${VEILEDER_URL}/enheter`)
         .then(
             visEnhet,
