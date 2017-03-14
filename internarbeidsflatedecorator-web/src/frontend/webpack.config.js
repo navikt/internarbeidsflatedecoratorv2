@@ -56,7 +56,7 @@ module.exports = [
             ]
         },
         resolve: {
-            extensions: ['.js', '.json'],
+            extensions: ['.js', '.jsx'],
             alias: {
                 'react': 'react-lite',
                 'react-dom': 'react-lite',

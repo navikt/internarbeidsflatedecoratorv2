@@ -25,7 +25,7 @@ window.renderDecoratorHead = function ({ config }) {
     sagaMiddleware.run(rootSaga);
 
     config.toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
-    config.toggles.visEnhet && store.dispatch(hentEnheter());
+    (config.toggles.visEnhet || config.toggles.visEnhetVelger)  && store.dispatch(hentEnheter());
 
     const headerElement = document.getElementById('header');
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);

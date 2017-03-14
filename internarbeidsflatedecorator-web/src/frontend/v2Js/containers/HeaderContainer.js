@@ -18,12 +18,12 @@ export function mapStateToProps(state, ownProps) {
             hentingFeilet: state.enheter.hentingFeilet,
         },
         toggles: ownProps.config.toggles,
-        fnr: ownProps.config.fnr,
         applicationName: ownProps.config.applicationName,
+        handleChangeEnhet: ownProps.config.handleChangeEnhet,
+        initiellEnhet: ownProps.config.initiellEnhet,
+        fnr: ownProps.config.fnr,
         visMeny: state.meny.visMeny,
     };
 }
 
-const HeaderContainer = connect(mapStateToProps, Object.assign({}, saksbehandlerActions, enheterActions, menyActions))(Header);
-
-export default HeaderContainer;
+export default connect(mapStateToProps, Object.assign({}, saksbehandlerActions, enheterActions, menyActions))(Header);

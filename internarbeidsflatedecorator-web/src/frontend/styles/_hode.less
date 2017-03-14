@@ -191,3 +191,41 @@
     padding-top: 8px;
     padding-right: 16px;
 }
+
+.dekorator-select-container {
+    position: relative;
+    display: inline-block;
+    top: -0.125em;
+
+    select {
+        background-color: #1d1d1d;
+        border-radius: 1px;
+        margin-right: 3px;
+        margin-left: 2em;
+        padding: 10px 0 10px 10px;
+        width: 210px;
+        height: 35px;
+        border: 1px solid #7f756c;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+
+    }
+    select::-ms-expand {
+        display: none; // Skjuler pil i IE10
+    }
+    &:after {
+        pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
+        content: "";
+        position: absolute;
+        border-left: 1.5px solid #fff;
+        border-top: 1.5px solid #fff;
+        border-right: none;
+        top: 14px;
+        right: 14px;
+        width: 7px;
+        height: 7px;
+        transform: rotate(-135deg);
+    }
+}

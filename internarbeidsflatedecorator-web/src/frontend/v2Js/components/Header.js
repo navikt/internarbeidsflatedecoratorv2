@@ -5,8 +5,9 @@ import Sokefelt from './Sokefelt';
 import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
+import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{}, initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner" id="js-dekorator-hode">
@@ -14,6 +15,7 @@ const Header = ({ applicationName, fnr, toggles = {}, visMeny, enheter, saksbeha
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
+                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
                         <button aria-pressed="false" value="Meny" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}} />
@@ -30,12 +32,15 @@ Header.propTypes = {
     applicationName: PropTypes.string,
     toggles: PropTypes.shape({
         visEnhet: PropTypes.bool,
+        visEnhetVelger: PropTypes.bool,
         visSokefelt: PropTypes.bool,
         visSaksbehandler: PropTypes.bool,
     }),
     fnr: PropTypes.string,
     visMeny: PropTypes.bool,
     toggleMeny: PropTypes.func,
+    handleChangeEnhet: PropTypes.func,
+    initiellEnhet: PropTypes.string,
     feilmelding: PropTypes.string,
     enheter: PropTypes.shape({
         data: PropTypes.shape({
