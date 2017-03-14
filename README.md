@@ -11,16 +11,18 @@ Enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av konsumenten sin
     - Bygg opp et config-objekt som ser ca. slik ut: 
     ```
     var config = {
-            toggles: {
-                visEnhet: true,
-                visSokefelt: true,
-                visSaksbehandler: true
-            },
-            fnr: '12345678901',
-            applicationName: 'Applikasjonsnavn',
+        config: {
+                toggles: {
+                    visEnhet: true,
+                    visSokefelt: true,
+                    visSaksbehandler: true
+                },
+                fnr: '12345678901',
+                applicationName: 'Applikasjonsnavn',
+            }
         }
     ```
-    - Kall window.renderDecorator(config) for å bygge hodet.
+    - Kall window.renderDecoratorHead(config) for å bygge hodet.
         
 ### Utvikling
 

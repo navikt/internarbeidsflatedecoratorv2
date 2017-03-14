@@ -13,7 +13,7 @@ import { hentEnheter } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less'
 
-window.renderDecorator = function ({ config }) {
+window.renderDecoratorHead = function ({ config }) {
     const rootReducer = combineReducers({
         saksbehandler,
         enheter,
