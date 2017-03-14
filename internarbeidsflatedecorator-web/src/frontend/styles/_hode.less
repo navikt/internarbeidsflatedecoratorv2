@@ -153,12 +153,18 @@
 .dekorator__sokefelt__input:focus {
     box-shadow: 0 0 0 2px @fokusOrange;
     outline: none;
+    background-color: white;
+    color: black;
 }
 
 .dekorator__sokefelt__input::-ms-clear {
     width: 0;
     height: 0;
     display: none;
+}
+
+.dekorator__sokefelt__input:focus + .dekorator__sokefelt__forstorrelsesglass {
+    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-blaa.svg") no-repeat;
 }
 
 .dekorator__sokefelt__forstorrelsesglass {
