@@ -6,6 +6,7 @@ const TESTNAVN_KORT_MELLOMNAVN = 'Test Tester Testes';
 const TESTNAVN_LANGT_MELLOMNAVN = 'Testfornavn Testmellomnavn Testetternavn';
 const TESTNAVN_FLERE_MELLOMNAVN = 'Fornavn Mellomnavn Annetmellomnavn Etternavn';
 const TESTNAVN_LANGT = 'Langtfornavn Langtetternavn';
+const TESTNAVN_UPPER_CASE = 'ERIK BYE';
 
 describe('Forkorting av navn', () => {
     it('Skal vise hele navnet når det er under 15 chars', () => {
@@ -26,5 +27,9 @@ describe('Forkorting av navn', () => {
 
     it('Skal forkorte etternavn i langt navn uten mellomnavn', () => {
        assert.equal(visningsnavn(TESTNAVN_LANGT), 'Langtfornavn  L.');
+    });
+
+    it('Skal sette riktig casing', () => {
+        assert.equal(visningsnavn(TESTNAVN_UPPER_CASE), 'Erik Bye');
     });
 });
