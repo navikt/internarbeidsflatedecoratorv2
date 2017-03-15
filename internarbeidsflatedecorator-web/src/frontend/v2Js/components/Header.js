@@ -10,15 +10,15 @@ import EnhetVelger from './EnhetVelger';
 const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{}, initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
     return (
         <div className="dekorator">
-            <div className="dekorator__hode" role="banner" id="js-dekorator-hode">
-                <div className="dekorator__container" id="js-dekorator-hode-container">
+            <div className="dekorator__hode" role="banner">
+                <div className="dekorator__container">
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
-                        <button aria-pressed="false" value="Meny" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}} />
+                        <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}}>Meny</button>
                     </header>
                 </div>
             </div>
