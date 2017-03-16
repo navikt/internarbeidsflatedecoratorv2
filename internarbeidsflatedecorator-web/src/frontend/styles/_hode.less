@@ -66,7 +66,7 @@
 
     &:focus {
         outline: 0;
-        box-shadow: 0 0 0 2px @fokusOrange;
+        background-color: @fokusOrange;
     }
 
     &:after, &:before {
@@ -91,6 +91,13 @@
         right: sqrt(.5em); // Pythagoras <3
         transform: rotate(45deg);
     }
+
+    &:hover {
+        color: #66cbec;
+        &:after, &:before {
+            background-color: #66cbec;
+        }
+    }
 }
 
 .dekorator__hode__toggleMeny {
@@ -107,15 +114,11 @@
 
 .dekorator__hode__toggleMeny--apen {
 
-    color: @infoOrange;
-
     &:after {
-        background-color: @infoOrange;
         transform: rotate(45deg);
     }
 
     &:before {
-        background-color: @infoOrange;
         transform: rotate(-45deg);
     }
 }
@@ -148,12 +151,18 @@
 .dekorator__sokefelt__input:focus {
     box-shadow: 0 0 0 2px @fokusOrange;
     outline: none;
+    background-color: white;
+    color: black;
 }
 
 .dekorator__sokefelt__input::-ms-clear {
     width: 0;
     height: 0;
     display: none;
+}
+
+.dekorator__sokefelt__input:focus + .dekorator__sokefelt__forstorrelsesglass {
+    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-blaa.svg") no-repeat;
 }
 
 .dekorator__sokefelt__forstorrelsesglass {

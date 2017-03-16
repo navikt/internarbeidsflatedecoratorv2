@@ -26,11 +26,24 @@
     a {
         color: #fff;
         text-decoration: none;
-        border-bottom: 1px solid @inaktivGraa;
     }
 
     a:hover {
         border-bottom-color: #fff;
+        &:before {
+            @circle-width: 7px;
+
+            width: @circle-width;
+            height: @circle-width;
+            margin-right: -@circle-width;
+            background: @hoverBlue;
+            border-radius: 100%;
+            display: inline-block;
+            content: "";
+            left:-15px;
+            position: relative;
+            margin-bottom:2px;
+        }
     }
 
     a:focus {
