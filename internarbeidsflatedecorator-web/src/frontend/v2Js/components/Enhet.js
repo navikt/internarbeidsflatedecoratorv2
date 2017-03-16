@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 
+import { EMDASH } from '../utils/utils';
+
 const Enhet = ({ enheter }) => {
     let navn = '';
 
     if (enheter.henter) {
-        navn = 'Henter...';
+        navn = '';
     } else if (enheter.hentingFeilet) {
-        navn = 'Fant ikke enhet';
+        navn = EMDASH;
     } else {
         navn = enheter.data.navn;
     }

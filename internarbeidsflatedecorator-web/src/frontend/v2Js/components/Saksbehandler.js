@@ -1,13 +1,15 @@
 import React, {PropTypes} from 'react';
 
+import { EMDASH } from '../utils/utils';
+
 const Saksbehandler = ({saksbehandler}) => {
     let navn = '';
     let ident = '';
 
     if (saksbehandler.henter) {
-        navn = 'Henter...';
+        navn = '';
     } else if (saksbehandler.hentingFeilet) {
-        navn = 'Henting av veilederdata feilet';
+        navn = EMDASH;
     } else {
         navn = saksbehandler.data.navn;
         ident = `(${saksbehandler.data.ident})`;
