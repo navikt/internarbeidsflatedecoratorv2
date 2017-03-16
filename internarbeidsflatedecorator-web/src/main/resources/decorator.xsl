@@ -56,9 +56,7 @@
 
                                     </xsl:if>
 
-                                    <button aria-pressed="false" class="dekorator__hode__toggleMeny"
-                                            id="js-dekorator-toggle-meny">Meny
-                                    </button>
+                                    <button aria-pressed="false" class="dekorator__hode__toggleMeny" id="js-dekorator-toggle-meny">Meny</button>
                                 </header>
                             </div>
                         </div>

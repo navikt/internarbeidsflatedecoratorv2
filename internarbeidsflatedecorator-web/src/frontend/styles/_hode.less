@@ -1,5 +1,7 @@
+@import '_navlogo.less';
+
 .dekorator__hode {
-    padding: 1em; 
+    padding: 1em;
     background-color: @dekorator-svart;
     position: relative;
     color: #fff;
@@ -19,7 +21,7 @@
 
 .dekorator__hode__logo {
     line-height: 2;
-    display: flex; 
+    display: flex;
     width: auto;
     text-decoration: none;
     align-items: center;
@@ -30,7 +32,8 @@
         display: inline-block;
         height: 32px;
         width: 50px;
-        margin-right: 1em;
+        padding-right: .7em;
+        border-right: 1px solid #b7b1a9;
     }
 
     &:focus {
@@ -43,7 +46,6 @@
 .dekorator__hode__tittel {
     font-weight: 400;
     display: inline-block;
-    border-left: 1px solid #fff;
     padding-left: 1em;
     font-size: 20px;
     height: 32px;
@@ -135,9 +137,9 @@
     position: relative;
     background-color: #1d1d1d;
     border-radius: 2px;
-    margin-right: 25px;
-    margin-left: 2em;
-    padding: 0.5em 2em 0.5em 0.5em;
+    margin-right: 1em;
+    margin-left: 0.5em;
+    padding: 1.05em 2em 1em 0.5em;
     width: 104px;
     top: -0.125em;
     border: 1px solid #7f756c;
@@ -181,12 +183,53 @@
     }
 }
 
+.dekorator__hode__veileder_container {
+    display: flex;
+    align-items: center;
+}
+
 .dekorator__hode__veileder_navn {
-    padding-top: 8px;
     padding-right: 0.5em;
 }
 
 .dekorator__hode__veileder_id {
-    padding-top: 8px;
-    padding-right: 16px;
+    padding-right: 0.7em;
+}
+
+.dekorator-select-container {
+    position: relative;
+    display: inline-block;
+    top: -0.125em;
+
+    select {
+        background-color: #1d1d1d;
+        border-radius: 1px;
+        margin-right: 3px;
+        margin-left: 2em;
+        padding: 10px 0 10px 10px;
+        width: 210px;
+        height: 35px;
+        border: 1px solid #7f756c;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+
+    }
+    select::-ms-expand {
+        display: none; // Skjuler pil i IE10
+    }
+    &:after {
+        pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
+        content: "";
+        position: absolute;
+        border-left: 1.5px solid #fff;
+        border-top: 1.5px solid #fff;
+        border-right: none;
+        top: 10px;
+        right: 15px;
+        width: 10px;
+        height: 10px;
+        transform: rotate(-135deg);
+    }
 }
