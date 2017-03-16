@@ -24,3 +24,7 @@ export function fetchToJson(url, config = {}) {
         .then(sjekkStatuskode)
         .then(toJson);
 }
+export function erDev() {
+    const url = window.location.href;
+    return url.includes('devillo.no:') || url.includes('localhost:');
+}
