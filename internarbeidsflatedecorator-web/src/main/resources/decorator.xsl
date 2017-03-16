@@ -20,10 +20,10 @@
                             <div class="dekorator__container" id="js-dekorator-hode-container">
                                 <header class="dekorator__banner">
                                     <h1 class="dekorator__tittel">
-                                        <a href="/" class="dekorator__hode__logo" id="js-dekorator-hjem">
+                                        <span class="dekorator__hode__logo" id="js-dekorator-hjem">
                                             <img src="/internarbeidsflatedecorator/svg/nav-logo.svg" class="dekorator__hode__logo__ikon" />
                                             <span class="dekorator__hode__tittel">{{applicationName}}</span>
-                                        </a>
+                                        </span>
                                     </h1>
 
                                     <xsl:if test="visEnhet='true'">

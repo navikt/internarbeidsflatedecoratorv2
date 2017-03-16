@@ -7,8 +7,8 @@
     "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css",
     "build-js": "set NODE_ENV=production&& webpack --optimize-minimize",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
-    "dev": "webpack --watch",
-    "build": "npm run build-js"
+    "dev": "parallelshell \"npm run styles:watch\" \"webpack --watch\"",
+    "build": "npm run styles:build && npm run build-js"
   },
   "author": "DigiSyfo <digisyfo@nav.no>",
   "license": "ISC",
@@ -21,7 +21,8 @@
     "redux-saga": "0.12.0",
     "redux": "3.5.2",
     "react-lite": "0.15.33",
-    "whatwg-fetch": "0.11.0"
+    "whatwg-fetch": "0.11.0",
+    "query-string": "^4.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
