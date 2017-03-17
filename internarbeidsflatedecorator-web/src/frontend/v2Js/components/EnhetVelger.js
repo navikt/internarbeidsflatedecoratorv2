@@ -15,7 +15,7 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet, handleChangeEnhet) =
     }
     return (
         <div className="dekorator-select-container">
-            <select value={initiellEnhet} id="dekorator-select-enhet" onInput={(event) => handleChangeEnhet(event.srcElement.value)}>
+            <select value={initiellEnhet} id="dekorator-select-enhet" onChange={(event) => handleChangeEnhet(event,event.srcElement.value)}>
                 { enhetliste.map( ( enhet ) => ( mapEnhetTilHtml(enhet) )) }
             </select>
         </div>
