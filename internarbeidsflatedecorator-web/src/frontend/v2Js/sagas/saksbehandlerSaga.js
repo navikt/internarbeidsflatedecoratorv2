@@ -6,7 +6,7 @@ import { HENT_SAKSBEHANDLER_FORESPURT } from '../actions/actiontyper';
 import { erDev } from '../../js/rest-utils';
 
 export function* saksbehandlerSaga() {
-    yield put(actions.hentSaksbehandler());
+    yield put(actions.henterSaksbehandler());
     try {
         //TODO URL...mulig man må ha miljø som et parameter i config'en som sender til renderDecorator og så bruke den her
         //Kontekst-relative vil ikke fungere om klienten ligger på app-adeo.no/app

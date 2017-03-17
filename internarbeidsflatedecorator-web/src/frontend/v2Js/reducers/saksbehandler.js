@@ -1,4 +1,4 @@
-import { HENT_SAKSBEHANDLER_FEILET, HENT_SAKSBEHANDLER_FORESPURT, SAKSBEHANDLER_HENTET } from '../actions/actiontyper';
+import { HENT_SAKSBEHANDLER_FEILET, HENTER_SAKSBEHANDLER, SAKSBEHANDLER_HENTET } from '../actions/actiontyper';
 
 const initiellState = {
     henter: false,
@@ -15,7 +15,7 @@ export default function saksbehandler(state = initiellState, action = {}) {
                 hentingFeilet: true,
             };
         }
-        case HENT_SAKSBEHANDLER_FORESPURT: {
+        case HENTER_SAKSBEHANDLER: {
             return {
                 data: {},
                 henter: true,

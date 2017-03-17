@@ -9,7 +9,7 @@ describe("saksbehandlerSagas", () => {
     const generator = saksbehandlerSaga(action);
 
     it("Skal dispatche HENTER_SAKSBEHANDLER", () => {
-        const nextPut = put({type: 'HENT_SAKSBEHANDLER_FORESPURT'});
+        const nextPut = put({type: 'HENTER_SAKSBEHANDLER'});
         expect(generator.next().value).to.deep.equal(nextPut);
     });
 

@@ -8,8 +8,8 @@ describe("enheterSagas", () => {
     const action = actions.hentEnheter();
     const generator = enheterSaga(action);
 
-    it("Skal dispatche HENT_ENHETER_FORESPURT", () => {
-        const nextPut = put({type: 'HENT_ENHETER_FORESPURT'});
+    it("Skal dispatche HENTER_ENHETER", () => {
+        const nextPut = put({type: 'HENTER_ENHETER'});
         expect(generator.next().value).to.deep.equal(nextPut);
     });
 

@@ -31,10 +31,10 @@ describe('saksbehandler', () => {
         });
     });
 
-    it("Håndterer HENT_SAKSBEHANDLER_FORESPURT", () => {
+    it("Håndterer HENTER_SAKSBEHANDLER", () => {
         const initialState = saksbehandler();
         const action = {
-            type: 'HENT_SAKSBEHANDLER_FORESPURT',
+            type: 'HENTER_SAKSBEHANDLER',
         };
         const nextState = saksbehandler(initialState, action);
         expect(nextState).to.deep.equal({

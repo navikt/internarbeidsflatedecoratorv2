@@ -31,10 +31,10 @@ describe('enheter', () => {
         });
     });
 
-    it("Håndterer HENT_ENHETER_FORESPURT", () => {
+    it("Håndterer HENTER_ENHETER", () => {
         const initialState = enheter();
         const action = {
-            type: 'HENT_ENHETER_FORESPURT',
+            type: 'HENTER_ENHETER',
         };
         const nextState = enheter(initialState, action);
         expect(nextState).to.deep.equal({
