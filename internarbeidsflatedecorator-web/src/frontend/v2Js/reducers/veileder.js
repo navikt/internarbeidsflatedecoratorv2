@@ -1,4 +1,4 @@
-import { HENT_SAKSBEHANDLER_FEILET, HENTER_SAKSBEHANDLER, SAKSBEHANDLER_HENTET } from '../actions/actiontyper';
+import { HENT_VEILEDER_FEILET, HENTER_VEILEDER, VEILEDER_HENTET } from '../actions/actiontyper';
 
 const initiellState = {
     henter: false,
@@ -6,23 +6,23 @@ const initiellState = {
     data: [],
 };
 
-export default function saksbehandler(state = initiellState, action) {
+export default function veileder(state = initiellState, action) {
     switch (action.type) {
-        case HENT_SAKSBEHANDLER_FEILET: {
+        case HENT_VEILEDER_FEILET: {
             return Object.assign({}, state, {
                 data: [],
                 henter: false,
                 hentingFeilet: true,
             });
         }
-        case HENTER_SAKSBEHANDLER: {
+        case HENTER_VEILEDER: {
             return {
                 data: [],
                 henter: true,
                 hentingFeilet: false,
             };
         }
-        case SAKSBEHANDLER_HENTET: {
+        case VEILEDER_HENTET: {
             return {
                 henter: false,
                 hentingFeilet: false,

@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import * as saksbehandlerActions from '../actions/saksbehandler_actions';
+import * as veilederActions from '../actions/veileder_actions';
 import * as enheterActions from '../actions/enheter_actions';
 import * as menyActions from '../actions/meny_actions';
 
 export function mapStateToProps(state, ownProps) {
     return {
-        saksbehandler: {
-            data: state.saksbehandler.data,
-            henter: state.saksbehandler.henter,
-            hentingFeilet: state.saksbehandler.hentingFeilet,
+        veileder: {
+            data: state.veileder.data,
+            henter: state.veileder.henter,
+            hentingFeilet: state.veileder.hentingFeilet,
         },
         enheter: {
             data: state.enheter.data,
@@ -27,4 +27,4 @@ export function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps, Object.assign({}, saksbehandlerActions, enheterActions, menyActions))(Header);
+export default connect(mapStateToProps, Object.assign({}, veilederActions, enheterActions, menyActions))(Header);

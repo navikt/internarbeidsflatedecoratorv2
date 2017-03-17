@@ -13,7 +13,6 @@ const Enhet = ({ enheter }) => {
         navn = enheter.data.navn;
     }
 
-
     return (
         <span aria-pressed="false" className="dekorator__hode__enhet">
             {navn}

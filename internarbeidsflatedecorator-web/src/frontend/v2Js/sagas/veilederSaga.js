@@ -1,12 +1,12 @@
 import { call, put, fork } from 'redux-saga/effects';
 import { takeEvery } from 'redux-saga';
 import { get } from './api/index';
-import * as actions from '../actions/saksbehandler_actions';
-import { HENT_SAKSBEHANDLER_FORESPURT } from '../actions/actiontyper';
+import * as actions from '../actions/veileder_actions';
+import { HENT_VEILEDER_FORESPURT } from '../actions/actiontyper';
 import { erDev } from '../../js/rest-utils';
 
-export function* saksbehandlerSaga() {
-    yield put(actions.henterSaksbehandler());
+export function* veilederSaga() {
+    yield put(actions.henterVeileder());
     try {
         //TODO URL...mulig man må ha miljø som et parameter i config'en som sender til renderDecorator og så bruke den her
         //Kontekst-relative vil ikke fungere om klienten ligger på app-adeo.no/app
@@ -15,18 +15,18 @@ export function* saksbehandlerSaga() {
             :
             '/veilarbveileder/tjenester/veileder/me';
         const data = yield call(get, url);
-        yield put(actions.saksbehandlerHentet(data));
+        yield put(actions.veilederHentet(data));
     } catch (e) {
-        yield put(actions.hentSaksbehandlerFeilet());
+        yield put(actions.hentVeilederFeilet());
     }
 }
 
-function* watchHentSaksbehandler() {
-    yield* takeEvery(HENT_SAKSBEHANDLER_FORESPURT, saksbehandlerSaga);
+function* watchHentVeileder() {
+    yield* takeEvery(HENT_VEILEDER_FORESPURT, veilederSaga);
 }
 
-export default function* saksbehandlerSagas() {
+export default function* veilederSagas() {
     yield [
-        fork(watchHentSaksbehandler),
+        fork(watchHentVeileder),
     ];
 }

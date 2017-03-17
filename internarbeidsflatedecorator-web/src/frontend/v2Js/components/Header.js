@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import Enhet from './Enhet';
-import Saksbehandler from './Saksbehandler';
+import Veileder from './Veileder';
 import Sokefelt from './Sokefelt';
 import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{},egendefinerteLenker, initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{},egendefinerteLenker, initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
@@ -17,7 +17,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{}
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
-                        { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
+                        { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}}>Meny</button>
                     </header>
                 </div>
@@ -34,7 +34,7 @@ Header.propTypes = {
         visEnhet: PropTypes.bool,
         visEnhetVelger: PropTypes.bool,
         visSokefelt: PropTypes.bool,
-        visSaksbehandler: PropTypes.bool,
+        visVeileder: PropTypes.bool,
     }),
     fnr: PropTypes.string,
     visMeny: PropTypes.bool,
@@ -52,7 +52,7 @@ Header.propTypes = {
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
-    saksbehandler: PropTypes.shape({
+    veileder: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,
             ident: PropTypes.string,
