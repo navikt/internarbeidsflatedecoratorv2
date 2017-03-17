@@ -11,11 +11,11 @@ const initiellState = {
 export default function enhet(state = initiellState, action) {
     switch (action.type) {
         case HENT_ENHETER_FEILET: {
-            return Object.assign({}, state, {
+            return {
                 data: [],
                 henter: false,
                 hentingFeilet: true,
-            });
+            };
         }
         case HENTER_ENHETER: {
             return {

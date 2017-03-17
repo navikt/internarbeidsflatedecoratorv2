@@ -19,8 +19,8 @@ const defaultLenker = ( fnr ) => {
 
 const getLenker = (lenkeobjekt) => {
     return (
-        <div id="js-dekorator-nav-container" className="dekorator__nav dekorator__nav--apen" aria-controlledby="js-dekorator-toggle-meny">
-            <nav id="js-dekorator-nav" className="dekorator__container dekorator__meny">
+        <div className="dekorator__nav dekorator__nav--apen" aria-controlledby="js-dekorator-toggle-meny">
+            <nav className="dekorator__container dekorator__meny">
                 <h2>{lenkeobjekt.tittel}</h2>
                 <ul>
                     { lenkeobjekt.lenker.map( ([href, tekst]) => <li><a href={href}>{tekst}</a></li> )}
