@@ -4,7 +4,7 @@ const initiellState = {
     visMeny: false,
 };
 
-export default function meny(state = initiellState, action) {
+export default function meny(state = initiellState, action = {}) {
     switch (action.type) {
         case TOGGLE_MENY: {
             return {

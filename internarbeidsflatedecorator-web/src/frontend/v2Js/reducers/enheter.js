@@ -1,4 +1,4 @@
-import { HENT_ENHETER_FEILET, HENTER_ENHETER, ENHETER_HENTET } from '../actions/actiontyper';
+import { HENT_ENHETER_FEILET, HENT_ENHETER_FORESPURT, ENHETER_HENTET } from '../actions/actiontyper';
 
 const initiellState = {
     henter: false,
@@ -6,7 +6,7 @@ const initiellState = {
     data: [],
 };
 
-export default function enhet(state = initiellState, action) {
+export default function enhet(state = initiellState, action = {}) {
     switch (action.type) {
         case HENT_ENHETER_FEILET: {
             return {
@@ -15,7 +15,7 @@ export default function enhet(state = initiellState, action) {
                 hentingFeilet: true,
             };
         }
-        case HENTER_ENHETER: {
+        case HENT_ENHETER_FORESPURT: {
             return {
                 data: [],
                 henter: true,
