@@ -1,7 +1,5 @@
 import { HENT_ENHETER_FEILET, HENTER_ENHETER, ENHETER_HENTET } from '../actions/actiontyper';
 
-//enheter-klassene burde renames enhet dersom man faktisk bare henter én enhet fra baksystemet.
-
 const initiellState = {
     henter: false,
     hentingFeilet: false,

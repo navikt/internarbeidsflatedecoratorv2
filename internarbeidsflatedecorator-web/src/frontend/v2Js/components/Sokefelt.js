@@ -1,9 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-const Sokefelt = () => {
-    return (
+const Sokefelt = () => (
         <input className="dekorator__sokefelt__input" placeholder="Personsøk" type="search" />
     );
-};
 
 export default Sokefelt;
