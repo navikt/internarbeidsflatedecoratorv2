@@ -9,11 +9,11 @@ const initiellState = {
 export default function saksbehandler(state = initiellState, action) {
     switch (action.type) {
         case HENT_SAKSBEHANDLER_FEILET: {
-            return Object.assign({}, state, {
+            return {
                 data: [],
                 henter: false,
                 hentingFeilet: true,
-            });
+            };
         }
         case HENTER_SAKSBEHANDLER: {
             return {

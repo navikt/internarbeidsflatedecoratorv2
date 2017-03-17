@@ -25,7 +25,7 @@ module.exports = [
             loaders: LOADERS
         },
         resolve: {
-            extensions: ['.js', '.json'],
+            extensions: ['.js', '.json']
         },
         output: {
             path: "../main/webapp/",
@@ -38,7 +38,7 @@ module.exports = [
         name: "js-app",
         context: __dirname,
         devtool: DEBUG ? "inline-sourcemap" : false,
-        entry: './v2Js/index.js',
+        entry: ['whatwg-fetch', './v2Js/index.js'],
         module: {
             loaders: [
                 {
