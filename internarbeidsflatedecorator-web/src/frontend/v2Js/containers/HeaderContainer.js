@@ -24,6 +24,7 @@ export function mapStateToProps(state, ownProps) {
         initiellEnhet: ownProps.config.initiellEnhet,
         fnr: ownProps.config.fnr,
         visMeny: state.meny.visMeny,
+        feilmelding: state.feilmeldinger.feilmelding
     };
 }
 

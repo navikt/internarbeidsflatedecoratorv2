@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Enhet from './Enhet';
 import Veileder from './Veileder';
-import Sokefelt from './Sokefelt';
+import Sokefelt from '../containers/SokefeltContainer';
 import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
@@ -16,7 +16,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{}
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
-                        { toggles.visSokefelt && <Sokefelt /> }
+                        { toggles.visSokefelt && <Sokefelt/> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}}>Meny</button>
                     </header>
