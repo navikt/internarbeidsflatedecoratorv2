@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const defaultLenker = (fnr) => {
-    return (
+const defaultLenker = (fnr) => (
     {
         lenker:
         [
@@ -12,26 +11,22 @@ const defaultLenker = (fnr) => {
         ],
         tittel: 'Lenker',
     }
-    );
-};
+);
 
-const getLenker = (lenkeobjekt) => {
-    return (
+const getLenker = (lenkeobjekt) => (
         <div className="dekorator__nav dekorator__nav--apen" aria-controlledby="js-dekorator-toggle-meny">
             <nav className="dekorator__container dekorator__meny">
                 <h2>{lenkeobjekt.tittel}</h2>
                 <ul>
-                    { lenkeobjekt.lenker.map(([href, tekst]) => { return <li><a href={href}>{tekst}</a></li>; })}
+                    { lenkeobjekt.lenker.map(([href, tekst]) => <li><a href={href}>{tekst}</a></li>)}
                 </ul>
             </nav>
         </div>
     );
-};
 
-
-const Meny = ({ fnr, egendefinerteLenker }) => {
-    return egendefinerteLenker ? getLenker(egendefinerteLenker) : getLenker(defaultLenker(fnr));
-};
+const Meny = ({ fnr, egendefinerteLenker }) => (
+    egendefinerteLenker ? getLenker(egendefinerteLenker) : getLenker(defaultLenker(fnr))
+);
 
 Meny.propTypes = {
     fnr: PropTypes.string,

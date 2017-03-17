@@ -5,7 +5,7 @@
     },
     "rules": {
         "indent": ["error", 4, {"SwitchCase": 1}],
-        "arrow-body-style": ["error", "always"],
+        "arrow-body-style": ["error", "as-needed"],
         "react/jsx-indent-props": ["error", 4],
         "react/jsx-closing-bracket-location": 0,
         "max-len": ["warn", 220],

@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react';
 
-const mapEnhetTilHtml = (enhet) => {
-    return (
+const mapEnhetTilHtml = (enhet) => (
         <option value={enhet.enhetId}>
             {`${enhet.enhetId} ${enhet.navn}`}
         </option>
     );
-};
 
 const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
@@ -16,7 +14,7 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet, handleChangeEnhet) =
     return (
         <div className="dekorator-select-container">
             <select value={initiellEnhet} onChange={(event) => { handleChangeEnhet(event, event.srcElement.value); }}>
-                { enhetliste.map((enhet) => { return mapEnhetTilHtml(enhet); })}
+                { enhetliste.map((enhet) => mapEnhetTilHtml(enhet))}
             </select>
         </div>
     );

@@ -8,8 +8,8 @@ import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
 const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker,
-    initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
-    return (
+    initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) =>
+    (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
@@ -28,7 +28,6 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
             <Feilmelding feilmelding={feilmelding} />
         </div>
     );
-};
 
 Header.propTypes = {
     applicationName: PropTypes.string,

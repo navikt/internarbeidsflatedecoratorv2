@@ -1,7 +1,6 @@
 import React from 'react';
 
-const NAVLogo = () => {
-    return (
+const NAVLogo = () => (
             <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                 viewBox="0 0 148.2 94.9" style="enable-background:new 0 0 148.2 94.9;">
                 <title>NAV-logo</title>
@@ -22,6 +21,5 @@ const NAVLogo = () => {
                 </g>
             </svg>
     );
-};
 
 export default NAVLogo;
