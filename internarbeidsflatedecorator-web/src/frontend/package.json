@@ -4,7 +4,7 @@
   "description": "Dekoratør for interne arbeidsflater i NAV",
   "scripts": {
     "test:watch": "title modiasyfofront && cross-env NODE_ENV=test nyc mocha --watch -G --compilers js:babel-core/register --require babel-polyfill ./test/setup.js --recursive test",
-    "test": "cross-env NODE_ENV=test react=react-lite react-dom=react-lite nyc mocha -G --compilers js:babel-core/register --require babel-polyfill ./test/setup.js --recursive test",
+    "test": "cross-env NODE_ENV=test nyc mocha -G --compilers js:babel-core/register --require babel-polyfill ./test/setup.js --recursive test",
     "styles:build": "lessc styles/styles.less > ../main/webapp/styles.css",
     "build-js": "set NODE_ENV=production&& webpack --optimize-minimize",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
