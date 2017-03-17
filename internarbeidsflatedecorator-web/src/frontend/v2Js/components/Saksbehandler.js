@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
-const Saksbehandler = ({saksbehandler}) => {
+const Saksbehandler = ({ saksbehandler }) => {
     let navn = '';
     let ident = '';
 

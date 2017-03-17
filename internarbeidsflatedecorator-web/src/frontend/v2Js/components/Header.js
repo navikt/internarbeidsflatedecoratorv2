@@ -7,7 +7,8 @@ import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{},egendefinerteLenker, initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker,
+    initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) => {
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
@@ -18,7 +19,8 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{}
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
                         { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
-                        <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}}>Meny</button>
+                        <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
+                            onClick={() => {toggleMeny();}}>Meny</button>
                     </header>
                 </div>
             </div>
@@ -41,7 +43,7 @@ Header.propTypes = {
     toggleMeny: PropTypes.func,
     handleChangeEnhet: PropTypes.func,
     egendefinerteLenker: PropTypes.shape({
-        lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string))
+        lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
     initiellEnhet: PropTypes.string,
     feilmelding: PropTypes.string,

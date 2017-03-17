@@ -14,7 +14,7 @@ export function henterSaksbehandler() {
 
 export function hentSaksbehandler() {
     return {
-        type: HENT_SAKSBEHANDLER_FORESPURT
+        type: HENT_SAKSBEHANDLER_FORESPURT,
     };
 }
 

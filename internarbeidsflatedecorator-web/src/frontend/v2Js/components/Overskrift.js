@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import NAVLogo from './NAVLogo';
 
-const Overskrift = ({ applicationName='' }) => {
+const Overskrift = ({ applicationName = '' }) => {
     return (
         <h1 className="dekorator__tittel">
             <div className="dekorator__hode__logo">
@@ -10,6 +10,10 @@ const Overskrift = ({ applicationName='' }) => {
             </div>
         </h1>
     );
+};
+
+Overskrift.propTypes = {
+    applicationName: PropTypes.string,
 };
 
 export default Overskrift;

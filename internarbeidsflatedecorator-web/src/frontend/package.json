@@ -8,7 +8,8 @@
     "build-js": "set NODE_ENV=production&& webpack --optimize-minimize",
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
     "dev": "parallelshell \"npm run styles:watch\" \"webpack --watch\"",
-    "build": "npm run styles:build && npm run build-js"
+    "build": "npm run styles:build && npm run build-js",
+    "lint": "eslint v2Js/. --ext .js"
   },
   "author": "DigiSyfo <digisyfo@nav.no>",
   "license": "ISC",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
+    "babel-eslint": "6.0.0",
     "babel-loader": "6.3.2",
     "babel-polyfill": "6.6.1",
     "babel-preset-es2015": "6.22.0",
@@ -33,6 +35,9 @@
     "babel-preset-stage-2": "6.22.0",
     "css-loader": "^0.26.2",
     "chai": "^3.5.0",
+    "eslint": "2.5.3",
+    "eslint-config-airbnb": "6.2.0",
+    "eslint-plugin-react": "4.2.3",
     "fs": "0.0.2",
     "jsx-loader": "0.13.2",
     "less": "2.7.2",
