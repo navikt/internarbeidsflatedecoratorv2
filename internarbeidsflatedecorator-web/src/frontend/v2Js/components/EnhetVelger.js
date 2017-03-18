@@ -1,19 +1,23 @@
 import React, { PropTypes } from 'react';
 
+const visningsnavnFraEnhet = (enhet) => (
+    `${enhet.enhetId} ${enhet.navn}`
+);
+
 const mapEnhetTilHtml = (enhet) => (
         <option value={enhet.enhetId}>
-            {`${enhet.enhetId} ${enhet.navn}`}
+            { visningsnavnFraEnhet(enhet) }
         </option>
     );
 
 const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
         return (<div className="dekorator-enhet">
-            <span>{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</span></div>);
+            <span>{visningsnavnFraEnhet(enhetliste[0])}</span></div>);
     }
     return (
         <div className="dekorator-select-container">
-            <select value={initiellEnhet} onChange={(event) => { handleChangeEnhet(event, event.srcElement.value); }}>
+            <select value={visningsnavnFraEnhet(initiellEnhet)} onChange={(event) => { handleChangeEnhet(event, event.srcElement.value); }}>
                 { enhetliste.map((enhet) => mapEnhetTilHtml(enhet))}
             </select>
         </div>
@@ -33,9 +37,11 @@ EnhetVelger.propTypes = {
     enheter: PropTypes.arrayOf({
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
-        enhet: PropTypes.shape({
-            enhetId: PropTypes.string,
-            navn: PropTypes.string,
+        data: PropTypes.shape({
+            enhetListe: PropTypes.arrayOf({
+                enhetId: PropTypes.string,
+                navn: PropTypes.string,
+            }),
         }),
     }),
     initiellEnhet: PropTypes.shape({

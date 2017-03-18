@@ -25,7 +25,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
                 </div>
             </div>
             { visMeny && <Meny fnr={fnr} egendefinerteLenker={egendefinerteLenker} /> }
-            <Feilmelding feilmelding={feilmelding} />
+            { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
 

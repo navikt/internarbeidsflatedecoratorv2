@@ -20,4 +20,16 @@ describe("Enhet", () => {
         const combo = shallow(<Enhet enheter={enheter} />);
         expect(combo.text()).to.contain("NAV Oslo");
     });
+
+    it("Skal vise henter når mens dataene hentes", () => {
+        enheter.henter = true;
+        const combo = shallow(<Enhet enheter={enheter} />);
+        expect(combo.text()).to.contain("Henter...");
+    });
+
+    it("Skal vise feiltekst dersom henting feilet", () => {
+        enheter.hentingFeilet = true;
+        const combo = shallow(<Enhet enheter={enheter} />);
+        expect(combo.text()).to.contain("Fant ikke enhet");
+    });
 });
