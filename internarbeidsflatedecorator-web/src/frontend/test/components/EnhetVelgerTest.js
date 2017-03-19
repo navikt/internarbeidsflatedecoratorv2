@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import EnhetVelger from '../../v2Js/components/EnhetVelger';
 
-describe("Saksbehandler", () => {
+describe("EnhetVelger", () => {
     let enheter;
     let initiellEnhet;
 
@@ -17,10 +17,7 @@ describe("Saksbehandler", () => {
             henter: false,
             hentingFeilet: false,
         };
-        initiellEnhet = {
-            navn: 'NAV Drammen',
-            enhetId: '0002',
-        }
+        initiellEnhet = '0002 NAV Drammen';
     });
 
     it("Hvis det bare er en enhet vises denne", () => {

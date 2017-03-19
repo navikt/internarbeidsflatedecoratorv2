@@ -17,7 +17,7 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet, handleChangeEnhet) =
     }
     return (
         <div className="dekorator-select-container">
-            <select value={visningsnavnFraEnhet(initiellEnhet)} onChange={(event) => { handleChangeEnhet(event, event.srcElement.value); }}>
+            <select value={initiellEnhet} onChange={(event) => { handleChangeEnhet(event, event.srcElement.value); }}>
                 { enhetliste.map((enhet) => mapEnhetTilHtml(enhet))}
             </select>
         </div>
@@ -44,10 +44,7 @@ EnhetVelger.propTypes = {
             }),
         }),
     }),
-    initiellEnhet: PropTypes.shape({
-        enhetId: PropTypes.string,
-        navn: PropTypes.string,
-    }),
+    initiellEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
 };
 
