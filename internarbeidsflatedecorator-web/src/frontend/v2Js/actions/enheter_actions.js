@@ -14,7 +14,7 @@ export function henterEnheter() {
 
 export function hentEnheter() {
     return {
-        type: HENT_ENHETER_FORESPURT
+        type: HENT_ENHETER_FORESPURT,
     };
 }
 

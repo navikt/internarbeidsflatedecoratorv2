@@ -7,9 +7,9 @@ const initiellState = {
 export default function meny(state = initiellState, action) {
     switch (action.type) {
         case TOGGLE_MENY: {
-            return Object.assign({}, state, {
+            return {
                 visMeny: !state.visMeny,
-            });
+            };
         }
         default: {
             return state;

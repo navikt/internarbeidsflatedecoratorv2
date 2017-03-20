@@ -11,7 +11,6 @@ const Enhet = ({ enheter }) => {
         navn = enheter.data.navn;
     }
 
-
     return (
         <span aria-pressed="false" className="dekorator__hode__enhet">
             {navn}
@@ -20,8 +19,12 @@ const Enhet = ({ enheter }) => {
 };
 
 Enhet.propTypes = {
-    enhet: PropTypes.shape({
-        navn: PropTypes.string,
+    enheter: PropTypes.arrayOf({
+        henter: PropTypes.bool,
+        hentingFeilet: PropTypes.bool,
+        enhet: PropTypes.shape({
+            navn: PropTypes.string,
+        }),
     }),
 };
 

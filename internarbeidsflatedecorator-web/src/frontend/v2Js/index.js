@@ -11,9 +11,9 @@ import meny from './reducers/meny';
 import { hentSaksbehandler } from './actions/saksbehandler_actions';
 import { hentEnheter } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
-import './../styles/styles.less'
+import './../styles/styles.less';
 
-window.renderDecoratorHead = function ({ config }) {
+window.renderDecoratorHead = ({ config }) => {
     const rootReducer = combineReducers({
         saksbehandler,
         enheter,
@@ -24,8 +24,12 @@ window.renderDecoratorHead = function ({ config }) {
     const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
     sagaMiddleware.run(rootSaga);
 
-    config.toggles.visSaksbehandler && store.dispatch(hentSaksbehandler());
-    (config.toggles.visEnhet || config.toggles.visEnhetVelger)  && store.dispatch(hentEnheter());
+    if (config.toggles.visSaksbehandler) {
+        store.dispatch(hentSaksbehandler());
+    }
+    if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
+        store.dispatch(hentEnheter());
+    }
 
     const headerElement = document.getElementById('header');
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);
