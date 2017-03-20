@@ -14,7 +14,7 @@ describe("saksbehandlerSagas", () => {
     });
 
     it("Skal dernest hente saksbehandler", () => {
-        const nextCall = call(get, "/veilarbveileder/tjenester/veileder/me");
+        const nextCall = call(get, "https://modapp.adeo.no/veilarbveileder/tjenester/veileder/me");
         expect(generator.next().value).to.deep.equal(nextCall);
     });
 

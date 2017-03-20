@@ -4,16 +4,13 @@ import { get } from './api/index';
 import * as actions from '../actions/enheter_actions';
 import { HENT_ENHETER_FORESPURT } from '../actions/actiontyper';
 import { erDev } from '../../js/rest-utils';
+import { finnMiljoStreng } from './util';
 
 export function* enheterSaga() {
     yield put(actions.henterEnheter());
     try {
-        //TODO URL...mulig man må ha miljø som et parameter i config'en som sender til renderDecorator og så bruke den her
-        //Kontekst-relative vil ikke fungere om klienten ligger på app-adeo.no/app
-
         const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
-            :
-            '/veilarbveileder/tjenester/veileder/enheter';
+            : `https://modapp${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/enheter`;
 
         const data = yield call(get, url);
         yield put(actions.enheterHentet(data));
