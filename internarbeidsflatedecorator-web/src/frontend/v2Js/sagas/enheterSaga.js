@@ -10,7 +10,7 @@ export function* enheterSaga() {
     yield put(actions.henterEnheter());
     try {
         const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
-            : `https://modapp${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/enheter`;
+            : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/enheter`;
 
         const data = yield call(get, url);
         yield put(actions.enheterHentet(data));

@@ -10,7 +10,7 @@ export function* saksbehandlerSaga() {
     yield put(actions.henterSaksbehandler());
     try {
         const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/me'
-            : `https://modapp${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/me`;
+            : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/me`;
         const data = yield call(get, url);
         yield put(actions.saksbehandlerHentet(data));
     } catch (e) {
