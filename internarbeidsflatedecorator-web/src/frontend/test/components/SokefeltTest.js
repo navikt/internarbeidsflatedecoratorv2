@@ -7,8 +7,6 @@ import Sokefelt from '../../v2Js/components/Sokefelt';
 
 const GYLDIG_FODSELSNUMMER = '***REMOVED***';
 const UGYLDIG_FODSELSNUMMER = '***REMOVED***';
-const ENTER_KEY_CODE = 13;
-const IKKE_ENTER_KEY_CODE = 12;
 
 describe("Sokefelt", () => {
 
@@ -21,8 +19,7 @@ describe("Sokefelt", () => {
         const fjernFeilmelding = sinon.spy();
         const wrapper = shallow(<Sokefelt fjernFeilmelding={fjernFeilmelding} />);
 
-        wrapper.find('.dekorator__sokefelt__input').simulate('keyUp', {
-            keyCode : IKKE_ENTER_KEY_CODE,
+        wrapper.find('.dekorator__sokefelt__input').simulate('change', {
             target: {
                 value: "a"
             }
@@ -34,16 +31,14 @@ describe("Sokefelt", () => {
     it("Skal dispatche event ved entertrykk på gyldige fødselsnummer", () => {
         const triggerPersonsokEvent = sinon.spy();
         const fjernFeilmelding = sinon.spy();
-
         const wrapper = shallow(<Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} fjernFeilmelding={fjernFeilmelding} />);
-        const ENTER_KEY_CODE = 13;
-
-        wrapper.find('.dekorator__sokefelt__input').simulate('keyUp', {
-            keyCode : ENTER_KEY_CODE,
-            target : {
+        wrapper.find('.dekorator__sokefelt__input').simulate('change', {
+            target: {
                 value: GYLDIG_FODSELSNUMMER
             }
         });
+
+        wrapper.find('.dekorator__sokefelt').simulate('submit', {preventDefault: () => 0});
 
         expect(triggerPersonsokEvent).to.have.property('callCount', 1);
     });
@@ -59,36 +54,15 @@ describe("Sokefelt", () => {
                       visFeilmelding={visFeilmelding}
             />);
 
-        wrapper.find('.dekorator__sokefelt__input').simulate('keyUp', {
-            keyCode: ENTER_KEY_CODE,
+        wrapper.find('.dekorator__sokefelt__input').simulate('change', {
             target: {
                 value: UGYLDIG_FODSELSNUMMER
             }
         });
 
+        wrapper.find('.dekorator__sokefelt').simulate('submit', {preventDefault: () => 0});
+
         expect(visFeilmelding).to.have.property('callCount', 1);
-    });
-
-    it('Skal kalle preventDefault ved submit', () => {
-        const triggerPersonsokEvent = sinon.spy();
-        const fjernFeilmelding = sinon.spy();
-        const visFeilmelding = sinon.spy();
-        const defaultSpy = sinon.spy();
-        const wrapper = shallow(
-            <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent}
-                      fjernFeilmelding={fjernFeilmelding}
-                      visFeilmelding={visFeilmelding}
-            />);
-
-        wrapper.find('.dekorator__sokefelt').simulate('submit', {
-            preventDefault: defaultSpy,
-            keyCode: IKKE_ENTER_KEY_CODE,
-            target: {
-                value: GYLDIG_FODSELSNUMMER
-            }
-        });
-
-        expect(defaultSpy).to.have.property('callCount', 1);
     });
 
 });

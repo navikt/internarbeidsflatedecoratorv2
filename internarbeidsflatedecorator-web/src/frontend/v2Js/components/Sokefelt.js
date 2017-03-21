@@ -23,28 +23,23 @@ class Sokefelt extends React.Component {
             this.fjernSoketekst();
         } else {
             this.props.visFeilmelding(lagPersonnummerfeilmelding(fodselsnummer));
-            this.setState({valideringsfeil: true});
+            this.setState(...this.state, {valideringsfeil: true});
         }
     };
 
     sokefeltEndret = (event) => {
-        const ENTER_KEY_CODE = 13;
-
         this.setState({
             value: event.target.value
         });
-        if (event.keyCode === ENTER_KEY_CODE) {
-            const input = event.target.value.replace(/\s/g, '');
-            this.onEnter(input);
-        } else {
-            this.props.fjernFeilmelding();
-            this.setState({valideringsfeil: false});
-        }
+
+        this.props.fjernFeilmelding();
+        this.setState({valideringsfeil: false});
     };
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.sokefeltEndret(event);
+        const input = this.state.value.replace(/\s/g, '');
+        this.onEnter(input);
     };
 
     render() {
@@ -56,7 +51,7 @@ class Sokefelt extends React.Component {
         return (
             <form className="dekorator__sokefelt" onSubmit={this.onSubmit}>
                 <input id="js-deokorator-sokefelt"
-                       onKeyUp={this.sokefeltEndret}
+                       onChange={this.sokefeltEndret}
                        className={sokefeltKlasser}
                        placeholder="Personsøk"
                        type="search"
