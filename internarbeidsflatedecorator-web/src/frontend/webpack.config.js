@@ -52,6 +52,13 @@ module.exports = [
                 {
                     test: /\.less?$/,
                     loader: 'style-loader!css-loader!less-loader',
+                },
+                {
+                    test: /\.svg$/,
+                    use: {
+                        loader: 'url-loader',
+                        options: {'noquotes': true}
+                    }
                 }
             ]
         },
