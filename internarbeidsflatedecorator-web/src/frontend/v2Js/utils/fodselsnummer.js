@@ -1,8 +1,8 @@
-const DEFAULT_FEILMELDING = 'Personnummeret må inneholde 11 siffer';
+const DEFAULT_FEILMELDING = 'Fødselsnummeret må inneholde 11 siffer';
 const FOR_FAA_TEGN_FEILMELDING = DEFAULT_FEILMELDING;
-const FOR_MANGE_TEGN_FEILMELDING = 'Personnummeret må inneholde kun 11 siffer';
-const IKKE_BARE_TALL_FEILMELDING = 'Personnummeret må kun inneholde tall';
-const IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Personnummeret er ikke gyldig';
+const FOR_MANGE_TEGN_FEILMELDING = 'Fødselsnummeret må inneholde kun 11 siffer';
+const IKKE_BARE_TALL_FEILMELDING = 'Fødselsnummeret må kun inneholde tall';
+const IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Fødselsnummeret er ikke gyldig';
 
 const kontrollRekke1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
 const kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
@@ -24,7 +24,7 @@ function erGyldigHNummer(dag, maaned) {
         && maaned > 40 && maaned <= 52;
 }
 
-function erGyldigFodselsnummer(fodselsnummer) {
+function erGyldigFodselsdato(fodselsnummer) {
     const dag = parseInt(fodselsnummer.substring(0, 2), decimalRadix);
     const maaned = parseInt(fodselsnummer.substring(2, 4), decimalRadix);
     return erGyldigPnummer(dag, maaned)
@@ -32,33 +32,33 @@ function erGyldigFodselsnummer(fodselsnummer) {
         || erGyldigHNummer(dag, maaned);
 }
 
-function hentKontrollSiffer(personnummer, kontrollrekke) {
+function hentKontrollSiffer(fodselsnummer, kontrollrekke) {
     let sum = 0;
-    for (let sifferNummer = 0; sifferNummer < personnummer.length; sifferNummer++) {
-        sum += personnummer[sifferNummer] * kontrollrekke[sifferNummer];
+    for (let sifferNummer = 0; sifferNummer < fodselsnummer.length; sifferNummer++) {
+        sum += fodselsnummer[sifferNummer] * kontrollrekke[sifferNummer];
     }
     const kontrollSiffer = sum % 11;
     return kontrollSiffer !== 0 ? 11 - kontrollSiffer : 0;
 }
 
-export function erGyldigPersonnummer(personnummer) {
-    if (!erGyldigFodselsnummer(personnummer.substring(0, 6))) {
+export function erGyldigFodselsnummer(fodselsnummer) {
+    if (!erGyldigFodselsdato(fodselsnummer.substring(0, 6))) {
         return false;
     }
-    const personnummerListe = personnummer.split('').map(x => parseInt(x, decimalRadix));
-    const kontrollSiffer1 = hentKontrollSiffer(personnummerListe.slice(0, 9), kontrollRekke1);
-    const kontrollSiffer2 = hentKontrollSiffer(personnummerListe.slice(0, 10), kontrollRekke2);
-    return personnummerListe[9] === kontrollSiffer1 && personnummerListe[10] === kontrollSiffer2;
+    const fodselsnummerListe = fodselsnummer.split('').map(x => parseInt(x, decimalRadix));
+    const kontrollSiffer1 = hentKontrollSiffer(fodselsnummerListe.slice(0, 9), kontrollRekke1);
+    const kontrollSiffer2 = hentKontrollSiffer(fodselsnummerListe.slice(0, 10), kontrollRekke2);
+    return fodselsnummerListe[9] === kontrollSiffer1 && fodselsnummerListe[10] === kontrollSiffer2;
 }
 
-export const lagPersonnummerfeilmelding = (personnummer) => {
-    if (!personnummer.match(/^\d+$/)) {
+export const lagFodselsnummerfeilmelding = (fodselsnummer) => {
+    if (!fodselsnummer.match(/^\d+$/)) {
         return IKKE_BARE_TALL_FEILMELDING;
-    } else if (personnummer.length > 11) {
+    } else if (fodselsnummer.length > 11) {
         return FOR_MANGE_TEGN_FEILMELDING;
-    } else if (personnummer.length < 11) {
+    } else if (fodselsnummer.length < 11) {
         return FOR_FAA_TEGN_FEILMELDING;
-    } else if (!erGyldigPersonnummer(personnummer)) {
+    } else if (!erGyldigFodselsnummer(fodselsnummer)) {
         return IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING;
     }
     return null;

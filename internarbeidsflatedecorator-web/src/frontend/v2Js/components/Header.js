@@ -11,7 +11,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
     const triggerPersonsokEvent = fodselsnummer => {
         const personsokEvent = document.createEvent('Event');
         personsokEvent.initEvent('dekorator-hode-personsok', true, true);
-        personsokEvent.personnummer = fodselsnummer;
+        personsokEvent.fodselsnummer = fodselsnummer;
         document.dispatchEvent(personsokEvent);
     };
 

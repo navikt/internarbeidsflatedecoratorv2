@@ -1,23 +1,23 @@
-var DEFAULT_FEILMELDING = 'Personnummeret må inneholde 11 siffer';
+var DEFAULT_FEILMELDING = 'Fødselsnummeret må inneholde 11 siffer';
 var FOR_FAA_TEGN_FEILMELDING = DEFAULT_FEILMELDING;
-var FOR_MANGE_TEGN_FEILMELDING = 'Personnummeret må inneholde kun 11 siffer';
-var IKKE_BARE_TALL_FEILMELDING = 'Personnummeret må kun inneholde tall';
-var IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Personnummeret er ikke gyldig';
+var FOR_MANGE_TEGN_FEILMELDING = 'Fødselsnummeret må inneholde kun 11 siffer';
+var IKKE_BARE_TALL_FEILMELDING = 'Fødselsnummeret må kun inneholde tall';
+var IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Fødselsnummeret er ikke gyldig';
 
 var kontrollRekke1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
 var kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 
-function triggerPersonsokEvent(personnummer) {
+function triggerPersonsokEvent(fodselsnummer) {
     var personsokEvent = document.createEvent('Event');
     personsokEvent.initEvent('dekorator-hode-personsok', true, true);
-    personsokEvent.personnummer = personnummer;
+    personsokEvent.fodselsnummer = fodselsnummer;
     document.dispatchEvent(personsokEvent);
 }
 
-function kontrollSiffer(personnummer, kontrollrekke) {
+function kontrollSiffer(fodselsnummer, kontrollrekke) {
     var sum = 0;
-    for (var sifferNummer = 0; sifferNummer < personnummer.length; sifferNummer++) {
-        sum += personnummer[sifferNummer] * kontrollrekke[sifferNummer];
+    for (var sifferNummer = 0; sifferNummer < fodselsnummer.length; sifferNummer++) {
+        sum += fodselsnummer[sifferNummer] * kontrollrekke[sifferNummer];
     }
     var kontrollSiffer = sum % 11;
     return kontrollSiffer !== 0 ? 11 - kontrollSiffer : 0;
@@ -38,7 +38,7 @@ function erGyldigHNummer(dag, maaned) {
         && maaned > 40 && maaned <= 52;
 }
 
-function erGyldigFodselsnummer(fodselsnummer) {
+function erGyldigFodselsdato(fodselsnummer) {
     var dag = parseInt(fodselsnummer.substring(0, 2));
     var maaned = parseInt(fodselsnummer.substring(2, 4));
     return erGyldigPnummer(dag, maaned)
@@ -46,24 +46,24 @@ function erGyldigFodselsnummer(fodselsnummer) {
         || erGyldigHNummer(dag, maaned);
 }
 
-function erGyldigPersonnummer(personnummer) {
-    if (!erGyldigFodselsnummer(personnummer.substring(0, 6))) {
+function erGyldigFodselsnummer(fodselsnummer) {
+    if (!erGyldigFodselsdato(fodselsnummer.substring(0, 6))) {
         return false;
     }
-    var personnummerListe = personnummer.split('').map(function (x) {return parseInt(x)});
-    var kontrollSiffer1 = kontrollSiffer(personnummerListe.slice(0, 9), kontrollRekke1);
-    var kontrollSiffer2 = kontrollSiffer(personnummerListe.slice(0, 10), kontrollRekke2);
-    return personnummerListe[9] === kontrollSiffer1 && personnummerListe[10] === kontrollSiffer2;
+    var fodselsnummerListe = fodselsnummer.split('').map(function (x) {return parseInt(x)});
+    var kontrollSiffer1 = kontrollSiffer(fodselsnummerListe.slice(0, 9), kontrollRekke1);
+    var kontrollSiffer2 = kontrollSiffer(fodselsnummerListe.slice(0, 10), kontrollRekke2);
+    return fodselsnummerListe[9] === kontrollSiffer1 && fodselsnummerListe[10] === kontrollSiffer2;
 }
 
-export const lagPersonnummerfeilmelding = (personnummer) => {
-    if (!personnummer.match(/^\d+$/)) {
+export const lagFodselsnummerfeilmelding = (fodselsnummer) => {
+    if (!fodselsnummer.match(/^\d+$/)) {
         return IKKE_BARE_TALL_FEILMELDING;
-    } else if (personnummer.length > 11) {
+    } else if (fodselsnummer.length > 11) {
         return FOR_MANGE_TEGN_FEILMELDING;
-    } else if (personnummer.length < 11) {
+    } else if (fodselsnummer.length < 11) {
         return FOR_FAA_TEGN_FEILMELDING;
-    } else if (!erGyldigPersonnummer(personnummer)) {
+    } else if (!erGyldigFodselsnummer(fodselsnummer)) {
         return IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING;
     }
     return null;
@@ -110,7 +110,7 @@ const personsok = () => {
     }
 
     function validerInput (input) {
-        var feilmelding  = lagPersonnummerfeilmelding(input);
+        var feilmelding  = lagFodselsnummerfeilmelding(input);
         if (feilmelding) {
             markerSomFeil(feilmelding);
             return false;

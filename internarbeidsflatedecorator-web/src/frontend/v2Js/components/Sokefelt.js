@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
-import { erGyldigPersonnummer, lagPersonnummerfeilmelding } from '../utils/fodselsnummer';
+import { erGyldigFodselsnummer, lagFodselsnummerfeilmelding } from '../utils/fodselsnummer';
 
 class Sokefelt extends React.Component {
 
@@ -12,11 +12,11 @@ class Sokefelt extends React.Component {
     }
 
     onEnter = (fodselsnummer) => {
-        if (erGyldigPersonnummer(fodselsnummer)) {
+        if (erGyldigFodselsnummer(fodselsnummer)) {
             this.props.triggerPersonsokEvent(fodselsnummer);
             this.fjernSoketekst();
         } else {
-            this.props.visFeilmelding(lagPersonnummerfeilmelding(fodselsnummer));
+            this.props.visFeilmelding(lagFodselsnummerfeilmelding(fodselsnummer));
             this.setState(...this.state, { valideringsfeil: true });
         }
     };

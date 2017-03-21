@@ -38,7 +38,7 @@ describe("Sokefelt", () => {
             }
         });
 
-        wrapper.find('.dekorator__sokefelt').simulate('submit', {preventDefault: () => 0});
+        wrapper.find('.dekorator__sokefelt').simulate('submit', {preventDefault: () => {}});
 
         expect(triggerPersonsokEvent).to.have.property('callCount', 1);
     });
