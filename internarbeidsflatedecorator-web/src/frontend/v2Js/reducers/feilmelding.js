@@ -4,7 +4,7 @@ const initiellState = {
     feilmelding: null,
 };
 
-export default function feilmelding(state = initiellState, action) {
+export default function feilmelding(state = initiellState, action = {}) {
     switch (action.type) {
         case VIS_FEILMELDING: {
             return Object.assign({}, state, {

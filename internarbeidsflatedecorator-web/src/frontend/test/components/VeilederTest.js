@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import Veileder from '../../v2Js/components/Veileder';
+import { EMDASH } from '../../v2Js/utils/utils';
 
 describe("Veileder", () => {
     let veileder;
@@ -23,15 +24,15 @@ describe("Veileder", () => {
         expect(combo.text()).to.contain("(Z999999)");
     });
 
-    it("Skal vise henter når mens dataene hentes", () => {
+    it("Skal vise ingenting mens dataene hentes", () => {
         veileder.henter = true;
         const combo = shallow(<Veileder veileder={veileder} />);
-        expect(combo.text()).to.contain("Henter...");
+        expect(combo.text()).to.contain("");
     });
 
     it("Skal vise feiltekst dersom henting feilet", () => {
         veileder.hentingFeilet = true;
         const combo = shallow(<Veileder veileder={veileder} />);
-        expect(combo.text()).to.contain("Henting av veilederdata feilet");
+        expect(combo.text()).to.contain(EMDASH);
     });
 });

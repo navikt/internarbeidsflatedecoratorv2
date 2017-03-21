@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import Enhet from '../../v2Js/components/Enhet';
 
+import { EMDASH } from '../../v2Js/utils/utils';
+
 describe("Enhet", () => {
     let enheter;
 
@@ -21,15 +23,15 @@ describe("Enhet", () => {
         expect(combo.text()).to.contain("NAV Oslo");
     });
 
-    it("Skal vise henter når mens dataene hentes", () => {
+    it("Skal vise ingenting mens dataene hentes", () => {
         enheter.henter = true;
         const combo = shallow(<Enhet enheter={enheter} />);
-        expect(combo.text()).to.contain("Henter...");
+        expect(combo.text()).to.contain("");
     });
 
     it("Skal vise feiltekst dersom henting feilet", () => {
         enheter.hentingFeilet = true;
         const combo = shallow(<Enhet enheter={enheter} />);
-        expect(combo.text()).to.contain("Fant ikke enhet");
+        expect(combo.text()).to.contain(EMDASH);
     });
 });
