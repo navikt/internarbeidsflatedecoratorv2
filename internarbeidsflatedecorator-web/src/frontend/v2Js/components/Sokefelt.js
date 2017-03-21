@@ -34,8 +34,16 @@ const Sokefelt = ({visFeilmelding, fjernFeilmelding}) => {
         }
     };
 
+    const onSubmit = event => {
+        event.preventDefault();
+        sokefeltEndret(event);
+    };
+
     return (
-        <input id="js-deokorator-sokefelt" onKeyUp={sokefeltEndret} className="dekorator__sokefelt__input" placeholder="Personsøk" type="search" />
+        <form className="dekorator__sokefelt" onSubmit={onSubmit}>
+            <input id="js-deokorator-sokefelt" onKeyUp={sokefeltEndret} className="dekorator__sokefelt__input" placeholder="Personsøk" type="search" />
+            <img id="forstorrelsesglass_sokefelt" className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit" />
+        </form>
     );
 };
 
