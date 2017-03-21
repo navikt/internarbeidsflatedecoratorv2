@@ -7,8 +7,9 @@ import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{},egendefinerteLenker, initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) => {
-    return (
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker,
+    initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) =>
+    (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
@@ -16,17 +17,17 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = ()=>{}
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
-                        { toggles.visSokefelt && <Sokefelt/> }
+                        { toggles.visSokefelt && <Sokefelt /> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
-                        <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `} onClick={() => {toggleMeny()}}>Meny</button>
+                        <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
+                            onClick={() => {toggleMeny();}}>Meny</button>
                     </header>
                 </div>
             </div>
             { visMeny && <Meny fnr={fnr} egendefinerteLenker={egendefinerteLenker} /> }
-            <Feilmelding feilmelding={feilmelding} />
+            { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
-};
 
 Header.propTypes = {
     applicationName: PropTypes.string,
@@ -41,7 +42,7 @@ Header.propTypes = {
     toggleMeny: PropTypes.func,
     handleChangeEnhet: PropTypes.func,
     egendefinerteLenker: PropTypes.shape({
-        lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string))
+        lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
     initiellEnhet: PropTypes.string,
     feilmelding: PropTypes.string,

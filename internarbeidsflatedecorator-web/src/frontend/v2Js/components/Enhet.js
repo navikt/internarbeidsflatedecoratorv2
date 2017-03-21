@@ -21,8 +21,12 @@ const Enhet = ({ enheter }) => {
 };
 
 Enhet.propTypes = {
-    enhet: PropTypes.shape({
-        navn: PropTypes.string,
+    enheter: PropTypes.arrayOf({
+        henter: PropTypes.bool,
+        hentingFeilet: PropTypes.bool,
+        data: PropTypes.shape({
+            navn: PropTypes.string,
+        }),
     }),
 };
 

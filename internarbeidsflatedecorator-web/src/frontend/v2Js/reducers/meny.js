@@ -4,12 +4,12 @@ const initiellState = {
     visMeny: false,
 };
 
-export default function meny(state = initiellState, action) {
+export default function meny(state = initiellState, action = {}) {
     switch (action.type) {
         case TOGGLE_MENY: {
-            return Object.assign({}, state, {
+            return {
                 visMeny: !state.visMeny,
-            });
+            };
         }
         default: {
             return state;

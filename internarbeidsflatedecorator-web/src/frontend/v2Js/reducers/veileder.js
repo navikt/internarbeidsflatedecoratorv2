@@ -3,21 +3,21 @@ import { HENT_VEILEDER_FEILET, HENTER_VEILEDER, VEILEDER_HENTET } from '../actio
 const initiellState = {
     henter: false,
     hentingFeilet: false,
-    data: [],
+    data: {},
 };
 
-export default function veileder(state = initiellState, action) {
+export default function veileder(state = initiellState, action = {}) {
     switch (action.type) {
         case HENT_VEILEDER_FEILET: {
-            return Object.assign({}, state, {
-                data: [],
+            return {
+                data: {},
                 henter: false,
                 hentingFeilet: true,
-            });
+            };
         }
         case HENTER_VEILEDER: {
             return {
-                data: [],
+                data: {},
                 henter: true,
                 hentingFeilet: false,
             };

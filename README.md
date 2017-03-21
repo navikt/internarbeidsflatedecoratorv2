@@ -32,7 +32,7 @@ npm install
 npm run dev
 ```
 
-Høyreklikk på index.html og ta "Open in browser". Kjør headeren ved å skrive window.renderDecorator(config) i consolen. 
+Høyreklikk på index.html og ta "Open in browser".
 
 
 ## REST-endepunkt
