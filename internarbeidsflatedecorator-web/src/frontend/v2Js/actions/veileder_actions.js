@@ -14,7 +14,7 @@ export function henterVeileder() {
 
 export function hentVeileder() {
     return {
-        type: HENT_VEILEDER_FORESPURT
+        type: HENT_VEILEDER_FORESPURT,
     };
 }
 

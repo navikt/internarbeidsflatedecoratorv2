@@ -1,4 +1,3 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Sokefelt from '../components/Sokefelt';
 import * as feilmeldingerActions from '../actions/feilmeldinger_actions';

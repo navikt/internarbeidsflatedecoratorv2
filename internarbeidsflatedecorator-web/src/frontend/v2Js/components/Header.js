@@ -7,9 +7,7 @@ import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker,
-    initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) =>  {
-
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker, initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) => {
     const triggerPersonsokEvent = fodselsnummer => {
         const personsokEvent = document.createEvent('Event');
         personsokEvent.initEvent('dekorator-hode-personsok', true, true);
@@ -28,7 +26,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
                         { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
-                                onClick={() => {toggleMeny();}}>Meny</button>
+                            onClick={() => {toggleMeny();}}>Meny</button>
                     </header>
                 </div>
             </div>

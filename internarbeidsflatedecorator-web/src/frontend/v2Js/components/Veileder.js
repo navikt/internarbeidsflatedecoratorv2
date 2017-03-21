@@ -1,8 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 import { EMDASH } from '../utils/utils';
 
-const Veileder  = ({veileder}) => {
+const Veileder = ({ veileder }) => {
     let navn = '';
     let ident = '';
 
@@ -24,11 +24,11 @@ const Veileder  = ({veileder}) => {
 };
 
 Veileder.propTypes = {
-    veileder             : PropTypes.shape({
-        navn : PropTypes.string,
+    veileder: PropTypes.shape({
+        navn: PropTypes.string,
         ident: PropTypes.string,
     }),
-    henterVeileder       : PropTypes.bool,
+    henterVeileder: PropTypes.bool,
     hentingVeilederFeilet: PropTypes.bool,
 };
 

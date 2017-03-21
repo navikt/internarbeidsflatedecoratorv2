@@ -19,7 +19,7 @@ window.renderDecoratorHead = ({ config }) => {
         veileder,
         enheter,
         meny,
-        feilmeldinger
+        feilmeldinger,
     });
 
     const sagaMiddleware = createSagaMiddleware();

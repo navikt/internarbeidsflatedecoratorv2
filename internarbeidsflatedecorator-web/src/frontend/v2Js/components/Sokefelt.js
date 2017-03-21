@@ -7,15 +7,9 @@ class Sokefelt extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            valideringsfeil: false
-        }
+            valideringsfeil: false,
+        };
     }
-
-    fjernSoketekst = () => {
-        this.setState({
-            value: ""
-        });
-    };
 
     onEnter = (fodselsnummer) => {
         if (erGyldigPersonnummer(fodselsnummer)) {
@@ -23,17 +17,8 @@ class Sokefelt extends React.Component {
             this.fjernSoketekst();
         } else {
             this.props.visFeilmelding(lagPersonnummerfeilmelding(fodselsnummer));
-            this.setState(...this.state, {valideringsfeil: true});
+            this.setState(...this.state, { valideringsfeil: true });
         }
-    };
-
-    sokefeltEndret = (event) => {
-        this.setState({
-            value: event.target.value
-        });
-
-        this.props.fjernFeilmelding();
-        this.setState({valideringsfeil: false});
     };
 
     onSubmit = (event) => {
@@ -42,25 +27,46 @@ class Sokefelt extends React.Component {
         this.onEnter(input);
     };
 
+    sokefeltEndret = (event) => {
+        this.setState({
+            value: event.target.value,
+        });
+
+        this.props.fjernFeilmelding();
+        this.setState({ valideringsfeil: false });
+    };
+
+    fjernSoketekst = () => {
+        this.setState({
+            value: '',
+        });
+    };
+
     render() {
         const sokefeltKlasser = classNames({
             dekorator__sokefelt__input: true,
-            dekorator__sokefelt__valideringsfeil: this.state.valideringsfeil
+            dekorator__sokefelt__valideringsfeil: this.state.valideringsfeil,
         });
 
         return (
             <form className="dekorator__sokefelt" onSubmit={this.onSubmit}>
                 <input id="js-deokorator-sokefelt"
-                       onChange={this.sokefeltEndret}
-                       className={sokefeltKlasser}
-                       placeholder="Personsøk"
-                       type="search"
-                       value={this.state.value}
+                    onChange={this.sokefeltEndret}
+                    className={sokefeltKlasser}
+                    placeholder="Personsøk"
+                    type="search"
+                    value={this.state.value}
                 />
                 <img id="forstorrelsesglass_sokefelt" className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit" />
             </form>
         );
     }
 }
+
+Sokefelt.propTypes = {
+    triggerPersonsokEvent: PropTypes.func,
+    visFeilmelding: PropTypes.func,
+    fjernFeilmelding: PropTypes.func,
+};
 
 export default Sokefelt;
