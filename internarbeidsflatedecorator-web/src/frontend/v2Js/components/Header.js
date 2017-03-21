@@ -8,8 +8,16 @@ import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
 const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker,
-    initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) =>
-    (
+    initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) =>  {
+
+    const triggerPersonsokEvent = fodselsnummer => {
+        const personsokEvent = document.createEvent('Event');
+        personsokEvent.initEvent('dekorator-hode-personsok', true, true);
+        personsokEvent.personnummer = fodselsnummer;
+        document.dispatchEvent(personsokEvent);
+    };
+
+    return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
@@ -17,10 +25,10 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
-                        { toggles.visSokefelt && <Sokefelt /> }
+                        { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
-                            onClick={() => {toggleMeny();}}>Meny</button>
+                                onClick={() => {toggleMeny();}}>Meny</button>
                     </header>
                 </div>
             </div>
@@ -28,6 +36,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
             { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
+};
 
 Header.propTypes = {
     applicationName: PropTypes.string,
