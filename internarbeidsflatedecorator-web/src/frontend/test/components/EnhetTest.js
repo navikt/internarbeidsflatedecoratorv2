@@ -11,7 +11,11 @@ describe("Enhet", () => {
     beforeEach(() => {
         enheter = {
             data: {
-                navn: 'NAV Oslo'
+                enhetliste: [
+                    {
+                        navn: 'NAV Oslo'
+                    }
+                ]
             },
             henter: false,
             hentingFeilet: false,

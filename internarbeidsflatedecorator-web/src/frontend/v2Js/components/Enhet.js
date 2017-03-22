@@ -2,6 +2,13 @@ import React, { PropTypes } from 'react';
 
 import { EMDASH } from '../utils/utils';
 
+const finnValgtEnhet = enhetliste => {
+    if (enhetliste.length === 0) {
+        return '';
+    }
+    return enhetliste[0].navn;
+};
+
 const Enhet = ({ enheter }) => {
     let navn = '';
 
@@ -10,11 +17,11 @@ const Enhet = ({ enheter }) => {
     } else if (enheter.hentingFeilet) {
         navn = EMDASH;
     } else {
-        navn = enheter.data.navn;
+        navn = finnValgtEnhet(enheter.data.enhetliste);
     }
 
     return (
-        <span aria-pressed="false" className="dekorator__hode__enhet">
+        <span className="dekorator__hode__enhet">
             {navn}
         </span>
     );
