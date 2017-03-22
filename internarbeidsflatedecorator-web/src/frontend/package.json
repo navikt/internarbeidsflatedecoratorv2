@@ -10,7 +10,8 @@
     "styles:watch": "nodemon -q -w styles --ext \"less\" --exec \"npm run styles:build\"",
     "dev": "parallelshell \"npm run styles:watch\" \"webpack --watch\"",
     "build": "npm run styles:build && npm run build-js",
-    "lint": "eslint v2Js/. --ext .js"
+    "lint": "eslint v2Js/. --ext .js",
+    "lint:fix": "eslint v2Js/. --ext .js --fix"
   },
   "author": "DigiSyfo <digisyfo@nav.no>",
   "license": "ISC",
