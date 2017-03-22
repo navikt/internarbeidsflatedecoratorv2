@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import { EMDASH } from '../utils/utils';
+import visningsnavn from '../utils/veiledernavn';
 
 const Veileder = ({ veileder }) => {
     let navn = '';
@@ -11,7 +12,7 @@ const Veileder = ({ veileder }) => {
     } else if (veileder.hentingFeilet) {
         navn = EMDASH;
     } else {
-        navn = veileder.data.navn;
+        navn = visningsnavn(veileder.data.navn);
         ident = `(${veileder.data.ident})`;
     }
 
