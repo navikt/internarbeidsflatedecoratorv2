@@ -49,7 +49,7 @@ class Sokefelt extends React.Component {
         });
 
         return (
-            <form className="dekorator__sokefelt" onSubmit={this.onSubmit}>
+            <div className="dekorator__sokefelt" onSubmit={this.onSubmit}>
                 <input id="js-deokorator-sokefelt"
                     onChange={this.sokefeltEndret}
                     className={sokefeltKlasser}
@@ -57,8 +57,13 @@ class Sokefelt extends React.Component {
                     type="search"
                     value={this.state.value}
                 />
-                <img id="forstorrelsesglass_sokefelt" className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit" />
-            </form>
+                <input id="forstorrelsesglass_sokefelt"
+                       type="submit"
+                       value="Søk"
+                       role="search-button"
+                       className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit"
+                />
+            </div>
         );
     }
 }
