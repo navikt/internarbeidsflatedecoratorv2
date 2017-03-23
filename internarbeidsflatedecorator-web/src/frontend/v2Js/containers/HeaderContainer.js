@@ -25,6 +25,7 @@ export function mapStateToProps(state, ownProps) {
         visMeny: state.meny.visMeny,
         valgtEnhet: state.enhetvelger.enhet,
         feilmelding: state.feilmeldinger.feilmelding,
+        handlePersonsokSubmit: ownProps.config.handlePersonsokSubmit,
     };
 }
 

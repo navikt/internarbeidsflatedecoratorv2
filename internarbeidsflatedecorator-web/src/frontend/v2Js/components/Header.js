@@ -7,13 +7,15 @@ import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, valgtEnhet, veileder, feilmelding, toggleMeny, settValgtEnhet }) => {
-    const triggerPersonsokEvent = fodselsnummer => {
-        const personsokEvent = document.createEvent('Event');
-        personsokEvent.initEvent('dekorator-hode-personsok', true, true);
-        personsokEvent.fodselsnummer = fodselsnummer;
-        document.dispatchEvent(personsokEvent);
-    };
+const defaultPersonsokHandler = (fodselsnummer) => {
+    const personsokEvent = document.createEvent('Event');
+    personsokEvent.initEvent('dekorator-hode-personsok', true, true);
+    personsokEvent.fodselsnummer = fodselsnummer;
+    document.dispatchEvent(personsokEvent);
+};
+
+const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, valgtEnhet, veileder, feilmelding, toggleMeny, settValgtEnhet }) => {
+    const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
 
     return (
         <div className="dekorator">
@@ -48,6 +50,7 @@ Header.propTypes = {
     visMeny: PropTypes.bool,
     toggleMeny: PropTypes.func,
     handleChangeEnhet: PropTypes.func,
+    handlePersonsokSubmit: PropTypes.func,
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
