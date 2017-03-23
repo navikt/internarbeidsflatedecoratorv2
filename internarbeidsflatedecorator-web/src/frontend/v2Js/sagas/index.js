@@ -1,9 +1,9 @@
-import saksbehandlerSaga from './saksbehandlerSaga';
+import veilederSaga from './veilederSaga';
 import enheterSaga from './enheterSaga';
 
 export default function * rootSaga() {
     yield [
-        saksbehandlerSaga(),
+        veilederSaga(),
         enheterSaga(),
     ];
 }

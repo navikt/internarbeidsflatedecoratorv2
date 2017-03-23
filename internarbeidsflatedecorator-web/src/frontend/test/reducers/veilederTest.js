@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import deepFreeze from 'deep-freeze';
-import saksbehandler from '../../v2Js/reducers/saksbehandler';
+import veileder from '../../v2Js/reducers/veileder';
 
-describe('saksbehandler', () => {
+describe('veileder', () => {
 
     it("har en default state", () => {
-        const nextState = saksbehandler();
+        const nextState = veileder();
         expect(nextState).to.deep.equal({
             henter: false,
             hentingFeilet: false,
@@ -13,30 +13,30 @@ describe('saksbehandler', () => {
         });
     });
 
-    it("Håndterer SAKSBEHANDLER_HENTET", () => {
+    it("Håndterer VEILEDER_HENTET", () => {
         const initialState = deepFreeze({});
         const action = {
-            type: 'SAKSBEHANDLER_HENTET',
+            type: 'VEILEDER_HENTET',
             data: {
-                saksbehandler: "NAV OSLO"
+                veileder: "NAV OSLO"
             },
         };
-        const nextState = saksbehandler(initialState, action);
+        const nextState = veileder(initialState, action);
         expect(nextState).to.deep.equal({
             henter: false,
             hentingFeilet: false,
             data: {
-                saksbehandler: "NAV OSLO",
+                veileder: "NAV OSLO",
             },
         });
     });
 
-    it("Håndterer HENTER_SAKSBEHANDLER", () => {
-        const initialState = saksbehandler();
+    it("Håndterer HENTER_VEILEDER", () => {
+        const initialState = veileder();
         const action = {
-            type: 'HENTER_SAKSBEHANDLER',
+            type: 'HENTER_VEILEDER',
         };
-        const nextState = saksbehandler(initialState, action);
+        const nextState = veileder(initialState, action);
         expect(nextState).to.deep.equal({
             data: {},
             henter: true,
@@ -44,12 +44,12 @@ describe('saksbehandler', () => {
         })
     });
 
-    it("Håndterer HENT_SAKSBEHANDLER_FEILET", () => {
-        const initialState = saksbehandler();
+    it("Håndterer HENT_VEILEDER_FEILET", () => {
+        const initialState = veileder();
         const action = {
-            type: 'HENT_SAKSBEHANDLER_FEILET'
+            type: 'HENT_VEILEDER_FEILET'
         };
-        const nextState = saksbehandler(initialState, action);
+        const nextState = veileder(initialState, action);
         expect(nextState).to.deep.equal({
             data: {},
             henter: false,

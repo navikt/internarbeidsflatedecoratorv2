@@ -15,7 +15,7 @@ Enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av konsumenten sin
                 toggles: {
                     visEnhet: true,
                     visSokefelt: true,
-                    visSaksbehandler: true
+                    visVeileder: true
                 },
                 fnr: '12345678901',
                 applicationName: 'Applikasjonsnavn',
@@ -37,7 +37,7 @@ Høyreklikk på index.html og ta "Open in browser".
 
 ## REST-endepunkt
 Her kan man legge til følgende URL-parametere for å styre innholdet i hodet: 
-    - visSaksbehandler
+    - visVeileder
     - visEnhet
     - visSokefelt
     

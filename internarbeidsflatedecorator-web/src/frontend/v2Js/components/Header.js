@@ -1,15 +1,21 @@
 import React, { PropTypes } from 'react';
 import Enhet from './Enhet';
-import Saksbehandler from './Saksbehandler';
-import Sokefelt from './Sokefelt';
+import Veileder from './Veileder';
+import Sokefelt from '../containers/SokefeltContainer';
 import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker,
-    initiellEnhet, visMeny, enheter, saksbehandler, feilmelding, toggleMeny }) =>
-    (
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker, initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) => {
+    const triggerPersonsokEvent = fodselsnummer => {
+        const personsokEvent = document.createEvent('Event');
+        personsokEvent.initEvent('dekorator-hode-personsok', true, true);
+        personsokEvent.fodselsnummer = fodselsnummer;
+        document.dispatchEvent(personsokEvent);
+    };
+
+    return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
@@ -17,8 +23,8 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
-                        { toggles.visSokefelt && <Sokefelt /> }
-                        { toggles.visSaksbehandler && <Saksbehandler saksbehandler={saksbehandler} /> }
+                        { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
+                        { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
                             onClick={() => {toggleMeny();}}>Meny</button>
                     </header>
@@ -28,6 +34,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
             { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
+};
 
 Header.propTypes = {
     applicationName: PropTypes.string,
@@ -35,7 +42,7 @@ Header.propTypes = {
         visEnhet: PropTypes.bool,
         visEnhetVelger: PropTypes.bool,
         visSokefelt: PropTypes.bool,
-        visSaksbehandler: PropTypes.bool,
+        visVeileder: PropTypes.bool,
     }),
     fnr: PropTypes.string,
     visMeny: PropTypes.bool,
@@ -53,7 +60,7 @@ Header.propTypes = {
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
-    saksbehandler: PropTypes.shape({
+    veileder: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,
             ident: PropTypes.string,

@@ -46,12 +46,19 @@ module.exports = [
                     exclude: /(node_modules)/,
                     loader: 'babel-loader',
                     query: {
-                        presets: ['es2015', 'react']
+                        presets: ['react', 'es2015', 'stage-2']
                     }
                 },
                 {
                     test: /\.less?$/,
                     loader: 'style-loader!css-loader!less-loader',
+                },
+                {
+                    test: /\.svg$/,
+                    use: {
+                        loader: 'url-loader',
+                        options: {'noquotes': true}
+                    }
                 }
             ]
         },

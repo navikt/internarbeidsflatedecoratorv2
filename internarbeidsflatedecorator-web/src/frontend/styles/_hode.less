@@ -102,7 +102,6 @@
 
 .dekorator__hode__toggleMeny {
     .dekorator__hode__button;
-    text-transform: lowercase;
     border-left: 1px solid #979797;
     padding-left: 1em;
 }
@@ -141,8 +140,8 @@
     background-color: #1d1d1d;
     border-radius: 2px;
     margin-right: 1em;
-    margin-left: 0.5em;
-    padding: 1.23em 2em 1em 0.5em;
+    margin-left: 1em;
+    padding: 0.5em 2em 0.5em 0.5em;
     width: 104px;
     top: -0.125em;
     border: 1px solid #7f756c;
@@ -155,6 +154,13 @@
     color: black;
 }
 
+.dekorator__sokefelt__input:hover{
+    box-shadow: 0 0 0 2px @hoverBlue;
+    outline: none;
+    background-color: white;
+    color: black;
+}
+
 .dekorator__sokefelt__input::-ms-clear {
     width: 0;
     height: 0;
@@ -162,30 +168,30 @@
 }
 
 .dekorator__sokefelt__input:focus + .dekorator__sokefelt__forstorrelsesglass {
-    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-blaa.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
+}
+
+.dekorator__sokefelt__input:hover + .dekorator__sokefelt__forstorrelsesglass {
+    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
 }
 
 .dekorator__sokefelt__forstorrelsesglass {
     position: absolute;
     top: 5px;
-    right: 2em;
     padding: 10px 12px;
-    width: 0;
-    height: 0;
+    margin-left: -45px;
 }
 
 .dekorator__forstorrelsesglass__hvit {
-    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-hvit.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
 }
 
 .dekorator__forstorrelsesglass__svart {
-    background: url("/internarbeidsflatedecorator/svg/forstorrelsesglass-svart.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-svart.svg") no-repeat;
 }
 
 .dekorator__sokefelt__valideringsfeil {
     border: 1px solid #ba3a26;
-    background: #fbf5f4;
-    color: black;
 
     &:focus {
         outline: 0;

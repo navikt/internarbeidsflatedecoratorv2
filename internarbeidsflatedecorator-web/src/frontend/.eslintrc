@@ -3,6 +3,7 @@
     "globals": {
         "$": false
     },
+    "parser": "babel-eslint",
     "rules": {
         "indent": ["error", 4, {"SwitchCase": 1}],
         "arrow-body-style": ["error", "as-needed"],

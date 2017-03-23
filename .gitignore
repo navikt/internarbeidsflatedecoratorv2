@@ -5,3 +5,5 @@ target
 internarbeidsflatedecorator-web/src/frontend/node_modules
 internarbeidsflatedecorator-web/src/main/webapp/js
 internarbeidsflatedecorator-web/src/main/webapp/styles.*
+
+.nyc_output/

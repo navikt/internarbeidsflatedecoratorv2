@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import Header from '../../v2Js/components/Header';
 import Enhet from '../../v2Js/components/Enhet';
-import Saksbehandler from '../../v2Js/components/Saksbehandler';
-import Sokefelt from '../../v2Js/components/Sokefelt';
+import Veileder from '../../v2Js/components/Veileder';
+import Sokefelt from '../../v2Js/containers/SokefeltContainer';
 import EnhetVelger from '../../v2Js/components/EnhetVelger';
 import Feilmelding from '../../v2Js/components/Feilmelding';
 
@@ -13,7 +13,7 @@ describe("Header", () => {
 
     beforeEach(() => {
         toggles = {
-            visSaksbehandler: false,
+            visVeileder: false,
             visSokefelt: false,
             visEnhetVelger: false,
             visEnhet: false,
@@ -24,16 +24,16 @@ describe("Header", () => {
         toggles.visEnhet = true;
         const combo = shallow(<Header toggles={toggles} />);
         expect(combo.find(Enhet)).to.have.length(1);
-        expect(combo.find(Saksbehandler)).to.have.length(0);
+        expect(combo.find(Veileder)).to.have.length(0);
         expect(combo.find(EnhetVelger)).to.have.length(0);
         expect(combo.find(Sokefelt)).to.have.length(0);
     });
 
-    it("visSaksbehandler satt til true renderer Saksbehandler", () => {
-        toggles.visSaksbehandler = true;
+    it("visVeileder satt til true renderer Veileder", () => {
+        toggles.visVeileder = true;
         const combo = shallow(<Header toggles={toggles} />);
         expect(combo.find(Enhet)).to.have.length(0);
-        expect(combo.find(Saksbehandler)).to.have.length(1);
+        expect(combo.find(Veileder)).to.have.length(1);
         expect(combo.find(EnhetVelger)).to.have.length(0);
         expect(combo.find(Sokefelt)).to.have.length(0);
     });
@@ -42,7 +42,7 @@ describe("Header", () => {
         toggles.visEnhetVelger = true;
         const combo = shallow(<Header toggles={toggles} />);
         expect(combo.find(Enhet)).to.have.length(0);
-        expect(combo.find(Saksbehandler)).to.have.length(0);
+        expect(combo.find(Veileder)).to.have.length(0);
         expect(combo.find(EnhetVelger)).to.have.length(1);
         expect(combo.find(Sokefelt)).to.have.length(0);
     });
@@ -51,7 +51,7 @@ describe("Header", () => {
         toggles.visSokefelt = true;
         const combo = shallow(<Header toggles={toggles} />);
         expect(combo.find(Enhet)).to.have.length(0);
-        expect(combo.find(Saksbehandler)).to.have.length(0);
+        expect(combo.find(Veileder)).to.have.length(0);
         expect(combo.find(EnhetVelger)).to.have.length(0);
         expect(combo.find(Sokefelt)).to.have.length(1);
     });
