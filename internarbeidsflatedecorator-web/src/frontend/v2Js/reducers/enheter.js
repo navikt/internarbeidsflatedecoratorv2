@@ -6,7 +6,7 @@ const initiellState = {
     data: [],
 };
 
-export default function enhet(state = initiellState, action) {
+export default function enhet(state = initiellState, action = {}) {
     switch (action.type) {
         case HENT_ENHETER_FEILET: {
             return {

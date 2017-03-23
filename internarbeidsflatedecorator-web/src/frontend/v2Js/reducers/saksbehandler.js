@@ -3,21 +3,21 @@ import { HENT_SAKSBEHANDLER_FEILET, HENTER_SAKSBEHANDLER, SAKSBEHANDLER_HENTET }
 const initiellState = {
     henter: false,
     hentingFeilet: false,
-    data: [],
+    data: {},
 };
 
-export default function saksbehandler(state = initiellState, action) {
+export default function saksbehandler(state = initiellState, action = {}) {
     switch (action.type) {
         case HENT_SAKSBEHANDLER_FEILET: {
             return {
-                data: [],
+                data: {},
                 henter: false,
                 hentingFeilet: true,
             };
         }
         case HENTER_SAKSBEHANDLER: {
             return {
-                data: [],
+                data: {},
                 henter: true,
                 hentingFeilet: false,
             };

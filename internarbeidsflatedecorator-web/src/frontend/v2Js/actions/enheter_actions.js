@@ -1,4 +1,4 @@
-import { HENT_ENHETER_FORESPURT, HENT_ENHETER_FEILET, HENTER_ENHETER, ENHETER_HENTET } from './actiontyper';
+import { HENT_ENHETER_FORESPURT, HENT_ENHETER_FEILET, ENHETER_HENTET, HENTER_ENHETER } from './actiontyper';
 
 export function hentEnheterFeilet() {
     return {

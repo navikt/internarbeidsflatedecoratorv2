@@ -22,7 +22,7 @@ Enhet.propTypes = {
     enheter: PropTypes.arrayOf({
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
-        enhet: PropTypes.shape({
+        data: PropTypes.shape({
             navn: PropTypes.string,
         }),
     }),

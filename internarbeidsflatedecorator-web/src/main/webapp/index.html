@@ -7,18 +7,23 @@
 <body>
 <div id="header"></div>
 </body>
+<script src="js/head.min.js"></script>
 <script>
     var config = {
         config: {
             toggles: {
                 visEnhet: true,
+                visEnhetVelger: true,
                 visSokefelt: true,
                 visSaksbehandler: true
             },
             fnr: '12345678901',
             applicationName: 'Applikasjonsnavn',
         }
-    }
+    };
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        renderDecoratorHead(config);
+    });
 </script>
-<script src="js/head.min.js"></script>
 </html>
