@@ -1,36 +1,30 @@
 import React, { PropTypes } from 'react';
+import Select from 'react-select';
 
-const visningsnavnFraEnhet = (enhet) => (
-    `${enhet.enhetId} ${enhet.navn}`
-);
-
-const mapEnhetTilHtml = (enhet) => (
-        <option value={enhet.enhetId}>
-            { visningsnavnFraEnhet(enhet) }
-        </option>
-    );
-
-const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet, handleChangeEnhet) => {
+const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, settValgtEnhet, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
         return (<div className="dekorator-enhet">
-            <span>{visningsnavnFraEnhet(enhetliste[0])}</span></div>);
+            <span>{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</span></div>);
     }
+    const options = enhetliste.map((enhet) => ({ value: enhet.enhetId, label: `${enhet.enhetId} ${enhet.navn}` }));
     return (
-        <div className="dekorator-select-container">
-            <select value={initiellEnhet} onChange={(event) => { handleChangeEnhet(event, event.srcElement.value); }}>
-                { enhetliste.map((enhet) => mapEnhetTilHtml(enhet))}
-            </select>
-        </div>
+            <Select
+                value={valgtEnhet}
+                onChange={(event) => { handleChangeEnhet(event.value); settValgtEnhet(event.value); }}
+                options={options}
+                clearable={false}
+                searchable={false}
+            />
     );
 };
 
-const EnhetVelger = ({ enheter, initiellEnhet, handleChangeEnhet }) => {
+const EnhetVelger = ({ enheter, valgtEnhet, settValgtEnhet, handleChangeEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, initiellEnhet, handleChangeEnhet);
+    return hentEnhetListeInnerHTML(enheter.data.enhetliste, valgtEnhet, settValgtEnhet, handleChangeEnhet);
 };
 
 EnhetVelger.propTypes = {
@@ -44,8 +38,9 @@ EnhetVelger.propTypes = {
             }),
         }),
     }),
-    initiellEnhet: PropTypes.string,
+    valgtEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
+    settValgtEnhet: PropTypes.func,
 };
 
 export default EnhetVelger;

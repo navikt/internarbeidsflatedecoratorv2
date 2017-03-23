@@ -7,7 +7,7 @@ import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 
-const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker, initiellEnhet, visMeny, enheter, veileder, feilmelding, toggleMeny }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, valgtEnhet, veileder, feilmelding, toggleMeny, settValgtEnhet }) => {
     const triggerPersonsokEvent = fodselsnummer => {
         const personsokEvent = document.createEvent('Event');
         personsokEvent.initEvent('dekorator-hode-personsok', true, true);
@@ -22,7 +22,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handleChangeEnhet = () => 
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
-                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
+                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} valgtEnhet={valgtEnhet} handleChangeEnhet={handleChangeEnhet} settValgtEnhet={settValgtEnhet} /> }
                         { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
@@ -51,7 +51,8 @@ Header.propTypes = {
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
-    initiellEnhet: PropTypes.string,
+    valgtEnhet: PropTypes.string,
+    settValgtEnhet: PropTypes.func,
     feilmelding: PropTypes.string,
     enheter: PropTypes.shape({
         data: PropTypes.shape({

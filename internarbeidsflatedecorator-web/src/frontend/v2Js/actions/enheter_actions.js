@@ -1,4 +1,10 @@
-import { HENT_ENHETER_FORESPURT, HENT_ENHETER_FEILET, ENHETER_HENTET, HENTER_ENHETER } from './actiontyper';
+import {
+    HENT_ENHETER_FORESPURT,
+    HENT_ENHETER_FEILET,
+    ENHETER_HENTET,
+    HENTER_ENHETER,
+    SETT_VALGT_ENHET,
+        } from './actiontyper';
 
 export function hentEnheterFeilet() {
     return {
@@ -22,5 +28,12 @@ export function enheterHentet(data) {
     return {
         type: ENHETER_HENTET,
         data,
+    };
+}
+
+export function settValgtEnhet(enhet) {
+    return {
+        type: SETT_VALGT_ENHET,
+        enhet,
     };
 }
