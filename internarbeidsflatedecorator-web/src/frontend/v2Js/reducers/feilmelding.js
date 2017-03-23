@@ -7,14 +7,14 @@ const initiellState = {
 export default function feilmelding(state = initiellState, action = {}) {
     switch (action.type) {
         case VIS_FEILMELDING: {
-            return Object.assign({}, state, {
+            return { ...state,
                 feilmelding: action.data,
-            });
+            };
         }
         case FJERN_FEILMELDING: {
-            return Object.assign({}, state, {
+            return { ...state,
                 feilmelding: null,
-            });
+            };
         }
         default: {
             return state;
