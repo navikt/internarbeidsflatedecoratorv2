@@ -20,12 +20,6 @@
     border-bottom: 1px solid #7f756c;
 }
 
-.dekorator__banner {
-    .select {
-        min-width: 12em;
-    }
-}
-
 .dekorator__hode__logo {
     line-height: 2;
     display: flex;
@@ -263,5 +257,42 @@
         width: 10px;
         height: 10px;
         transform: rotate(-135deg);
+    }
+}
+
+.dekorator__banner {
+
+    .Select {
+        min-width: 13em;
+        .Select-value {
+            background-color: #1d1d1d;
+            border: 1px solid #7f756c;
+            border-radius: 1px;
+
+            #react-select-2--value-item {
+                color: #fff;
+            }
+
+            .Select-value-label {
+                color: #fff;
+            }
+
+        }
+        .Select-menu-outer {
+            .Select-option {
+                &.is-focused {
+                    color: #66cbec;
+                }
+                background-color: #1d1d1d;
+                color: #fff;
+
+                &:hover {
+                    color: #66cbec;
+                }
+            }
+
+        }
+
+        //.Sel
     }
 }
