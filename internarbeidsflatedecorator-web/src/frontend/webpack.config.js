@@ -28,7 +28,7 @@ module.exports = [
             extensions: ['.js', '.json']
         },
         output: {
-            path: "../main/webapp/",
+            path: __dirname + "/../main/webapp/",
             filename: "js/app.min.js",
             publicPath: '/internarbeidsflatedecorator/'
         },
@@ -70,7 +70,7 @@ module.exports = [
             }
         },
         output: {
-            path: "../main/webapp/",
+            path: __dirname + "/../main/webapp/",
             filename: "js/head.min.js",
             publicPath: '/internarbeidsflatedecorator/'
         },
