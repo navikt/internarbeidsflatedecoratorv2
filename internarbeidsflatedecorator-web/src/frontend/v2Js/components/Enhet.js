@@ -1,12 +1,21 @@
 import React, { PropTypes } from 'react';
 
 import { EMDASH } from '../utils/utils';
+import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
 
-const finnValgtEnhet = enhetliste => {
+const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
+    enhetliste.find(enhet => valgtEnhetId === enhet.id);
+
+const finnEnhetForVisning = enhetliste => {
     if (enhetliste.length === 0) {
         return '';
     }
-    return enhetliste[0].navn;
+
+    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enhetliste);
+    if (!valgtEnhet) {
+        return enhetliste[0].navn;
+    }
+    return valgtEnhet.navn;
 };
 
 const Enhet = ({ enheter }) => {
@@ -17,7 +26,7 @@ const Enhet = ({ enheter }) => {
     } else if (enheter.hentingFeilet) {
         navn = EMDASH;
     } else {
-        navn = finnValgtEnhet(enheter.data.enhetliste);
+        navn = finnEnhetForVisning(enheter.data.enhetliste);
     }
 
     return (
