@@ -5,7 +5,7 @@ import Enhet from '../../v2Js/components/Enhet';
 
 import { EMDASH } from '../../v2Js/utils/utils';
 
-const setValgtEnhet = enhetID => {
+const enhetValgt = enhetID => {
     global.location = {
         search: `?enhet=${enhetID}`
     }
@@ -35,13 +35,13 @@ describe("Enhet", () => {
 
     describe("med valgt enhet satt i query", () => {
         it("Skal vise enhetens navn", () => {
-            setValgtEnhet(enheter.data.enhetliste[1].id);
+            enhetValgt(enheter.data.enhetliste[1].id);
             const combo = shallow(<Enhet enheter={enheter} />);
             expect(combo.text()).to.contain(enheter.data.enhetliste[1].navn);
         });
 
         it("Skal vise første enhet i enhetslisten hvis valgt enhet ikke finnes i listen", () => {
-            setValgtEnhet(ENHET_ID_IKKE_I_ENHETLISTE);
+            enhetValgt(ENHET_ID_IKKE_I_ENHETLISTE);
             const combo = shallow(<Enhet enheter={enheter} />);
             expect(combo.text()).to.contain(enheter.data.enhetliste[0].navn);
         });
