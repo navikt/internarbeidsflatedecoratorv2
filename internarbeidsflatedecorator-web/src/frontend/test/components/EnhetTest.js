@@ -5,14 +5,25 @@ import Enhet from '../../v2Js/components/Enhet';
 
 import { EMDASH } from '../../v2Js/utils/utils';
 
+const enhetValgt = enhetID => {
+    global.location = {
+        search: `?enhet=${enhetID}`
+    }
+};
+
 describe("Enhet", () => {
     let enheter;
-
+    const ENHET_ID_IKKE_I_ENHETLISTE = "6666";
     beforeEach(() => {
         enheter = {
             data: {
                 enhetliste: [
                     {
+                        id: '0122',
+                        navn: 'NAV testenhet1'
+                    },
+                    {
+                        id: '0333',
                         navn: 'NAV Oslo'
                     }
                 ]
@@ -22,18 +33,35 @@ describe("Enhet", () => {
         }
     });
 
-    it("Skal vise enhetens navn", () => {
-        const combo = shallow(<Enhet enheter={enheter} />);
-        expect(combo.text()).to.contain("NAV Oslo");
+    describe("med valgt enhet satt i query", () => {
+        it("Skal vise enhetens navn", () => {
+            enhetValgt(enheter.data.enhetliste[1].id);
+            const combo = shallow(<Enhet enheter={enheter} />);
+            expect(combo.text()).to.contain(enheter.data.enhetliste[1].navn);
+        });
+
+        it("Skal vise første enhet i enhetslisten hvis valgt enhet ikke finnes i listen", () => {
+            enhetValgt(ENHET_ID_IKKE_I_ENHETLISTE);
+            const combo = shallow(<Enhet enheter={enheter} />);
+            expect(combo.text()).to.contain(enheter.data.enhetliste[0].navn);
+        });
+
     });
 
-    it("Skal vise ingenting mens dataene hentes", () => {
+    describe("uten valgt enhet satt i query", () => {
+        it("Skal vise enhetens først i enhetlisten sitt navn", () => {
+            const combo = shallow(<Enhet enheter={enheter} />);
+            expect(combo.text()).to.contain(enheter.data.enhetliste[0].navn);
+        });
+    });
+
+    it("Skal vise ingenting mens enheter hentes fra serveren", () => {
         enheter.henter = true;
         const combo = shallow(<Enhet enheter={enheter} />);
         expect(combo.text()).to.contain("");
     });
 
-    it("Skal vise feiltekst dersom henting feilet", () => {
+    it("Skal vise feiltekst dersom henting fra serveren feilet", () => {
         enheter.hentingFeilet = true;
         const combo = shallow(<Enhet enheter={enheter} />);
         expect(combo.text()).to.contain(EMDASH);

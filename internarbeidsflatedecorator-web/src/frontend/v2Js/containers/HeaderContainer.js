@@ -15,15 +15,16 @@ export function mapStateToProps(state, ownProps) {
             data: state.enheter.data,
             henter: state.enheter.henter,
             hentingFeilet: state.enheter.hentingFeilet,
+            valgtEnhet: state.enheter.valgtEnhet,
         },
         toggles: ownProps.config.toggles,
         applicationName: ownProps.config.applicationName,
         handleChangeEnhet: ownProps.config.handleChangeEnhet,
         egendefinerteLenker: ownProps.config.egendefinerteLenker,
-        initiellEnhet: ownProps.config.initiellEnhet,
         fnr: ownProps.config.fnr,
         visMeny: state.meny.visMeny,
         feilmelding: state.feilmeldinger.feilmelding,
+        handlePersonsokSubmit: ownProps.config.handlePersonsokSubmit,
     };
 }
 

@@ -5,7 +5,7 @@ import EnhetVelger from '../../v2Js/components/EnhetVelger';
 
 describe("EnhetVelger", () => {
     let enheter;
-    let initiellEnhet;
+    let valgtEnhet;
 
     beforeEach(() => {
         enheter = {
@@ -17,31 +17,12 @@ describe("EnhetVelger", () => {
             henter: false,
             hentingFeilet: false,
         };
-        initiellEnhet = '0002 NAV Drammen';
+        valgtEnhet = '0002 NAV Drammen';
     });
 
     it("Hvis det bare er en enhet vises denne", () => {
         const combo = shallow(<EnhetVelger enheter={enheter} />);
         expect(combo.text()).to.contain("0001 NAV Oslo");
-    });
-
-    it("Hvis det er flere enheter vises en select med intitellEnhet som valgt", () => {
-        enheter =  {
-            data: {
-                enhetliste: [
-                    { navn: 'NAV Oslo', enhetId: '0001' },
-                    { navn: 'NAV Drammen', enhetId: '0002' },
-                ]
-            },
-            henter: false,
-            hentingFeilet: false,
-        };
-        const combo = shallow(<EnhetVelger enheter={enheter} initiellEnhet={initiellEnhet} />);
-        expect(combo.find(".dekorator-select-container")).to.have.length(1);
-        expect(combo.find('select')).to.have.length(1);
-        expect(combo.find("select").prop("value")).to.equal("0002 NAV Drammen");
-        expect(combo.text()).to.contain("0001 NAV Oslo");
-        expect(combo.text()).to.contain("0002 NAV Drammen");
     });
 
     it("Skal vise henter når mens dataene hentes", () => {

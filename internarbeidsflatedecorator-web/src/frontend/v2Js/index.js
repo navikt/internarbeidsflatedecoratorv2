@@ -10,24 +10,27 @@ import enheter from './reducers/enheter';
 import meny from './reducers/meny';
 import feilmeldinger from './reducers/feilmelding';
 import { hentVeileder } from './actions/veileder_actions';
-import { hentEnheter } from './actions/enheter_actions';
+import { hentEnheter, enhetValgt } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less';
 
+const rootReducer = combineReducers({
+    veileder,
+    enheter,
+    meny,
+    feilmeldinger,
+});
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
+
 window.renderDecoratorHead = ({ config }) => {
-    const rootReducer = combineReducers({
-        veileder,
-        enheter,
-        meny,
-        feilmeldinger,
-    });
-
-    const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
-    sagaMiddleware.run(rootSaga);
-
     if (config.toggles.visVeileder) {
         store.dispatch(hentVeileder());
+    }
+    if (config.toggles.visEnhetVelger) {
+        store.dispatch(enhetValgt(config.initiellEnhet));
     }
     if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
         store.dispatch(hentEnheter());
