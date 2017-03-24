@@ -4,6 +4,7 @@ const initiellState = {
     henter: false,
     hentingFeilet: false,
     data: [],
+    valgtEnhet: 'ikke_valgt',
 };
 
 export default function enhet(state = initiellState, action = {}) {

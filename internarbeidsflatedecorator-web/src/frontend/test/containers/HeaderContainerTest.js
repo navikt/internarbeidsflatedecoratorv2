@@ -20,7 +20,6 @@ describe("HeaderContainer - mapStateToProps", () => {
         state.enheter = enheter();
         state.meny = meny();
         state.feilmeldinger = feilmelding();
-        state.enhetvelger = velgenhet();
     });
 
     it("Fletter veileder data sammen til et enklere objekt som settes på props", () => {
@@ -38,6 +37,7 @@ describe("HeaderContainer - mapStateToProps", () => {
             henter: false,
             hentingFeilet: false,
             data: [],
+            valgtEnhet: 'ikke_valgt',
         });
     });
 });
