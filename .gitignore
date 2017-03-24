@@ -2,6 +2,10 @@ target
 *.iml
 .idea
 *.log
+node_modules
+web/src/frontend/node_modules
+web/src/main/webapp/js
+web/src/main/webapp/styles.*
 internarbeidsflatedecorator-web/src/frontend/node_modules
 internarbeidsflatedecorator-web/src/main/webapp/js
 internarbeidsflatedecorator-web/src/main/webapp/styles.*
