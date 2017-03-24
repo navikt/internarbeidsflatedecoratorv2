@@ -18,13 +18,13 @@ const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, settValgtEnhet, handleC
     );
 };
 
-const EnhetVelger = ({ enheter, valgtEnhet, settValgtEnhet, handleChangeEnhet }) => {
+const EnhetVelger = ({ enheter, settValgtEnhet, handleChangeEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, valgtEnhet, settValgtEnhet, handleChangeEnhet);
+    return hentEnhetListeInnerHTML(enheter.data.enhetliste, enheter.valgtEnhet, settValgtEnhet, handleChangeEnhet);
 };
 
 EnhetVelger.propTypes = {

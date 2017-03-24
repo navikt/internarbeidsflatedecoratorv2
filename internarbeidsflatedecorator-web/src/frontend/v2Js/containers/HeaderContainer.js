@@ -15,6 +15,7 @@ export function mapStateToProps(state, ownProps) {
             data: state.enheter.data,
             henter: state.enheter.henter,
             hentingFeilet: state.enheter.hentingFeilet,
+            valgtEnhet: state.enheter.valgtEnhet,
         },
         toggles: ownProps.config.toggles,
         applicationName: ownProps.config.applicationName,
@@ -22,7 +23,6 @@ export function mapStateToProps(state, ownProps) {
         egendefinerteLenker: ownProps.config.egendefinerteLenker,
         fnr: ownProps.config.fnr,
         visMeny: state.meny.visMeny,
-        valgtEnhet: state.enhetvelger.enhet,
         feilmelding: state.feilmeldinger.feilmelding,
         handlePersonsokSubmit: ownProps.config.handlePersonsokSubmit,
     };

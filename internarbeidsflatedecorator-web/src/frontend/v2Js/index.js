@@ -8,7 +8,6 @@ import rootSaga from './sagas/index';
 import veileder from './reducers/veileder';
 import enheter from './reducers/enheter';
 import meny from './reducers/meny';
-import enhetvelger from './reducers/velgEnhet';
 import feilmeldinger from './reducers/feilmelding';
 import { hentVeileder } from './actions/veileder_actions';
 import { hentEnheter, settValgtEnhet } from './actions/enheter_actions';
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
     enheter,
     meny,
     feilmeldinger,
-    enhetvelger,
 });
 
 const sagaMiddleware = createSagaMiddleware();
