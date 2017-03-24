@@ -14,7 +14,7 @@ const defaultPersonsokHandler = (fodselsnummer) => {
     document.dispatchEvent(personsokEvent);
 };
 
-const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, settValgtEnhet }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, enhetValgt }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
 
     return (
@@ -24,7 +24,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName} />
                         { toggles.visEnhet && <Enhet enheter={enheter} /> }
-                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} settValgtEnhet={settValgtEnhet} /> }
+                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt} /> }
                         { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
@@ -54,7 +54,7 @@ Header.propTypes = {
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
-    settValgtEnhet: PropTypes.func,
+    enhetValgt: PropTypes.func,
     feilmelding: PropTypes.string,
     enheter: PropTypes.shape({
         data: PropTypes.shape({

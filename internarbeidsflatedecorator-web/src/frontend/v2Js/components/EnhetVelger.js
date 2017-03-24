@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Select from 'react-select';
 
-const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, settValgtEnhet, handleChangeEnhet) => {
+const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, enhetValgt, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
         return (<div className="dekorator-enhet">
             <span>{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</span></div>);
@@ -10,7 +10,7 @@ const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, settValgtEnhet, handleC
     return (
             <Select
                 value={valgtEnhet}
-                onChange={(event) => { handleChangeEnhet(event.value); settValgtEnhet(event.value); }}
+                onChange={(event) => { handleChangeEnhet(event.value); enhetValgt(event.value); }}
                 options={options}
                 clearable={false}
                 searchable={false}
@@ -18,13 +18,13 @@ const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, settValgtEnhet, handleC
     );
 };
 
-const EnhetVelger = ({ enheter, settValgtEnhet, handleChangeEnhet }) => {
+const EnhetVelger = ({ enheter, enhetValgt, handleChangeEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, enheter.valgtEnhet, settValgtEnhet, handleChangeEnhet);
+    return hentEnhetListeInnerHTML(enheter.data.enhetliste, enheter.valgtEnhet, enhetValgt, handleChangeEnhet);
 };
 
 EnhetVelger.propTypes = {
@@ -40,7 +40,7 @@ EnhetVelger.propTypes = {
     }),
     valgtEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
-    settValgtEnhet: PropTypes.func,
+    enhetValgt: PropTypes.func,
 };
 
 export default EnhetVelger;

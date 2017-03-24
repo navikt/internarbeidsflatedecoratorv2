@@ -31,7 +31,7 @@ export function enheterHentet(data) {
     };
 }
 
-export function settValgtEnhet(enhet) {
+export function enhetValgt(enhet) {
     return {
         type: ENHET_VALGT,
         enhet,

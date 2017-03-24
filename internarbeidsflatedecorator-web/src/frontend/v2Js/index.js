@@ -10,7 +10,7 @@ import enheter from './reducers/enheter';
 import meny from './reducers/meny';
 import feilmeldinger from './reducers/feilmelding';
 import { hentVeileder } from './actions/veileder_actions';
-import { hentEnheter, settValgtEnhet } from './actions/enheter_actions';
+import { hentEnheter, enhetValgt } from './actions/enheter_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less';
 
@@ -30,7 +30,7 @@ window.renderDecoratorHead = ({ config }) => {
         store.dispatch(hentVeileder());
     }
     if (config.toggles.visEnhetVelger) {
-        store.dispatch(settValgtEnhet(config.initiellEnhet));
+        store.dispatch(enhetValgt(config.initiellEnhet));
     }
     if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
         store.dispatch(hentEnheter());
