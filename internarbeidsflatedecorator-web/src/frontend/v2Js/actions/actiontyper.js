@@ -8,7 +8,7 @@ export const HENT_ENHETER_FEILET = 'HENT_ENHETER_FEILET';
 export const ENHETER_HENTET = 'ENHETER_HENTET';
 export const HENTER_ENHETER = 'HENTER_ENHETER';
 
-export const SETT_VALGT_ENHET = 'SETT_VALGT_ENHET';
+export const ENHET_VALGT = 'ENHET_VALGT';
 
 export const TOGGLE_MENY = 'TOGGLE_MENY';
 

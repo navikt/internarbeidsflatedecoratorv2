@@ -3,7 +3,7 @@ import {
     HENT_ENHETER_FEILET,
     ENHETER_HENTET,
     HENTER_ENHETER,
-    SETT_VALGT_ENHET,
+    ENHET_VALGT,
         } from './actiontyper';
 
 export function hentEnheterFeilet() {
@@ -33,7 +33,7 @@ export function enheterHentet(data) {
 
 export function settValgtEnhet(enhet) {
     return {
-        type: SETT_VALGT_ENHET,
+        type: ENHET_VALGT,
         enhet,
     };
 }

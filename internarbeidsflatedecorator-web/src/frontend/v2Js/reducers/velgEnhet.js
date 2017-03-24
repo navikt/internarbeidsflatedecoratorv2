@@ -1,8 +1,8 @@
-import { SETT_VALGT_ENHET } from '../actions/actiontyper';
+import { ENHET_VALGT } from '../actions/actiontyper';
 
 export default function velgEnhet(state = {}, action = {}) {
     switch (action.type) {
-        case SETT_VALGT_ENHET: {
+        case ENHET_VALGT: {
             return {
                 enhet: action.enhet,
             };
