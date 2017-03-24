@@ -1,4 +1,5 @@
 @import '_svg-styling.less';
+@import '../node_modules/react-select/dist/react-select.css';
 
 .dekorator__hode {
     padding: 1em;
@@ -273,5 +274,40 @@
         width: 10px;
         height: 10px;
         transform: rotate(-135deg);
+    }
+}
+
+.dekorator__banner {
+
+    .Select {
+        min-width: 13em;
+        .Select-value {
+            background-color: @backgroundBlack;
+            border: 1px solid @inaktivGraa;
+            border-radius: 1px;
+
+            #react-select-2--value-item {
+                color: @hvit
+            }
+
+            .Select-value-label {
+                color: @hvit
+            }
+
+        }
+        .Select-menu-outer {
+            .Select-option {
+                &.is-focused {
+                    color: @focusBlue;
+                }
+                background-color: @backgroundBlack;
+                color: @hvit;
+
+                &:hover {
+                    color: @focusBlue;
+                }
+            }
+
+        }
     }
 }
