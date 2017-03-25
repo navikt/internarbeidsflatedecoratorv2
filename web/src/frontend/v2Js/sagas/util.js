@@ -7,3 +7,8 @@ export const finnMiljoStreng = () => {
     const dotIndex = host.indexOf('.');
     return host.substring(bindestrekIndex, dotIndex);
 };
+
+export const erDev = () => {
+    const url = window.location.href;
+    return url.includes('devillo.no:') || url.includes('localhost:');
+};

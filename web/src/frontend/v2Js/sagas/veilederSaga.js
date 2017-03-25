@@ -3,8 +3,7 @@ import { takeEvery } from 'redux-saga';
 import { get } from './api/index';
 import * as actions from '../actions/veileder_actions';
 import { HENT_VEILEDER_FORESPURT } from '../actions/actiontyper';
-import { erDev } from '../../js/rest-utils';
-import { finnMiljoStreng } from './util';
+import { erDev, finnMiljoStreng } from './util';
 
 export function* veilederSaga() {
     yield put(actions.henterVeileder());

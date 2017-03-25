@@ -1,4 +1,3 @@
-
 const MAKS_ANTALL_TEGN_I_NAVN = 15;
 
 const fornavn = (navn) => (navn.split(/\s+/)[0]);
