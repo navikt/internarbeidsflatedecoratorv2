@@ -12,7 +12,7 @@ module.exports = [
         name: "js-app",
         context: __dirname,
         devtool: DEBUG ? "inline-sourcemap" : false,
-        entry: ['whatwg-fetch', './v2Js/index.js'],
+        entry: ['whatwg-fetch', './js/index.js'],
         module: {
             loaders: [
                 {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { finnMiljoStreng } from '../../v2Js/sagas/util';
+import { finnMiljoStreng } from '../../js/sagas/util';
 
 
 describe("Util - finnMiljoStreng", () => {

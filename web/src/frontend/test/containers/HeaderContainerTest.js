@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mapStateToProps } from '../../v2Js/containers/HeaderContainer';
-import veileder from '../../v2Js/reducers/veileder';
-import enheter from '../../v2Js/reducers/enheter';
-import velgenhet from '../../v2Js/reducers/enheter';
-import meny from '../../v2Js/reducers/meny';
-import feilmelding from '../../v2Js/reducers/feilmelding';
+import { mapStateToProps } from '../../js/containers/HeaderContainer';
+import veileder from '../../js/reducers/veileder';
+import enheter from '../../js/reducers/enheter';
+import velgenhet from '../../js/reducers/enheter';
+import meny from '../../js/reducers/meny';
+import feilmelding from '../../js/reducers/feilmelding';
 
 describe("HeaderContainer - mapStateToProps", () => {
     let state = {};

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import deepFreeze from 'deep-freeze';
-import veileder from '../../v2Js/reducers/veileder';
+import veileder from '../../js/reducers/veileder';
 
 describe('veileder', () => {
 

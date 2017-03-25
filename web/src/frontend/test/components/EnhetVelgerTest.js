@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import EnhetVelger from '../../v2Js/components/EnhetVelger';
+import EnhetVelger from '../../js/components/EnhetVelger';
 
 describe("EnhetVelger", () => {
     let enheter;

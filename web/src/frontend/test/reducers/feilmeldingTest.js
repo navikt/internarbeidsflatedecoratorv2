@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import deepFreeze from 'deep-freeze';
-import feilmelding from '../../v2Js/reducers/feilmelding';
+import feilmelding from '../../js/reducers/feilmelding';
 
 describe('feilmelding', () => {
 

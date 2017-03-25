@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import deepFreeze from 'deep-freeze';
-import meny from '../../v2Js/reducers/meny';
+import meny from '../../js/reducers/meny';
 
 describe('meny', () => {
 

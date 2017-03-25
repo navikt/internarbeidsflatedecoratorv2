@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { enheterSaga } from '../../v2Js/sagas/enheterSaga';
-import * as actions from '../../v2Js/actions/enheter_actions';
-import { get } from '../../v2Js/sagas/api/index';
+import { enheterSaga } from '../../js/sagas/enheterSaga';
+import * as actions from '../../js/actions/enheter_actions';
+import { get } from '../../js/sagas/api/index';
 import { put, call } from 'redux-saga/effects';
 
 describe("enheterSagas", () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import Feilmelding from '../../v2Js/components/Feilmelding';
+import Feilmelding from '../../js/components/Feilmelding';
 
 describe("Feilmelding", () => {
 

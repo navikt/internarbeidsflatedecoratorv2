@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import Enhet from '../../v2Js/components/Enhet';
+import Enhet from '../../js/components/Enhet';
 
-import { EMDASH } from '../../v2Js/utils/utils';
+import { EMDASH } from '../../js/utils/utils';
 
 const enhetValgt = enhetID => {
     global.location = {

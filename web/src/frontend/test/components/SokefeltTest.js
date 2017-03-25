@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import Sokefelt from '../../v2Js/components/Sokefelt';
+import Sokefelt from '../../js/components/Sokefelt';
 
 const GYLDIG_FODSELSNUMMER = '***REMOVED***';
 const UGYLDIG_FODSELSNUMMER = '***REMOVED***';

@@ -1,7 +1,7 @@
 import chai from 'chai';
 import React from 'react'
 import chaiEnzyme from 'chai-enzyme';
-import * as actions from '../../v2Js/actions/enheter_actions.js';
+import * as actions from '../../js/actions/enheter_actions.js';
 
 chai.use(chaiEnzyme());
 const expect = chai.expect;

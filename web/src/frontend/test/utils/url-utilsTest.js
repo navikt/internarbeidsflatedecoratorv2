@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { hentValgtEnhetIDFraURL } from '../../v2Js/utils/url-utils';
+import { hentValgtEnhetIDFraURL } from '../../js/utils/url-utils';
 
 describe('url-utils', () => {
     describe('hentValgtEnhetIDFraURL', () => {

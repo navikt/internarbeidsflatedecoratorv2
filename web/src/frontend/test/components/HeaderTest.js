@@ -1,12 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import Header from '../../v2Js/components/Header';
-import Enhet from '../../v2Js/components/Enhet';
-import Veileder from '../../v2Js/components/Veileder';
-import Sokefelt from '../../v2Js/containers/SokefeltContainer';
-import EnhetVelger from '../../v2Js/components/EnhetVelger';
-import Feilmelding from '../../v2Js/components/Feilmelding';
+import Header from '../../js/components/Header';
+import Enhet from '../../js/components/Enhet';
+import Veileder from '../../js/components/Veileder';
+import Sokefelt from '../../js/containers/SokefeltContainer';
+import EnhetVelger from '../../js/components/EnhetVelger';
+import Feilmelding from '../../js/components/Feilmelding';
 
 describe("Header", () => {
     let toggles;

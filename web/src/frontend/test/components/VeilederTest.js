@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import Veileder from '../../v2Js/components/Veileder';
-import { EMDASH } from '../../v2Js/utils/utils';
+import Veileder from '../../js/components/Veileder';
+import { EMDASH } from '../../js/utils/utils';
 
 const LANGT_NAVN = "Are Bjørnson Ibsen Lie Kielland";
 const LANGT_NAVN_FORKORTET = "Are B. I. L. K";

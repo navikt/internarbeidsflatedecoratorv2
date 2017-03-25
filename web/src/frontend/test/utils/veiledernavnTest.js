@@ -1,5 +1,5 @@
 import assert from 'assert';
-import visningsnavn from '../../v2Js/utils/veiledernavn';
+import visningsnavn from '../../js/utils/veiledernavn';
 
 const TESTNAVN_KORT = 'Test Testesen';
 const TESTNAVN_KORT_MELLOMNAVN = 'Test Tester Testes';

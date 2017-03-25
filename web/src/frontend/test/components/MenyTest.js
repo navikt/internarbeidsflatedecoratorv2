@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
-import Meny from '../../v2Js/components/Meny';
+import Meny from '../../js/components/Meny';
 
 describe("Meny", () => {
     let fnr;

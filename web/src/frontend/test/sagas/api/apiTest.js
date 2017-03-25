@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { get, post } from '../../../v2Js/sagas/api/index';
+import { get, post } from '../../../js/sagas/api/index';
 import fetchMock from 'fetch-mock';
 
 describe("api", () => {

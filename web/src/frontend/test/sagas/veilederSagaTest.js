@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { veilederSaga } from '../../v2Js/sagas/veilederSaga';
-import * as actions from '../../v2Js/actions/veileder_actions';
+import { veilederSaga } from '../../js/sagas/veilederSaga';
+import * as actions from '../../js/actions/veileder_actions';
 import { put } from 'redux-saga/effects';
 
 describe("veilederSagas", () => {
