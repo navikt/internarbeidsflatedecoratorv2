@@ -19,11 +19,11 @@ describe("Enhet", () => {
             data: {
                 enhetliste: [
                     {
-                        id: '0122',
+                        enhetId: '0122',
                         navn: 'NAV testenhet1'
                     },
                     {
-                        id: '0333',
+                        enhetId: '0333',
                         navn: 'NAV Oslo'
                     }
                 ]
@@ -35,7 +35,7 @@ describe("Enhet", () => {
 
     describe("med valgt enhet satt i query", () => {
         it("Skal vise enhetens navn", () => {
-            enhetValgt(enheter.data.enhetliste[1].id);
+            enhetValgt(enheter.data.enhetliste[1].enhetId);
             const combo = shallow(<Enhet enheter={enheter} />);
             expect(combo.text()).to.contain(enheter.data.enhetliste[1].navn);
         });

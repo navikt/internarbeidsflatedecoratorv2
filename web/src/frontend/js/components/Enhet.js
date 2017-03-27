@@ -4,7 +4,7 @@ import { EMDASH } from '../utils/utils';
 import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
 
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
-    enhetliste.find(enhet => valgtEnhetId === enhet.id);
+    enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
 
 const finnEnhetForVisning = enhetliste => {
     if (enhetliste.length === 0) {
