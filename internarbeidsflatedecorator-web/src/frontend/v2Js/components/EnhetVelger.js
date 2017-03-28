@@ -3,18 +3,26 @@ import Select from 'react-select';
 
 const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, enhetValgt, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
-        return (<div className="dekorator-enhet">
-            <span>{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</span></div>);
+        return (
+            <section className="dekorator-enhet">
+                <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
+            </section>
+        );
     }
     const options = enhetliste.map((enhet) => ({ value: enhet.enhetId, label: `${enhet.enhetId} ${enhet.navn}` }));
     return (
+        <section className="dekorator-enhet">
             <Select
                 value={valgtEnhet}
-                onChange={(event) => { handleChangeEnhet(event.value); enhetValgt(event.value); }}
+                onChange={(event) => {
+                    handleChangeEnhet(event.value);
+                    enhetValgt(event.value);
+                }}
                 options={options}
                 clearable={false}
                 searchable={false}
             />
+        </section>
     );
 };
 
@@ -28,19 +36,19 @@ const EnhetVelger = ({ enheter, enhetValgt, handleChangeEnhet }) => {
 };
 
 EnhetVelger.propTypes = {
-    enheter: PropTypes.arrayOf({
-        henter: PropTypes.bool,
+    enheter          : PropTypes.arrayOf({
+        henter       : PropTypes.bool,
         hentingFeilet: PropTypes.bool,
-        data: PropTypes.shape({
+        data         : PropTypes.shape({
             enhetListe: PropTypes.arrayOf({
                 enhetId: PropTypes.string,
-                navn: PropTypes.string,
+                navn   : PropTypes.string,
             }),
         }),
     }),
-    valgtEnhet: PropTypes.string,
+    valgtEnhet       : PropTypes.string,
     handleChangeEnhet: PropTypes.func,
-    enhetValgt: PropTypes.func,
+    enhetValgt       : PropTypes.func,
 };
 
 export default EnhetVelger;

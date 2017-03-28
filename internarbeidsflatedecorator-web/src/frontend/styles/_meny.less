@@ -1,59 +1,45 @@
 .dekorator__nav {
-    height: 0;
+    max-height: 0;
     overflow: hidden;
     transform: translateZ(0);
-    transition: height 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-    background-color: @dekorator-svart;
+    background-color: @navMorkGra;
+    transition: max-height 300ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
 }
 
 .dekorator__nav--apen {
-    height: auto;
-    overflow: visible;
+    max-height: 210px;
+    overflow-y: hidden;
 }
 
 .dekorator__meny {
-    padding-top: 4em;
-    padding-bottom: 4em;
+    padding: 1em 0 2em;
     line-height: 1.5;
-
-    h2 {
-        font-size: 1em;
-        font-weight: 400;
-        text-transform: uppercase;
-        margin-top: 0;
-    }
-
     a {
-        color: #fff;
+        display: block;
+        padding: 0.3rem 0.7rem 0.3rem 1.4rem;
+        color: @white;
         text-decoration: none;
-    }
-
-    a:hover {
-        border-bottom-color: #fff;
-        &:before {
-            @circle-width: 7px;
-
-            width: @circle-width;
-            height: @circle-width;
-            margin-right: -@circle-width;
-            background: @hoverBlue;
-            border-radius: 100%;
-            display: inline-block;
-            content: "";
-            left:-15px;
-            position: relative;
-            margin-bottom:2px;
+        &:hover {
+            color: @navLysBla;
+            &:before {
+                @circle-width: 7px;
+                width: @circle-width;
+                height: @circle-width;
+                margin-right: -@circle-width;
+                background: @navLysBla;
+                border-radius: 100%;
+                display: inline-block;
+                content: "";
+                left: -15px;
+                position: relative;
+                margin-bottom: 2px;
+            }
+        }
+        &:focus {
+            outline: 0;
+            box-shadow: 0 0 0 2px @orangeFocus;
         }
     }
-
-    a:focus {
-        border-bottom-color: @fokusOrange;
-    }
-
-    li {
-        margin-bottom: .5em;
-    }
-
     ul, li {
         padding: 0;
         margin: 0;

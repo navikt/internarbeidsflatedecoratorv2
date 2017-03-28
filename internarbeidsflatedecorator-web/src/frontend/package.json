@@ -19,6 +19,8 @@
     "async": "2.0.1",
     "bluebird": "^3.5.0",
     "classnames": "^2.2.5",
+    "nav-frontend-core": "^3.0.0",
+    "nav-frontend-typografi": "^0.1.4",
     "query-string": "^4.3.2",
     "react": "15.3.2",
     "react-dom": "15.3.2",

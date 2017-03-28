@@ -1,107 +1,100 @@
-@import '_variabler.less';
+@import "../node_modules/nav-frontend-core/less/_variabler";
 
 .dekorator {
-  font-size: 100%; // 1em === 16px
-  color: #fff;
-  font-family: Arial, Sans-serif;
+    font-size: 100%; // 1em === 16px
+    color: @white;
+    font-family: Arial, sans-serif;
 
-  // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
-  @import "_normalize.less";
-  @import "_hode.less";
-  @import "_meny.less";
-  @import "_feilmelding.less";
+    // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
+    @import "../node_modules/nav-frontend-core/less/vendor/_normalize"; // TODO denne burde fjernes etter det sjekket at modiabrukerdialog takler normalize 5.x.x
+    @import "_hode.less";
+    @import "_meny.less";
+    @import "_feilmelding.less";
 
-  a, a:visited {
-    color: #fff;
-  }
+    a, a:visited {
+        color: @white;
+    }
 
-  a:focus {
-    background-color: @fokusOrange;
-    color: @dekorator-svart;
-    outline: none;
-  }
+    .dekorator__container {
+        max-width: 60em;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .dekorator__varseltall {
+        position: absolute;
+        z-index: 1;
+        display: none;
+        background: @navRod;
+        border-radius: 20px;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+    }
 
-  .dekorator__container {
-    max-width: 60em;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  .dekorator__varseltall {
-    position: absolute;
-    z-index: 1;
-    display: none;
-    background: #C30000;
-    border-radius: 20px;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-  }
+    .dekorator__varselbjelle {
+        background: transparent url("/img/bjelle_inaktiv.svg") no-repeat;
+        border: none;
+        border: 0;
+        margin-right: 2em;
+        padding: 0;
+        height: 42px;
+        width: 40px;
+        line-height: 32px;
+        position: relative;
+        top: -0.25em;
+    }
 
-  .dekorator__varselbjelle {
-    background: transparent url("/img/bjelle_inaktiv.svg") no-repeat;
-    border: none;
-    border: 0;
-    margin-right: 2em;
-    padding: 0;
-    height: 42px;
-    width: 40px;
-    line-height: 32px;
-    position: relative;
-    top: -0.25em;
-  }
+    .dekorator__harvarsler {
+        background-image: url("/img/bjelle_aktiv.svg");
+    }
 
-  .dekorator__harvarsler {
-    background-image: url("/img/bjelle_aktiv.svg");
-  }
+    .dekorator__varselliste {
+        position: absolute;
+        width: 200px;
+        padding: 20px 16px 20px 16px;
+        z-index: 1;
+        background-color: @navMorkGra;
+        box-shadow: 0 1px 4px 2px rgba(0, 0, 0, 0.1);
+        font-size: 0.875rem;
+        display: none;
+        text-align: center;
+    }
 
-  .dekorator__varselliste {
-    position: absolute;
-    width: 200px;
-    padding: 20px 16px 20px 16px;
-    z-index: 1;
-    background-color: #3a3a3a;
-    box-shadow: 0 1px 4px 2px rgba(0, 0, 0, 0.1);
-    font-size: 0.875rem;
-    display: none;
-    text-align: center;
-  }
+    .dekorator__varselliste__elementer {
+        margin: 0 0 5px;
+        padding: 0;
+        list-style-type: none;
+    }
 
-  .dekorator__varselliste__elementer {
-    margin: 0 0 5px;
-    padding: 0;
-    list-style-type: none;
-  }
+    .dekorator__varselliste__elementer li {
+        border-bottom: @navGra40 1px solid;
+        padding-bottom: 12px;
+    }
 
-  .dekorator__varselliste__elementer li {
-    border-bottom: #A9A9A9 1px solid;
-    padding-bottom: 12px;
-  }
+    .dekorator__varselliste__elementer .lest {
+        color: @navLysGra;
+    }
 
-  .dekorator__varselliste__elementer .lest {
-    color: #A9A9A9;
-  }
+    .dekorator__varselliste__elementer .lest a {
+        color: @navLysGra;
+    }
 
-  .dekorator__varselliste__elementer .lest a {
-    color: #A9A9A9;
-  }
+    .dekorator__knapp {
+        color: @white;
+        background: @navLysBla;
+        border: 1px solid @navBlaDarken40;
+        line-height: 1;
+        padding: 10px 20px;
+        display: inline-block;
+    }
 
-  .dekorator__knapp {
-    color: #fff;
-    background: #0067c5;
-    border: 1px solid #0046c5;
-    line-height: 1;
-    padding: 10px 20px;
-    display: inline-block;
-  }
-
-  .dekorator__hode__logo__ikon {
-    height: 32px;
-    width: 50px;
-    min-height: 32px;
-    min-width: 50px;
-    margin-right: 1em;
-  }
-
+    .dekorator__hode__logo__ikon {
+        height: 32px;
+        width: 50px;
+        min-height: 32px;
+        min-width: 50px;
+        margin-right: 1em;
+    }
 }
