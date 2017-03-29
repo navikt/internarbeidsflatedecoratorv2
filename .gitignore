@@ -2,8 +2,7 @@ target
 *.iml
 .idea
 *.log
-internarbeidsflatedecorator-web/src/frontend/node_modules
-internarbeidsflatedecorator-web/src/main/webapp/js
-internarbeidsflatedecorator-web/src/main/webapp/styles.*
-
+node_modules
+web/src/frontend/node_modules
+web/src/main/webapp/js
 .nyc_output/
