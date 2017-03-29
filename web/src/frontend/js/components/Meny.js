@@ -1,9 +1,8 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from "react";
 
 const defaultLenker = (fnr) => (
     {
-        lenker:
-        [
+        lenker: [
             [`/sykefravaer/${fnr}`, 'Sykefravær'],
             ['/moteoversikt', 'Mine dialogmøter'],
             ['/modiabrukerdialog', 'Modia'],
@@ -13,23 +12,30 @@ const defaultLenker = (fnr) => (
     }
 );
 
-const getLenker = (lenkeobjekt) => (
-        <div className="dekorator__nav dekorator__nav--apen" aria-controlledby="js-dekorator-toggle-meny">
-            <nav className="dekorator__container dekorator__meny">
-                <h2>{lenkeobjekt.tittel}</h2>
-                <ul>
-                    { lenkeobjekt.lenker.map(([href, tekst]) => <li><a href={href}>{tekst}</a></li>)}
-                </ul>
-            </nav>
+const getLenker = (lenkeobjekt, apen) => {
+    const tittel = lenkeobjekt.tittel && <h1>{lenkeobjekt.tittel}</h1>;
+    const menyelementer = !apen ? null : (
+        <nav className="dekorator__container dekorator__meny">
+            {tittel}
+            <ul>
+                { lenkeobjekt.lenker.map(([href, tekst]) => <li><a href={href} className="typo-normal">{tekst}</a></li>)}
+            </ul>
+        </nav>
+    );
+    const dekoratorCls = ['dekorator__nav', apen ? 'dekorator__nav--apen' : ''].join(' ');
+    return (
+        <div className={dekoratorCls} aria-controlledby="js-dekorator-toggle-meny">
+            {menyelementer}
         </div>
     );
+};
 
-const Meny = ({ fnr, egendefinerteLenker }) => (
-    egendefinerteLenker ? getLenker(egendefinerteLenker) : getLenker(defaultLenker(fnr))
+const Meny = ({ fnr, egendefinerteLenker, apen }) => (
+    egendefinerteLenker ? getLenker(egendefinerteLenker, apen) : getLenker(defaultLenker(fnr), apen)
 );
 
 Meny.propTypes = {
-    fnr: PropTypes.string,
+    fnr                : PropTypes.string,
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),

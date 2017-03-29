@@ -13,23 +13,25 @@ const Veileder = ({ veileder }) => {
         navn = EMDASH;
     } else {
         navn = visningsnavn(veileder.data.navn);
-        ident = `(${veileder.data.ident})`;
+        ident = `${veileder.data.ident}`;
     }
 
     return (
-        <div className="dekorator__hode__veileder_container">
-            <span className="dekorator__hode__veileder_navn">{navn}</span>
-            <span className="dekorator__hode__veileder_id">{ident}</span>
-        </div>
+        <section className="dekorator__hode__veileder_container">
+            <h1 className="typo-avsnitt">
+                <span className="dekorator__hode__veileder_id">{ident}</span>
+                <span className="dekorator__hode__veileder_navn">{navn}</span>
+            </h1>
+        </section>
     );
 };
 
 Veileder.propTypes = {
-    veileder: PropTypes.shape({
-        navn: PropTypes.string,
+    veileder             : PropTypes.shape({
+        navn : PropTypes.string,
         ident: PropTypes.string,
     }),
-    henterVeileder: PropTypes.bool,
+    henterVeileder       : PropTypes.bool,
     hentingVeilederFeilet: PropTypes.bool,
 };
 
