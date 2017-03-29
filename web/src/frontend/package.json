@@ -38,6 +38,7 @@
     "babel-preset-stage-2": "6.22.0",
     "chai": "^3.5.0",
     "chai-enzyme": "0.4.2",
+    "cheerio": "^0.22.0",
     "cross-env": "3.2.4",
     "css-loader": "^0.26.2",
     "deep-freeze": "0.0.1",
