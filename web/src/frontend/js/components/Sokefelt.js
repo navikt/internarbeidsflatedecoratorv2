@@ -58,10 +58,10 @@ class Sokefelt extends React.Component {
                     value={this.state.value}
                 />
                 <input id="forstorrelsesglass_sokefelt"
-                       type="submit"
-                       value="Søk"
-                       role="search-button"
-                       className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit"
+                    type="submit"
+                    value="Søk"
+                    role="search-button"
+                    className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit"
                 />
             </section>
         );

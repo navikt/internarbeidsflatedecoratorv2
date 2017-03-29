@@ -27,11 +27,11 @@ const Veileder = ({ veileder }) => {
 };
 
 Veileder.propTypes = {
-    veileder             : PropTypes.shape({
-        navn : PropTypes.string,
+    veileder: PropTypes.shape({
+        navn: PropTypes.string,
         ident: PropTypes.string,
     }),
-    henterVeileder       : PropTypes.bool,
+    henterVeileder: PropTypes.bool,
     hentingVeilederFeilet: PropTypes.bool,
 };
 

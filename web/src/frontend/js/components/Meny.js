@@ -1,4 +1,4 @@
-import React, { PropTypes } from "react";
+import React, { PropTypes } from 'react';
 
 const defaultLenker = (fnr) => (
     {
@@ -35,7 +35,7 @@ const Meny = ({ fnr, egendefinerteLenker, apen }) => (
 );
 
 Meny.propTypes = {
-    fnr                : PropTypes.string,
+    fnr: PropTypes.string,
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),

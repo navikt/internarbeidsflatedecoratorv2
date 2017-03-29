@@ -36,19 +36,19 @@ const EnhetVelger = ({ enheter, enhetValgt, handleChangeEnhet }) => {
 };
 
 EnhetVelger.propTypes = {
-    enheter          : PropTypes.arrayOf({
-        henter       : PropTypes.bool,
+    enheter: PropTypes.arrayOf({
+        henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
-        data         : PropTypes.shape({
+        data: PropTypes.shape({
             enhetListe: PropTypes.arrayOf({
                 enhetId: PropTypes.string,
-                navn   : PropTypes.string,
+                navn: PropTypes.string,
             }),
         }),
     }),
-    valgtEnhet       : PropTypes.string,
+    valgtEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
-    enhetValgt       : PropTypes.func,
+    enhetValgt: PropTypes.func,
 };
 
 export default EnhetVelger;

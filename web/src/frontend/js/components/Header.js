@@ -14,10 +14,8 @@ const defaultPersonsokHandler = (fodselsnummer) => {
     document.dispatchEvent(personsokEvent);
 };
 
-const Header = ({
-                    applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {
-                    }, egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, enhetValgt
-                }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {},
+    egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, enhetValgt }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
 
     return (
@@ -25,11 +23,11 @@ const Header = ({
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
                     <header className="dekorator__banner">
-                        <Overskrift applicationName={applicationName}/>
-                        { toggles.visEnhet && <Enhet enheter={enheter}/> }
-                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt}/> }
-                        { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent}/> }
-                        { toggles.visVeileder && <Veileder veileder={veileder}/> }
+                        <Overskrift applicationName={applicationName} />
+                        { toggles.visEnhet && <Enhet enheter={enheter} /> }
+                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt} /> }
+                        { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
+                        { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         <section>
                             <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
                                 id="js-dekorator-toggle-meny"
@@ -41,44 +39,44 @@ const Header = ({
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker}/>
-            { visMeny && <Meny fnr={fnr} egendefinerteLenker={egendefinerteLenker}/> }
-            { feilmelding && <Feilmelding feilmelding={feilmelding}/> }
+            <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker} />
+            { visMeny && <Meny fnr={fnr} egendefinerteLenker={egendefinerteLenker} /> }
+            { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
 };
 
 Header.propTypes = {
-    applicationName      : PropTypes.string,
-    toggles              : PropTypes.shape({
-        visEnhet      : PropTypes.bool,
+    applicationName: PropTypes.string,
+    toggles: PropTypes.shape({
+        visEnhet: PropTypes.bool,
         visEnhetVelger: PropTypes.bool,
-        visSokefelt   : PropTypes.bool,
-        visVeileder   : PropTypes.bool,
+        visSokefelt: PropTypes.bool,
+        visVeileder: PropTypes.bool,
     }),
-    fnr                  : PropTypes.string,
-    visMeny              : PropTypes.bool,
-    toggleMeny           : PropTypes.func,
-    handleChangeEnhet    : PropTypes.func,
+    fnr: PropTypes.string,
+    visMeny: PropTypes.bool,
+    toggleMeny: PropTypes.func,
+    handleChangeEnhet: PropTypes.func,
     handlePersonsokSubmit: PropTypes.func,
-    egendefinerteLenker  : PropTypes.shape({
+    egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
-    enhetValgt           : PropTypes.func,
-    feilmelding          : PropTypes.string,
-    enheter              : PropTypes.shape({
-        data         : PropTypes.shape({
+    enhetValgt: PropTypes.func,
+    feilmelding: PropTypes.string,
+    enheter: PropTypes.shape({
+        data: PropTypes.shape({
             navn: PropTypes.string,
         }),
-        henter       : PropTypes.bool,
+        henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
-    veileder             : PropTypes.shape({
-        data         : PropTypes.shape({
-            navn : PropTypes.string,
+    veileder: PropTypes.shape({
+        data: PropTypes.shape({
+            navn: PropTypes.string,
             ident: PropTypes.string,
         }),
-        henter       : PropTypes.bool,
+        henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
 };
