@@ -13,25 +13,26 @@ const finnEnhetForVisning = enhetliste => {
 
     const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enhetliste);
     if (!valgtEnhet) {
-        return enhetliste[0].navn;
+        return enhetliste[0];
     }
-    return valgtEnhet.navn;
+    return valgtEnhet;
 };
 
 const Enhet = ({ enheter }) => {
-    let navn = '';
+    let visningsTekst = '';
 
     if (enheter.henter) {
-        navn = '';
+        visningsTekst = '';
     } else if (enheter.hentingFeilet) {
-        navn = EMDASH;
+        visningsTekst = EMDASH;
     } else {
-        navn = finnEnhetForVisning(enheter.data.enhetliste);
+        const enhet = finnEnhetForVisning(enheter.data.enhetliste);
+        visningsTekst = `${enhet.enhetId} ${enhet.navn}`;
     }
 
     return (
         <span className="dekorator__hode__enhet">
-            {navn}
+            {visningsTekst}
         </span>
     );
 };

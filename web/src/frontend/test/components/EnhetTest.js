@@ -34,10 +34,10 @@ describe("Enhet", () => {
     });
 
     describe("med valgt enhet satt i query", () => {
-        it("Skal vise enhetens navn", () => {
+        it("Skal vise enhetens enhetId og navn", () => {
             enhetValgt(enheter.data.enhetliste[1].enhetId);
             const combo = shallow(<Enhet enheter={enheter} />);
-            expect(combo.text()).to.contain(enheter.data.enhetliste[1].navn);
+            expect(combo.text()).to.contain(`${enheter.data.enhetliste[1].enhetId} ${enheter.data.enhetliste[1].navn}`);
         });
 
         it("Skal vise første enhet i enhetslisten hvis valgt enhet ikke finnes i listen", () => {
