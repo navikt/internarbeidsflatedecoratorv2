@@ -6,6 +6,7 @@ import Meny from '../../js/components/Meny';
 describe("Meny", () => {
     let fnr;
     let egendefinerteLenker;
+    let apen;
 
     beforeEach(() => {
         egendefinerteLenker = {
@@ -15,16 +16,27 @@ describe("Meny", () => {
             ],
         };
         fnr = '01234567890';
+        apen = true;
     });
 
     it("Viser default lenker dersom egendefinerteLenker ikke er satt", () => {
-        const combo = shallow(<Meny />);
+        const props = {
+            fnr,
+            egendefinerteLenker: null,
+            apen
+        };
+        const combo = shallow(<Meny {...props} />);
         expect(combo.text()).to.contain("Mine dialogmøter");
         expect(combo.text()).to.contain("Modia");
     });
 
     it("Viser egendefinerteLenker dersom disse er satt", () => {
-        const combo = shallow(<Meny egendefinerteLenker={egendefinerteLenker} />);
+        const props = {
+            fnr,
+            egendefinerteLenker,
+            apen
+        };
+        const combo = shallow(<Meny {...props} />);
         expect(combo.text()).to.contain("Den første egendefinerte lenka");
         expect(combo.text()).to.contain("Den andre egendefinerte lenka");
     });

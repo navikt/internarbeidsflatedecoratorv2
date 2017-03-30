@@ -39,6 +39,7 @@ Meny.propTypes = {
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
+    apen: PropTypes.bool,
 };
 
 export default Meny;

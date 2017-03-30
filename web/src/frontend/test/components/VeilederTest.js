@@ -24,14 +24,14 @@ describe("Veileder", () => {
     it("Skal vise veileders navn og ident", () => {
         const combo = shallow(<Veileder veileder={veileder} />);
         expect(combo.text()).to.contain("Vegard Veileder");
-        expect(combo.text()).to.contain("(Z999999)");
+        expect(combo.text()).to.contain("Z999999");
     });
 
     it('Navn skal forkortes når det er langt', () => {
         veileder.data.navn = LANGT_NAVN;
         const combo = shallow(<Veileder veileder={veileder} />);
         expect(combo.text()).to.contain(LANGT_NAVN_FORKORTET);
-        expect(combo.text()).to.contain("(Z999999)");
+        expect(combo.text()).to.contain("Z999999");
     });
 
     it("Skal vise ingenting mens dataene hentes", () => {
