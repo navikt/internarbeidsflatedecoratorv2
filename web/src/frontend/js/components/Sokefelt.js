@@ -49,20 +49,22 @@ class Sokefelt extends React.Component {
         });
 
         return (
-            <section className="dekorator__sokefelt" onSubmit={this.onSubmit}>
-                <input id="js-deokorator-sokefelt"
-                    onChange={this.sokefeltEndret}
-                    className={sokefeltKlasser}
-                    placeholder="Personsøk"
-                    type="search"
-                    value={this.state.value}
-                />
-                <input id="forstorrelsesglass_sokefelt"
-                    type="submit"
-                    value="Søk"
-                    role="search-button"
-                    className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass__hvit"
-                />
+            <section>
+                <form className="dekorator__sokefelt" onSubmit={this.onSubmit}>
+                    <input id="js-deokorator-sokefelt"
+                        onChange={this.sokefeltEndret}
+                        className={sokefeltKlasser}
+                        placeholder="Personsøk"
+                        type="search"
+                        value={this.state.value}
+                    />
+                    <input id="forstorrelsesglass_sokefelt"
+                        type="submit"
+                        value="Søk"
+                        role="search-button"
+                        className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass--hvit"
+                    />
+                </form>
             </section>
         );
     }
