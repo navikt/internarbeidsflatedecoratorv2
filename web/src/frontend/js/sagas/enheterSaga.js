@@ -4,9 +4,16 @@ import { get } from './api/index';
 import * as actions from '../actions/enheter_actions';
 import { HENT_ENHETER_FORESPURT } from '../actions/actiontyper';
 import { erDev, finnMiljoStreng } from './util';
+import config from '../config';
+import mockEnheter from './mock/enheter';
 
 export function* enheterSaga() {
     yield put(actions.henterEnheter());
+    if (config.mock.mockEnhet) {
+        yield put(actions.enheterHentet(mockEnheter));
+        return;
+    }
+
     try {
         const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
             : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/enheter`;

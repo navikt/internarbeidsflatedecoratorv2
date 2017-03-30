@@ -4,9 +4,15 @@ import { get } from './api/index';
 import * as actions from '../actions/veileder_actions';
 import { HENT_VEILEDER_FORESPURT } from '../actions/actiontyper';
 import { erDev, finnMiljoStreng } from './util';
+import config from '../config';
+import veilederMock from './mock/veileder';
 
 export function* veilederSaga() {
     yield put(actions.henterVeileder());
+    if (config.mock.mockVeileder) {
+        yield put(actions.veilederHentet(veilederMock));
+        return;
+    }
     try {
         const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/me'
             : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/me`;
