@@ -1,12 +1,12 @@
 export default {
-    enhetliste :[
+    enhetliste: [
         {
-            enhetId: "1337",
-            navn: "NAV Søndre Storaker"
+            enhetId: '1337',
+            navn: 'NAV Søndre Storaker',
         },
         {
-            enhetId: "2007",
-            navn: "NAV Østfold"
-        }
-    ]
+            enhetId: '2007',
+            navn: 'NAV Østfold',
+        },
+    ],
 };
