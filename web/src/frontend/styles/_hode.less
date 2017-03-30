@@ -6,7 +6,7 @@
 @navDekoratorError: #ba3a26;
 
 .dekorator__hode {
-    padding: 1rem;
+    padding: 0.3rem;
     background-color: @navMorkGra;
     position: relative;
     color: @white;
@@ -26,14 +26,11 @@ h1.typo-avsnitt {
 }
 
 .dekorator__hode__logo {
-    display: flex;
-    width: auto;
     text-decoration: none;
-    align-items: center;
     border: 0;
     svg {
         vertical-align: middle;
-        display: inline-block;
+        float: left;
         height: 32px;
         padding-right: 1rem;
         border-right: 1px solid @navGra40;
@@ -100,24 +97,22 @@ h1.typo-avsnitt {
 }
 
 .dekorator__banner {
-    display: flex;
-    justify-content: space-between;
+    display: table;
+    width: 100%;
+    text-align: right;
     height: 2rem;
     & > section {
-        &:nth-of-type(2) {
-            margin-right: -20%;
-        }
-        &:nth-of-type(3) {
-            margin-right: -20%;
-        }
-        &:nth-of-type(4) {
-            margin-right: -19%;
+        display: inline-block;
+        &:nth-of-type(1) {
+            float: left;
+            margin-top: 8px;
         }
     }
 }
 
 .dekorator__tittel {
-    flex: 1;
+    float: left;
+    margin-top: 1px;
 }
 
 .dekorator__sokefelt {
@@ -218,12 +213,6 @@ h1.typo-avsnitt {
 
 .dekorator__hode__veileder_id {
     padding-right: 0.7rem;
-}
-
-.dekorator-enhet {
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
 }
 
 .dekorator-select-container {
