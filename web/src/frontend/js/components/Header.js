@@ -14,7 +14,8 @@ const defaultPersonsokHandler = (fodselsnummer) => {
     document.dispatchEvent(personsokEvent);
 };
 
-const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, enhetValgt }) => {
+const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {},
+    egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, enhetValgt }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
 
     return (
@@ -27,11 +28,18 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                         { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt} /> }
                         { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                         { toggles.visVeileder && <Veileder veileder={veileder} /> }
-                        <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
-                            onClick={() => {toggleMeny();}}>Meny</button>
+                        <section>
+                            <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
+                                id="js-dekorator-toggle-meny"
+                                onClick={() => {
+                                    toggleMeny();
+                                }}>Meny
+                            </button>
+                        </section>
                     </header>
                 </div>
             </div>
+            <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker} />
             { visMeny && <Meny fnr={fnr} egendefinerteLenker={egendefinerteLenker} /> }
             { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>

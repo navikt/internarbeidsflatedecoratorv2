@@ -3,18 +3,26 @@ import Select from 'react-select';
 
 const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, enhetValgt, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
-        return (<div className="dekorator-enhet">
-            <span>{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</span></div>);
+        return (
+            <section className="dekorator-enhet">
+                <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
+            </section>
+        );
     }
     const options = enhetliste.map((enhet) => ({ value: enhet.enhetId, label: `${enhet.enhetId} ${enhet.navn}` }));
     return (
+        <section className="dekorator-enhet">
             <Select
                 value={valgtEnhet}
-                onChange={(event) => { handleChangeEnhet(event.value); enhetValgt(event.value); }}
+                onChange={(event) => {
+                    handleChangeEnhet(event.value);
+                    enhetValgt(event.value);
+                }}
                 options={options}
                 clearable={false}
                 searchable={false}
             />
+        </section>
     );
 };
 

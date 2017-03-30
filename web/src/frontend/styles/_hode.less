@@ -1,131 +1,119 @@
 @import '_svg-styling.less';
 @import '../node_modules/react-select/dist/react-select.css';
 
-.dekorator__hode {
-    padding: 1em;
-    background-color: @dekorator-svart;
-    position: relative;
-    color: #fff;
-    line-height: 1em;
+@navDekoratorSvart: #282624;
+@navDekoratorInaktiv: #7f756c;
+@navDekoratorError: #ba3a26;
 
-    h1 {
-        margin: 0;
-        padding: 0;
-        font-size: 1.25em;
-        display: inline-block;
-    }
+.dekorator__hode {
+    padding: 1rem;
+    background-color: @navMorkGra;
+    position: relative;
+    color: @white;
+}
+
+h1.typo-element {
+    font-size: 1.375rem;
+    margin: 0 1rem;
+}
+
+h1.typo-avsnitt {
+    font-size: 1.125rem;
 }
 
 .dekorator__hode--apen {
-    border-bottom: 1px solid #7f756c;
+    border-bottom: 1px solid @navDekoratorInaktiv;
 }
 
 .dekorator__hode__logo {
-    line-height: 2;
     display: flex;
     width: auto;
     text-decoration: none;
     align-items: center;
     border: 0;
-
     svg {
         vertical-align: middle;
         display: inline-block;
         height: 32px;
-        width: 50px;
-        padding-right: .7em;
-        border-right: 1px solid #b7b1a9;
+        padding-right: 1rem;
+        border-right: 1px solid @navGra40;
     }
-
     &:focus {
         background-color: transparent;
-        box-shadow: 0 0 0 2px @fokusOrange; 
-        color: #fff;
+        box-shadow: 0 0 0 2px @orangeFocus;
+        color: @white;
     }
-}
-
-.dekorator__hode__tittel {
-    font-weight: 400;
-    display: inline-block;
-    padding-left: 1em;
-    font-size: 20px;
-    height: 32px;
-    line-height: 32px;
 }
 
 .dekorator__hode__button {
     border: 0;
     margin: 0;
-    padding: 0 1.75em 0 0;
-    color: #fff;
+    padding: 0 2.25rem 0 0;
+    color: @white;
     height: 32px;
     line-height: 32px;
-    font-size: 1em;
+    font-size: 1rem;
     background-color: transparent;
     position: relative;
     transition: color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-
+    &:before {
+        content: "";
+        border-left: 1px solid @white;
+        display: block;
+        width: 14px;
+        height: 14px;
+        position: absolute;
+        top: 5px;
+        transition: all 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        border-top: 1px solid @white;
+        transform: rotate(-135deg);
+        right: 14px;
+    }
+    &:hover {
+        color: @navLysBla;
+        &:after, &:before {
+            border-color: @navLysBla;
+        }
+    }
     &:focus {
         outline: 0;
-        background-color: @fokusOrange;
-    }
-
-    &:after, &:before {
-        font-size: .4em;
-        content: "";
-        background-color: #fff;
-        display: block;
-        width: ~"calc(1em + 1px)";
-        height: 1px;
-        position: absolute;
-        top: 2.5em;
-        transition: all 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-        margin-right:1.5em;
-    }
-
-    &:after {
-        right: 0;
-        transform: rotate(-45deg);
-    }
-
-    &:before {
-        right: sqrt(.5em); // Pythagoras <3
-        transform: rotate(45deg);
-    }
-
-    &:hover {
-        color: #66cbec;
-        &:after, &:before {
-            background-color: #66cbec;
-        }
+        box-shadow: 0 0 0 2px @orangeFocus;
     }
 }
 
 .dekorator__hode__toggleMeny {
     .dekorator__hode__button;
-    border-left: 1px solid #979797;
-    padding-left: 1em;
+    border-left: 1px solid @navGra40;
+    padding-left: 1rem;
 }
 
 .dekorator__hode__enhet {
-    padding-top: 0.5em;
+    padding-top: 0.5rem;
     max-width: 250px;
 }
 
 .dekorator__hode__toggleMeny--apen {
-
-    &:after {
-        transform: rotate(45deg);
-    }
-
     &:before {
-        transform: rotate(-45deg);
+        top: 14px;
+        transform: rotate(45deg);
     }
 }
 
 .dekorator__banner {
     display: flex;
-    height: 2em;
+    justify-content: space-between;
+    height: 2rem;
+    & > section {
+        &:nth-of-type(2) {
+            margin-right: -20%;
+        }
+        &:nth-of-type(3) {
+            margin-right: -20%;
+        }
+        &:nth-of-type(4) {
+            margin-right: -19%;
+        }
+    }
 }
 
 .dekorator__tittel {
@@ -138,28 +126,29 @@
 
 .dekorator__sokefelt__input {
     position: relative;
-    background-color: #1d1d1d;
+    background-color: @navDekoratorSvart;
     border-radius: 2px;
-    margin-right: 1em;
-    margin-left: 1em;
-    padding: 0.5em 2em 0.5em 0.5em;
-    width: 104px;
-    top: -0.125em;
-    border: 1px solid #7f756c;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    width: 8.5rem;
+    top: -0.125rem;
+    border: 1px solid @navDekoratorInaktiv;
 }
 
-.dekorator__sokefelt__input:focus {
-    box-shadow: 0 0 0 2px @fokusOrange;
-    outline: none;
-    background-color: white;
-    color: black;
-}
-
-.dekorator__sokefelt__input:hover{
-    box-shadow: 0 0 0 2px @hoverBlue;
-    outline: none;
-    background-color: white;
-    color: black;
+.dekorator__sokefelt__input {
+    &:hover {
+        box-shadow: 0 0 0 2px @navLysBla;
+        outline: none;
+        background-color: @white;
+        color: @navMorkGra;
+    }
+    &:focus {
+        box-shadow: 0 0 0 2px @orangeFocus;
+        outline: none;
+        background-color: @white;
+        color: @navMorkGra;
+    }
 }
 
 .dekorator__sokefelt__input::-ms-clear {
@@ -178,22 +167,41 @@
 
 .dekorator__sokefelt__forstorrelsesglass {
     position: absolute;
-    top: 5px;
+    top: 7px;
+    bottom: 7px;
     padding: 10px 12px;
     margin-left: -45px;
+    border: none;
+    text-indent: -9999rem;
+    &:hover {
+        box-shadow: 0 0 0 2px @navLysBla;
+        outline: none;
+        background-color: @white;
+        background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
+    }
+    &:focus {
+        box-shadow: 0 0 0 2px @orangeFocus;
+        outline: none;
+        background-color: @white;
+        background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
+    }
+    &:focus, &:hover {
+        & ~ input {
+            background-color: @white;
+        }
+    }
 }
 
-.dekorator__forstorrelsesglass__hvit {
+.dekorator__forstorrelsesglass--hvit {
     background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
 }
 
-.dekorator__forstorrelsesglass__svart {
+.dekorator__forstorrelsesglass--svart {
     background: url("../img/forstorrelsesglass-svart.svg") no-repeat;
 }
 
 .dekorator__sokefelt__valideringsfeil {
-    border: 1px solid #ba3a26;
-
+    border: 1px solid @navDekoratorError;
     &:focus {
         outline: 0;
     }
@@ -205,42 +213,36 @@
 }
 
 .dekorator__hode__veileder_navn {
-    padding-right: 0.5em;
+    padding-right: 0.5rem;
 }
 
 .dekorator__hode__veileder_id {
-    padding-right: 0.7em;
+    padding-right: 0.7rem;
 }
 
 .dekorator-enhet {
-    span {
-        display: inline-block;
-        margin-top:10px;
-        margin-right: 1em;
-    }
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
 }
 
 .dekorator-select-container {
     position: relative;
     display: inline-block;
-    top: -0.125em;
-
-
-
+    top: -0.125rem;
     select {
-        background-color: #1d1d1d;
+        background-color: @white;
         border-radius: 1px;
         margin-right: 3px;
-        margin-left: 2em;
+        margin-left: 2rem;
         padding: 10px 0 10px 10px;
         width: 210px;
         height: 38px;
-        border: 1px solid #7f756c;
+        border: 1px solid @navDekoratorInaktiv;
         -webkit-appearance: none;
         -moz-appearance: none;
         -ms-appearance: none;
         appearance: none;
-
     }
     select::-ms-expand {
         display: none; // Skjuler pil i IE10
@@ -249,8 +251,8 @@
         pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
         content: "";
         position: absolute;
-        border-left: 1.5px solid #fff;
-        border-top: 1.5px solid #fff;
+        border-left: 1.5px solid @white;
+        border-top: 1.5px solid @white;
         border-right: none;
         top: 10px;
         right: 15px;
@@ -261,36 +263,85 @@
 }
 
 .dekorator__banner {
-
     .Select {
-        min-width: 13em;
+        min-width: 13rem;
+        border-radius: 2px;
+        .Select-arrow {
+            position: absolute;
+            border-color: @white;
+            border-width: 1px 0 0 1px;
+            height: 14px;
+            width: 14px;
+            right: 14px;
+            top: 6px;
+            transform: rotate(-135deg);
+            transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        }
+        &.is-focused {
+            outline: 0;
+            box-shadow: 0 0 0 2px @orangeFocus;
+            border-color: @navDekoratorInaktiv;
+            transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+            .Select-control {
+                &:hover {
+                    box-shadow: none;
+                    border-color: @navDekoratorInaktiv;
+                    transition: none;
+                }
+            }
+        }
+        .Select-control {
+            border-radius: 2px;
+            border: 1px solid @navDekoratorInaktiv;
+            padding-top: 1px;
+            &:hover {
+                outline: 0;
+                box-shadow: 0 0 0 2px @navLysBla;
+                border-color: @navBla;
+                transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+            }
+        }
+        &.is-open {
+            .Select-arrow {
+                top: 15px;
+                transform: rotate(45deg);
+                transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+            }
+        }
+        .Select-control {
+            border-radius: 2px;
+            border: 1px solid @navDekoratorInaktiv;
+            padding-top: 1px;
+            &:hover {
+                outline: 0;
+                box-shadow: 0 0 0 2px @navLysBla;
+                border-color: @navBla;
+                transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+            }
+        }
         .Select-value {
-            background-color: @backgroundBlack;
-            border: 1px solid @inaktivGraa;
-            border-radius: 1px;
-
+            background-color: @navMorkGra;
+            line-height: 36px;
             #react-select-2--value-item {
-                color: @hvit
+                color: @white;
             }
-
             .Select-value-label {
-                color: @hvit
+                color: @white;
             }
-
         }
         .Select-menu-outer {
+            z-index: 101;
             .Select-option {
                 &.is-focused {
-                    color: @focusBlue;
+                    color: @navLysBla;
                 }
-                background-color: @backgroundBlack;
-                color: @hvit;
-
+                background-color: @navMorkGra;
+                color: @white;
                 &:hover {
-                    color: @focusBlue;
+                    color: @navLysBla;
                 }
             }
-
         }
     }
 }
+

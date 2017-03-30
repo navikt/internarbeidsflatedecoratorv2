@@ -2,13 +2,13 @@ import React, { PropTypes } from 'react';
 import NAVLogo from './NAVLogo';
 
 const Overskrift = ({ applicationName = '' }) => (
-        <h1 className="dekorator__tittel">
-            <div className="dekorator__hode__logo">
-                <NAVLogo />
-                <span className="dekorator__hode__tittel">{applicationName}</span>
-            </div>
+    <section className="dekorator__hode__logo">
+        <NAVLogo />
+        <h1 className="dekorator__tittel typo-element">
+            {applicationName}
         </h1>
-    );
+    </section>
+);
 
 Overskrift.propTypes = {
     applicationName: PropTypes.string,
