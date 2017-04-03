@@ -63,7 +63,7 @@
             color: @white;
             display: inline-block;
             overflow: hidden;
-            max-width: 9rem;
+            max-width: 8rem;
             font-size: 0.875rem;
         }
     }
@@ -72,17 +72,24 @@
         z-index: 101;
         white-space: nowrap;
         width: auto;
-        margin-top: 4px;
+        padding: 0.5rem 0;
+        background-color: @navMorkGra;
         .Select-option {
-            &.is-focused {
-                color: @navLysBla;
-            }
+            padding: 0.3rem 0.7rem 0.1rem;
             background-color: @navMorkGra;
             color: @white;
+            &.is-focused {
+                color: @white;
+            }
             &:hover {
                 color: @navLysBla;
             }
         }
+    }
+
+    .has-value.is-pseudo-focused.Select--single>.Select-control .Select-value .Select-value-label,
+    .has-value.Select--single>.Select-control .Select-value .Select-value-label {
+        color: #fff;
     }
 }
 
