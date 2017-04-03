@@ -10,7 +10,7 @@
         right: 14px;
         top: 4px;
         transform: rotate(-135deg);
-        transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        //transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
     }
     &.is-focused {
         outline: 0;
@@ -29,7 +29,7 @@
         .Select-arrow {
             top: 13px;
             transform: rotate(45deg);
-            transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+            //transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
         }
     }
     .Select-input {
@@ -42,7 +42,9 @@
         background-color: @navMorkGra;
         color: @white;
         border-radius: 2px;
-        border: 1px solid @navDekoratorInaktiv;
+        border: none;
+        outline: 0;
+        box-shadow: 0 0 0 1px @navDekoratorInaktiv;
         padding-top: 1px;
         margin-top: -3px;
         height: auto;
