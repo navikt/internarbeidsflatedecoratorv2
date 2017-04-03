@@ -89,7 +89,12 @@
 
     .has-value.is-pseudo-focused.Select--single>.Select-control .Select-value .Select-value-label,
     .has-value.Select--single>.Select-control .Select-value .Select-value-label {
-        color: #fff;
+        color: @white;
+    }
+
+    .Select--single.is-pseudo-focused.has-value > .Select-control .Select-value .Select-value-label,
+    .Select--single.has-value > .Select-control .Select-value .Select-value-label {
+        color: @white;
     }
 }
 
