@@ -1,29 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>IADecorator</title>
-</head>
-<body>
-<div id="header"></div>
-</body>
-<script src="js/head.min.js"></script>
-<script>
-    var config = {
-        config: {
-            toggles: {
-                visEnhet: true,
-                visEnhetVelger: true,
-                visSokefelt: true,
-                visVeileder: true
-            },
-            fnr: '12345678901',
-            applicationName: 'Applikasjonsnavn',
-        }
-    };
+    <head>
+        <meta charset="UTF-8">
+        <title>IADecorator</title>
+    </head>
+    <body>
+        <div id="minimaltEksempel" style="margin-bottom: 4rem"></div>
+        <div id="header" style="margin-bottom: 4rem"></div>
+        <div id="portefoljeflate"></div>
+    </body>
+    <script src="js/head.min.js"></script>
+    <script>
+        var minimaltEksempel = {
+            config: {
+                applicationName: 'Minimalt eksempel',
+                toggles: {}
+            }
+        };
+        var alle = {
+            config: {
+                toggles        : {
+                    visEnhet      : false,
+                    visEnhetVelger: true,
+                    visSokefelt   : true,
+                    visVeileder   : true
+                },
+                fnr            : '12345678901',
+                applicationName: 'Arbeidsrettet oppfølging',
+            }
+        };
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-        renderDecoratorHead(config);
-    });
-</script>
+        var custom = {
+            config: {
+                toggles        : {
+                    visEnhet      : true,
+                    visEnhetVelger: false,
+                    visSokefelt   : true,
+                    visVeileder   : false
+                },
+                fnr            : '12345678901',
+                applicationName: 'Ingen toggles',
+            }
+        };
+
+        renderDecoratorHead(minimaltEksempel, 'minimaltEksempel');
+        renderDecoratorHead(alle);
+        renderDecoratorHead(custom, 'portefoljeflate');
+    </script>
 </html>

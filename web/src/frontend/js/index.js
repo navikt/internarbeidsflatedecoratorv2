@@ -20,12 +20,12 @@ const rootReducer = combineReducers({
     meny,
     feilmeldinger,
 });
-
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
-window.renderDecoratorHead = ({ config }) => {
+window.renderDecoratorHead = ({ config }, id = 'header') => {
+
     if (config.toggles.visVeileder) {
         store.dispatch(hentVeileder());
     }
@@ -36,6 +36,6 @@ window.renderDecoratorHead = ({ config }) => {
         store.dispatch(hentEnheter());
     }
 
-    const headerElement = document.getElementById('header');
+    const headerElement = document.getElementById(id);
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);
 };

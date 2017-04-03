@@ -1,4 +1,5 @@
 @import '_svg-styling.less';
+@import "_select.less";
 @import '../node_modules/react-select/dist/react-select.css';
 
 @navDekoratorSvart: #282624;
@@ -13,12 +14,15 @@
 }
 
 h1.typo-element {
-    font-size: 1.375rem;
-    margin: 0 1rem;
+    font-family: Arial, sans-serif;
+    font-size: 1.125rem;
+    margin-left: 0.7rem;
 }
 
 h1.typo-avsnitt {
-    font-size: 1.125rem;
+    font-family: Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: normal;
 }
 
 .dekorator__hode--apen {
@@ -26,13 +30,13 @@ h1.typo-avsnitt {
 }
 
 .dekorator__hode__logo {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     border: 0;
     svg {
-        vertical-align: middle;
-        float: left;
-        height: 32px;
-        padding-right: 1rem;
+        height: 30px;
+        width: 108px;
         border-right: 1px solid @navGra40;
     }
     &:focus {
@@ -57,8 +61,8 @@ h1.typo-avsnitt {
         content: "";
         border-left: 1px solid @white;
         display: block;
-        width: 14px;
-        height: 14px;
+        width: 12px;
+        height: 12px;
         position: absolute;
         top: 5px;
         transition: all 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
@@ -79,14 +83,10 @@ h1.typo-avsnitt {
 }
 
 .dekorator__hode__toggleMeny {
+    font-size: 0.875rem;
     .dekorator__hode__button;
     border-left: 1px solid @navGra40;
-    padding-left: 1rem;
-}
-
-.dekorator__hode__enhet {
-    padding-top: 0.5rem;
-    max-width: 250px;
+    padding-left: 0.7rem;
 }
 
 .dekorator__hode__toggleMeny--apen {
@@ -96,39 +96,38 @@ h1.typo-avsnitt {
     }
 }
 
-.dekorator__banner {
-    display: table;
-    width: 100%;
-    text-align: right;
-    height: 2rem;
-    & > section {
-        display: inline-block;
-        &:nth-of-type(1) {
-            float: left;
-            margin-top: 8px;
-        }
-    }
+.flex-center {
+    display: flex;
+    align-items: center;
 }
 
-.dekorator__tittel {
-    float: left;
-    margin-top: 1px;
+.dekorator__banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dekorator__sokefelt {
     position: relative;
+}
+.dekorator__tittel {
+    width: 100%;
+    min-width: 7.75rem;
+    max-width: 16rem;
 }
 
 .dekorator__sokefelt__input {
     position: relative;
     background-color: @navDekoratorSvart;
     border-radius: 2px;
-    margin-right: 1rem;
-    margin-left: 1rem;
+    margin-right: 0.7rem;
+    margin-left: 0.7rem;
     padding: 0.5rem 2rem 0.5rem 0.5rem;
     width: 8.5rem;
     top: -0.125rem;
     border: 1px solid @navDekoratorInaktiv;
+    margin-top: 1px;
+    font-size: 0.875rem;
 }
 
 .dekorator__sokefelt__input {
@@ -202,135 +201,6 @@ h1.typo-avsnitt {
     }
 }
 
-.dekorator__hode__veileder_container {
-    display: flex;
-    align-items: center;
-}
-
-.dekorator__hode__veileder_navn {
-    padding-right: 0.5rem;
-}
-
 .dekorator__hode__veileder_id {
     padding-right: 0.7rem;
 }
-
-.dekorator-select-container {
-    position: relative;
-    display: inline-block;
-    top: -0.125rem;
-    select {
-        background-color: @white;
-        border-radius: 1px;
-        margin-right: 3px;
-        margin-left: 2rem;
-        padding: 10px 0 10px 10px;
-        width: 210px;
-        height: 38px;
-        border: 1px solid @navDekoratorInaktiv;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -ms-appearance: none;
-        appearance: none;
-    }
-    select::-ms-expand {
-        display: none; // Skjuler pil i IE10
-    }
-    &:after {
-        pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
-        content: "";
-        position: absolute;
-        border-left: 1.5px solid @white;
-        border-top: 1.5px solid @white;
-        border-right: none;
-        top: 10px;
-        right: 15px;
-        width: 10px;
-        height: 10px;
-        transform: rotate(-135deg);
-    }
-}
-
-.dekorator__banner {
-    .Select {
-        min-width: 13rem;
-        border-radius: 2px;
-        .Select-arrow {
-            position: absolute;
-            border-color: @white;
-            border-width: 1px 0 0 1px;
-            height: 14px;
-            width: 14px;
-            right: 14px;
-            top: 6px;
-            transform: rotate(-135deg);
-            transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-        }
-        &.is-focused {
-            outline: 0;
-            box-shadow: 0 0 0 2px @orangeFocus;
-            border-color: @navDekoratorInaktiv;
-            transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-            .Select-control {
-                &:hover {
-                    box-shadow: none;
-                    border-color: @navDekoratorInaktiv;
-                    transition: none;
-                }
-            }
-        }
-        .Select-control {
-            border-radius: 2px;
-            border: 1px solid @navDekoratorInaktiv;
-            padding-top: 1px;
-            &:hover {
-                outline: 0;
-                box-shadow: 0 0 0 2px @navLysBla;
-                border-color: @navBla;
-                transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-            }
-        }
-        &.is-open {
-            .Select-arrow {
-                top: 15px;
-                transform: rotate(45deg);
-                transition: transform 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-            }
-        }
-        .Select-control {
-            border-radius: 2px;
-            border: 1px solid @navDekoratorInaktiv;
-            padding-top: 1px;
-            &:hover {
-                outline: 0;
-                box-shadow: 0 0 0 2px @navLysBla;
-                border-color: @navBla;
-                transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-            }
-        }
-        .Select-value {
-            background-color: @navMorkGra;
-            line-height: 36px;
-            #react-select-2--value-item {
-                color: @white;
-            }
-            .Select-value-label {
-                color: @white;
-            }
-        }
-        .Select-menu-outer {
-            z-index: 101;
-            .Select-option {
-                &.is-focused {
-                    color: @navLysBla;
-                }
-                background-color: @navMorkGra;
-                color: @white;
-                &:hover {
-                    color: @navLysBla;
-                }
-            }
-        }
-    }
-}
-

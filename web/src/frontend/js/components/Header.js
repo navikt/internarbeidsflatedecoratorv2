@@ -24,10 +24,12 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                 <div className="dekorator__container">
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName} />
-                        { toggles.visEnhet && <Enhet enheter={enheter} /> }
-                        { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt} /> }
-                        { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
-                        { toggles.visVeileder && <Veileder veileder={veileder} /> }
+                        <div className="flex-center">
+                            { toggles.visEnhet && <Enhet enheter={enheter} /> }
+                            { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt} /> }
+                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
+                            { toggles.visVeileder && <Veileder veileder={veileder} /> }
+                        </div>
                         <section>
                             <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
                                 id="js-dekorator-toggle-meny"
