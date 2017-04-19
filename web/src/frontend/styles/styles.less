@@ -1,4 +1,12 @@
+@coreModulePath: './../../../node_modules';
+@nodeModulesPath: './../../../node_modules';
+
+@import "../node_modules/nav-frontend-core/less/_mixins";
+@import "../node_modules/nav-frontend-core/less/hide-text";
 @import "../node_modules/nav-frontend-core/less/_variabler";
+@import "../node_modules/nav-frontend-core/less/utilities";
+@import "../node_modules/nav-frontend-typografi-style/src/index";
+
 
 .dekorator {
     font-size: 100%; // 1em === 16px
@@ -10,6 +18,11 @@
     @import "_hode.less";
     @import "_meny.less";
     @import "_feilmelding.less";
+
+    h1.typo-innholdstittel {
+        font-size: 1.875rem;
+        margin: 0;
+    }
 
     a, a:visited {
         color: @white;
