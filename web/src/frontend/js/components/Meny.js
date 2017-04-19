@@ -13,7 +13,7 @@ const defaultLenker = (fnr) => (
 );
 
 const getLenker = (lenkeobjekt, apen) => {
-    const tittel = lenkeobjekt.tittel && <h1>{lenkeobjekt.tittel}</h1>;
+    const tittel = lenkeobjekt.tittel && <h1 className="typo-innholdstittel">{lenkeobjekt.tittel}</h1>;
     const menyelementer = !apen ? null : (
         <nav className="dekorator__container dekorator__meny">
             {tittel}

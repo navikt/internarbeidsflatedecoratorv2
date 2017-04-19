@@ -19,6 +19,7 @@
     "classnames": "^2.2.5",
     "nav-frontend-core": "^3.0.0",
     "nav-frontend-typografi": "^0.1.4",
+    "nav-frontend-typografi-style": "^0.1.10",
     "query-string": "^4.3.2",
     "react": "15.3.2",
     "react-dom": "15.3.2",
