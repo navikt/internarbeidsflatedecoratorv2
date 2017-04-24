@@ -7,7 +7,7 @@ import { erDev, finnMiljoStreng } from './util';
 import config from '../config';
 import mockEnheter from './mock/enheter';
 
-export function* enheterSaga() {
+export function* enheterSaga(action) {
     yield put(actions.henterEnheter());
     if (config.mock.mockEnhet) {
         yield put(actions.enheterHentet(mockEnheter));
@@ -15,8 +15,14 @@ export function* enheterSaga() {
     }
 
     try {
-        const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
-            : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/enheter`;
+        let url;
+        if (action && action.data && action.data.overrideenhetersaga) {
+            url = erDev() ? 'http://localhost:8196/mote/rest/enheter'
+                : `https://modapp${finnMiljoStreng()}.adeo.no/mote/rest/enheter`;
+        } else {
+            url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
+                : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/enheter`;
+        }
 
         const data = yield call(get, url);
         yield put(actions.enheterHentet(data));

@@ -4,7 +4,7 @@ import NAVLogo from './NAVLogo';
 const Overskrift = ({ applicationName = '' }) => (
     <section className="dekorator__hode__logo">
         <NAVLogo />
-        <h1 className="dekorator__tittel typo-element">
+        <h1 className="typo-element">
             {applicationName}
         </h1>
     </section>

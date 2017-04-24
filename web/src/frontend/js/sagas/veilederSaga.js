@@ -7,15 +7,21 @@ import { erDev, finnMiljoStreng } from './util';
 import config from '../config';
 import veilederMock from './mock/veileder';
 
-export function* veilederSaga() {
+export function* veilederSaga(action) {
     yield put(actions.henterVeileder());
     if (config.mock.mockVeileder) {
         yield put(actions.veilederHentet(veilederMock));
         return;
     }
     try {
-        const url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/me'
-            : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/me`;
+        let url;
+        if (action && action.data && action.data.overrideveiledersaga) {
+            url = erDev() ? 'http://localhost:8196/mote/rest/veilederinfo'
+                : `https://modapp${finnMiljoStreng()}.adeo.no/mote/rest/veilederinfo`;
+        } else {
+            url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/me'
+                : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/me`;
+        }
         const data = yield call(get, url);
         yield put(actions.veilederHentet(data));
     } catch (e) {

@@ -7,11 +7,11 @@
 }
 
 .dekorator__meny {
-    padding: 1em 0 2em;
+    padding: 2em 0 2em;
     line-height: 1.5;
+    display: flex;
     a {
         display: block;
-        padding: 0.3rem 0.7rem 0.3rem 1.4rem;
         color: @white;
         text-decoration: none;
         &:hover {
@@ -39,5 +39,25 @@
         padding: 0;
         margin: 0;
         list-style-type: none;
+    }
+
+    .dekorator__kolonner {
+        width: 100%;
+        display: table;
+    }
+
+    .dekorator__kolonne {
+        width: 20%;
+        padding: 0 3em 0 0;
+        display: table-cell;
+        h2 {
+            border-bottom: 1px solid white;
+            margin: 0 auto 0.5em;
+            font-size: 1em;
+        }
+        .kolonne_lenke {
+            padding-top: 0.2em;
+            padding-bottom: 0.2em;
+        }
     }
 }
