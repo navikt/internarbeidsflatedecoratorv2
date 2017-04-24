@@ -12,9 +12,10 @@ export function henterVeileder() {
     };
 }
 
-export function hentVeileder() {
+export function hentVeileder(data) {
     return {
         type: HENT_VEILEDER_FORESPURT,
+        data,
     };
 }
 

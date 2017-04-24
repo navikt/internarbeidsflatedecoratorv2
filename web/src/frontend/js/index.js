@@ -27,13 +27,13 @@ sagaMiddleware.run(rootSaga);
 window.renderDecoratorHead = ({ config }, id = 'header') => {
 
     if (config.toggles.visVeileder) {
-        store.dispatch(hentVeileder());
+        store.dispatch(hentVeileder({ overrideveiledersaga: config.toggles.overrideveiledersaga }));
     }
     if (config.toggles.visEnhetVelger) {
         store.dispatch(enhetValgt(config.initiellEnhet));
     }
     if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
-        store.dispatch(hentEnheter());
+        store.dispatch(hentEnheter({ overrideenhetersaga: config.toggles.overrideenhetersaga }));
     }
 
     const headerElement = document.getElementById(id);

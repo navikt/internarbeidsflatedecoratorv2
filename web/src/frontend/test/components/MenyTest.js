@@ -26,7 +26,7 @@ describe("Meny", () => {
             apen
         };
         const combo = shallow(<Meny {...props} />);
-        expect(combo.text()).to.contain("Mine dialogmøter");
+        expect(combo.text()).to.contain("Sykefravær");
         expect(combo.text()).to.contain("Modia");
     });
 

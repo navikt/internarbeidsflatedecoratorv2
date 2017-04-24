@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import EnhetVelger from '../../js/components/EnhetVelger';
+import sinon from 'sinon';
 
 describe("EnhetVelger", () => {
     let enheter;
@@ -21,8 +22,10 @@ describe("EnhetVelger", () => {
     });
 
     it("Hvis det bare er en enhet vises denne", () => {
-        const combo = shallow(<EnhetVelger enheter={enheter} />);
+        const enhetValgt = sinon.spy();
+        const combo = shallow(<EnhetVelger enhetValgt={enhetValgt} enheter={enheter} />);
         expect(combo.text()).to.contain("0001 NAV Oslo");
+        expect(enhetValgt).to.have.property('callCount', 1);
     });
 
     it("Skal vise henter når mens dataene hentes", () => {

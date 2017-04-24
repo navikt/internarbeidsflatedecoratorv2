@@ -18,9 +18,10 @@ export function henterEnheter() {
     };
 }
 
-export function hentEnheter() {
+export function hentEnheter(data) {
     return {
         type: HENT_ENHETER_FORESPURT,
+        data,
     };
 }
 
