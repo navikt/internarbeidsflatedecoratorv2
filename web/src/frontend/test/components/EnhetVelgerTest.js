@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 describe("EnhetVelger", () => {
     let enheter;
-    let valgtEnhet;
+    let handleChangeEnhet;
 
     beforeEach(() => {
         enheter = {
@@ -18,12 +18,12 @@ describe("EnhetVelger", () => {
             henter: false,
             hentingFeilet: false,
         };
-        valgtEnhet = '0002 NAV Drammen';
+        handleChangeEnhet = '0002 NAV Drammen';
     });
 
     it("Hvis det bare er en enhet vises denne", () => {
-        const enhetValgt = sinon.spy();
-        const combo = shallow(<EnhetVelger enhetValgt={enhetValgt} enheter={enheter} />);
+        const handleChangeEnhet = sinon.spy();
+        const combo = shallow(<EnhetVelger handleChangeEnhet={handleChangeEnhet} enheter={enheter} />);
         expect(combo.text()).to.contain("0001 NAV Oslo");
     });
 
