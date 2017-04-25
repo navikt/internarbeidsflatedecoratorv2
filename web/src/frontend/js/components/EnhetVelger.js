@@ -3,6 +3,7 @@ import Select from 'react-select';
 
 const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, enhetValgt, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
+        handleChangeEnhet(enhetliste[0]);
         return (
             <section className="dekorator-enhet">
                 <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
