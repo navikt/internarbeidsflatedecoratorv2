@@ -25,7 +25,6 @@ describe("EnhetVelger", () => {
         const enhetValgt = sinon.spy();
         const combo = shallow(<EnhetVelger enhetValgt={enhetValgt} enheter={enheter} />);
         expect(combo.text()).to.contain("0001 NAV Oslo");
-        expect(enhetValgt).to.have.property('callCount', 1);
     });
 
     it("Skal vise henter når mens dataene hentes", () => {
