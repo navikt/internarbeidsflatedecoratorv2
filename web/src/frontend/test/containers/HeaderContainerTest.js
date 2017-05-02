@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { mapStateToProps } from '../../js/containers/HeaderContainer';
 import veileder from '../../js/reducers/veileder';
 import enheter from '../../js/reducers/enheter';
-import velgenhet from '../../js/reducers/enheter';
 import meny from '../../js/reducers/meny';
 import feilmelding from '../../js/reducers/feilmelding';
 
@@ -37,7 +36,6 @@ describe("HeaderContainer - mapStateToProps", () => {
             henter: false,
             hentingFeilet: false,
             data: [],
-            valgtEnhet: 'ikke_valgt',
         });
     });
 });

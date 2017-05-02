@@ -15,9 +15,8 @@ const defaultPersonsokHandler = (fodselsnummer) => {
 };
 
 const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {},
-    egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, enhetValgt }) => {
+    egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, initiellEnhet }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
-
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
@@ -26,7 +25,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                         <Overskrift applicationName={applicationName} />
                         <div className="flex-center">
                             { toggles.visEnhet && <Enhet enheter={enheter} /> }
-                            { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} enhetValgt={enhetValgt} /> }
+                            { toggles.visEnhetVelger && <EnhetVelger enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
                             { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                             { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         </div>
@@ -64,8 +63,8 @@ Header.propTypes = {
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
-    enhetValgt: PropTypes.func,
     feilmelding: PropTypes.string,
+    initiellEnhet: PropTypes.string,
     enheter: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,
