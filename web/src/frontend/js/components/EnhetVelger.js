@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
-        handleChangeEnhet(enhetliste[0].enhetId);
+        handleChangeEnhet(enhetliste[0].enhetId, 'init'); //Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
         return (
             <section className="dekorator-enhet">
                 <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
@@ -13,7 +13,7 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleCh
 
     const onChange = (event) => {
         if (event.type === 'change') { // Må sjekke ettersom chrome fyrer av change og input ved onChange. Dersom man bruker onInput fanges ikke det opp av IE.
-            handleChangeEnhet(event.srcElement.value);
+            handleChangeEnhet(event.srcElement.value, 'select-change');
         }
     };
     return (
