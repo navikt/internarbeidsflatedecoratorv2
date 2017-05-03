@@ -1,6 +1,4 @@
 @import '_svg-styling.less';
-@import "_select.less";
-@import '../node_modules/react-select/dist/react-select.css';
 
 @navDekoratorSvart: #282624;
 @navDekoratorInaktiv: #7f756c;
@@ -30,6 +28,7 @@ h1.typo-avsnitt {
 }
 
 .dekorator__hode__logo {
+    white-space: nowrap;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -213,10 +212,72 @@ h1.typo-avsnitt {
     padding-right: 0.7rem;
 }
 
+.dekorator__hode__veileder_container {
+    white-space: nowrap;
+    padding-right: 0.2rem;
+}
+
 .dekorator__hode__enhet {
     display: block;
     white-space: nowrap;
     width: 11rem;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.dekorator-select-container {
+    position: relative;
+    display: inline-block;
+    top: -0.125em;
+
+
+
+    select {
+        color: @white;
+        background-color: #1d1d1d;
+        border-radius: 1px;
+        margin-right: 3px;
+        margin-left: 2em;
+        margin-top:1px;
+        padding: 8px 0 7px 10px;
+        width: 210px;
+        height: 34px;
+        border: 1px solid #7f756c;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+
+        &:focus {
+            outline: 0;
+            box-shadow: 0 0 0 2px @orangeFocus;
+            border-color: @navDekoratorInaktiv;
+            transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        }
+
+        &:hover {
+            outline: 0;
+            box-shadow: 0 0 0 2px @navLysBla;
+            border-color: @navBla;
+            transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        }
+
+    }
+    select::-ms-expand {
+        display: none; // Skjuler pil i IE10
+    }
+    &:after {
+        pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
+        content: "";
+        position: absolute;
+        border-left: 1.5px solid #fff;
+        border-top: 1.5px solid #fff;
+        border-right: none;
+        top: 10px;
+        right: 15px;
+        width: 10px;
+        height: 10px;
+        transform: rotate(-135deg);
+    }
+
 }

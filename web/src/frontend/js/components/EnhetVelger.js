@@ -1,39 +1,37 @@
 import React, { PropTypes } from 'react';
-import Select from 'react-select';
 
-const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet, enhetValgt, handleChangeEnhet) => {
+const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleChangeEnhet) => {
     if (enhetliste.length === 1) {
-        handleChangeEnhet(enhetliste[0].enhetId);
+        handleChangeEnhet(enhetliste[0].enhetId, 'init'); //Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
         return (
             <section className="dekorator-enhet">
                 <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
             </section>
         );
     }
-    const options = enhetliste.map((enhet) => ({ value: enhet.enhetId, label: `${enhet.enhetId} ${enhet.navn}` }));
+    const options = enhetliste.map((enhet) => <option value={enhet.enhetId}>{`${enhet.enhetId} ${enhet.navn}`}</option>);
+
+    const onChange = (event) => {
+        if (event.type === 'change') { // Må sjekke ettersom chrome fyrer av change og input ved onChange. Dersom man bruker onInput fanges ikke det opp av IE.
+            handleChangeEnhet(event.srcElement.value, 'select-change');
+        }
+    };
     return (
-        <section className="dekorator-enhet">
-            <Select
-                value={valgtEnhet}
-                onChange={(event) => {
-                    handleChangeEnhet(event.value);
-                    enhetValgt(event.value);
-                }}
-                options={options}
-                clearable={false}
-                searchable={false}
-            />
-        </section>
+        <div className="dekorator-select-container">
+            <select value={initiellEnhet || enhetliste[0].enhetId} onChange={onChange}>
+                {options}
+            </select>
+        </div>
     );
 };
 
-const EnhetVelger = ({ enheter, enhetValgt, handleChangeEnhet }) => {
+const EnhetVelger = ({ enheter, initiellEnhet, handleChangeEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, enheter.valgtEnhet, enhetValgt, handleChangeEnhet);
+    return hentEnhetListeInnerHTML(enheter.data.enhetliste, initiellEnhet, handleChangeEnhet);
 };
 
 EnhetVelger.propTypes = {
@@ -47,9 +45,8 @@ EnhetVelger.propTypes = {
             }),
         }),
     }),
-    valgtEnhet: PropTypes.string,
+    initiellEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
-    enhetValgt: PropTypes.func,
 };
 
 export default EnhetVelger;

@@ -10,7 +10,6 @@ describe('enheter', () => {
             henter: false,
             hentingFeilet: false,
             data: [],
-            valgtEnhet: 'ikke_valgt',
         });
     });
 
@@ -42,7 +41,6 @@ describe('enheter', () => {
             data: [],
             henter: true,
             hentingFeilet: false,
-            valgtEnhet: 'ikke_valgt',
         })
     });
 
@@ -56,7 +54,6 @@ describe('enheter', () => {
             data: [],
             henter: false,
             hentingFeilet: true,
-            valgtEnhet: 'ikke_valgt',
         })
     });
 });

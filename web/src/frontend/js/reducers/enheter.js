@@ -4,7 +4,6 @@ const initiellState = {
     henter: false,
     hentingFeilet: false,
     data: [],
-    valgtEnhet: 'ikke_valgt',
 };
 
 export default function enhet(state = initiellState, action = {}) {
@@ -31,12 +30,6 @@ export default function enhet(state = initiellState, action = {}) {
                 henter: false,
                 hentingFeilet: false,
                 data: action.data,
-            };
-        }
-        case ENHET_VALGT: {
-            return {
-                ...state,
-                valgtEnhet: action.enhet,
             };
         }
         default: {
