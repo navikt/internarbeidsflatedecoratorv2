@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 
-const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleChangeEnhet) => {
+const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleChangeEnhet, toggleSendEventVedEnEnhet = false) => {
     if (enhetliste.length === 1) {
-        handleChangeEnhet(enhetliste[0].enhetId, 'init'); //Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
+        if (toggleSendEventVedEnEnhet) {
+            handleChangeEnhet(enhetliste[0].enhetId, 'init'); //Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
+        }
         return (
             <section className="dekorator-enhet">
                 <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
@@ -47,6 +49,7 @@ EnhetVelger.propTypes = {
     }),
     initiellEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
+    toggleSendEventVedEnEnhet: PropTypes.bool,
 };
 
 export default EnhetVelger;
