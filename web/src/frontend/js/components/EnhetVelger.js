@@ -27,13 +27,13 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleCh
     );
 };
 
-const EnhetVelger = ({ enheter, initiellEnhet, handleChangeEnhet }) => {
+const EnhetVelger = ({ enheter, initiellEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, initiellEnhet, handleChangeEnhet);
+    return hentEnhetListeInnerHTML(enheter.data.enhetliste, initiellEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet);
 };
 
 EnhetVelger.propTypes = {
