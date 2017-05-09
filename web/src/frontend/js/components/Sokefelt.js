@@ -51,6 +51,9 @@ class Sokefelt extends React.Component {
         return (
             <section>
                 <form className="dekorator__sokefelt" onSubmit={this.onSubmit}>
+                    <label className="visuallyhidden" htmlFor="js-deokorator-sokefelt">
+                        Personsøk
+                    </label>
                     <input id="js-deokorator-sokefelt"
                         onChange={this.sokefeltEndret}
                         className={sokefeltKlasser}
@@ -61,7 +64,6 @@ class Sokefelt extends React.Component {
                     <input id="forstorrelsesglass_sokefelt"
                         type="submit"
                         value="Søk"
-                        role="search-button"
                         className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass--hvit"
                     />
                 </form>
