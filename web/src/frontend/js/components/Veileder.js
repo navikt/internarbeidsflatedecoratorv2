@@ -18,7 +18,7 @@ const Veileder = ({ veileder }) => {
 
     return (
         <section className="dekorator__hode__veileder_container">
-            <h1 className="typo-avsnitt">
+            <h1 className="typo-avsnitt dekorator__hode__veileder_header">
                 <span className="dekorator__hode__veileder_id">{ident}</span>
                 <span className="dekorator__hode__veileder_navn">{navn}</span>
             </h1>
