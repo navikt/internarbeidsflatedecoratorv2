@@ -19,6 +19,10 @@
         };
         var alle = {
             config: {
+                dataSources: {
+                    veileder: '/veilarbveileder/tjenester/veileder/me',
+                    enheter: '/veilarbveileder/tjenester/veileder/enheter'
+                },
                 toggles        : {
                     visEnhet      : false,
                     visEnhetVelger: true,
@@ -26,13 +30,17 @@
                     visVeileder   : true
                 },
                 fnr            : '12345678901',
-                handleChangeEnhet: (enhet) => { console.log(enhet)},
+                handleChangeEnhet: function(enhet) { console.log(enhet)},
                 applicationName: 'Arbeidsrettet oppfølging',
             }
         };
 
         var custom = {
             config: {
+                dataSources: {
+                    veileder: '/veilarbveileder/tjenester/veileder/me',
+                    enheter: '/veilarbveileder/tjenester/veileder/enheter'
+                },
                 toggles        : {
                     visEnhet      : true,
                     visEnhetVelger: false,
