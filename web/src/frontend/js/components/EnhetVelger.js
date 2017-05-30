@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleChangeEnhet, toggleSendEventVedEnEnhet = false) => {
     if (enhetliste.length === 1) {
         if (toggleSendEventVedEnEnhet) {
-            handleChangeEnhet(enhetliste[0].enhetId, 'init'); //Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
+            handleChangeEnhet(enhetliste[0].enhetId, 'init'); // Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
         }
         return (
             <section className="dekorator-enhet">

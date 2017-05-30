@@ -25,7 +25,12 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                         <Overskrift applicationName={applicationName} />
                         <div className="flex-center">
                             { toggles.visEnhet && <Enhet enheter={enheter} /> }
-                            { toggles.visEnhetVelger && <EnhetVelger toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet} enheter={enheter} handleChangeEnhet={handleChangeEnhet} initiellEnhet={initiellEnhet} /> }
+                            { toggles.visEnhetVelger && <EnhetVelger
+                                toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
+                                enheter={enheter}
+                                handleChangeEnhet={handleChangeEnhet}
+                                initiellEnhet={initiellEnhet}
+                            /> }
                             { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
                             { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         </div>
