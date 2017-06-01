@@ -25,12 +25,11 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
 window.renderDecoratorHead = ({ config }, id = 'header') => {
-
     if (config.toggles.visVeileder) {
-        store.dispatch(hentVeileder({ overrideveiledersaga: config.toggles.overrideveiledersaga }));
+        store.dispatch(hentVeileder({ overrideveiledersaga: config.toggles.overrideveiledersaga, url: config.dataSources && config.dataSources.veileder }));
     }
     if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
-        store.dispatch(hentEnheter({ overrideenhetersaga: config.toggles.overrideenhetersaga }));
+        store.dispatch(hentEnheter({ overrideenhetersaga: config.toggles.overrideenhetersaga, url: config.dataSources && config.dataSources.enheter }));
     }
 
     const headerElement = document.getElementById(id);
