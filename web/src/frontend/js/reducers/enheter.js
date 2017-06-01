@@ -1,4 +1,4 @@
-import { HENT_ENHETER_FEILET, HENTER_ENHETER, ENHETER_HENTET, ENHET_VALGT } from '../actions/actiontyper';
+import { HENT_ENHETER_FEILET, HENTER_ENHETER, ENHETER_HENTET } from '../actions/actiontyper';
 
 const initiellState = {
     henter: false,
