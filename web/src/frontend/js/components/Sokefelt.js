@@ -30,6 +30,7 @@ class Sokefelt extends React.Component {
     onReset = (event) => {
         event.preventDefault();
         this.setState({ value: '' });
+        this.props.triggerFjernPersonEvent();
     };
 
     sokefeltEndret = (event) => {
@@ -83,6 +84,7 @@ class Sokefelt extends React.Component {
 
 Sokefelt.propTypes = {
     triggerPersonsokEvent: PropTypes.func,
+    triggerFjernPersonEvent: PropTypes.func,
     visFeilmelding: PropTypes.func,
     fjernFeilmelding: PropTypes.func,
     fnr: PropTypes.string,

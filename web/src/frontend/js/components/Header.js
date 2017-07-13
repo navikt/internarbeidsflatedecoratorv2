@@ -14,9 +14,18 @@ const defaultPersonsokHandler = (fodselsnummer) => {
     document.dispatchEvent(personsokEvent);
 };
 
-const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handleChangeEnhet = () => {},
-    egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, initiellEnhet }) => {
+const defaultFjernpersonHandler = () => {
+    const personsokEvent = document.createEvent('Event');
+    personsokEvent.initEvent('dekorator-hode-fjernperson', true, true);
+    document.dispatchEvent(personsokEvent);
+};
+
+const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handlePersonsokReset,
+    handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, initiellEnhet,
+}) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
+    const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernpersonHandler;
+
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
@@ -31,7 +40,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                                 handleChangeEnhet={handleChangeEnhet}
                                 initiellEnhet={initiellEnhet}
                             /> }
-                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} fnr={fnr} /> }
+                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} triggerFjernPersonEvent={triggerFjernPersonEvent} fnr={fnr} /> }
                             { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         </div>
                         <section>
@@ -65,6 +74,7 @@ Header.propTypes = {
     toggleMeny: PropTypes.func,
     handleChangeEnhet: PropTypes.func,
     handlePersonsokSubmit: PropTypes.func,
+    handlePersonsokReset: PropTypes.func,
     egendefinerteLenker: PropTypes.shape({
         lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
     }),
