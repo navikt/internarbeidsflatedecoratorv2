@@ -31,7 +31,7 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                                 handleChangeEnhet={handleChangeEnhet}
                                 initiellEnhet={initiellEnhet}
                             /> }
-                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} /> }
+                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} fnr={fnr} /> }
                             { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         </div>
                         <section>
@@ -46,7 +46,6 @@ const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, han
                 </div>
             </div>
             <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker} />
-            { visMeny && <Meny fnr={fnr} egendefinerteLenker={egendefinerteLenker} /> }
             { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
