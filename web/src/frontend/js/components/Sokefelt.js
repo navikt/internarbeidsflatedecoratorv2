@@ -48,7 +48,7 @@ class Sokefelt extends React.Component {
             dekorator__sokefelt__valideringsfeil: this.state.valideringsfeil,
         });
 
-        const visSokeIkon = this.props.fnr !== this.state.value;
+        const visSokeIkon = !this.state.value || this.props.fnr !== this.state.value;
 
         return (
             <section>

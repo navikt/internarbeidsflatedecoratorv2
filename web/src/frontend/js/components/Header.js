@@ -14,48 +14,65 @@ const defaultPersonsokHandler = (fodselsnummer) => {
     document.dispatchEvent(personsokEvent);
 };
 
-const defaultFjernpersonHandler = () => {
+const defaultFjernPersonHandler = () => {
     const personsokEvent = document.createEvent('Event');
     personsokEvent.initEvent('dekorator-hode-fjernperson', true, true);
     document.dispatchEvent(personsokEvent);
 };
 
-const Header = ({ applicationName, fnr, toggles = {}, handlePersonsokSubmit, handlePersonsokReset,
-    handleChangeEnhet = () => {}, egendefinerteLenker, visMeny, enheter, veileder, feilmelding, toggleMeny, initiellEnhet,
-}) => {
+const Header = ({
+                    applicationName,
+                    fnr,
+                    toggles = {},
+                    handlePersonsokSubmit,
+                    handlePersonsokReset,
+                    handleChangeEnhet = () => {},
+                    egendefinerteLenker,
+                    visMeny,
+                    enheter,
+                    veileder,
+                    feilmelding,
+                    toggleMeny,
+                    initiellEnhet,
+                    extraMarkup = { etterSokefelt: null },
+                }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
-    const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernpersonHandler;
+    const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernPersonHandler;
 
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
                     <header className="dekorator__banner">
-                        <Overskrift applicationName={applicationName} />
+                        <Overskrift applicationName={applicationName}/>
                         <div className="flex-center">
-                            { toggles.visEnhet && <Enhet enheter={enheter} /> }
+                            { toggles.visEnhet && <Enhet enheter={enheter}/> }
                             { toggles.visEnhetVelger && <EnhetVelger
                                 toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                 enheter={enheter}
                                 handleChangeEnhet={handleChangeEnhet}
                                 initiellEnhet={initiellEnhet}
                             /> }
-                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent} triggerFjernPersonEvent={triggerFjernPersonEvent} fnr={fnr} /> }
-                            { toggles.visVeileder && <Veileder veileder={veileder} /> }
+                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent}
+                                                               triggerFjernPersonEvent={triggerFjernPersonEvent}
+                                                               fnr={fnr}/> }
+                            { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt}} /> }
+                            { toggles.visVeileder && <Veileder veileder={veileder}/> }
                         </div>
                         <section>
-                            <button aria-pressed="false" className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
-                                id="js-dekorator-toggle-meny"
-                                onClick={() => {
-                                    toggleMeny();
-                                }}>Meny
+                            <button aria-pressed="false"
+                                    className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
+                                    id="js-dekorator-toggle-meny"
+                                    onClick={() => {
+                                        toggleMeny();
+                                    }}>Meny
                             </button>
                         </section>
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker} />
-            { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
+            <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker}/>
+            { feilmelding && <Feilmelding feilmelding={feilmelding}/> }
         </div>
     );
 };
@@ -87,6 +104,7 @@ Header.propTypes = {
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
+    extraMarkup: PropTypes.shape({ etterSokefelt: PropTypes.String }),
     veileder: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,

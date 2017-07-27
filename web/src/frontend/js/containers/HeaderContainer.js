@@ -16,6 +16,7 @@ export function mapStateToProps(state, ownProps) {
             henter: state.enheter.henter,
             hentingFeilet: state.enheter.hentingFeilet,
         },
+        extraMarkup: ownProps.config.extraMarkup,
         toggles: ownProps.config.toggles,
         initiellEnhet: ownProps.config.initiellEnhet,
         applicationName: ownProps.config.applicationName,

@@ -4,15 +4,23 @@
         <meta charset="UTF-8">
         <title>IADecorator</title>
         <style>
+            body {
+                overflow: scroll;
+            }
             #header {
                 font-size: 18px;
+            }
+            #fullbredde .dekorator__container {
+                max-width: 100%;
             }
         </style>
     </head>
     <body>
         <div id="minimaltEksempel" style="margin-bottom: 4rem"></div>
         <div id="header" style="margin-bottom: 4rem"></div>
-        <div id="portefoljeflate"></div>
+        <div id="portefoljeflate" style="margin-bottom: 4rem"></div>
+        <div id="medfeilmelding" style="margin-bottom: 4rem"></div>
+        <div id="fullbredde"></div>
     </body>
     <script src="js/head.min.js"></script>
     <script>
@@ -25,8 +33,8 @@
         var alle = {
             config: {
                 dataSources: {
-                    veileder: 'https://localhost:9590/veilarbveileder/tjenester/veileder/me',
-                    enheter: 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
+                    veileder: '/veilarbveileder/tjenester/veileder/me',
+                    enheter: '/veilarbveileder/tjenester/veileder/enheter'
                 },
                 toggles        : {
                     visEnhet      : false,
@@ -43,8 +51,8 @@
         var custom = {
             config: {
                 dataSources: {
-                    veileder: 'https://localhost:9590/veilarbveileder/tjenester/veileder/me',
-                    enheter: 'https://localhost:9590/veilarbveileder/tjenester/veileder/enheter'
+                    veileder: '/veilarbveileder/tjenester/veileder/me',
+                    enheter: '/veilarbveileder/tjenester/veileder/enheter'
                 },
                 toggles        : {
                     visEnhet      : true,
@@ -57,8 +65,42 @@
             }
         };
 
+        var minimaltEksempelMedFeilmelding = {
+            config: {
+                dataSources: {
+                    veileder: '/veilarbveileder/tjenester/veileder/me',
+                    enheter: '/veilarbveileder/tjenester/veileder/enheter'
+                },
+                applicationName: 'Minimalt eksempel',
+                toggles        : {
+                    visEnhet      : false,
+                    visEnhetVelger: true,
+                    visSokefelt   : true,
+                    visVeileder   : false
+                },
+                feilmelding: 'Det skjedde en feil: ' + (''+Math.random()).slice(2)
+            }
+        };
+
+        var fullbredde = {
+            config: {
+                dataSources: {
+                    veileder: '/veilarbveileder/tjenester/veileder/me',
+                    enheter: '/veilarbveileder/tjenester/veileder/enheter'
+                },
+                toggles: { visEnhet: false, visEnhetVelger: true, visSokefelt: true, visVeileder: true },
+                applicationName: 'Full bredde app',
+                extraMarkup: {
+                    etterSokefelt: '<button>Min knapp</button>'
+                }
+            }
+        };
+
         renderDecoratorHead(minimaltEksempel, 'minimaltEksempel');
         renderDecoratorHead(alle);
         renderDecoratorHead(custom, 'portefoljeflate');
+        renderDecoratorHead(minimaltEksempelMedFeilmelding, 'medfeilmelding');
+        renderDecoratorHead(fullbredde, 'fullbredde');
+
     </script>
 </html>
