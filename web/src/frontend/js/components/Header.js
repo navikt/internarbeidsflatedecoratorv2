@@ -27,7 +27,6 @@ const Header = ({
                     handlePersonsokSubmit,
                     handlePersonsokReset,
                     handleChangeEnhet = () => {},
-                    egendefinerteLenker,
                     visMeny,
                     enheter,
                     veileder,
@@ -71,7 +70,7 @@ const Header = ({
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} egendefinerteLenker={egendefinerteLenker}/>
+            <Meny apen={visMeny} fnr={fnr} />
             { feilmelding && <Feilmelding feilmelding={feilmelding}/> }
         </div>
     );
@@ -92,9 +91,6 @@ Header.propTypes = {
     handleChangeEnhet: PropTypes.func,
     handlePersonsokSubmit: PropTypes.func,
     handlePersonsokReset: PropTypes.func,
-    egendefinerteLenker: PropTypes.shape({
-        lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
-    }),
     feilmelding: PropTypes.string,
     initiellEnhet: PropTypes.string,
     enheter: PropTypes.shape({

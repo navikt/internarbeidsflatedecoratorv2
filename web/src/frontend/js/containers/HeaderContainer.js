@@ -21,7 +21,6 @@ export function mapStateToProps(state, ownProps) {
         initiellEnhet: ownProps.config.initiellEnhet,
         applicationName: ownProps.config.applicationName,
         handleChangeEnhet: ownProps.config.handleChangeEnhet,
-        egendefinerteLenker: ownProps.config.egendefinerteLenker,
         fnr: ownProps.config.fnr,
         visMeny: state.meny.visMeny,
         feilmelding: state.feilmeldinger.feilmelding,
