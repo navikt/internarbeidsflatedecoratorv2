@@ -20,6 +20,8 @@
     </exposed-services>
 
     <loadBalancer isAlive="internarbeidsflatedecorator/internal/isAlive" />
-
+    <serverOptions>
+        <memoryParameters resourceAlias="veilarb-jsapp-memparams"/>
+    </serverOptions>
 
 </application>
