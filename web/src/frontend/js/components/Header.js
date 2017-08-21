@@ -6,6 +6,7 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
+import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
 
 const defaultPersonsokHandler = (fodselsnummer) => {
     const personsokEvent = document.createEvent('Event');
@@ -18,6 +19,25 @@ const defaultFjernPersonHandler = () => {
     const personsokEvent = document.createEvent('Event');
     personsokEvent.initEvent('dekorator-hode-fjernperson', true, true);
     document.dispatchEvent(personsokEvent);
+};
+
+const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
+    enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
+
+const finnEnhetForVisning = enheter => {
+    if (enheter.length === 0) {
+        return { tom: true };
+    } else if (enheter.henter) {
+        return { henter: true };
+    } else if (enheter.hentingFeilet) {
+        return { feilet: true }
+    }
+
+    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enheter);
+    if (!valgtEnhet) {
+        return enheter[0];
+    }
+    return valgtEnhet;
 };
 
 const Header = ({
@@ -37,6 +57,7 @@ const Header = ({
                 }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
     const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernPersonHandler;
+    const enhet = finnEnhetForVisning(enheter);
 
     return (
         <div className="dekorator">
@@ -45,7 +66,7 @@ const Header = ({
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName}/>
                         <div className="flex-center">
-                            { toggles.visEnhet && <Enhet enheter={enheter}/> }
+                            { toggles.visEnhet && <Enhet enhet={enhet}/> }
                             { toggles.visEnhetVelger && <EnhetVelger
                                 toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                 enheter={enheter}
@@ -70,7 +91,7 @@ const Header = ({
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} />
+            <Meny apen={visMeny} fnr={fnr} enhet={enhet} />
             { feilmelding && <Feilmelding feilmelding={feilmelding}/> }
         </div>
     );

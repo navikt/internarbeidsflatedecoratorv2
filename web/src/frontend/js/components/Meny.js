@@ -4,7 +4,7 @@ import { finnMiljoStreng } from '../sagas/util';
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
-const funksjonsomradeLenker = (fnr) => [
+const funksjonsomradeLenker = (fnr, enhet) => [
     {
         tittel: 'Oppfølging',
         lenker: [
@@ -14,11 +14,11 @@ const funksjonsomradeLenker = (fnr) => [
             },
             {
                 tittel: 'Enhetens oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/tilbaketilenhet`,
+                url: `${appDomain}/veilarbportefoljeflatefs/enhet?${enhet}&clean`,
             },
             {
                 tittel: 'Min oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/tilbaketilveileder`,
+                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
             },
             {
                 tittel: 'Personoversikt',
@@ -73,7 +73,7 @@ const funksjonsomradeLenker = (fnr) => [
     },
 ];
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
-const andreSystemerLenker = (fnr) => ({
+const andreSystemerLenker = (fnr, enhet) => ({
     tittel: 'Andre systemer',
     lenker: [
         { tittel: 'Arena personmappen', url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` },
@@ -83,8 +83,8 @@ const andreSystemerLenker = (fnr) => ({
     ]
 });
 
-export function FunksjonsomradeLenker({ fnr }) {
-    const config = funksjonsomradeLenker(fnr);
+export function FunksjonsomradeLenker({ fnr, enhet }) {
+    const config = funksjonsomradeLenker(fnr, enhet);
     const kolonner = config.map((topniva) => {
         const lenker = topniva.lenker.map((lenke) => (
             <li>
@@ -105,8 +105,8 @@ export function FunksjonsomradeLenker({ fnr }) {
     );
 }
 
-export function AndreSystemerLenker({ fnr }) {
-    const config = andreSystemerLenker(fnr);
+export function AndreSystemerLenker({ fnr, enhet }) {
+    const config = andreSystemerLenker(fnr, enhet);
 
     const lenker = config.lenker.map((lenke) => (
         <li>
@@ -122,7 +122,7 @@ export function AndreSystemerLenker({ fnr }) {
     );
 }
 
-function Meny({ fnr, apen }) {
+function Meny({ fnr, enhet, apen }) {
     if (!apen) {
         return null;
     }
@@ -130,8 +130,8 @@ function Meny({ fnr, apen }) {
     return (
         <div className="dekorator__nav dekorator__nav--apen">
             <nav className="dekorator__container dekorator__meny">
-                <FunksjonsomradeLenker fnr={fnr}/>
-                <AndreSystemerLenker fnr={fnr}/>
+                <FunksjonsomradeLenker fnr={fnr} enhet={enhet} />
+                <AndreSystemerLenker fnr={fnr} enhet={enhet} />
             </nav>
         </div>
     );
