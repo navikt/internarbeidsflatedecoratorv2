@@ -8,13 +8,13 @@ class Sokefelt extends React.Component {
         super(props);
         this.state = {
             valideringsfeil: false,
+            value: props.fnr,
         };
     }
 
     onEnter = (fodselsnummer) => {
         if (erGyldigFodselsnummer(fodselsnummer)) {
             this.props.triggerPersonsokEvent(fodselsnummer);
-            this.fjernSoketekst();
         } else {
             this.props.visFeilmelding(lagFodselsnummerfeilmelding(fodselsnummer));
             this.setState(...this.state, { valideringsfeil: true });
@@ -27,6 +27,12 @@ class Sokefelt extends React.Component {
         this.onEnter(input);
     };
 
+    onReset = (event) => {
+        event.preventDefault();
+        this.setState({ value: '' });
+        this.props.triggerFjernPersonEvent();
+    };
+
     sokefeltEndret = (event) => {
         this.setState({
             value: event.target.value,
@@ -36,36 +42,40 @@ class Sokefelt extends React.Component {
         this.setState({ valideringsfeil: false });
     };
 
-    fjernSoketekst = () => {
-        this.setState({
-            value: '',
-        });
-    };
-
     render() {
         const sokefeltKlasser = classNames({
             dekorator__sokefelt__input: true,
             dekorator__sokefelt__valideringsfeil: this.state.valideringsfeil,
         });
 
+        const visSokeIkon = !this.state.value || this.props.fnr !== this.state.value;
+
         return (
             <section>
-                <form className="dekorator__sokefelt" onSubmit={this.onSubmit}>
+                <form className="dekorator__sokefelt" onSubmit={this.onSubmit} onReset={this.onReset}>
                     <label className="visuallyhidden" htmlFor="js-deokorator-sokefelt">
                         Personsøk
                     </label>
-                    <input id="js-deokorator-sokefelt"
+                    <input
+                        id="js-deokorator-sokefelt"
                         onChange={this.sokefeltEndret}
                         className={sokefeltKlasser}
                         placeholder="Personsøk"
                         type="search"
                         value={this.state.value}
                     />
-                    <input id="forstorrelsesglass_sokefelt"
+                    { visSokeIkon && <input
+                        id="forstorrelsesglass_sokefelt"
                         type="submit"
                         value="Søk"
-                        className="dekorator__sokefelt__forstorrelsesglass dekorator__forstorrelsesglass--hvit"
-                    />
+                        className="dekorator__sokefelt__ikon dekorator__forstorrelsesglass--hvit"
+                    /> }
+                    { !visSokeIkon && <input
+                        id="forstorrelsesglass_sokefelt"
+                        type="reset"
+                        value="reset"
+                        className="dekorator__sokefelt__ikon dekorator__kryss--hvit"
+                    /> }
                 </form>
             </section>
         );
@@ -74,8 +84,10 @@ class Sokefelt extends React.Component {
 
 Sokefelt.propTypes = {
     triggerPersonsokEvent: PropTypes.func,
+    triggerFjernPersonEvent: PropTypes.func,
     visFeilmelding: PropTypes.func,
     fjernFeilmelding: PropTypes.func,
+    fnr: PropTypes.string,
 };
 
 export default Sokefelt;

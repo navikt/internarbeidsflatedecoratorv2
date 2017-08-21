@@ -135,6 +135,7 @@ h1.typo-avsnitt {
     border: 1px solid @navDekoratorInaktiv;
     margin-top: 1px;
     font-size: 0.875em;
+    color: @white;
 }
 
 .dekorator__sokefelt__input {
@@ -158,34 +159,27 @@ h1.typo-avsnitt {
     display: none;
 }
 
-.dekorator__sokefelt__input:focus + .dekorator__sokefelt__forstorrelsesglass {
-    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
-}
 
-.dekorator__sokefelt__input:hover + .dekorator__sokefelt__forstorrelsesglass {
-    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
-}
-
-.dekorator__sokefelt__forstorrelsesglass {
+.dekorator__sokefelt__ikon {
     position: absolute;
-    top: 7px;
-    bottom: 7px;
-    padding: 10px 12px;
-    margin-left: -45px;
-    border: none;
     text-indent: -9999em;
-    height: 1.15em;
+    border: none;
+    height: 2em;
+    width: 2em;
+    margin-left: ~"calc(-0.7em - 2em + 1px)";
+    padding: 0;
+    background: transparent no-repeat 50% 50%;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
     &:hover {
         box-shadow: 0 0 0 2px @navLysBla;
         outline: none;
         background-color: @white;
-        background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
     }
     &:focus {
         box-shadow: 0 0 0 2px @orangeFocus;
         outline: none;
         background-color: @white;
-        background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
     }
     &:focus, &:hover {
         & ~ input {
@@ -195,11 +189,45 @@ h1.typo-avsnitt {
 }
 
 .dekorator__forstorrelsesglass--hvit {
-    background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
+    background-image: url("../img/forstorrelsesglass-hvit.svg");
+    &:hover, &:focus {
+        background-image: url("../img/forstorrelsesglass-blaa.svg");
+    }
 }
 
 .dekorator__forstorrelsesglass--svart {
-    background: url("../img/forstorrelsesglass-svart.svg") no-repeat;
+    background-image: url("../img/forstorrelsesglass-svart.svg");
+    &:hover, &:focus {
+        background-image: url("../img/forstorrelsesglass-blaa.svg");
+    }
+}
+
+.dekorator__sokefelt__input:hover + .dekorator__forstorrelsesglass--hvit,
+.dekorator__sokefelt__input:hover + .dekorator__forstorrelsesglass--svart,
+.dekorator__sokefelt__input:focus + .dekorator__forstorrelsesglass--hvit,
+.dekorator__sokefelt__input:focus + .dekorator__forstorrelsesglass--svart {
+    background-image: url("../img/forstorrelsesglass-blaa.svg");
+}
+
+.dekorator__kryss--hvit {
+    background-image: url("../img/kryss-hvit.svg");
+    &:hover, &:focus {
+        background-image: url("../img/kryss-blaa.svg");
+    }
+}
+
+.dekorator__kryss--svart {
+    background-image: url("../img/kryss-svart.svg");
+    &:hover, &:focus {
+        background-image: url("../img/kryss-blaa.svg");
+    }
+}
+
+.dekorator__sokefelt__input:hover + .dekorator__kryss--hvit,
+.dekorator__sokefelt__input:hover + .dekorator__kryss--svart,
+.dekorator__sokefelt__input:focus + .dekorator__kryss--hvit,
+.dekorator__sokefelt__input:focus + .dekorator__kryss--svart {
+    background-image: url("../img/kryss-blaa.svg");
 }
 
 .dekorator__sokefelt__valideringsfeil {
