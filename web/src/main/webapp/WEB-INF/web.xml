@@ -16,15 +16,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>jsonselftest</servlet-name>
-        <servlet-class>no.nav.sbl.internarbeidsflatedecorator.SelftestJsonServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>jsonselftest</servlet-name>
-        <url-pattern>/internal/selftest.json</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>isAliveServlet</servlet-name>
         <servlet-class>no.nav.sbl.internarbeidsflatedecorator.IsAliveServlet</servlet-class>
     </servlet>
