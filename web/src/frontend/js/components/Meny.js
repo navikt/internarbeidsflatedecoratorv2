@@ -32,6 +32,10 @@ const menyConfig = (fnr) => [{
             tittel: 'Sykefravær',
             url: `https://modapp${finnMiljoStreng()}.adeo.no/moteoversikt`,
         },
+        {
+            tittel: 'Fastlege',
+            url: `https://modapp${finnMiljoStreng()}.adeo.no/fastlege`,
+        },
     ],
 }];
 
