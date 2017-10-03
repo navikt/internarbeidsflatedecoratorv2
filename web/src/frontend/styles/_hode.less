@@ -5,44 +5,44 @@
 @navDekoratorError: #ba3a26;
 
 .dekorator__hode {
-  padding: 0.3rem;
-  background-color: @navMorkGra;
-  position: relative;
-  color: @white;
+    padding: 0.3rem;
+    background-color: @navMorkGra;
+    position: relative;
+    color: @white;
 }
 
 h1.typo-element {
-  font-family: Arial, sans-serif;
-  font-size: 1.125rem;
-  margin-left: 0.7rem;
+    font-family: Arial, sans-serif;
+    font-size: 1.125rem;
+    margin-left: 0.7rem;
 }
 
 h1.typo-avsnitt {
-  font-family: Arial, sans-serif;
-  font-size: 0.875rem;
-  font-weight: normal;
+    font-family: Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: normal;
 }
 
 .dekorator__hode--apen {
-  border-bottom: 1px solid @navDekoratorInaktiv;
+    border-bottom: 1px solid @navDekoratorInaktiv;
 }
 
 .dekorator__hode__logo {
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  border: 0;
-  svg {
-    height: 30px;
-    width: 108px;
-    border-right: 1px solid @navGra40;
-  }
-  &:focus {
-    background-color: transparent;
-    box-shadow: 0 0 0 2px @orangeFocus;
-    color: @white;
-  }
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border: 0;
+    svg {
+        height: 30px;
+        width: 108px;
+        border-right: 1px solid @navGra40;
+    }
+    &:focus {
+        background-color: transparent;
+        box-shadow: 0 0 0 2px @orangeFocus;
+        color: @white;
+    }
 }
 
 .dekorator__hode__logo__ikon {
@@ -54,247 +54,245 @@ h1.typo-avsnitt {
 }
 
 .dekorator__hode__button {
-  border: 0;
-  margin: 0;
-  padding: 0 2.25rem 0 0;
-  color: @white;
-  height: 32px;
-  line-height: 32px;
-  font-size: 1rem;
-  background-color: transparent;
-  position: relative;
-  transition: color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-  &:before {
-    content: "";
-    border-left: 1px solid @white;
-    display: block;
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    top: 5px;
-    transition: all 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
-    border-top: 1px solid @white;
-    transform: rotate(-135deg);
-    right: 14px;
-  }
-  &:hover {
-    color: @navLysBla;
-    &:after, &:before {
-      border-color: @navLysBla;
+    border: 0;
+    margin: 0;
+    padding: 0 2.25rem 0 0;
+    color: @white;
+    height: 32px;
+    line-height: 32px;
+    font-size: 1rem;
+    background-color: transparent;
+    position: relative;
+    transition: color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+    &:before {
+        content: "";
+        border-left: 1px solid @white;
+        display: block;
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 5px;
+        transition: all 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        border-top: 1px solid @white;
+        transform: rotate(-135deg);
+        right: 14px;
     }
-  }
-  &:focus {
-    outline: 0;
-    box-shadow: 0 0 0 2px @orangeFocus;
-  }
+    &:hover {
+        color: @navLysBla;
+        &:after, &:before {
+            border-color: @navLysBla;
+        }
+    }
+    &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 2px @orangeFocus;
+    }
 }
 
 .dekorator__hode__toggleMeny {
-  font-size: 0.875rem;
-  .dekorator__hode__button;
-  border-left: 1px solid @navGra40;
-  padding-left: 0.7rem;
+    font-size: 0.875rem;
+    .dekorator__hode__button;
+    border-left: 1px solid @navGra40;
+    padding-left: 0.7rem;
 }
 
 .dekorator__hode__toggleMeny--apen {
-  &:before {
-    top: 14px;
-    transform: rotate(45deg);
-  }
+    &:before {
+        top: 14px;
+        transform: rotate(45deg);
+    }
 }
 
 .flex-center {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .dekorator__banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .dekorator__sokefelt {
-  position: relative;
+    position: relative;
 }
-
 .dekorator__tittel {
-  width: 100%;
-  min-width: 7.75rem;
-  max-width: 16rem;
+    width: 100%;
+    min-width: 7.75rem;
+    max-width: 16rem;
 }
 
 .dekorator__sokefelt__input {
-  position: relative;
-  background-color: @navDekoratorSvart;
-  border-radius: 2px;
-  margin-right: 0.7rem;
-  margin-left: 0.7rem;
-  padding: 0.5rem 2rem 0.5rem 0.5rem;
-  width: 8.5rem;
-  top: -0.125rem;
-  border: 1px solid @navDekoratorInaktiv;
-  margin-top: 1px;
-  font-size: 0.875rem;
+    position: relative;
+    background-color: @navDekoratorSvart;
+    border-radius: 2px;
+    margin-right: 0.7rem;
+    margin-left: 0.7rem;
+    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    width: 8.5rem;
+    top: -0.125rem;
+    border: 1px solid @navDekoratorInaktiv;
+    margin-top: 1px;
+    font-size: 0.875rem;
 }
 
 .dekorator__sokefelt__input {
-  &:hover {
-    box-shadow: 0 0 0 2px @navLysBla;
-    outline: none;
-    background-color: @white;
-    color: @navMorkGra;
-  }
-  &:focus {
-    box-shadow: 0 0 0 2px @orangeFocus;
-    outline: none;
-    background-color: @white;
-    color: @navMorkGra;
-  }
+    &:hover {
+        box-shadow: 0 0 0 2px @navLysBla;
+        outline: none;
+        background-color: @white;
+        color: @navMorkGra;
+    }
+    &:focus {
+        box-shadow: 0 0 0 2px @orangeFocus;
+        outline: none;
+        background-color: @white;
+        color: @navMorkGra;
+    }
 }
 
 .dekorator__sokefelt__input::-ms-clear {
-  width: 0;
-  height: 0;
-  display: none;
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 .dekorator__sokefelt__input:focus + .dekorator__sokefelt__forstorrelsesglass {
-  background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
 }
 
 .dekorator__sokefelt__input:hover + .dekorator__sokefelt__forstorrelsesglass {
-  background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
 }
 
 .dekorator__sokefelt__forstorrelsesglass {
-  position: absolute;
-  top: 7px;
-  bottom: 7px;
-  padding: 10px 12px;
-  margin-left: -45px;
-  border: none;
-  text-indent: -9999rem;
-  height: 1.15em;
-  &:hover {
-    box-shadow: 0 0 0 2px @navLysBla;
-    outline: none;
-    background-color: @white;
-    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
-  }
-  &:focus {
-    box-shadow: 0 0 0 2px @orangeFocus;
-    outline: none;
-    background-color: @white;
-    background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
-  }
-  &:focus, &:hover {
-    & ~ input {
-      background-color: @white;
+    position: absolute;
+    top: 7px;
+    bottom: 7px;
+    padding: 10px 12px;
+    margin-left: -45px;
+    border: none;
+    text-indent: -9999rem;
+    height: 1.15em;
+    &:hover {
+        box-shadow: 0 0 0 2px @navLysBla;
+        outline: none;
+        background-color: @white;
+        background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
     }
-  }
+    &:focus {
+        box-shadow: 0 0 0 2px @orangeFocus;
+        outline: none;
+        background-color: @white;
+        background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
+    }
+    &:focus, &:hover {
+        & ~ input {
+            background-color: @white;
+        }
+    }
 }
 
 .dekorator__forstorrelsesglass--hvit {
-  background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
 }
 
 .dekorator__forstorrelsesglass--svart {
-  background: url("../img/forstorrelsesglass-svart.svg") no-repeat;
+    background: url("../img/forstorrelsesglass-svart.svg") no-repeat;
 }
 
 .dekorator__sokefelt__valideringsfeil {
-  border: 1px solid @navDekoratorError;
-  &:focus {
-    outline: 0;
-  }
+    border: 1px solid @navDekoratorError;
+    &:focus {
+        outline: 0;
+    }
 }
-
 .dekorator__hode__veileder_header {
-  width: 6.5rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
+    width: 6.5rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
-
 .dekorator__hode__veileder_id {
-  display: block;
-  padding-right: 0.7rem;
+    display: block;
+    padding-right: 0.7rem;
 }
 
 .dekorator__hode__veileder_container {
-  white-space: nowrap;
-  padding-right: 0.2rem;
+    white-space: nowrap;
+    padding-right: 0.2rem;
 }
 
 .dekorator__hode__enhet {
-  display: block;
-  white-space: nowrap;
-  width: 11rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    width: 11rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dekorator-select-container {
-  position: relative;
-  display: inline-block;
-  top: -0.125em;
+    position: relative;
+    display: inline-block;
+    top: -0.125em;
 
-  select {
-    color: @white;
-    background-color: #1d1d1d;
-    border-radius: 1px;
-    margin-right: 3px;
-    margin-left: 2em;
-    margin-top: 1px;
-    padding: 8px 0 7px 10px;
-    width: 210px;
-    height: 34px;
-    border: 1px solid #7f756c;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
 
-    &:focus {
-      outline: 0;
-      box-shadow: 0 0 0 2px @orangeFocus;
-      border-color: @navDekoratorInaktiv;
-      transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+
+    select {
+        color: @white;
+        background-color: #1d1d1d;
+        border-radius: 1px;
+        margin-right: 3px;
+        margin-left: 2em;
+        margin-top:1px;
+        padding: 8px 0 7px 10px;
+        width: 210px;
+        height: 34px;
+        border: 1px solid #7f756c;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        appearance: none;
+
+        &:focus {
+            outline: 0;
+            box-shadow: 0 0 0 2px @orangeFocus;
+            border-color: @navDekoratorInaktiv;
+            transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        }
+
+        &:hover {
+            outline: 0;
+            box-shadow: 0 0 0 2px @navLysBla;
+            border-color: @navBla;
+            transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+        }
+
     }
-
-    &:hover {
-      outline: 0;
-      box-shadow: 0 0 0 2px @navLysBla;
-      border-color: @navBla;
-      transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+    select::-ms-expand {
+        display: none; // Skjuler pil i IE10
     }
-
-  }
-  select::-ms-expand {
-    display: none; // Skjuler pil i IE10
-  }
-  &:after {
-    pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
-    content: url("../../frontend/img/pil.svg");
-    position: absolute;
-    top: 4px;
-    right: 9px;
-    width: 9px;
-    height: 14px;
-    transform: rotate(90deg);
-    background: #1d1d1d;
-    padding: 11px 7px 4px 7px;
-  }
+    &:after {
+      pointer-events: none; // gjør at en kan klikke igjennom denne (pilen), slik at select åpner seg
+      content: url("../../frontend/img/pil.svg");
+      position: absolute;
+      top: 4px;
+      right: 9px;
+      width: 9px;
+      height: 14px;
+      transform: rotate(90deg);
+      background: #1d1d1d;
+      padding: 11px 7px 4px 7px;
+    }
 
 }
-
 .visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
