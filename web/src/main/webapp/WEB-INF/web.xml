@@ -6,6 +6,15 @@
 
     <display-name>internarbeidsflatedecorator</display-name>
 
+    <filter>
+        <filter-name>GZip</filter-name>
+        <filter-class>no.nav.sbl.dialogarena.common.web.filter.GZIPFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>GZip</filter-name>
+        <url-pattern>*.js</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>selftest</servlet-name>
         <servlet-class>no.nav.sbl.internarbeidsflatedecorator.SelftestServlet</servlet-class>
