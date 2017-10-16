@@ -34,7 +34,7 @@ const menyConfig = (fnr) => [{
         },
         {
             tittel: 'Fastlege',
-            url: `https://modapp${finnMiljoStreng()}.adeo.no/fastlege`,
+            url: `https://app${finnMiljoStreng()}.adeo.no/fastlege`,
         },
     ],
 }];
