@@ -21,8 +21,8 @@ export function* veilederSaga(action) {
         } else if (action && action.data && action.data.url) {
             url = action.data.url;
         } else {
-            url = erDev() ? 'https://localhost:9590/veilarbveileder/tjenester/veileder/me'
-                : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/tjenester/veileder/me`;
+            url = erDev() ? 'https://localhost:9590/veilarbveileder/api/veileder/me'
+                : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/api/veileder/me`;
         }
         const data = yield call(get, url);
         yield put(actions.veilederHentet(data));
