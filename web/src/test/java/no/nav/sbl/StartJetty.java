@@ -13,7 +13,6 @@ public class StartJetty {
         Jetty jetty = usingWar()
                 .at("/internarbeidsflatedecorator")
                 .port(PORT)
-                .sslPort(ssl_PORT)
                 .buildJetty();
         jetty.startAnd(first(waitFor(gotKeypress())).then(jetty.stop));
     }
