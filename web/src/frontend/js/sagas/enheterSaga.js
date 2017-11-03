@@ -22,7 +22,7 @@ export function* enheterSaga(action) {
         } else if (action && action.data && action.data.url) {
             url = action.data.url;
         } else {
-            url = erDev() ? 'http://localhost:8080/veilarbveileder/api/veileder/enheter'
+            url = erDev() ? '/veilarbveileder/api/veileder/enheter'
                 : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/api/veileder/enheter`;
         }
 
