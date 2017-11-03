@@ -1,14 +1,12 @@
 FROM docker.adeo.no:5000/bekkci/npm-builder as npm-build
-
 ADD /web/src/frontend /source
-RUN build
+RUN build /source
 
-
-FROM docker.adeo.no:5000/bekkci/maven-builder
+FROM docker.adeo.no:5000/bekkci/maven-builder as maven-build
 ADD / /source
-
-# [ /main/webapp ] TODO prosjektet har klønete struktur, fiks dette når vi er over på nais!
 COPY --from=npm-build /main/webapp /source/web/src/main/webapp
-RUN build
+RUN build /source
 
-# TODO oppsett for nais
+FROM docker.adeo.no:5000/bekkci/skya-deployer
+COPY --from=maven-build /source /deploy
+RUN deploy /deploy
