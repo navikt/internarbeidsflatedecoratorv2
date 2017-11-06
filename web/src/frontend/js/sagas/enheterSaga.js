@@ -16,10 +16,7 @@ export function* enheterSaga(action) {
 
     try {
         let url;
-        if (action && action.data && action.data.overrideenhetersaga) {
-            url = erDev() ? 'http://localhost:8196/mote/rest/enheter'
-                : `https://modapp${finnMiljoStreng()}.adeo.no/mote/rest/enheter`;
-        } else if (action && action.data && action.data.url) {
+        if (action && action.data && action.data.url) {
             url = action.data.url;
         } else {
             url = erDev() ? 'https://localhost:9590/veilarbveileder/api/veileder/enheter'
