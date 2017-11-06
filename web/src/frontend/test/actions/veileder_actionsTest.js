@@ -16,14 +16,10 @@ describe("veileder_actions", () => {
     });
 
     it("Skal ha en hentVeileder()-funksjon som returnerer riktig action", () => {
-        const action = {
-            overrideveiledersaga: false,
-        };
+        const action = {};
         const res = actions.hentVeileder(action);
         expect(res).to.deep.equal({
-            data: {
-                overrideveiledersaga: false,
-            },
+            data: {},
             type: 'HENT_VEILEDER_FORESPURT',
         })
     });
