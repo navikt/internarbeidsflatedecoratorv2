@@ -1,12 +1,8 @@
 FROM docker.adeo.no:5000/bekkci/npm-builder as npm-build
-ADD /web/src/frontend /source
-RUN build /source
+ADD /web/src/frontend ${SOURCE_DIR}
+RUN build ${SOURCE_DIR}
 
 FROM docker.adeo.no:5000/bekkci/maven-builder as maven-build
-ADD / /source
-COPY --from=npm-build /main/webapp /source/web/src/main/webapp
-RUN build /source
-
-FROM docker.adeo.no:5000/bekkci/skya-deployer
-COPY --from=maven-build /source /deploy
-RUN deploy /deploy
+ADD / ${SOURCE_DIR}
+COPY --from=npm-build /main/webapp ${SOURCE_DIR}/web/src/main/webapp
+RUN build ${SOURCE_DIR}
