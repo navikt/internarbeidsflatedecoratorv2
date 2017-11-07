@@ -26,10 +26,10 @@ sagaMiddleware.run(rootSaga);
 
 window.renderDecoratorHead = ({ config }, id = 'header') => {
     if (config.toggles.visVeileder) {
-        store.dispatch(hentVeileder({ overrideveiledersaga: config.toggles.overrideveiledersaga, url: config.dataSources && config.dataSources.veileder }));
+        store.dispatch(hentVeileder({ url: config.dataSources && config.dataSources.veileder }));
     }
     if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
-        store.dispatch(hentEnheter({ overrideenhetersaga: config.toggles.overrideenhetersaga, url: config.dataSources && config.dataSources.enheter }));
+        store.dispatch(hentEnheter({ url: config.dataSources && config.dataSources.enheter }));
     }
 
     const headerElement = document.getElementById(id);
