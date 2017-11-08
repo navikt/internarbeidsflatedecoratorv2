@@ -15,15 +15,7 @@ export function* enheterSaga(action) {
     }
 
     try {
-        let url;
-        if (action && action.data && action.data.url) {
-            url = action.data.url;
-        } else {
-            url = erDev() ? '/veilarbveileder/api/veileder/enheter'
-                : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/api/veileder/enheter`;
-        }
-
-        const data = yield call(get, url);
+        const data = yield call(get, action.data.url);
         yield put(actions.enheterHentet(data));
     } catch (e) {
         yield put(actions.hentEnheterFeilet());
