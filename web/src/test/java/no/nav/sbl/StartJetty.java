@@ -12,6 +12,7 @@ public class StartJetty {
         Jetty jetty = usingWar()
                 .at("/internarbeidsflatedecorator")
                 .port(PORT)
+                .disableAnnotationScanning()
                 .buildJetty();
         jetty.startAnd(first(waitFor(gotKeypress())).then(jetty.stop));
     }
