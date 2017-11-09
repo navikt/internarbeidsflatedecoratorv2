@@ -25,7 +25,7 @@ const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
 
 const finnEnhetForVisning = enheter => {
-    if (enheter.length === 0) {
+    if (enheter.data.length === 0) {
         return { tom: true };
     } else if (enheter.henter) {
         return { henter: true };
@@ -33,7 +33,7 @@ const finnEnhetForVisning = enheter => {
         return { feilet: true }
     }
 
-    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enheter);
+    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enheter.data);
     if (!valgtEnhet) {
         return enheter[0];
     }
@@ -66,7 +66,7 @@ const Header = ({
                     <header className="dekorator__banner">
                         <Overskrift applicationName={applicationName}/>
                         <div className="flex-center">
-                            { toggles.visEnhet && <Enhet enhet={enhet}/> }
+                            { toggles.visEnhet && <Enhet enheter={enheter}/> }
                             { toggles.visEnhetVelger && <EnhetVelger
                                 toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                 enheter={enheter}
