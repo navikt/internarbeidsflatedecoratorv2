@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { finnEnhetForVisning } from './Header';
 
 import { EMDASH } from '../utils/utils';
 

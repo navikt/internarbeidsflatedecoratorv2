@@ -24,13 +24,13 @@ const defaultFjernPersonHandler = () => {
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
 
-const finnEnhetForVisning = enheter => {
+export const finnEnhetForVisning = enheter => {
     if (enheter.data.length === 0) {
         return { tom: true };
     } else if (enheter.henter) {
         return { henter: true };
     } else if (enheter.hentingFeilet) {
-        return { feilet: true }
+        return { feilet: true };
     }
 
     const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enheter.data);
@@ -64,35 +64,37 @@ const Header = ({
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
                     <header className="dekorator__banner">
-                        <Overskrift applicationName={applicationName}/>
+                        <Overskrift applicationName={applicationName} />
                         <div className="flex-center">
-                            { toggles.visEnhet && <Enhet enheter={enheter}/> }
+                            { toggles.visEnhet && <Enhet enheter={enheter} /> }
                             { toggles.visEnhetVelger && <EnhetVelger
                                 toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                 enheter={enheter}
                                 handleChangeEnhet={handleChangeEnhet}
                                 initiellEnhet={initiellEnhet}
                             /> }
-                            { toggles.visSokefelt && <Sokefelt triggerPersonsokEvent={triggerPersonsokEvent}
-                                                               triggerFjernPersonEvent={triggerFjernPersonEvent}
-                                                               fnr={fnr}/> }
-                            { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt}} /> }
-                            { toggles.visVeileder && <Veileder veileder={veileder}/> }
+                            { toggles.visSokefelt && <Sokefelt
+                                triggerPersonsokEvent={triggerPersonsokEvent}
+                                triggerFjernPersonEvent={triggerFjernPersonEvent}
+                                fnr={fnr}
+                            /> }
+                            { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt }} /> }
+                            { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         </div>
                         <section>
                             <button aria-pressed="false"
-                                    className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
-                                    id="js-dekorator-toggle-meny"
-                                    onClick={() => {
-                                        toggleMeny();
-                                    }}>Meny
+                                className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
+                                id="js-dekorator-toggle-meny"
+                                onClick={() => {
+                                    toggleMeny();
+                                }}>Meny
                             </button>
                         </section>
                     </header>
                 </div>
             </div>
             <Meny apen={visMeny} fnr={fnr} enhet={enhet} />
-            { feilmelding && <Feilmelding feilmelding={feilmelding}/> }
+            { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
 };

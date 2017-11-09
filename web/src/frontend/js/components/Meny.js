@@ -22,7 +22,7 @@ const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Personoversikt',
-                url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}`,
+                url: `${appDomain}/veilarbpersonflatefs/${fnr}`,
             },
             {
                 tittel: 'Sykefraværsoppfølging',
@@ -77,14 +77,14 @@ const funksjonsomradeLenker = (fnr, enhet) => [
     },
 ];
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
-const andreSystemerLenker = (fnr, enhet) => ({
+const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
         { tittel: 'Arena personmappen', url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` },
         { tittel: 'AA register', url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&ident=${fnr}` },
         { tittel: 'Pesys', url: `${wasappDomain}/psak/brukeroversikt/fnr=${fnr}` },
         { tittel: 'Gosys', url: `${wasappDomain}/gosys/personoversikt/fnr=${fnr}` },
-    ]
+    ],
 });
 
 export function FunksjonsomradeLenker({ fnr, enhet }) {
@@ -109,6 +109,11 @@ export function FunksjonsomradeLenker({ fnr, enhet }) {
     );
 }
 
+FunksjonsomradeLenker.propTypes = {
+    fnr: PropTypes.string.isRequired,
+    enhet: PropTypes.string.isRequired,
+};
+
 export function AndreSystemerLenker({ fnr, enhet }) {
     const config = andreSystemerLenker(fnr, enhet);
 
@@ -125,6 +130,11 @@ export function AndreSystemerLenker({ fnr, enhet }) {
         </section>
     );
 }
+
+AndreSystemerLenker.propTypes = {
+    fnr: PropTypes.string.isRequired,
+    enhet: PropTypes.string.isRequired,
+};
 
 function Meny({ fnr, enhet, apen }) {
     if (!apen) {
@@ -143,6 +153,7 @@ function Meny({ fnr, enhet, apen }) {
 
 Meny.propTypes = {
     fnr: PropTypes.string.isRequired,
+    enhet: PropTypes.string.isRequired,
     apen: PropTypes.bool.isRequired,
 };
 
