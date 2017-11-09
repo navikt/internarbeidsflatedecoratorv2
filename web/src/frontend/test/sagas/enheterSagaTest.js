@@ -14,7 +14,7 @@ describe("enheterSagas", () => {
     });
 
     it("Skal dernest hente enheter", () => {
-        const nextCall = call(get, "https://app.adeo.no/veilarbveileder/tjenester/veileder/enheter");
+        const nextCall = call(get, "https://app.adeo.no/veilarbveileder/api/veileder/enheter");
         expect(generator.next().value).to.deep.equal(nextCall);
     });
 

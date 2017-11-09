@@ -16,15 +16,11 @@ describe("enheter_actions", () => {
     });
 
     it("Skal ha en hentEnheter()-funksjon som returnerer riktig action", () => {
-        const action = {
-            overrideenhetersaga: false,
-        };
+        const action = {};
         const res = actions.hentEnheter(action);
         expect(res).to.deep.equal({
             type: 'HENT_ENHETER_FORESPURT',
-            data: {
-                overrideenhetersaga: false,
-            },
+            data: {},
         })
     });
 

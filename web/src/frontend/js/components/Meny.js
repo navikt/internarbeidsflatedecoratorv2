@@ -28,6 +28,10 @@ const funksjonsomradeLenker = (fnr, enhet) => [
                 tittel: 'Sykefraværsoppfølging',
                 url: `${modappDomain}/moteoversikt`,
             },
+            {
+                tittel: 'Fastlege',
+                url: `${appDomain}/fastlege`,
+            },
         ],
     },
     {
