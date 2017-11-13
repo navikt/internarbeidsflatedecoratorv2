@@ -14,14 +14,7 @@ export function* veilederSaga(action) {
         return;
     }
     try {
-        let url;
-        if (action && action.data && action.data.url) {
-            url = action.data.url;
-        } else {
-            url = erDev() ? 'https://localhost:9590/veilarbveileder/api/veileder/me'
-                : `https://app${finnMiljoStreng()}.adeo.no/veilarbveileder/api/veileder/me`;
-        }
-        const data = yield call(get, url);
+        const data = yield call(get, action.data.url);
         yield put(actions.veilederHentet(data));
     } catch (e) {
         yield put(actions.hentVeilederFeilet());
