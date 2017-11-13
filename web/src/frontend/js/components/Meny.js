@@ -46,14 +46,6 @@ const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!saksoversikt` : ''}`,
             },
             {
-                tittel: 'Sykepenger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!sykepenger` : ''}`,
-            },
-            {
-                tittel: 'Foreldrepenger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!foreldrepenger` : ''}`,
-            },
-            {
                 tittel: 'Meldinger',
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!meldinger` : ''}`,
             },

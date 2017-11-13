@@ -24,18 +24,14 @@ const defaultFjernPersonHandler = () => {
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
 
-export const finnEnhetForVisning = enheter => {
-    if (enheter.data.length === 0) {
-        return { tom: true };
-    } else if (enheter.henter) {
-        return { henter: true };
-    } else if (enheter.hentingFeilet) {
-        return { feilet: true };
+export const finnEnhetForVisning = enhetliste => {
+    if (!enhetliste || enhetliste.length === 0) {
+        return '';
     }
 
-    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enheter.data);
+    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enhetliste);
     if (!valgtEnhet) {
-        return enheter[0];
+        return enhetliste[0];
     }
     return valgtEnhet;
 };
@@ -57,7 +53,8 @@ const Header = ({
                 }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
     const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernPersonHandler;
-    const enhet = finnEnhetForVisning(enheter);
+
+    const enhet = finnEnhetForVisning((enheter || {}).data);
 
     return (
         <div className="dekorator">
