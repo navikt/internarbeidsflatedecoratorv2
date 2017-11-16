@@ -3,7 +3,6 @@ import { takeEvery } from 'redux-saga';
 import { get } from './api/index';
 import * as actions from '../actions/veileder_actions';
 import { HENT_VEILEDER_FORESPURT } from '../actions/actiontyper';
-import { erDev, finnMiljoStreng } from './util';
 import config from '../config';
 import veilederMock from './mock/veileder';
 
