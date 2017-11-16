@@ -5,7 +5,7 @@ import { get } from '../../js/sagas/api/index';
 import { put, call } from 'redux-saga/effects';
 
 describe("enheterSagas", () => {
-    const action = actions.hentEnheter();
+    const action = actions.hentEnheter({ url: 'https://app.adeo.no/veilarbveileder/api/veileder/enheter' });
     const generator = enheterSaga(action);
 
     it("Skal dispatche HENTER_ENHETER", () => {
