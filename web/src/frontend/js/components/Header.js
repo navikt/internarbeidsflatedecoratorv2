@@ -24,14 +24,14 @@ const defaultFjernPersonHandler = () => {
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
 
-export const finnEnhetForVisning = enhetliste => {
-    if (!enhetliste || enhetliste.length === 0) {
+export const finnEnhetForVisning = data => {
+    if (!data || data.length === 0) {
         return '';
     }
 
-    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), enhetliste);
+    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), data.enhetliste);
     if (!valgtEnhet) {
-        return enhetliste[0];
+        return data.enhetliste[0];
     }
     return valgtEnhet;
 };

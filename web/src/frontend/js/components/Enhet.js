@@ -11,7 +11,7 @@ const Enhet = ({ enheter }) => {
     } else if (enheter.hentingFeilet) {
         visningsTekst = EMDASH;
     } else {
-        const enhet = finnEnhetForVisning(enheter.data.enhetliste);
+        const enhet = finnEnhetForVisning(enheter.data);
         visningsTekst = `${enhet.enhetId} ${enhet.navn}`;
     }
 
