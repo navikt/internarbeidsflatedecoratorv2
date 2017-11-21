@@ -30,7 +30,7 @@ const menyConfig = (fnr) => [{
     lenker: [
         {
             tittel: 'Sykefravær',
-            url: `https://modapp${finnMiljoStreng()}.adeo.no/moteoversikt`,
+            url: `https://app${finnMiljoStreng()}.adeo.no/sykefravaersoppfoelging`,
         },
         {
             tittel: 'Fastlege',
