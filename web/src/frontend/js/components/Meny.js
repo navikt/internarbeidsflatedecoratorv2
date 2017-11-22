@@ -29,11 +29,15 @@ const menyConfig = (fnr) => [{
     tittel: 'Sykefravær',
     lenker: [
         {
-            tittel: 'Sykefravær',
+            tittel: 'Hendelser',
             url: `https://app${finnMiljoStreng()}.adeo.no/sykefravaersoppfoelging`,
         },
         {
-            tittel: 'Fastlege',
+            tittel: 'Møteoversikt',
+            url: `https://app${finnMiljoStreng()}.adeo.no/moteoversikt`,
+        },
+        {
+            tittel: 'Finn fastlegen',
             url: `https://app${finnMiljoStreng()}.adeo.no/fastlege`,
         },
     ],
