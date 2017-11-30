@@ -5,9 +5,11 @@
   "scripts": {
     "test:watch": "cross-env NODE_ENV=test nyc mocha --watch",
     "test": "cross-env NODE_ENV=test nyc mocha",
+    "test:coverage": "npm run test",
     "build-js": "webpack --optimize-minimize",
     "dev": "webpack --watch",
     "build": "npm run build-js",
+    "lint": "eslint js/. --ext .js",
     "eslint": "eslint js/. --ext .js",
     "eslint:fix": "eslint js/. --ext .js --fix"
   },
