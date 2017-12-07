@@ -10,7 +10,7 @@ describe("Meny", () => {
         expect(meny.type()).to.equal(null);
     });
     it("Viser lenker om åpen", () => {
-        const meny = mount(<Meny fnr="01234567890" apen />);
+        const meny = mount(<Meny fnr="01234567890" enhet={{enhetId: ''}} apen />);
 
         expect(meny.find('.dekorator__kolonner')).to.have.length(1);
         expect(meny.find('.dekorator__rad')).to.have.length(1);
@@ -18,9 +18,9 @@ describe("Meny", () => {
     });
 
     describe('FunksjonsomradeLenker', () => {
-        const kolonneLenge = [6, 7];
+        const kolonneLenge = [7, 7];
         it('skal ha to kolonner', () => {
-            const meny = shallow(<FunksjonsomradeLenker fnr="01234567890" />);
+            const meny = shallow(<FunksjonsomradeLenker fnr="01234567890" enhet={{enhetId: ''}} />);
 
             const kolonner = meny.find('section.dekorator__kolonne');
 
@@ -44,7 +44,7 @@ describe("Meny", () => {
 
     describe('AndreSystemerLenker', () => {
         it('skal ha riktig antall lenker', () => {
-            const meny = shallow(<AndreSystemerLenker fnr="01234567890" />);
+            const meny = shallow(<AndreSystemerLenker fnr="01234567890" enhet={{enhetId: ''}} />);
             const lenker = meny.find('.dekorator__menylenke');
 
             expect(lenker).to.have.length(4);
