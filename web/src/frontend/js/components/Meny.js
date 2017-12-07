@@ -14,14 +14,14 @@ const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Enhetens oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/enhet?${enhet}&clean`,
+                url: `${appDomain}/veilarbportefoljeflatefs/enhet?${enhet.enhetId}&clean`,
             },
             {
                 tittel: 'Min oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
+                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet.enhetId}&clean`,
             },
             {
-                tittel: 'Personoversikt',
+                tittel: 'Aktivitetsplan',
                 url: `${appDomain}/veilarbpersonflatefs/${fnr}`,
             },
             {
@@ -35,10 +35,10 @@ const funksjonsomradeLenker = (fnr, enhet) => [
         ],
     },
     {
-        tittel: 'Brukerdialog',
+        tittel: 'Personoversikt',
         lenker: [
             {
-                tittel: 'Modia/Søk',
+                tittel: 'Avansert søk',
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
             },
             {
