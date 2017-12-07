@@ -39,6 +39,7 @@ export const finnEnhetForVisning = data => {
 const Header = ({
                     applicationName,
                     fnr,
+                    autoSubmit,
                     toggles = {},
                     handlePersonsokSubmit,
                     handlePersonsokReset,
@@ -74,6 +75,7 @@ const Header = ({
                                 triggerPersonsokEvent={triggerPersonsokEvent}
                                 triggerFjernPersonEvent={triggerFjernPersonEvent}
                                 fnr={fnr}
+                                autoSubmit={autoSubmit}
                             /> }
                             { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt }} /> }
                             { toggles.visVeileder && <Veileder veileder={veileder} /> }
@@ -106,6 +108,7 @@ Header.propTypes = {
         toggleSendEventVedEnEnhet: PropTypes.bool,
     }),
     fnr: PropTypes.string,
+    autoSubmit: PropTypes.bool,
     visMeny: PropTypes.bool,
     toggleMeny: PropTypes.func,
     handleChangeEnhet: PropTypes.func,

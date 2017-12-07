@@ -42,6 +42,12 @@ class Sokefelt extends React.Component {
         this.setState({ valideringsfeil: false });
     };
 
+    componentDidMount() {
+        if (this.props.autoSubmit) {
+            this.onEnter(this.props.fnr);
+        }
+    }
+
     render() {
         const sokefeltKlasser = classNames({
             dekorator__sokefelt__input: true,

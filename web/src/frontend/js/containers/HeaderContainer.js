@@ -22,6 +22,7 @@ export function mapStateToProps(state, ownProps) {
         applicationName: ownProps.config.applicationName,
         handleChangeEnhet: ownProps.config.handleChangeEnhet,
         fnr: ownProps.config.fnr,
+        autoSubmit: ownProps.config.autoSubmit,
         visMeny: state.meny.visMeny,
         feilmelding: state.feilmeldinger.feilmelding,
         handlePersonsokSubmit: ownProps.config.handlePersonsokSubmit,
