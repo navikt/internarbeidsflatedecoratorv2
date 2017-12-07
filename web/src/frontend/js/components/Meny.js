@@ -25,15 +25,15 @@ const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${appDomain}/veilarbpersonflatefs/${fnr}`,
             },
             {
-                tittel: 'Hendelser',
+                tittel: 'Sykefraværshendelser',
                 url: `${appDomain}/sykefravaersoppfoelging`,
             },
             {
-                tittel: 'Møteoversikt',
+                tittel: 'Dialogmøter',
                 url: `${appDomain}/moteoversikt`,
             },
             {
-                tittel: 'Finn fastlegen',
+                tittel: 'Finn fastlege',
                 url: `${appDomain}/fastlege`,
             },
         ],
