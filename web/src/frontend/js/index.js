@@ -11,6 +11,7 @@ import meny from './reducers/meny';
 import feilmeldinger from './reducers/feilmelding';
 import { hentVeileder } from './actions/veileder_actions';
 import { hentEnheter } from './actions/enheter_actions';
+import { visFeilmelding } from './actions/feilmeldinger_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less';
 
@@ -30,6 +31,9 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
     }
     if (config.toggles.visEnhet || config.toggles.visEnhetVelger) {
         store.dispatch(hentEnheter({ url: config.dataSources && config.dataSources.enheter }));
+    }
+    if (config.feilmelding) {
+        store.dispatch(visFeilmelding(config.feilmelding));
     }
 
     const headerElement = document.getElementById(id);

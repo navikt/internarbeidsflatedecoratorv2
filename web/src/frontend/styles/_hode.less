@@ -5,7 +5,7 @@
 @navDekoratorError: #ba3a26;
 
 .dekorator__hode {
-    padding: 0.3rem;
+    padding: 0.3em;
     background-color: @navMorkGra;
     position: relative;
     color: @white;
@@ -13,13 +13,13 @@
 
 h1.typo-element {
     font-family: Arial, sans-serif;
-    font-size: 1.125rem;
-    margin-left: 0.7rem;
+    font-size: 1.125em;
+    margin-left: 0.7em;
 }
 
 h1.typo-avsnitt {
     font-family: Arial, sans-serif;
-    font-size: 0.875rem;
+    font-size: 0.875em;
     font-weight: normal;
 }
 
@@ -56,11 +56,11 @@ h1.typo-avsnitt {
 .dekorator__hode__button {
     border: 0;
     margin: 0;
-    padding: 0 2.25rem 0 0;
+    padding: 0 2.25em 0 0;
     color: @white;
     height: 32px;
     line-height: 32px;
-    font-size: 1rem;
+    font-size: 1em;
     background-color: transparent;
     position: relative;
     transition: color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
@@ -90,10 +90,10 @@ h1.typo-avsnitt {
 }
 
 .dekorator__hode__toggleMeny {
-    font-size: 0.875rem;
+    font-size: 0.875em;
     .dekorator__hode__button;
     border-left: 1px solid @navGra40;
-    padding-left: 0.7rem;
+    padding-left: 0.7em;
 }
 
 .dekorator__hode__toggleMeny--apen {
@@ -119,22 +119,23 @@ h1.typo-avsnitt {
 }
 .dekorator__tittel {
     width: 100%;
-    min-width: 7.75rem;
-    max-width: 16rem;
+    min-width: 7.75em;
+    max-width: 16em;
 }
 
 .dekorator__sokefelt__input {
     position: relative;
     background-color: @navDekoratorSvart;
     border-radius: 2px;
-    margin-right: 0.7rem;
-    margin-left: 0.7rem;
-    padding: 0.5rem 2rem 0.5rem 0.5rem;
-    width: 8.5rem;
-    top: -0.125rem;
+    margin-right: 0.7em;
+    margin-left: 0.7em;
+    padding: 0.5em 2em 0.5em 0.5em;
+    width: 8.5em;
+    top: -0.125em;
     border: 1px solid @navDekoratorInaktiv;
     margin-top: 1px;
-    font-size: 0.875rem;
+    font-size: 0.875em;
+    color: @white;
 }
 
 .dekorator__sokefelt__input {
@@ -158,34 +159,27 @@ h1.typo-avsnitt {
     display: none;
 }
 
-.dekorator__sokefelt__input:focus + .dekorator__sokefelt__forstorrelsesglass {
-    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
-}
 
-.dekorator__sokefelt__input:hover + .dekorator__sokefelt__forstorrelsesglass {
-    background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
-}
-
-.dekorator__sokefelt__forstorrelsesglass {
+.dekorator__sokefelt__ikon {
     position: absolute;
-    top: 7px;
-    bottom: 7px;
-    padding: 10px 12px;
-    margin-left: -45px;
+    text-indent: -9999em;
     border: none;
-    text-indent: -9999rem;
-    height: 1.15em;
+    height: 2em;
+    width: 2em;
+    margin-left: ~"calc(-0.7em - 2em + 1px)";
+    padding: 0;
+    background: transparent no-repeat 50% 50%;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
     &:hover {
         box-shadow: 0 0 0 2px @navLysBla;
         outline: none;
         background-color: @white;
-        background: url("../img/forstorrelsesglass-blaa.svg") no-repeat;
     }
     &:focus {
         box-shadow: 0 0 0 2px @orangeFocus;
         outline: none;
         background-color: @white;
-        background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
     }
     &:focus, &:hover {
         & ~ input {
@@ -195,11 +189,45 @@ h1.typo-avsnitt {
 }
 
 .dekorator__forstorrelsesglass--hvit {
-    background: url("../img/forstorrelsesglass-hvit.svg") no-repeat;
+    background-image: url("../img/forstorrelsesglass-hvit.svg");
+    &:hover, &:focus {
+        background-image: url("../img/forstorrelsesglass-blaa.svg");
+    }
 }
 
 .dekorator__forstorrelsesglass--svart {
-    background: url("../img/forstorrelsesglass-svart.svg") no-repeat;
+    background-image: url("../img/forstorrelsesglass-svart.svg");
+    &:hover, &:focus {
+        background-image: url("../img/forstorrelsesglass-blaa.svg");
+    }
+}
+
+.dekorator__sokefelt__input:hover + .dekorator__forstorrelsesglass--hvit,
+.dekorator__sokefelt__input:hover + .dekorator__forstorrelsesglass--svart,
+.dekorator__sokefelt__input:focus + .dekorator__forstorrelsesglass--hvit,
+.dekorator__sokefelt__input:focus + .dekorator__forstorrelsesglass--svart {
+    background-image: url("../img/forstorrelsesglass-blaa.svg");
+}
+
+.dekorator__kryss--hvit {
+    background-image: url("../img/kryss-hvit.svg");
+    &:hover, &:focus {
+        background-image: url("../img/kryss-blaa.svg");
+    }
+}
+
+.dekorator__kryss--svart {
+    background-image: url("../img/kryss-svart.svg");
+    &:hover, &:focus {
+        background-image: url("../img/kryss-blaa.svg");
+    }
+}
+
+.dekorator__sokefelt__input:hover + .dekorator__kryss--hvit,
+.dekorator__sokefelt__input:hover + .dekorator__kryss--svart,
+.dekorator__sokefelt__input:focus + .dekorator__kryss--hvit,
+.dekorator__sokefelt__input:focus + .dekorator__kryss--svart {
+    background-image: url("../img/kryss-blaa.svg");
 }
 
 .dekorator__sokefelt__valideringsfeil {
@@ -209,24 +237,24 @@ h1.typo-avsnitt {
     }
 }
 .dekorator__hode__veileder_header {
-    width: 6.5rem;
+    width: 6.5em;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 .dekorator__hode__veileder_id {
     display: block;
-    padding-right: 0.7rem;
+    padding-right: 0.7em;
 }
 
 .dekorator__hode__veileder_container {
     white-space: nowrap;
-    padding-right: 0.2rem;
+    padding-right: 0.2em;
 }
 
 .dekorator__hode__enhet {
     display: block;
     white-space: nowrap;
-    width: 11rem;
+    width: 11em;
     overflow: hidden;
     text-overflow: ellipsis;
 }

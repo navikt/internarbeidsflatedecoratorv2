@@ -20,7 +20,7 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleCh
     };
     return (
         <div className="dekorator-select-container">
-            <select value={initiellEnhet || enhetliste[0].enhetId} onChange={onChange}>
+            <select defaultValue={initiellEnhet || enhetliste[0].enhetId} onChange={onChange}>
                 {options}
             </select>
         </div>

@@ -1,110 +1,74 @@
 import React, { PropTypes } from 'react';
-import { finnMiljoStreng } from '../sagas/util';
+import { funksjonsomradeLenker, andreSystemerLenker } from './../menyConfig';
 
-const menyConfig = (fnr) => [{
-    tittel: 'Modia',
-    lenker: [
-        {
-            tittel: 'Oversikt',
-            url: `https://modapp${finnMiljoStreng()}.adeo.no/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
-        },
-    ],
-}, {
-    tittel: 'Oppfølging',
-    lenker: [
-        {
-            tittel: 'Arbeidsmarkedet',
-            url: `https://app${finnMiljoStreng()}.adeo.no/mia/ledigestillinger`,
-        },
-        {
-            tittel: 'Enhetsportefolje',
-            url: `https://app${finnMiljoStreng()}.adeo.no/veilarbportefoljeflatefs/tilbaketilenhet`,
-        },
-        {
-            tittel: 'Veilederportefølje',
-            url: `https://app${finnMiljoStreng()}.adeo.no/veilarbportefoljeflatefs/tilbaketilveileder`,
-        },
-    ],
-}, {
-    tittel: 'Sykefravær',
-    lenker: [
-        {
-            tittel: 'Sykefraværshendelser',
-            url: `https://app${finnMiljoStreng()}.adeo.no/sykefravaersoppfoelging`,
-        },
-        {
-            tittel: 'Dialogmøter',
-            url: `https://app${finnMiljoStreng()}.adeo.no/moteoversikt`,
-        },
-        {
-            tittel: 'Finn fastlege',
-            url: `https://app${finnMiljoStreng()}.adeo.no/fastlege`,
-        },
-    ],
-}];
+export function FunksjonsomradeLenker({ fnr, enhet }) {
+    const config = funksjonsomradeLenker(fnr, enhet);
+    const kolonner = config.map((topniva) => {
+        const lenker = topniva.lenker.map((lenke) => (
+            <li>
+                <a href={lenke.url} className="typo-normal dekorator__menylenke">{lenke.tittel}</a>
+            </li>
+        ));
 
-const getLenker = (lenkeobjekt, apen) => {
-    const tittel = lenkeobjekt.tittel && <h1 className="typo-innholdstittel">{lenkeobjekt.tittel}</h1>;
-    const menyelementer = !apen ? null : (
-        <nav className="dekorator__container dekorator__meny">
-            {tittel}
-            <ul>
-                { lenkeobjekt.lenker.map(([href, tekst]) => <li><a href={href} className="typo-normal">{tekst}</a>
-                </li>)}
-            </ul>
-        </nav>
-    );
-    const dekoratorCls = ['dekorator__nav', apen ? 'dekorator__nav--apen' : ''].join(' ');
+        return (
+            <section className="dekorator__kolonne">
+                <h2 className="dekorator__lenkeheader">{topniva.tittel}</h2>
+                <ul className="dekorator__menyliste">{lenker}</ul>
+            </section>
+        );
+    });
+
     return (
-        <div className={dekoratorCls} aria-controlledby="js-dekorator-toggle-meny">
-            {menyelementer}
-        </div>
+        <div className="dekorator__kolonner">{kolonner}</div>
     );
+}
+
+FunksjonsomradeLenker.propTypes = {
+    fnr: PropTypes.string.isRequired,
+    enhet: PropTypes.string.isRequired,
 };
 
-const defaultmeny = ({ fnr, apen }) => {
-    const dekoratorCls = ['dekorator__nav', apen ? 'dekorator__nav--apen' : ''].join(' ');
-    return !apen ? null : (
-        <div className={dekoratorCls} aria-controlledby="js-dekorator-toggle-meny">
+export function AndreSystemerLenker({ fnr, enhet }) {
+    const config = andreSystemerLenker(fnr, enhet);
+
+    const lenker = config.lenker.map((lenke) => (
+        <li>
+            <a href={lenke.url} className="typo-normal dekorator__menylenke">{lenke.tittel}</a>
+        </li>
+    ));
+
+    return (
+        <section className="dekorator__rad">
+            <h2 className="dekorator__lenkeheader">{config.tittel}</h2>
+            <ul className="dekorator__menyliste">{lenker}</ul>
+        </section>
+    );
+}
+
+AndreSystemerLenker.propTypes = {
+    fnr: PropTypes.string.isRequired,
+    enhet: PropTypes.string.isRequired,
+};
+
+function Meny({ fnr, enhet, apen }) {
+    if (!apen) {
+        return null;
+    }
+
+    return (
+        <div className="dekorator__nav dekorator__nav--apen">
             <nav className="dekorator__container dekorator__meny">
-                <ul className="dekorator__kolonner">
-                    {
-                        menyConfig(fnr).map((kolonne) => (
-                                <li className="dekorator__kolonne">
-                                    <h2>{kolonne.tittel}</h2>
-                                    {
-                                        kolonne.lenker.map((lenke) => (
-                                                <li className="kolonne_lenke">
-                                                    <a href={lenke.url} className="typo-normal">{lenke.tittel}</a>
-                                                </li>
-                                            )
-                                        )
-                                    }
-                                </li>
-                            )
-                        )
-                    }
-                </ul>
+                <FunksjonsomradeLenker fnr={fnr} enhet={enhet} />
+                <AndreSystemerLenker fnr={fnr} enhet={enhet} />
             </nav>
         </div>
     );
-};
-defaultmeny.propTypes = {
-    fnr: PropTypes.string.isRequired,
-    apen: PropTypes.bool.isRequired,
-};
-
-
-const Meny = ({ fnr, egendefinerteLenker, apen }) => (
-    egendefinerteLenker ? getLenker(egendefinerteLenker, apen) : defaultmeny({ fnr, apen })
-);
+}
 
 Meny.propTypes = {
-    fnr: PropTypes.string,
-    egendefinerteLenker: PropTypes.shape({
-        lenker: PropTypes.arrayOf(PropTypes.array(PropTypes.string)),
-    }),
-    apen: PropTypes.bool,
+    fnr: PropTypes.string.isRequired,
+    enhet: PropTypes.string.isRequired,
+    apen: PropTypes.bool.isRequired,
 };
 
 export default Meny;
