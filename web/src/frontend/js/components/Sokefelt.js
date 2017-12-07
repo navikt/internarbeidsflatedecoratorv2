@@ -12,6 +12,12 @@ class Sokefelt extends React.Component {
         };
     }
 
+    componentDidMount() {
+        if (this.props.autoSubmit) {
+            this.onEnter(this.props.fnr);
+        }
+    }
+
     onEnter = (fodselsnummer) => {
         if (erGyldigFodselsnummer(fodselsnummer)) {
             this.props.triggerPersonsokEvent(fodselsnummer);
@@ -41,12 +47,6 @@ class Sokefelt extends React.Component {
         this.props.fjernFeilmelding();
         this.setState({ valideringsfeil: false });
     };
-
-    componentDidMount() {
-        if (this.props.autoSubmit) {
-            this.onEnter(this.props.fnr);
-        }
-    }
 
     render() {
         const sokefeltKlasser = classNames({
@@ -89,6 +89,7 @@ class Sokefelt extends React.Component {
 }
 
 Sokefelt.propTypes = {
+    autoSubmit: PropTypes.bool,
     triggerPersonsokEvent: PropTypes.func,
     triggerFjernPersonEvent: PropTypes.func,
     visFeilmelding: PropTypes.func,
