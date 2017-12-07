@@ -8,8 +8,8 @@
     "build-js": "webpack --optimize-minimize",
     "dev": "webpack --watch",
     "build": "npm run build-js",
-    "eslint": "eslint js/. --ext .js",
-    "eslint:fix": "eslint js/. --ext .js --fix"
+    "lint": "eslint js/. --ext .js",
+    "lint:fix": "eslint js/. --ext .js --fix"
   },
   "author": "DigiSyfo <digisyfo@nav.no>",
   "license": "ISC",
