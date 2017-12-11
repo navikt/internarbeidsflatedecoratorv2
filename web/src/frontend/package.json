@@ -1,6 +1,7 @@
 {
   "name": "internarbeidsflatedecorator",
   "version": "1.0.0",
+  "private": true,
   "description": "Dekoratør for interne arbeidsflater i NAV",
   "scripts": {
     "test:watch": "cross-env NODE_ENV=test nyc mocha --watch",
