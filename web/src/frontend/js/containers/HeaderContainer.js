@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import * as veilederActions from '../actions/veileder_actions';
 import * as enheterActions from '../actions/enheter_actions';
 import * as menyActions from '../actions/meny_actions';
+import * as settValgtEnhetActions from '../actions/valgtenhet_actions';
 
 export function mapStateToProps(state, ownProps) {
     return {
@@ -16,9 +17,9 @@ export function mapStateToProps(state, ownProps) {
             henter: state.enheter.henter,
             hentingFeilet: state.enheter.hentingFeilet,
         },
+        valgtEnhet: state.valgtEnhet.valgtEnhet,
         extraMarkup: ownProps.config.extraMarkup,
         toggles: ownProps.config.toggles,
-        initiellEnhet: ownProps.config.initiellEnhet,
         applicationName: ownProps.config.applicationName,
         handleChangeEnhet: ownProps.config.handleChangeEnhet,
         fnr: ownProps.config.fnr,
@@ -29,4 +30,4 @@ export function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps, Object.assign({}, veilederActions, enheterActions, menyActions))(Header);
+export default connect(mapStateToProps, Object.assign({}, veilederActions, enheterActions, menyActions, settValgtEnhetActions))(Header);

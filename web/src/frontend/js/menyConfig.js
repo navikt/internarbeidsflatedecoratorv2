@@ -15,11 +15,11 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Enhetens oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/enhet?${enhet.enhetId}&clean`,
+                url: `${appDomain}/veilarbportefoljeflatefs/enhet?${enhet}&clean`,
             },
             {
                 tittel: 'Min oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet.enhetId}&clean`,
+                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
             },
             {
                 tittel: 'Aktivitetsplan',
