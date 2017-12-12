@@ -69,6 +69,7 @@ class Sokefelt extends React.Component {
                         placeholder="Personsøk"
                         type="search"
                         value={this.state.value}
+                        autoComplete="off"
                     />
                     { visSokeIkon && <input
                         id="forstorrelsesglass_sokefelt"
