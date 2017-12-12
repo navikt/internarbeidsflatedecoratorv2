@@ -63,7 +63,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!utbetalinger` : ''}`,
             },
             {
-                tittel: 'Oppfolging',
+                tittel: 'Oppfølging',
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!kontrakter` : ''}`,
             },
             {
