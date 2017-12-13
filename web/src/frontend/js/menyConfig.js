@@ -43,7 +43,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         tittel: 'Personoversikt',
         lenker: [
             {
-                tittel: 'Avansert søk',
+                tittel: 'Oversikt',
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
             },
             {
