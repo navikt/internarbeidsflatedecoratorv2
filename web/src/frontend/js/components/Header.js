@@ -44,18 +44,17 @@ const Header = ({
                     handlePersonsokSubmit,
                     handlePersonsokReset,
                     handleChangeEnhet = () => {},
+                    settValgtEnhet,
                     visMeny,
                     enheter,
                     veileder,
                     feilmelding,
                     toggleMeny,
-                    initiellEnhet,
+                    valgtEnhet,
                     extraMarkup = { etterSokefelt: null },
                 }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
     const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernPersonHandler;
-
-    const enhet = finnEnhetForVisning((enheter || {}).data);
 
     return (
         <div className="dekorator">
@@ -68,8 +67,11 @@ const Header = ({
                             { toggles.visEnhetVelger && <EnhetVelger
                                 toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                 enheter={enheter}
-                                handleChangeEnhet={handleChangeEnhet}
-                                initiellEnhet={initiellEnhet}
+                                handleChangeEnhet={(oppdatertEnhet, endringsType) => {
+                                    settValgtEnhet(oppdatertEnhet);
+                                    handleChangeEnhet(oppdatertEnhet, endringsType);
+                                }}
+                                valgtEnhet={valgtEnhet}
                             /> }
                             { toggles.visSokefelt && <Sokefelt
                                 triggerPersonsokEvent={triggerPersonsokEvent}
@@ -92,7 +94,7 @@ const Header = ({
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} enhet={enhet} />
+            <Meny apen={visMeny} fnr={fnr} enhet={valgtEnhet} />
             { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
@@ -114,8 +116,9 @@ Header.propTypes = {
     handleChangeEnhet: PropTypes.func,
     handlePersonsokSubmit: PropTypes.func,
     handlePersonsokReset: PropTypes.func,
+    settValgtEnhet: PropTypes.func,
     feilmelding: PropTypes.string,
-    initiellEnhet: PropTypes.string,
+    valgtEnhet: PropTypes.string,
     enheter: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,

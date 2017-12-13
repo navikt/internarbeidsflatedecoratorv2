@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleChangeEnhet, toggleSendEventVedEnEnhet = false) => {
+const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet = undefined, handleChangeEnhet, toggleSendEventVedEnEnhet = false) => {
     if (enhetliste.length === 1) {
         if (toggleSendEventVedEnEnhet) {
             handleChangeEnhet(enhetliste[0].enhetId, 'init'); // Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
@@ -18,22 +18,23 @@ const hentEnhetListeInnerHTML = (enhetliste, initiellEnhet = undefined, handleCh
             handleChangeEnhet(event.srcElement.value, 'select-change');
         }
     };
+
     return (
         <div className="dekorator-select-container">
-            <select defaultValue={initiellEnhet || enhetliste[0].enhetId} onChange={onChange}>
+            <select value={valgtEnhet} onChange={onChange}>
                 {options}
             </select>
         </div>
     );
 };
 
-const EnhetVelger = ({ enheter, initiellEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet }) => {
+const EnhetVelger = ({ enheter, valgtEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, initiellEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet);
+    return hentEnhetListeInnerHTML(enheter.data.enhetliste, valgtEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet);
 };
 
 EnhetVelger.propTypes = {
@@ -47,7 +48,7 @@ EnhetVelger.propTypes = {
             }),
         }),
     }),
-    initiellEnhet: PropTypes.string,
+    valgtEnhet: PropTypes.string,
     handleChangeEnhet: PropTypes.func,
     toggleSendEventVedEnEnhet: PropTypes.bool,
 };

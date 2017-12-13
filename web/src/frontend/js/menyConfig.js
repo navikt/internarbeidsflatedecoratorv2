@@ -15,19 +15,19 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Enhetens oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/enhet?${enhet.enhetId}&clean`,
+                url: `${appDomain}/veilarbportefoljeflatefs/enhet?enhet=${enhet}&clean`,
             },
             {
                 tittel: 'Min oversikt',
-                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet.enhetId}&clean`,
+                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
             },
             {
                 tittel: 'Aktivitetsplan',
-                url: `${appDomain}/veilarbpersonflatefs/${fnr}`,
+                url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}`,
             },
             {
                 tittel: 'Sykefraværshendelser',
-                url: `${appDomain}/sykefravaersoppfoelging`,
+                url: `${appDomain}/${fnr ? `sykefravaer/${fnr}/mote` : 'sykefravaersoppfoelging'}`,
             },
             {
                 tittel: 'Dialogmøter',
@@ -63,7 +63,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!utbetalinger` : ''}`,
             },
             {
-                tittel: 'Oppfolging',
+                tittel: 'Oppfølging',
                 url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!kontrakter` : ''}`,
             },
             {
@@ -77,9 +77,9 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
 export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
-        { tittel: 'Arena personmappen', url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` },
-        { tittel: 'AA register', url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&ident=${fnr}` },
-        { tittel: 'Pesys', url: `${wasappDomain}/psak/brukeroversikt/fnr=${fnr}` },
-        { tittel: 'Gosys', url: `${wasappDomain}/gosys/personoversikt/fnr=${fnr}` },
+        { tittel: 'Arena personmappen', url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}`: ''}`},
+        { tittel: 'AA register', url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}`: ''}`},
+        { tittel: 'Pesys', url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}`: ''}` },
+        { tittel: 'Gosys', url: `${wasappDomain}/gosys/personoversikt/${fnr ? `fnr=${fnr}`: ''}` },
     ],
 });
