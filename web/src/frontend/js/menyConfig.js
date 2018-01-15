@@ -29,7 +29,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Sykefraværshendelser',
-                url: `${appDomain}/${fnr ? `sykefravaer/${fnr}/mote` : 'sykefravaersoppfoelging'}`,
+                url: `${appDomain}/sykefravaersoppfoelging`,
             },
             {
                 tittel: 'Dialogmøter',
