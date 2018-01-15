@@ -7,6 +7,16 @@
     <display-name>internarbeidsflatedecorator</display-name>
 
     <filter>
+        <filter-name>staticResourcesCacheFilter</filter-name>
+        <filter-class>no.nav.sbl.internarbeidsflatedecorator.CacheFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>staticResourcesCacheFilter</filter-name>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.svg</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>GZip</filter-name>
         <filter-class>no.nav.sbl.dialogarena.common.web.filter.GZIPFilter</filter-class>
     </filter>

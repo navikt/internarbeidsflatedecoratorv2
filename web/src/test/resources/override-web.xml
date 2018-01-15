@@ -5,6 +5,17 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+
+    <filter>
+        <filter-name>staticResourcesCacheFilter</filter-name>
+        <filter-class>no.nav.sbl.internarbeidsflatedecorator.CacheFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>staticResourcesCacheFilter</filter-name>
+        <url-pattern>navnSlikAtIngentingTrefferForLokalTesting</url-pattern>
+    </filter-mapping>
+
+
     <servlet>
         <servlet-name>restservlet</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
