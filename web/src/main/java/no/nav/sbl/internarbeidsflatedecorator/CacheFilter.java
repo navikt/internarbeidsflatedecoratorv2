@@ -40,7 +40,7 @@ public class CacheFilter implements Filter {
     }
 
     //use for test-purposes only
-    public void setClock(Clock clock) {
+    protected void setClock(Clock clock) {
         this.clock = clock;
     }
 }
