@@ -76,12 +76,19 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
     },
 ];
 
+export function gosysLenke(fnr) {
+    return {
+        tittel: 'Gosys',
+        url: `${wasappDomain}/gosys/personoversikt/${fnr ? `fnr=${fnr}` : ''}`,
+    };
+}
+
 export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
         { tittel: 'Arena personmappen', url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}` },
         { tittel: 'AA register', url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}` },
         { tittel: 'Pesys', url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}` : ''}` },
-        { tittel: 'Gosys', url: `${wasappDomain}/gosys/personoversikt/${fnr ? `fnr=${fnr}` : ''}` },
+        gosysLenke(fnr),
     ],
 });
