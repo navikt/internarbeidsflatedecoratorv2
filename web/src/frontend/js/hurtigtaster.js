@@ -15,8 +15,16 @@ function redirect(lenke) {
     };
 }
 
-export default function registrerHurtigknapper(fnr) {
-    const handlers = [
+function erAltTrykket(e) {
+    return e.altKey;
+}
+
+function getHotkey(hotkeys, e) {
+    return hotkeys.find(hotkey => hotkey.matches(e));
+}
+
+export default function onkeyup(fnr) {
+    const hotkeys = [
         lagHotkey(erAltG, redirect(gosysLenke(fnr).url)),
         lagHotkey(erAltI, redirect(pesysLenke(fnr).url)),
         lagHotkey(erAltP, redirect(arenaLenke(fnr).url)),
@@ -25,11 +33,12 @@ export default function registrerHurtigknapper(fnr) {
     ];
 
     return (e) => {
-        handlers.forEach(handler => {
-            if (handler.matches(e)) {
-                handler.execute(e);
-            }
-        });
+        if (!erAltTrykket(e)) {
+            return;
+        }
+        const hotkey = getHotkey(hotkeys, e);
+        if (hotkey) {
+            hotkey.execute(e);
+        }
     };
-
 }
