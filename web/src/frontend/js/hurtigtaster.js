@@ -9,14 +9,10 @@ function lagHotkey(hotkeyPredicate, action) {
     };
 }
 
-function redirect(lenke) {
+function apneINyttVindu(lenke) {
     return () => {
-        window.location.href = lenke;
+        window.open(lenke, '_blank');
     };
-}
-
-function erAltTrykket(e) {
-    return e.altKey;
 }
 
 function getHotkey(hotkeys, e) {
@@ -25,17 +21,14 @@ function getHotkey(hotkeys, e) {
 
 export default function onkeyup(fnr) {
     const hotkeys = [
-        lagHotkey(erAltG, redirect(gosysLenke(fnr).url)),
-        lagHotkey(erAltI, redirect(pesysLenke(fnr).url)),
-        lagHotkey(erAltP, redirect(arenaLenke(fnr).url)),
+        lagHotkey(erAltG, apneINyttVindu(gosysLenke(fnr).url)),
+        lagHotkey(erAltI, apneINyttVindu(pesysLenke(fnr).url)),
+        lagHotkey(erAltP, apneINyttVindu(arenaLenke(fnr).url)),
         lagHotkey(erAltF5, dispatchFjernPersonEvent),
         lagHotkey(erAltF3, setFokusSokefelt),
     ];
 
     return (e) => {
-        if (!erAltTrykket(e)) {
-            return;
-        }
         const hotkey = getHotkey(hotkeys, e);
         if (hotkey) {
             hotkey.execute(e);

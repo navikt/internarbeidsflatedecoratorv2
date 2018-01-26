@@ -33,7 +33,7 @@ export function AndreSystemerLenker({ fnr, enhet }) {
 
     const lenker = config.lenker.map((lenke) => (
         <li>
-            <a href={lenke.url} className="typo-normal dekorator__menylenke">{lenke.tittel}</a>
+            <a href={lenke.url} className="typo-normal dekorator__menylenke" target="_blank">{lenke.tittel}</a>
         </li>
     ));
 
