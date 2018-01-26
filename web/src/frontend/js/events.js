@@ -11,7 +11,10 @@ export function dispatchFjernPersonEvent() {
     document.dispatchEvent(personsokEvent);
 }
 
-export function setFokusSokefelt () {
-    document.getElementsByClassName("dekorator__sokefelt__input")[0].focus();
-    document.getElementsByClassName("dekorator__sokefelt__input")[0].select();
+export function setFokusSokefelt() {
+    const sokefelt = document.getElementById('js-deokorator-sokefelt');
+    if (sokefelt) {
+        sokefelt.focus();
+        sokefelt.select();
+    }
 }
