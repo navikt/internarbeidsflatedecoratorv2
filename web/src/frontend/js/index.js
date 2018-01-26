@@ -16,7 +16,7 @@ import { visFeilmelding } from './actions/feilmeldinger_actions';
 import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less';
 import { settValgtEnhet } from './actions/valgtenhet_actions';
-import registrerHurtigtaster from './hurtigtaster';
+import onkeyup from './hurtigtaster';
 
 const rootReducer = combineReducers({
     veileder,
@@ -45,5 +45,5 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
 
     const headerElement = document.getElementById(id);
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);
-    document.onkeyup = registrerHurtigtaster(config.fnr);
+    document.onkeyup = onkeyup(config.fnr);
 };
