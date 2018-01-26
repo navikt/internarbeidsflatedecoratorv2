@@ -86,21 +86,21 @@ export function gosysLenke(fnr) {
 export function pesysLenke(fnr) {
     return {
         tittel: 'Pesys',
-        url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}` : ''}`
+        url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}` : ''}`,
     };
 }
 
 export function arenaLenke(fnr) {
     return {
         tittel: 'Arena personmappen',
-        url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}`
+        url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}`,
     };
 }
 
 function aaRegister(fnr) {
     return {
         tittel: 'AA register',
-        url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`
+        url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`,
     };
 }
 

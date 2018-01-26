@@ -7,22 +7,22 @@ export const keys = {
     F5: 116,
 };
 
-export const erAltG = function (e) {
+export function erAltG(e) {
     return e.altKey && e.which === keys.G;
-};
+}
 
-export const erAltI = function (e) {
+export function erAltI(e) {
     return e.altKey && e.which === keys.I;
-};
+}
 
-export const erAltP = function (e) {
+export function erAltP(e) {
     return e.altKey && e.which === keys.P;
-};
+}
 
-export const erAltF5 = function (e) {
+export function erAltF5(e) {
     return e.altKey && e.which === keys.F5;
-};
+}
 
-export const erAltF3 = function (e) {
+export function erAltF3(e) {
     return e.altKey && e.which === keys.F3;
-};
+}
