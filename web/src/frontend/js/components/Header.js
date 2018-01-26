@@ -7,19 +7,7 @@ import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
-
-const defaultPersonsokHandler = (fodselsnummer) => {
-    const personsokEvent = document.createEvent('Event');
-    personsokEvent.initEvent('dekorator-hode-personsok', true, true);
-    personsokEvent.fodselsnummer = fodselsnummer;
-    document.dispatchEvent(personsokEvent);
-};
-
-const defaultFjernPersonHandler = () => {
-    const personsokEvent = document.createEvent('Event');
-    personsokEvent.initEvent('dekorator-hode-fjernperson', true, true);
-    document.dispatchEvent(personsokEvent);
-};
+import { dispatchFjernPersonEvent, dispatchPersonsokEvent } from '../events';
 
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
@@ -53,8 +41,8 @@ const Header = ({
                     valgtEnhet,
                     extraMarkup = { etterSokefelt: null },
                 }) => {
-    const triggerPersonsokEvent = handlePersonsokSubmit || defaultPersonsokHandler;
-    const triggerFjernPersonEvent = handlePersonsokReset || defaultFjernPersonHandler;
+    const triggerPersonsokEvent = handlePersonsokSubmit || dispatchPersonsokEvent;
+    const triggerFjernPersonEvent = handlePersonsokReset || dispatchFjernPersonEvent;
 
     return (
         <div className="dekorator">

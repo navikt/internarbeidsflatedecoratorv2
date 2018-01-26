@@ -1,25 +1,35 @@
-import { gosysLenke } from './menyConfig';
-import { erAltG } from './utils/keyboard-utils';
+import { gosysLenke, pesysLenke, arenaLenke } from './menyConfig';
+import { erAltF5, erAltF3, erAltG, erAltI, erAltP } from './utils/keyboard-utils';
+import { dispatchFjernPersonEvent, setFokusSokefelt } from './events';
 
-function gosysHotkey(fnr) {
+function lagHotkey(hotkeyPredicate, action) {
     return {
-        matches: (e) => erAltG(e),
-        execute() {
-            window.location.href = gosysLenke(fnr).url;
-        },
+        matches: (e) => hotkeyPredicate(e),
+        execute: action,
     };
 }
 
-export default function registrerHurtigknapper(document, fnr) {
+function redirect(lenke) {
+    return () => {
+        window.location.href = lenke;
+    };
+}
+
+export default function registrerHurtigknapper(fnr) {
     const handlers = [
-        gosysHotkey(fnr),
+        lagHotkey(erAltG, redirect(gosysLenke(fnr).url)),
+        lagHotkey(erAltI, redirect(pesysLenke(fnr).url)),
+        lagHotkey(erAltP, redirect(arenaLenke(fnr).url)),
+        lagHotkey(erAltF5, dispatchFjernPersonEvent),
+        lagHotkey(erAltF3, setFokusSokefelt),
     ];
 
-    document.onkeyup = function (e) {
+    return (e) => {
         handlers.forEach(handler => {
             if (handler.matches(e)) {
                 handler.execute(e);
             }
         });
     };
+
 }

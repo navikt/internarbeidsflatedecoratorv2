@@ -83,12 +83,33 @@ export function gosysLenke(fnr) {
     };
 }
 
+export function pesysLenke(fnr) {
+    return {
+        tittel: 'Pesys',
+        url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}` : ''}`
+    };
+}
+
+export function arenaLenke(fnr) {
+    return {
+        tittel: 'Arena personmappen',
+        url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}`
+    };
+}
+
+function aaRegister(fnr) {
+    return {
+        tittel: 'AA register',
+        url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`
+    };
+}
+
 export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
-        { tittel: 'Arena personmappen', url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}` },
-        { tittel: 'AA register', url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}` },
-        { tittel: 'Pesys', url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}` : ''}` },
+        arenaLenke(fnr),
+        aaRegister(fnr),
+        pesysLenke(fnr),
         gosysLenke(fnr),
     ],
 });

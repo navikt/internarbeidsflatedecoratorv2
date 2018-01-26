@@ -45,5 +45,5 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
 
     const headerElement = document.getElementById(id);
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);
-    registrerHurtigtaster(document, config.fnr);
+    document.onkeyup = registrerHurtigtaster(config.fnr);
 };
