@@ -76,17 +76,33 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
     },
 ];
 
+function getGosysUrl(fnr) {
+    if (fnr) {
+        return `${wasappDomain}/gosys/personoversikt/${fnr}`;
+    }
+    return `${wasappDomain}/gosys/`;
+}
+
 export function gosysLenke(fnr) {
+    const url = getGosysUrl(fnr);
     return {
         tittel: 'Gosys',
-        url: `${wasappDomain}/gosys/personoversikt/${fnr ? `fnr=${fnr}` : ''}`,
+        url,
     };
 }
 
+function getPesysUrl(fnr) {
+    if (fnr) {
+        return `${wasappDomain}/psak/brukeroversikt/${fnr}`;
+    }
+    return `${wasappDomain}/psak/`;
+}
+
 export function pesysLenke(fnr) {
+    const url = getPesysUrl(fnr);
     return {
         tittel: 'Pesys',
-        url: `${wasappDomain}/psak/brukeroversikt/${fnr ? `fnr=${fnr}` : ''}`,
+        url,
     };
 }
 
