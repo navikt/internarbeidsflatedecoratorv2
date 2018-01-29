@@ -78,7 +78,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
 
 function getGosysUrl(fnr) {
     if (fnr) {
-        return `${wasappDomain}/gosys/personoversikt/${fnr}`;
+        return `${wasappDomain}/gosys/personoversikt/fnr=${fnr}`;
     }
     return `${wasappDomain}/gosys/`;
 }
@@ -93,7 +93,7 @@ export function gosysLenke(fnr) {
 
 function getPesysUrl(fnr) {
     if (fnr) {
-        return `${wasappDomain}/psak/brukeroversikt/${fnr}`;
+        return `${wasappDomain}/psak/brukeroversikt/fnr=${fnr}`;
     }
     return `${wasappDomain}/psak/`;
 }
