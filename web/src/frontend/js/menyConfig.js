@@ -28,6 +28,11 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}`,
             },
             {
+                tittel: 'Sykefraværsoppfølging',
+                // eslint-disable-next-line no-unneeded-ternary
+                url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
+            },
+            {
                 tittel: 'Sykefraværshendelser',
                 url: `${appDomain}/sykefravaersoppfoelging`,
             },
