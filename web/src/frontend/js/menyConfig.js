@@ -28,12 +28,12 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}`,
             },
             {
-                tittel: 'Sykefraværsoppfølging',
+                tittel: 'Sykmeldt enkeltperson',
                 // eslint-disable-next-line no-unneeded-ternary
                 url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
             },
             {
-                tittel: 'Sykefraværshendelser',
+                tittel: 'Sykefraværsoppgaver',
                 url: `${appDomain}/sykefravaersoppfoelging`,
             },
             {
