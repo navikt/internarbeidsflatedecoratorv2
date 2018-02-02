@@ -18,7 +18,7 @@ describe("Meny", () => {
     });
 
     describe('FunksjonsomradeLenker', () => {
-        const kolonneLenge = [7, 7];
+        const kolonneLenge = [8, 8];
         it('skal ha to kolonner', () => {
             const meny = shallow(<FunksjonsomradeLenker fnr="01234567890" enhet={{enhetId: ''}} />);
 
