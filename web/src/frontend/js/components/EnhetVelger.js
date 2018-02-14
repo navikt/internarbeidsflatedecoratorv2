@@ -35,6 +35,16 @@ class HentEnhetListeInnerHTML extends Component {
     }
 }
 
+HentEnhetListeInnerHTML.propTypes = {
+    enhetliste: PropTypes.arrayOf({
+        enhetId: PropTypes.string,
+        navn: PropTypes.string,
+    }),
+    valgtEnhet: PropTypes.string,
+    handleChangeEnhet: PropTypes.func,
+    toggleSendEventVedEnEnhet: PropTypes.bool,
+};
+
 const EnhetVelger = ({ enheter, valgtEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet }) => {
     if (enheter.henter) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Henter...</span>;
