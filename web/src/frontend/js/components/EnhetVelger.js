@@ -1,32 +1,39 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-const hentEnhetListeInnerHTML = (enhetliste, valgtEnhet = undefined, handleChangeEnhet, toggleSendEventVedEnEnhet = false) => {
-    if (enhetliste.length === 1) {
-        if (toggleSendEventVedEnEnhet) {
+class HentEnhetListeInnerHTML extends Component {
+    componentWillMount() {
+        const { enhetliste, handleChangeEnhet, toggleSendEventVedEnEnhet = false } = this.props;
+        if (enhetliste.length === 1 && toggleSendEventVedEnEnhet) {
             handleChangeEnhet(enhetliste[0].enhetId, 'init'); // Legger med en bool for å indikere om det er endring trigget av enhetsvalg eller ikke.
         }
+    }
+
+    render() {
+        const { enhetliste, valgtEnhet = undefined, handleChangeEnhet } = this.props;
+        if (enhetliste.length === 1) {
+            return (
+                <section className="dekorator-enhet">
+                    <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
+                </section>
+            );
+        }
+        const options = enhetliste.map((enhet) => <option value={enhet.enhetId}>{`${enhet.enhetId} ${enhet.navn}`}</option>);
+
+        const onChange = (event) => {
+            if (event.type === 'change') { // Må sjekke ettersom chrome fyrer av change og input ved onChange. Dersom man bruker onInput fanges ikke det opp av IE.
+                handleChangeEnhet(event.srcElement.value, 'select-change');
+            }
+        };
+
         return (
-            <section className="dekorator-enhet">
-                <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
-            </section>
+            <div className="dekorator-select-container">
+                <select value={valgtEnhet} onChange={onChange}>
+                    {options}
+                </select>
+            </div>
         );
     }
-    const options = enhetliste.map((enhet) => <option value={enhet.enhetId}>{`${enhet.enhetId} ${enhet.navn}`}</option>);
-
-    const onChange = (event) => {
-        if (event.type === 'change') { // Må sjekke ettersom chrome fyrer av change og input ved onChange. Dersom man bruker onInput fanges ikke det opp av IE.
-            handleChangeEnhet(event.srcElement.value, 'select-change');
-        }
-    };
-
-    return (
-        <div className="dekorator-select-container">
-            <select value={valgtEnhet} onChange={onChange}>
-                {options}
-            </select>
-        </div>
-    );
-};
+}
 
 const EnhetVelger = ({ enheter, valgtEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet }) => {
     if (enheter.henter) {
@@ -34,7 +41,7 @@ const EnhetVelger = ({ enheter, valgtEnhet, handleChangeEnhet, toggleSendEventVe
     } else if (enheter.hentingFeilet) {
         return <span aria-pressed="false" className="dekorator__hode__enhet">Kunne ikke hente enheter</span>;
     }
-    return hentEnhetListeInnerHTML(enheter.data.enhetliste, valgtEnhet, handleChangeEnhet, toggleSendEventVedEnEnhet);
+    return <HentEnhetListeInnerHTML enhetliste={enheter.data.enhetliste} valgtEnhet={valgtEnhet} handleChangeEnhet={handleChangeEnhet} toggleSendEventVedEnEnhet={toggleSendEventVedEnEnhet} />;
 };
 
 EnhetVelger.propTypes = {

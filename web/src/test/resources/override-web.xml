@@ -8,11 +8,12 @@
 
     <filter>
         <filter-name>staticResourcesCacheFilter</filter-name>
-        <filter-class>no.nav.sbl.internarbeidsflatedecorator.CacheFilter</filter-class>
+        <filter-class>no.nav.sbl.PassThroughFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>staticResourcesCacheFilter</filter-name>
-        <url-pattern>navnSlikAtIngentingTrefferForLokalTesting</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.svg</url-pattern>
     </filter-mapping>
 
 

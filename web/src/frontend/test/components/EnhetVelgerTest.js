@@ -23,7 +23,7 @@ describe("EnhetVelger", () => {
 
     it("Hvis det bare er en enhet vises denne", () => {
         const handleChangeEnhet = sinon.spy();
-        const combo = shallow(<EnhetVelger handleChangeEnhet={handleChangeEnhet} enheter={enheter} />);
+        const combo = mount(<EnhetVelger handleChangeEnhet={handleChangeEnhet} enheter={enheter} />);
         expect(combo.text()).to.contain("0001 NAV Oslo");
     });
 
