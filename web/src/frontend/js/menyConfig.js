@@ -139,6 +139,6 @@ export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke()
+        foreldrepengerLenke(),
     ],
 });
