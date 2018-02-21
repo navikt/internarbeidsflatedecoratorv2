@@ -125,6 +125,13 @@ function aaRegister(fnr) {
     };
 }
 
+function foreldrepengerLenke() {
+    return {
+        tittel: 'Foreldrepenger',
+        url: `${appDomain}/fpsak`,
+    };
+}
+
 export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
@@ -132,5 +139,6 @@ export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
+        foreldrepengerLenke(),
     ],
 });
