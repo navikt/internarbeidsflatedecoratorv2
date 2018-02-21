@@ -1,6 +1,7 @@
 
 const SECONDS = 1000;
 const MINUTES = 60 * SECONDS;
+const MAX_RETRIES = 30;
 
 const Status = {
     INIT: 'INIT',
@@ -13,6 +14,10 @@ function createDelay(basedelay) {
 }
 
 function createRetrytime(tryCount) {
+    if (tryCount === MAX_RETRIES) {
+        return Number.MAX_SAFE_INTEGER;
+    }
+
     const basedelay = Math.min((Math.pow(2, tryCount)), 180) * SECONDS;
     return basedelay + fuzzy(5 * SECONDS, 15 * SECONDS);
 }
@@ -69,7 +74,7 @@ class WebSocketImpl {
         this.clearResetTimer();
         this.clearRetryTimer();
 
-        const delay = createDelay(60 * MINUTES);
+        const delay = createDelay(45 * MINUTES);
         this.print('Creating resettimer', delay);
 
         this.resettimer = setTimeout(() => {
