@@ -17,6 +17,7 @@ import HeaderContainer from './containers/HeaderContainer';
 import './../styles/styles.less';
 import { settValgtEnhet } from './actions/valgtenhet_actions';
 import onkeyup from './hurtigtaster';
+import { configureWebSocket } from './websockets';
 
 const rootReducer = combineReducers({
     veileder,
@@ -32,6 +33,9 @@ sagaMiddleware.run(rootSaga);
 window.renderDecoratorHead = ({ config }, id = 'header') => {
     if (config.initiellEnhet) {
         store.dispatch(settValgtEnhet(config.initiellEnhet));
+    }
+    if (config.websockets) {
+        configureWebSocket(config.websockets, store);
     }
     if (config.toggles.visVeileder) {
         store.dispatch(hentVeileder({ url: config.dataSources && config.dataSources.veileder }));
