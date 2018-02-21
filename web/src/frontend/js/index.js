@@ -35,7 +35,7 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
         store.dispatch(settValgtEnhet(config.initiellEnhet));
     }
     if (config.websockets) {
-        configureWebSocket(config.websockets, store);
+        configureWebSocket(config.websockets);
     }
     if (config.toggles.visVeileder) {
         store.dispatch(hentVeileder({ url: config.dataSources && config.dataSources.veileder }));

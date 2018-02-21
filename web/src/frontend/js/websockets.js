@@ -24,7 +24,7 @@ function fuzzy(min, max) {
 }
 
 class WebSocketImpl {
-    constructor({ wsUrl, contextUrl, onOpen, onMessage, onError, onClose, onBrukerChange, onEnhetChange, debug }, store) {
+    constructor({ wsUrl, contextUrl, onOpen, onMessage, onError, onClose, onBrukerChange, onEnhetChange, debug }) {
         this.wsUrl = wsUrl;
         this.contextUrl = contextUrl;
         this.onOpen = onOpen;
@@ -34,7 +34,6 @@ class WebSocketImpl {
         this.onBrukerChange = onBrukerChange;
         this.onEnhetChange = onEnhetChange;
         this.debug = true;
-        this.store = store;
 
         this.resettimer = null;
         this.retrytimer = null;
@@ -145,6 +144,6 @@ class WebSocketImpl {
     }
 }
 
-export function configureWebSocket(config, store) {
-    return new WebSocketImpl(config, store);
+export function configureWebSocket(config) {
+    return new WebSocketImpl(config);
 }
