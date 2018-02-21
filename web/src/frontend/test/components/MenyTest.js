@@ -17,12 +17,4 @@ describe("Meny", () => {
         expect(meny.find('section')).to.have.length(3);
     });
 
-    describe('AndreSystemerLenker', () => {
-        it('skal ha riktig antall lenker', () => {
-            const meny = shallow(<AndreSystemerLenker fnr="01234567890" enhet={{enhetId: ''}} />);
-            const lenker = meny.find('.dekorator__menylenke');
-
-            expect(lenker).to.have.length(4);
-        });
-    });
 });
