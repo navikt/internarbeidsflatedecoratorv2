@@ -6,8 +6,14 @@ const MAX_RETRIES = 30;
 const Status = {
     INIT: 'INIT',
     OPEN: 'OPEN',
-    CLOSE: 'CLOSE'
+    CLOSE: 'CLOSE',
 };
+
+function fuzzy(min, max) {
+    const diff = max - min;
+    const rnd = Math.round(Math.random() * diff);
+    return min + rnd;
+}
 
 function createDelay(basedelay) {
     return basedelay + fuzzy(5 * SECONDS, 15 * SECONDS);
@@ -22,12 +28,6 @@ function createRetrytime(tryCount) {
     return basedelay + fuzzy(5 * SECONDS, 15 * SECONDS);
 }
 
-function fuzzy(min, max) {
-    const diff = max - min;
-    const rnd = Math.round(Math.random() * diff);
-    return min + rnd;
-}
-
 class WebSocketImpl {
     constructor({ wsUrl, contextUrl, onOpen, onMessage, onError, onClose, onBrukerChange, onEnhetChange, debug }) {
         this.wsUrl = wsUrl;
@@ -38,7 +38,7 @@ class WebSocketImpl {
         this.onClose = onClose;
         this.onBrukerChange = onBrukerChange;
         this.onEnhetChange = onEnhetChange;
-        this.debug = true;
+        this.debug = debug;
 
         this.resettimer = null;
         this.retrytimer = null;
@@ -66,7 +66,9 @@ class WebSocketImpl {
         this.clearResetTimer();
         this.clearRetryTimer();
         this.state = Status.CLOSE;
-        this.connection && this.connection.close();
+        if (this.connection) {
+            this.connection.close();
+        }
     }
 
     onWSOpen(event) {
@@ -95,7 +97,7 @@ class WebSocketImpl {
         } else if (data === 'NY_AKTIV_BRUKER') {
             this.fetchBruker().then(this.onBrukerChange);
         } else {
-            console.log('Unknown data on WS: ', event);
+            console.log('Unknown data on WS: ', event); // eslint-disable-line no-console
         }
     }
 
@@ -117,7 +119,9 @@ class WebSocketImpl {
     }
 
     doCallback(name, ...args) {
-        this[name] && this[name](...args);
+        if (this[name]) {
+            this[name](...args);
+        }
     }
 
     clearResetTimer() {
@@ -144,7 +148,7 @@ class WebSocketImpl {
 
     print(...args) {
         if (this.debug) {
-            console.log(...args);
+            console.log(...args); // eslint-disable-line no-console
         }
     }
 }
