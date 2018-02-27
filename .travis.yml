@@ -4,6 +4,8 @@ node_js:
 
 before_install: cd web/src/frontend
 
+script: npm run build
+
 deploy:
   provider: pages
   skip-cleanup: true
