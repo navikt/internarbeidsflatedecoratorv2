@@ -9,5 +9,7 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
   keep-history: true
+  target-branch: gh-pages
+  local-dir: ../main/webapp
   on:
-    branch: gh-pages
+    branch: feature/github-pages
