@@ -1,4 +1,5 @@
 # Dekoratør for interne arbeidsflater
+Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplikasjoner i NAV.
 Appen fremstår utad som en enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av klientens teknologi, 
 og style seg selv uten at det påvirker applikasjonen den ligger i.
 
