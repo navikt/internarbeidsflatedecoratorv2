@@ -14,4 +14,4 @@ deploy:
   target-branch: gh-pages
   local-dir: web/src/main/webapp
   on:
-    branch: feature/github-pages
+    branch: master
