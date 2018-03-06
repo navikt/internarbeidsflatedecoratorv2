@@ -34,9 +34,15 @@
         };
         var alle = {
             config: {
+                websockets: {
+                    wsUrl: 'wss://veilederflatehendelser-t6.adeo.no/modiaeventdistribution/websocket',
+                    contextUrl: '/modiacontextholder/api/context',
+                    onBrukerChange: (bruker) => console.log('bruker', bruker),
+                    onEnhetChange: (bruker) => console.log('enhet', bruker)
+                },
                 dataSources: {
-                    veileder: '/internarbeidsflatedecorator/api/veileder/me',
-                    enheter: '/internarbeidsflatedecorator/api/veileder/enheter'
+                    veileder: '/veilarbveileder/api/veileder/me',
+                    enheter: '/veilarbveileder/api/veileder/enheter'
                 },
                 toggles        : {
                     visEnhet      : false,
@@ -46,7 +52,7 @@
                 },
                 initiellEnhet: '0100',
                 fnr            : '12345678901',
-                handleChangeEnhet: function(enhet) { console.log(enhet)},
+                handleChangeEnhet: function(enhet) { console.log('bytta enhet', enhet)},
                 applicationName: 'Arbeidsrettet oppfølging',
             }
         };
@@ -54,8 +60,8 @@
         var custom = {
             config: {
                 dataSources: {
-                    veileder: '/internarbeidsflatedecorator/api/veileder/me',
-                    enheter: '/internarbeidsflatedecorator/api/veileder/enheter'
+                    veileder: '/veilarbveileder/api/veileder/me',
+                    enheter: '/veilarbveileder/api/veileder/enheter'
                 },
                 toggles        : {
                     visEnhet      : true,
@@ -71,8 +77,8 @@
         var minimaltEksempelMedFeilmelding = {
             config: {
                 dataSources: {
-                    veileder: '/internarbeidsflatedecorator/api/veileder/me',
-                    enheter: '/internarbeidsflatedecorator/api/veileder/enheter'
+                    veileder: '/veilarbveileder/api/veileder/me',
+                    enheter: '/veilarbveileder/api/veileder/enheter'
                 },
                 applicationName: 'Minimalt eksempel',
                 toggles        : {
@@ -88,8 +94,8 @@
         var fullbredde = {
             config: {
                 dataSources: {
-                    veileder: '/internarbeidsflatedecorator/api/veileder/me',
-                    enheter: '/internarbeidsflatedecorator/api/veileder/enheter'
+                    veileder: '/veilarbveileder/api/veileder/me',
+                    enheter: '/veilarbveileder/api/veileder/enheter'
                 },
                 toggles: { visEnhet: false, visEnhetVelger: true, visSokefelt: true, visVeileder: true },
                 applicationName: 'Full bredde app',
