@@ -42,6 +42,9 @@ function hentKontrollSiffer(fodselsnummer, kontrollrekke) {
 }
 
 export function erGyldigFodselsnummer(fodselsnummer) {
+    if (fodselsnummer.length !== 11) {
+        return false;
+    }
     if (!erGyldigFodselsdato(fodselsnummer.substring(0, 6))) {
         return false;
     }
