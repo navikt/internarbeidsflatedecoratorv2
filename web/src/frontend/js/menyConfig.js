@@ -34,15 +34,15 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Sykefraværsoppgaver',
-                url: `${appDomain}/sykefravaersoppfoelging`,
+                url: `${appDomain}/sykefravaersoppfoelging/`,
             },
             {
                 tittel: 'Dialogmøter',
-                url: `${appDomain}/moteoversikt`,
+                url: `${appDomain}/moteoversikt/`,
             },
             {
                 tittel: 'Finn fastlege',
-                url: `${appDomain}/fastlege`,
+                url: `${appDomain}/fastlege/`,
             },
         ],
     },
