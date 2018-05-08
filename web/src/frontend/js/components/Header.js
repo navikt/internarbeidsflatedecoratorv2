@@ -71,12 +71,14 @@ const Header = ({
                             { toggles.visVeileder && <Veileder veileder={veileder} /> }
                         </div>
                         <section>
-                            <button aria-pressed="false"
+                            <button
+                                aria-expanded={visMeny}
                                 className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
                                 id="js-dekorator-toggle-meny"
                                 onClick={() => {
                                     toggleMeny();
-                                }}>Meny
+                                }}
+                            >Meny
                             </button>
                         </section>
                     </header>
