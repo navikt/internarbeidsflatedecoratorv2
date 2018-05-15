@@ -68,7 +68,7 @@ const Header = ({
                                 autoSubmit={autoSubmit}
                             /> }
                             { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt }} /> }
-                            { toggles.visVeileder && <Veileder veileder={veileder} /> }
+                            { toggles.visVeileder && <Veileder veileder={veileder} nameCase={toggles.nameCaseVeileder} /> }
                         </div>
                         <section>
                             <button
@@ -97,6 +97,7 @@ Header.propTypes = {
         visEnhetVelger: PropTypes.bool,
         visSokefelt: PropTypes.bool,
         visVeileder: PropTypes.bool,
+        nameCaseVeileder: PropTypes.bool,
         toggleSendEventVedEnEnhet: PropTypes.bool,
     }),
     fnr: PropTypes.string,

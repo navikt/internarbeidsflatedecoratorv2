@@ -28,8 +28,8 @@ const settCasing = (fulltNavn) => (
     ).join(' ')
 );
 
-const visningsnavn = (fulltNavn) => {
-    const navn = settCasing(fulltNavn);
+const visningsnavn = (fulltNavn, nameCase) => {
+    const navn = (nameCase || nameCase === undefined) ? settCasing(fulltNavn) : fulltNavn;
     if (navn.length <= MAKS_ANTALL_TEGN_I_NAVN) {
         return navn;
     }
