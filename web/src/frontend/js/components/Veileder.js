@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { EMDASH } from '../utils/utils';
 import visningsnavn from '../utils/veiledernavn';
 
-const Veileder = ({ veileder }) => {
+const Veileder = ({ veileder, nameCase }) => {
     let navn = '';
     let ident = '';
 
@@ -12,7 +12,7 @@ const Veileder = ({ veileder }) => {
     } else if (veileder.hentingFeilet) {
         navn = EMDASH;
     } else {
-        navn = visningsnavn(veileder.data.navn);
+        navn = visningsnavn(veileder.data.navn, nameCase);
         ident = `${veileder.data.ident}`;
     }
 
@@ -31,6 +31,7 @@ Veileder.propTypes = {
         navn: PropTypes.string,
         ident: PropTypes.string,
     }),
+    nameCase: PropTypes.bool,
     henterVeileder: PropTypes.bool,
     hentingVeilederFeilet: PropTypes.bool,
 };
