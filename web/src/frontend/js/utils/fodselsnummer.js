@@ -1,6 +1,4 @@
 const DEFAULT_FEILMELDING = 'Fødselsnummeret må inneholde 11 siffer';
-const FOR_FAA_TEGN_FEILMELDING = DEFAULT_FEILMELDING;
-const FOR_MANGE_TEGN_FEILMELDING = 'Fødselsnummeret må inneholde kun 11 siffer';
 const IKKE_BARE_TALL_FEILMELDING = 'Fødselsnummeret må kun inneholde tall';
 const IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Fødselsnummeret er ikke gyldig';
 
@@ -57,10 +55,8 @@ export function erGyldigFodselsnummer(fodselsnummer) {
 export const lagFodselsnummerfeilmelding = (fodselsnummer) => {
     if (!fodselsnummer.match(/^\d+$/)) {
         return IKKE_BARE_TALL_FEILMELDING;
-    } else if (fodselsnummer.length > 11) {
-        return FOR_MANGE_TEGN_FEILMELDING;
-    } else if (fodselsnummer.length < 11) {
-        return FOR_FAA_TEGN_FEILMELDING;
+    } else if (fodselsnummer.length !== 11) {
+        return DEFAULT_FEILMELDING;
     } else if (!erGyldigFodselsnummer(fodselsnummer)) {
         return IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING;
     }
