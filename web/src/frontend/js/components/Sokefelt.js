@@ -18,6 +18,18 @@ class Sokefelt extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.fnr === this.props.fnr) {
+            return;
+        }
+        this.setState(() => {
+            return {
+                valideringsfeil: false,
+                value: nextProps.fnr
+            }
+        });
+    }
+
     onEnter = (fodselsnummer) => {
         if (erGyldigFodselsnummer(fodselsnummer)) {
             this.props.triggerPersonsokEvent(fodselsnummer);

@@ -68,15 +68,17 @@ const Header = ({
                                 autoSubmit={autoSubmit}
                             /> }
                             { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt }} /> }
-                            { toggles.visVeileder && <Veileder veileder={veileder} /> }
+                            { toggles.visVeileder && <Veileder veileder={veileder} nameCase={toggles.nameCaseVeileder} /> }
                         </div>
                         <section>
-                            <button aria-pressed="false"
+                            <button
+                                aria-expanded={visMeny}
                                 className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
                                 id="js-dekorator-toggle-meny"
                                 onClick={() => {
                                     toggleMeny();
-                                }}>Meny
+                                }}
+                            >Meny
                             </button>
                         </section>
                     </header>
@@ -95,6 +97,7 @@ Header.propTypes = {
         visEnhetVelger: PropTypes.bool,
         visSokefelt: PropTypes.bool,
         visVeileder: PropTypes.bool,
+        nameCaseVeileder: PropTypes.bool,
         toggleSendEventVedEnEnhet: PropTypes.bool,
     }),
     fnr: PropTypes.string,
