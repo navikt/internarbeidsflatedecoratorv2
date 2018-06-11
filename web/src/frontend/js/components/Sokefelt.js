@@ -22,12 +22,12 @@ class Sokefelt extends React.Component {
         if (nextProps.fnr === this.props.fnr) {
             return;
         }
-        this.setState(() => {
-            return {
+        this.setState(() => (
+            {
                 valideringsfeil: false,
-                value: nextProps.fnr
-            }
-        });
+                value: nextProps.fnr,
+            })
+        );
     }
 
     onEnter = (fodselsnummer) => {
