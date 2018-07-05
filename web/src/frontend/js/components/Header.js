@@ -70,11 +70,11 @@ class Header extends React.Component {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.handleClickOutside);
+        document.addEventListener('mouseup', this.handleClickOutside);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.handleClickOutside);
+        document.removeEventListener('mouseup', this.handleClickOutside);
     }
 
     handleClickOutside(event) {
