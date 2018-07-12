@@ -16,6 +16,8 @@ fasitResources:
   used:
   - alias: loadbalancer:internarbeidsflatedecorator
     resourceType: loadbalancerconfig
+  - alias: loadbalancer:internarbeidsflatedecorator-modapp
+    resourceType: loadbalancerconfig
   exposed:
   - alias: iadecorator-js
     resourceType: restservice
