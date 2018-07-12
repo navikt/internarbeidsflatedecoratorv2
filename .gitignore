@@ -3,6 +3,5 @@ target
 .idea
 *.log
 node_modules
-web/src/frontend/node_modules
-web/src/main/webapp/js
+build/
 .nyc_output/

@@ -49,7 +49,7 @@ module.exports = [
             }
         },
         output: {
-            path: __dirname + "/../main/webapp/",
+            path: __dirname + "/build",
             filename: "js/head.min.js",
             publicPath: '/internarbeidsflatedecorator/'
         },
