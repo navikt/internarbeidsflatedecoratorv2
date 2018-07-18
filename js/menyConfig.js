@@ -125,7 +125,7 @@ function aaRegister(fnr) {
     };
 }
 
-function foreldrepengerLenke() {
+export function foreldrepengerLenke() {
     return {
         tittel: 'Foreldrepenger',
         url: `${appDomain}/fpsak`,
