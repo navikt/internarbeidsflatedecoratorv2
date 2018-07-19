@@ -1,6 +1,7 @@
 export const keys = {
     A: 65,
     G: 71,
+    K: 75,
     I: 73,
     P: 80,
     F3: 114,
@@ -17,6 +18,10 @@ export function erAltI(e) {
 
 export function erAltP(e) {
     return e.altKey && e.which === keys.P;
+}
+
+export function erAltK(e) {
+    return e.altKey && e.which === keys.K;
 }
 
 export function erAltF5(e) {

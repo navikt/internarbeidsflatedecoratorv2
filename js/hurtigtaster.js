@@ -1,5 +1,5 @@
-import { gosysLenke, pesysLenke, arenaLenke } from './menyConfig';
-import { erAltF5, erAltF3, erAltG, erAltI, erAltP } from './utils/keyboard-utils';
+import { gosysLenke, pesysLenke, arenaLenke, foreldrepengerLenke } from './menyConfig';
+import { erAltF5, erAltK, erAltG, erAltI, erAltP, erAltF3 } from './utils/keyboard-utils';
 import { dispatchFjernPersonEvent, setFokusSokefelt } from './events';
 
 function lagHotkey(hotkeyPredicate, action) {
@@ -26,6 +26,7 @@ export default function onkeyup(fnr) {
         lagHotkey(erAltP, apneINyttVindu(arenaLenke(fnr).url)),
         lagHotkey(erAltF5, dispatchFjernPersonEvent),
         lagHotkey(erAltF3, setFokusSokefelt),
+        lagHotkey(erAltK, apneINyttVindu(foreldrepengerLenke().url)),
     ];
 
     return (e) => {
