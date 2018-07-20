@@ -112,9 +112,16 @@ export function pesysLenke(fnr) {
 }
 
 export function arenaLenke(fnr) {
+    let url = '';
+    if (!fnr) {
+        url = arenaLink;
+    } else {
+        url = `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr}`;
+    }
+
     return {
         tittel: 'Arena personmappen',
-        url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}`,
+        url,
     };
 }
 
