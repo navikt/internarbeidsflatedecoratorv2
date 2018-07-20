@@ -25,7 +25,6 @@ og style seg selv uten at det påvirker applikasjonen den ligger i.
 ### Utvikling
 
 ```
-cd web/src/frontend
 npm install
 npm run dev
 ```
@@ -33,7 +32,6 @@ npm run dev
 Høyreklikk på index.html og ta "Open in browser".
 
 ```
-cd web/src/frontend
 npm install
 npm run dev
 ```
@@ -41,7 +39,6 @@ npm run dev
 ### Deploy
 
 ```
-cd web/src/frontend
 npm install
 npm run start
 ```
