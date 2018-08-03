@@ -117,7 +117,7 @@ export function arenaLenke(fnr) {
     if (!fnr) {
         url = arenaStartsideLink;
     } else {
-        url = `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr}`;
+        url = `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}`;
     }
 
     return {
