@@ -4,6 +4,7 @@ const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
+const arenaStartsideLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=areq0`;
 
 export const funksjonsomradeLenker = (fnr, enhet) => [
     {
@@ -112,9 +113,16 @@ export function pesysLenke(fnr) {
 }
 
 export function arenaLenke(fnr) {
+    let url = '';
+    if (!fnr) {
+        url = arenaStartsideLink;
+    } else {
+        url = `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}`;
+    }
+
     return {
         tittel: 'Arena personmappen',
-        url: `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}`,
+        url,
     };
 }
 
@@ -125,7 +133,7 @@ function aaRegister(fnr) {
     };
 }
 
-function foreldrepengerLenke() {
+export function foreldrepengerLenke() {
     return {
         tittel: 'Foreldrepenger',
         url: `${appDomain}/fpsak`,
