@@ -4,7 +4,7 @@ const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
-const arenaStartsideLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=areq0`;
+const arenaStartsideLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=arena`;
 
 export const funksjonsomradeLenker = (fnr, enhet) => [
     {
