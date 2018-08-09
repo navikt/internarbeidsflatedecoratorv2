@@ -14,7 +14,7 @@ describe("Lenker", () => {
 
         it("uten person i kontekst", () => {
             const lenke = arenaLenke();
-            expect(lenke.url).to.equal('http://arena.adeo.no/forms/frmservlet?config=areq0');
+            expect(lenke.url).to.equal('http://arena.adeo.no/forms/frmservlet?config=arena');
         });
     });
 
