@@ -3,8 +3,14 @@ import { finnMiljoStreng } from './sagas/util';
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
-const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
-const arenaStartsideLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=arena`;
+
+const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
+function getArenaStartsideLink() {
+    const miljø = finnMiljoStreng().replace('-', '');
+    const configParameter = miljø === '' ? 'arena' : `are${miljø.charAt(0)}${miljø.substring(1).padStart(2, '0')}`;
+
+    return `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=${configParameter}`;
+}
 
 export const funksjonsomradeLenker = (fnr, enhet) => [
     {
@@ -115,9 +121,9 @@ export function pesysLenke(fnr) {
 export function arenaLenke(fnr) {
     let url = '';
     if (!fnr) {
-        url = arenaStartsideLink;
+        url = getArenaStartsideLink();
     } else {
-        url = `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}`;
+        url = `${arenaLink()}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}`;
     }
 
     return {
