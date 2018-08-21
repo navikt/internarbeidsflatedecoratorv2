@@ -11,5 +11,8 @@
         "react/jsx-closing-bracket-location": 0,
         "max-len": ["warn", 220],
         "prefer-template": 1
+    },
+    "env": {
+        "mocha": true
     }
 }
