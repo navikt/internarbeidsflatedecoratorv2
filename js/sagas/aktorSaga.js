@@ -9,7 +9,10 @@ import mockAktor from './mock/aktor';
 export function* aktorSaga(action) {
     yield put(actions.hentAktor());
     if (config.mock.mockAktor) {
-        yield put(actions.hentAktor(mockAktor));
+        yield put(actions.aktorHentet(mockAktor));
+
+        console.log(mockAktor);
+
         return;
     }
 
@@ -27,6 +30,6 @@ function* watchHentAktor() {
 
 export default function* aktorSagas() {
     yield [
-        fork(watchHentAktor()),
+        fork(watchHentAktor),
     ];
 }

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import Enhet from './Enhet';
 import Veileder from './Veileder';
 import Sokefelt from '../containers/SokefeltContainer';
@@ -6,8 +6,9 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
-import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
-import { dispatchFjernPersonEvent, dispatchPersonsokEvent } from '../events';
+import {hentValgtEnhetIDFraURL} from '../utils/url-utils';
+import {dispatchFjernPersonEvent, dispatchPersonsokEvent} from '../events';
+import {pesysLenke} from '../menyConfig';
 
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
@@ -32,7 +33,8 @@ const Header = ({
                     toggles = {},
                     handlePersonsokSubmit,
                     handlePersonsokReset,
-                    handleChangeEnhet = () => {},
+                    handleChangeEnhet = () => {
+                    },
                     settValgtEnhet,
                     visMeny,
                     enheter,
@@ -40,20 +42,21 @@ const Header = ({
                     feilmelding,
                     toggleMeny,
                     valgtEnhet,
-                    extraMarkup = { etterSokefelt: null },
+                    extraMarkup = {etterSokefelt: null},
                 }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || dispatchPersonsokEvent;
     const triggerFjernPersonEvent = handlePersonsokReset || dispatchFjernPersonEvent;
 
+    console.log(aktorId);
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
                     <header className="dekorator__banner">
-                        <Overskrift applicationName={applicationName} />
+                        <Overskrift applicationName={applicationName}/>
                         <div className="flex-center">
-                            { toggles.visEnhet && <Enhet enheter={enheter} /> }
-                            { toggles.visEnhetVelger && <EnhetVelger
+                            {toggles.visEnhet && <Enhet enheter={enheter}/>}
+                            {toggles.visEnhetVelger && <EnhetVelger
                                 toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                 enheter={enheter}
                                 handleChangeEnhet={(oppdatertEnhet, endringsType) => {
@@ -61,15 +64,16 @@ const Header = ({
                                     handleChangeEnhet(oppdatertEnhet, endringsType);
                                 }}
                                 valgtEnhet={valgtEnhet}
-                            /> }
-                            { toggles.visSokefelt && <Sokefelt
+                            />}
+                            {toggles.visSokefelt && <Sokefelt
                                 triggerPersonsokEvent={triggerPersonsokEvent}
                                 triggerFjernPersonEvent={triggerFjernPersonEvent}
                                 fnr={fnr}
                                 autoSubmit={autoSubmit}
-                            /> }
-                            { extraMarkup.etterSokefelt && <div dangerouslySetInnerHTML={{ __html: extraMarkup.etterSokefelt }} /> }
-                            { toggles.visVeileder && <Veileder veileder={veileder} nameCase={toggles.nameCaseVeileder} /> }
+                            />}
+                            {extraMarkup.etterSokefelt &&
+                            <div dangerouslySetInnerHTML={{__html: extraMarkup.etterSokefelt}}/>}
+                            {toggles.visVeileder && <Veileder veileder={veileder} nameCase={toggles.nameCaseVeileder}/>}
                         </div>
                         <section>
                             <button
@@ -85,8 +89,8 @@ const Header = ({
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} aktorId={aktorId} enhet={valgtEnhet} />
-            { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
+            <Meny apen={visMeny} fnr={fnr} aktorId={aktorId} enhet={valgtEnhet}/>
+            {feilmelding && <Feilmelding feilmelding={feilmelding}/>}
         </div>
     );
 };
@@ -102,7 +106,15 @@ Header.propTypes = {
         toggleSendEventVedEnEnhet: PropTypes.bool,
     }),
     fnr: PropTypes.string,
-    aktorId: PropTypes.string,
+    aktorId: PropTypes.array({
+        ident: PropTypes.shape({
+            identer: PropTypes.array({
+                ident: PropTypes.string,
+                identgruppe: PropTypes.string,
+                gjeldende: PropTypes.bool,
+            }),
+        }),
+    }),
     autoSubmit: PropTypes.bool,
     visMeny: PropTypes.bool,
     toggleMeny: PropTypes.func,
@@ -119,7 +131,7 @@ Header.propTypes = {
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
-    extraMarkup: PropTypes.shape({ etterSokefelt: PropTypes.String }),
+    extraMarkup: PropTypes.shape({etterSokefelt: PropTypes.String}),
     veileder: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,

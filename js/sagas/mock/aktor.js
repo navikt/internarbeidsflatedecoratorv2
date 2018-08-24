@@ -6,11 +6,6 @@ export default {
                 'identgruppe': 'AktoerId',
                 'gjeldende': true
             },
-            {
-                'ident': '10108000398',
-                'identgruppe': 'NorskIdent',
-                'gjeldende': true
-            },
         ],
         'feilmelding': null
     },
