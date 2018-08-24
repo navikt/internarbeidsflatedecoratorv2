@@ -18,6 +18,7 @@ import './../styles/styles.less';
 import { settValgtEnhet } from './actions/valgtenhet_actions';
 import onkeyup from './hurtigtaster';
 import { configureWebSocket } from './websockets';
+import { hentAktor } from './actions/aktor_actions';
 
 const rootReducer = combineReducers({
     veileder,
@@ -46,6 +47,8 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
     if (config.feilmelding) {
         store.dispatch(visFeilmelding(config.feilmelding));
     }
+
+    store.dispatch(hentAktor({ url: '/aktoerregister/api/v1/identer' }));
 
     const headerElement = document.getElementById(id);
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);

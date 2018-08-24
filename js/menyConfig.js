@@ -1,4 +1,4 @@
-import { finnMiljoStreng } from './sagas/util';
+import {finnMiljoStreng} from './sagas/util';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
@@ -139,11 +139,20 @@ function aaRegister(fnr) {
     };
 }
 
-export function foreldrepengerLenke() {
-    return {
-        tittel: 'Foreldrepenger',
-        url: `${appDomain}/fpsak`,
-    };
+export function foreldrepengerLenke(fnr) {
+    if (!fnr) {
+        return {
+            tittel: 'Foreldrepenger',
+            url: `${appDomain}/fpsak`,
+        };
+    } else {
+        //Do REST-stuff
+
+        return {
+            tittel: 'Foreldrepenger',
+            url: `${appDomain}/fpsak`,
+        };
+    }
 }
 
 export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
@@ -153,6 +162,6 @@ export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke(),
+        foreldrepengerLenke(fnr),
     ],
 });

@@ -50,7 +50,7 @@ AndreSystemerLenker.propTypes = {
     enhet: PropTypes.string.isRequired,
 };
 
-function Meny({ fnr, enhet, apen }) {
+function Meny({ fnr, aktorId, enhet, apen }) {
     if (!apen) {
         return null;
     }
@@ -59,7 +59,7 @@ function Meny({ fnr, enhet, apen }) {
         <div className="dekorator__nav dekorator__nav--apen">
             <nav className="dekorator__container dekorator__meny">
                 <FunksjonsomradeLenker fnr={fnr} enhet={enhet} />
-                <AndreSystemerLenker fnr={fnr} enhet={enhet} />
+                <AndreSystemerLenker fnr={fnr} aktorId={aktorId} enhet={enhet} />
             </nav>
         </div>
     );
@@ -67,6 +67,7 @@ function Meny({ fnr, enhet, apen }) {
 
 Meny.propTypes = {
     fnr: PropTypes.string.isRequired,
+    aktorId: PropTypes.string.isRequired,
     enhet: PropTypes.string.isRequired,
     apen: PropTypes.bool.isRequired,
 };

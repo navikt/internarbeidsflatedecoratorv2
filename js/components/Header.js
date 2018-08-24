@@ -27,6 +27,7 @@ export const finnEnhetForVisning = data => {
 const Header = ({
                     applicationName,
                     fnr,
+                    aktorId,
                     autoSubmit,
                     toggles = {},
                     handlePersonsokSubmit,
@@ -84,7 +85,7 @@ const Header = ({
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} enhet={valgtEnhet} />
+            <Meny apen={visMeny} fnr={fnr} aktorId={aktorId} enhet={valgtEnhet} />
             { feilmelding && <Feilmelding feilmelding={feilmelding} /> }
         </div>
     );
@@ -101,6 +102,7 @@ Header.propTypes = {
         toggleSendEventVedEnEnhet: PropTypes.bool,
     }),
     fnr: PropTypes.string,
+    aktorId: PropTypes.string,
     autoSubmit: PropTypes.bool,
     visMeny: PropTypes.bool,
     toggleMeny: PropTypes.func,
