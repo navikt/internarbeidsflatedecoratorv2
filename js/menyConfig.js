@@ -1,4 +1,6 @@
-import {finnMiljoStreng} from './sagas/util';
+import { finnMiljoStreng } from './sagas/util';
+import { getWithHeaders}  from './sagas/api';
+import {hentGjeldendeAktorId} from './reducers/aktor';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
@@ -146,7 +148,14 @@ export function foreldrepengerLenke(fnr) {
             url: `${appDomain}/fpsak`,
         };
     } else {
+        const result = getWithHeaders('/aktoerregister/api/v1/identer?identgruppe=AktoerId', fnr);
+
+        const aktorId = hentGjeldendeAktorId(result);
         //Do REST-stuff
+
+        console.log("### Finner aktorId via Rest");
+        console.log(aktorId);
+        console.log("###");
 
         return {
             tittel: 'Foreldrepenger',

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import * as aktorActions from '../actions/aktor_actions';
 import * as veilederActions from '../actions/veileder_actions';
 import * as enheterActions from '../actions/enheter_actions';
 import * as menyActions from '../actions/meny_actions';
@@ -30,4 +31,4 @@ export function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps, Object.assign({}, veilederActions, enheterActions, menyActions, settValgtEnhetActions))(Header);
+export default connect(mapStateToProps, Object.assign({}, veilederActions, enheterActions, aktorActions, menyActions, settValgtEnhetActions))(Header);

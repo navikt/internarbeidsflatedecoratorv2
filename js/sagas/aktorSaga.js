@@ -10,9 +10,6 @@ export function* aktorSaga(action) {
     yield put(actions.hentAktor());
     if (config.mock.mockAktor) {
         yield put(actions.aktorHentet(mockAktor));
-
-        console.log(mockAktor);
-
         return;
     }
 

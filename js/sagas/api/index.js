@@ -1,6 +1,15 @@
 export function get(url) {
+    return get(url, undefined);
+}
+
+export function getWithHeaders(url, fnr) {
     return fetch(url, {
         credentials: 'include',
+        headers: {
+            'Nav-Consumer-Id': 'internarbeidsflatedecorator',
+            'Nav-Call-Id': 'todo',
+            'Nav-Identer': fnr,
+        }
     })
         .then((res) => {
             if (res.status === 404) {

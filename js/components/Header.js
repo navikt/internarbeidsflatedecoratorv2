@@ -47,7 +47,6 @@ const Header = ({
     const triggerPersonsokEvent = handlePersonsokSubmit || dispatchPersonsokEvent;
     const triggerFjernPersonEvent = handlePersonsokReset || dispatchFjernPersonEvent;
 
-    console.log(aktorId);
     return (
         <div className="dekorator">
             <div className="dekorator__hode" role="banner">
