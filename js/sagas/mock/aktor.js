@@ -1,5 +1,3 @@
-import feilmelding from '../../reducers/feilmelding';
-
 export default {
     '10108000398': {
         'identer': [

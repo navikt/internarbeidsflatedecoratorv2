@@ -24,6 +24,11 @@ export function mapStateToProps(state, ownProps) {
         applicationName: ownProps.config.applicationName,
         handleChangeEnhet: ownProps.config.handleChangeEnhet,
         fnr: ownProps.config.fnr,
+        aktorId: {
+            data: state.aktor.data,
+            henter: state.aktor.henter,
+            hentingFeilet: state.aktor.hentingFeilet,
+        },
         autoSubmit: ownProps.config.autoSubmit,
         visMeny: state.meny.visMeny,
         feilmelding: state.feilmeldinger.feilmelding,

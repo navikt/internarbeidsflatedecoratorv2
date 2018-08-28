@@ -7,15 +7,11 @@ const initiellState = {
 };
 
 export function hentGjeldendeAktorId(data) {
-    console('henter gjeldende aktor');
-    if (data && data[0]) {
-        console.log('har data');
-        const fnr = Object.keys(data[0]);
-        if(fnr && data[0][fnr]) {
-            console.log('har fnr');
-            const gjeldendeAktor = data[0][fnr].identer.find(ident => ident.gjeldende === true);
+    if (data) {
+        const fnr = Object.keys(data);
+        if(fnr && data[fnr]) {
+            const gjeldendeAktor = data[fnr].identer.find(ident => ident.gjeldende === true);
             if (gjeldendeAktor) {
-                console.log('fant gjeldende');
                 return gjeldendeAktor.ident;
             }
         }
@@ -23,7 +19,7 @@ export function hentGjeldendeAktorId(data) {
     return undefined;
 }
 
-export default function enhet(state = initiellState, action = {}) {
+export default function aktor(state = initiellState, action = {}) {
     switch (action.type) {
         case HENT_AKTOR_FEILET: {
             return {

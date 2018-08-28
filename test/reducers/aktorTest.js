@@ -17,7 +17,7 @@ describe('aktor', () => {
         const initialState = deepFreeze({});
         const action = {
             type: 'AKTOR_HENTET',
-            data: [{
+            data: {
                 '10108000398': {
                     'identer': [
                         {
@@ -28,7 +28,7 @@ describe('aktor', () => {
                     ],
                     'feilmelding': null
                 },
-            }],
+            },
         };
         const nextState = aktor(initialState, action);
         expect(nextState).to.deep.equal({

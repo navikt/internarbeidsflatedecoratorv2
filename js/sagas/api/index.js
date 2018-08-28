@@ -1,5 +1,5 @@
 export function get(url) {
-    return get(url, undefined);
+    return getWithHeaders(url, undefined);
 }
 
 export function getWithHeaders(url, fnr) {

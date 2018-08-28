@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 import { finnMiljoStreng } from './sagas/util';
 import { getWithHeaders}  from './sagas/api';
 import {hentGjeldendeAktorId} from './reducers/aktor';
@@ -141,36 +142,27 @@ function aaRegister(fnr) {
     };
 }
 
-export function foreldrepengerLenke(fnr) {
-    if (!fnr) {
+export function foreldrepengerLenke(aktorId) {
+    if (!aktorId) {
         return {
             tittel: 'Foreldrepenger',
             url: `${appDomain}/fpsak`,
         };
     } else {
-        const result = getWithHeaders('/aktoerregister/api/v1/identer?identgruppe=AktoerId', fnr);
-
-        const aktorId = hentGjeldendeAktorId(result);
-        //Do REST-stuff
-
-        console.log("### Finner aktorId via Rest");
-        console.log(aktorId);
-        console.log("###");
-
         return {
             tittel: 'Foreldrepenger',
-            url: `${appDomain}/fpsak`,
+            url: `${appDomain}/fpsak/${aktorId.data}`,
         };
     }
 }
 
-export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
+export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
         arenaLenke(fnr),
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke(fnr),
+        foreldrepengerLenke(aktorId),
     ],
 });

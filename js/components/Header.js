@@ -8,7 +8,6 @@ import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 import {hentValgtEnhetIDFraURL} from '../utils/url-utils';
 import {dispatchFjernPersonEvent, dispatchPersonsokEvent} from '../events';
-import {pesysLenke} from '../menyConfig';
 
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
@@ -42,7 +41,7 @@ const Header = ({
                     feilmelding,
                     toggleMeny,
                     valgtEnhet,
-                    extraMarkup = {etterSokefelt: null},
+                    extraMarkup = { etterSokefelt: null },
                 }) => {
     const triggerPersonsokEvent = handlePersonsokSubmit || dispatchPersonsokEvent;
     const triggerFjernPersonEvent = handlePersonsokReset || dispatchFjernPersonEvent;
@@ -105,14 +104,10 @@ Header.propTypes = {
         toggleSendEventVedEnEnhet: PropTypes.bool,
     }),
     fnr: PropTypes.string,
-    aktorId: PropTypes.array({
-        ident: PropTypes.shape({
-            identer: PropTypes.array({
-                ident: PropTypes.string,
-                identgruppe: PropTypes.string,
-                gjeldende: PropTypes.bool,
-            }),
-        }),
+    aktorId: PropTypes.shape({
+        data: PropTypes.string,
+        henter: PropTypes.bool,
+        hentingFeilet: PropTypes.bool,
     }),
     autoSubmit: PropTypes.bool,
     visMeny: PropTypes.bool,

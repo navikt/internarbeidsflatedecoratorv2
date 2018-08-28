@@ -28,8 +28,8 @@ FunksjonsomradeLenker.propTypes = {
     enhet: PropTypes.string.isRequired,
 };
 
-export function AndreSystemerLenker({ fnr, enhet }) {
-    const config = andreSystemerLenker(fnr, enhet);
+export function AndreSystemerLenker({ fnr, aktorId, enhet }) {
+    const config = andreSystemerLenker(fnr, aktorId, enhet);
 
     const lenker = config.lenker.map((lenke) => (
         <li>
@@ -47,6 +47,7 @@ export function AndreSystemerLenker({ fnr, enhet }) {
 
 AndreSystemerLenker.propTypes = {
     fnr: PropTypes.string.isRequired,
+    aktorId: PropTypes.string,
     enhet: PropTypes.string.isRequired,
 };
 
@@ -67,7 +68,11 @@ function Meny({ fnr, aktorId, enhet, apen }) {
 
 Meny.propTypes = {
     fnr: PropTypes.string.isRequired,
-    aktorId: PropTypes.string.isRequired,
+    aktorId: PropTypes.shape({
+        data: PropTypes.string,
+        henter: PropTypes.bool,
+        hentingFeilet: PropTypes.bool,
+    }),
     enhet: PropTypes.string.isRequired,
     apen: PropTypes.bool.isRequired,
 };
