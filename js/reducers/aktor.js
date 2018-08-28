@@ -1,4 +1,4 @@
-import {HENT_AKTOR_FEILET, HENTER_AKTOR, AKTOR_HENTET} from '../actions/actiontyper';
+import { HENT_AKTOR_FEILET, HENTER_AKTOR, AKTOR_HENTET } from '../actions/actiontyper';
 
 const initiellState = {
     henter: false,
@@ -9,7 +9,7 @@ const initiellState = {
 export function hentGjeldendeAktorId(data) {
     if (data) {
         const fnr = Object.keys(data);
-        if(fnr && data[fnr]) {
+        if (fnr && data[fnr]) {
             const gjeldendeAktor = data[fnr].identer.find(ident => ident.gjeldende === true);
             if (gjeldendeAktor) {
                 return gjeldendeAktor.ident;
@@ -50,5 +50,3 @@ export default function aktor(state = initiellState, action = {}) {
         }
     }
 }
-
-

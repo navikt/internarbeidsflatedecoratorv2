@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import Enhet from './Enhet';
 import Veileder from './Veileder';
 import Sokefelt from '../containers/SokefeltContainer';
@@ -6,8 +6,8 @@ import Overskrift from './Overskrift';
 import Meny from './Meny';
 import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
-import {hentValgtEnhetIDFraURL} from '../utils/url-utils';
-import {dispatchFjernPersonEvent, dispatchPersonsokEvent} from '../events';
+import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
+import { dispatchFjernPersonEvent, dispatchPersonsokEvent } from '../events';
 
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
@@ -51,44 +51,45 @@ const Header = ({
             <div className="dekorator__hode" role="banner">
                 <div className="dekorator__container">
                     <header className="dekorator__banner">
-                        <Overskrift applicationName={applicationName}/>
+                        <Overskrift applicationName={ applicationName } />
                         <div className="flex-center">
-                            {toggles.visEnhet && <Enhet enheter={enheter}/>}
-                            {toggles.visEnhetVelger && <EnhetVelger
-                                toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
-                                enheter={enheter}
-                                handleChangeEnhet={(oppdatertEnhet, endringsType) => {
+                            { toggles.visEnhet && <Enhet enheter={ enheter } /> }
+                            { toggles.visEnhetVelger && <EnhetVelger
+                                toggleSendEventVedEnEnhet={ toggles.toggleSendEventVedEnEnhet }
+                                enheter={ enheter }
+                                handleChangeEnhet={ (oppdatertEnhet, endringsType) => {
                                     settValgtEnhet(oppdatertEnhet);
                                     handleChangeEnhet(oppdatertEnhet, endringsType);
-                                }}
-                                valgtEnhet={valgtEnhet}
-                            />}
-                            {toggles.visSokefelt && <Sokefelt
-                                triggerPersonsokEvent={triggerPersonsokEvent}
-                                triggerFjernPersonEvent={triggerFjernPersonEvent}
-                                fnr={fnr}
-                                autoSubmit={autoSubmit}
-                            />}
-                            {extraMarkup.etterSokefelt &&
-                            <div dangerouslySetInnerHTML={{__html: extraMarkup.etterSokefelt}}/>}
-                            {toggles.visVeileder && <Veileder veileder={veileder} nameCase={toggles.nameCaseVeileder}/>}
+                                } }
+                                valgtEnhet={ valgtEnhet }
+                            /> }
+                            { toggles.visSokefelt && <Sokefelt
+                                triggerPersonsokEvent={ triggerPersonsokEvent }
+                                triggerFjernPersonEvent={ triggerFjernPersonEvent }
+                                fnr={ fnr }
+                                autoSubmit={ autoSubmit }
+                            /> }
+                            { extraMarkup.etterSokefelt &&
+                            <div dangerouslySetInnerHTML={ { __html: extraMarkup.etterSokefelt } } /> }
+                            { toggles.visVeileder &&
+                            <Veileder veileder={ veileder } nameCase={ toggles.nameCaseVeileder } /> }
                         </div>
                         <section>
                             <button
-                                aria-expanded={visMeny}
-                                className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}
+                                aria-expanded={ visMeny }
+                                className={ `dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} ` }
                                 id="js-dekorator-toggle-meny"
-                                onClick={() => {
+                                onClick={ () => {
                                     toggleMeny();
-                                }}
+                                } }
                             >Meny
                             </button>
                         </section>
                     </header>
                 </div>
             </div>
-            <Meny apen={visMeny} fnr={fnr} aktorId={aktorId} enhet={valgtEnhet}/>
-            {feilmelding && <Feilmelding feilmelding={feilmelding}/>}
+            <Meny apen={ visMeny } fnr={ fnr } aktorId={ aktorId } enhet={ valgtEnhet } />
+            { feilmelding && <Feilmelding feilmelding={ feilmelding } /> }
         </div>
     );
 };
@@ -125,7 +126,7 @@ Header.propTypes = {
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,
     }),
-    extraMarkup: PropTypes.shape({etterSokefelt: PropTypes.String}),
+    extraMarkup: PropTypes.shape({ etterSokefelt: PropTypes.String }),
     veileder: PropTypes.shape({
         data: PropTypes.shape({
             navn: PropTypes.string,

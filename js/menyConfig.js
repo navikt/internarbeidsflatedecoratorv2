@@ -1,13 +1,12 @@
 /* eslint-disable spaced-comment */
 import { finnMiljoStreng } from './sagas/util';
-import { getWithHeaders}  from './sagas/api';
-import {hentGjeldendeAktorId} from './reducers/aktor';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 
 const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
+
 function getArenaStartsideLink() {
     const miljø = finnMiljoStreng().replace('-', '');
     const configParameter = miljø === '' ? 'arena' : `are${miljø.charAt(0)}${miljø.substring(1).padStart(2, '0')}`;
@@ -148,12 +147,11 @@ export function foreldrepengerLenke(aktorId) {
             tittel: 'Foreldrepenger',
             url: `${appDomain}/fpsak`,
         };
-    } else {
-        return {
-            tittel: 'Foreldrepenger',
-            url: `${appDomain}/fpsak/${aktorId.data}`,
-        };
     }
+    return {
+        tittel: 'Foreldrepenger',
+        url: `${appDomain}/fpsak/${aktorId.data}`,
+    };
 }
 
 export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable-line no-unused-vars

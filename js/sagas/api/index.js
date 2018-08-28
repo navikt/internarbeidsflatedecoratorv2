@@ -1,7 +1,3 @@
-export function get(url) {
-    return getWithHeaders(url, undefined);
-}
-
 export function getWithHeaders(url, fnr) {
     return fetch(url, {
         credentials: 'include',
@@ -9,7 +5,7 @@ export function getWithHeaders(url, fnr) {
             'Nav-Consumer-Id': 'internarbeidsflatedecorator',
             'Nav-Call-Id': 'todo',
             'Nav-Identer': fnr,
-        }
+        },
     })
         .then((res) => {
             if (res.status === 404) {
@@ -25,6 +21,10 @@ export function getWithHeaders(url, fnr) {
         .catch((err) => {
             throw err;
         });
+}
+
+export function get(url) {
+    return getWithHeaders(url, undefined);
 }
 
 export function post(url, body) {

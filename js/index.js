@@ -7,7 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index';
 import veileder from './reducers/veileder';
 import enheter from './reducers/enheter';
-import aktor from './reducers/aktor'
+import aktor from './reducers/aktor';
 import meny from './reducers/meny';
 import feilmeldinger from './reducers/feilmelding';
 import valgtEnhet from './reducers/valgtenhet';
