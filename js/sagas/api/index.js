@@ -24,7 +24,23 @@ export function getWithHeaders(url, fnr) {
 }
 
 export function get(url) {
-    return getWithHeaders(url, undefined);
+    return fetch(url, {
+        credentials: 'include',
+    })
+        .then((res) => {
+            if (res.status === 404) {
+                throw new Error('404');
+            } else if (res.status === 403) {
+                throw new Error('403');
+            }
+            if (res.status > 400) {
+                throw new Error('Det oppstod en feil');
+            }
+            return res.json();
+        })
+        .catch((err) => {
+            throw err;
+        });
 }
 
 export function post(url, body) {
