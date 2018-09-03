@@ -1,6 +1,5 @@
 import { call, put, fork } from 'redux-saga/effects';
 import { takeEvery } from 'redux-saga';
-import { get } from './api/index';
 import * as actions from '../actions/aktor_actions';
 import { HENT_AKTOR_FORESPURT } from '../actions/actiontyper';
 import config from '../config';
@@ -8,14 +7,14 @@ import mockAktor from './mock/aktor';
 import { getWithHeaders } from './api';
 
 export function* aktorSaga(action) {
-    yield put(actions.hentAktor());
+    yield put(actions.henterAktor());
     if (config.mock.mockAktor) {
         yield put(actions.aktorHentet(mockAktor));
         return;
     }
 
     try {
-        const data = yield call(getWithHeaders, action.data.url, '10108000398');
+        const data = yield call(getWithHeaders, action.data.url, action.data.fnr);
         yield put(actions.aktorHentet(data));
     } catch (e) {
         yield put(actions.hentAktorFeilet());

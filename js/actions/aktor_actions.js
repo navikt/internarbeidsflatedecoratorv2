@@ -5,6 +5,8 @@ import {
     HENTER_AKTOR,
         } from './actiontyper';
 
+const url = '/aktoerregister/api/v1/identer?identgruppe=AktoerId';
+
 export function hentAktorFeilet() {
     return {
         type: HENT_AKTOR_FEILET,
@@ -17,7 +19,11 @@ export function henterAktor() {
     };
 }
 
-export function hentAktor(data) {
+export function hentAktor(fnr) {
+    const data = {
+        url: url,
+        fnr: fnr,
+    }
     return {
         type: HENT_AKTOR_FORESPURT,
         data,

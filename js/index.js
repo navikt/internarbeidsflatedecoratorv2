@@ -21,7 +21,7 @@ import onkeyup from './hurtigtaster';
 import { configureWebSocket } from './websockets';
 import { hentAktor } from './actions/aktor_actions';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     veileder,
     enheter,
     aktor,
@@ -50,7 +50,7 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
         store.dispatch(visFeilmelding(config.feilmelding));
     }
 
-    store.dispatch(hentAktor({ url: '/aktoerregister/api/v1/identer?identgruppe=AktoerId' }));
+    store.dispatch(hentAktor(config.fnr));
 
     const headerElement = document.getElementById(id);
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);

@@ -8,6 +8,8 @@ import Feilmelding from './Feilmelding';
 import EnhetVelger from './EnhetVelger';
 import { hentValgtEnhetIDFraURL } from '../utils/url-utils';
 import { dispatchFjernPersonEvent, dispatchPersonsokEvent } from '../events';
+import { hentAktor } from '../actions/aktor_actions';
+import { connect } from 'react-redux';
 
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
@@ -24,7 +26,7 @@ export const finnEnhetForVisning = data => {
     return valgtEnhet;
 };
 
-class Header extends React.Component {
+export class Header extends React.Component {
 
     static propTypes = {
         applicationName: PropTypes.string,
@@ -67,15 +69,19 @@ class Header extends React.Component {
             henter: PropTypes.bool,
             hentingFeilet: PropTypes.bool,
         }),
+        dispatch: PropTypes.func.isRequired,
     };
 
     constructor(props) {
         super(props);
         this.handleClickOutside = this.handleClickOutside.bind(this);
+
+        this.nyttFnr = this.nyttFnr.bind(this);
     }
 
     componentDidMount() {
         document.addEventListener('mouseup', this.handleClickOutside);
+        document.addEventListener('dekorator-hode-personsok', this.nyttFnr);
     }
 
     componentWillUnmount() {
@@ -88,10 +94,14 @@ class Header extends React.Component {
         }
     }
 
+    nyttFnr(event) {
+        this.props.dispatch(hentAktor(event.fodselsnummer));
+    }
+
     render({
                applicationName,
                fnr,
-                aktorId,
+               aktorId,
                autoSubmit,
                toggles = {},
                handlePersonsokSubmit,
@@ -158,4 +168,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default connect()(Header);
