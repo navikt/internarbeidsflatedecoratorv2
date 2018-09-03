@@ -8,7 +8,7 @@ const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod
 
 function getArenaConfigParameter(miljø) {
     if (miljø === '') {
-        return 'arena'
+        return 'arena';
     } else if (miljø === 'q0') {
         return 'areq0';
     }
