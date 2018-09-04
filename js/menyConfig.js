@@ -12,7 +12,7 @@ function getArenaConfigParameter(miljø) {
     } else if (miljø === 'q0') {
         return 'areq0';
     }
-    return miljø === '' ? 'arena' : `are${miljø.charAt(0)}${miljø.substring(1).padStart(2, '0')}`;
+    return `are${miljø.charAt(0)}${miljø.substring(1).padStart(2, '0')}`;
 }
 
 function getArenaStartsideLink() {
