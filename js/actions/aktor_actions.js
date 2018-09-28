@@ -21,9 +21,9 @@ export function henterAktor() {
 
 export function hentAktor(fnr) {
     const data = {
-        url: url,
-        fnr: fnr,
-    }
+        url,
+        fnr,
+    };
     return {
         type: HENT_AKTOR_FORESPURT,
         data,
