@@ -10,6 +10,6 @@ deploy:
   github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
   keep-history: true
   target-branch: gh-pages
-  local-dir: web/src/main/webapp
+  local-dir: /
   on:
     branch: master
