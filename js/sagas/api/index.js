@@ -3,8 +3,8 @@ export function getWithHeaders(url, fnr) {
         credentials: 'include',
         headers: {
             'Nav-Consumer-Id': 'internarbeidsflatedecorator',
-            'Nav-Call-Id': 'todo',
-            'Nav-Identer': fnr,
+            'Nav-Call-Id': randomCallId(),
+            'Nav-Personidenter': fnr,
         },
     })
         .then((res) => {
@@ -62,4 +62,10 @@ export function post(url, body) {
         .catch((err) => {
             throw err;
         });
+}
+
+function randomCallId() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
