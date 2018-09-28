@@ -44,6 +44,39 @@ describe('Lenker', () => {
             });
         });
 
+        describe('i q0', () => {
+            before(() => {
+                setHost('arena-q0.adeo.no');
+            });
+
+            it('med person i kontekst', () => {
+                const lenke = arenaLenke(AREMARK_FNR);
+                expect(lenke.url).to.equal(`http://arena-q0.adeo.no/forms/arenaMod_q0.html?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${AREMARK_FNR}`);
+            });
+
+            it('uten person i kontekst', () => {
+                const lenke = arenaLenke();
+                expect(lenke.url).to.equal('http://arena-q0.adeo.no/forms/frmservlet?config=areq0');
+            });
+        });
+
+        describe('i q6', () => {
+            before(() => {
+                setHost('arena-q6.adeo.no');
+            });
+
+            it('med person i kontekst', () => {
+                const lenke = arenaLenke(AREMARK_FNR);
+                expect(lenke.url).to.equal(`http://arena-q6.adeo.no/forms/arenaMod_q6.html?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${AREMARK_FNR}`);
+            });
+
+            it('uten person i kontekst', () => {
+                const lenke = arenaLenke();
+                expect(lenke.url).to.equal('http://arena-q6.adeo.no/forms/frmservlet?config=areq06');
+            });
+        });
+
+
         describe('i t11', () => {
             before(() => {
                 setHost('arena-t11.adeo.no');
@@ -57,6 +90,22 @@ describe('Lenker', () => {
             it('uten person i kontekst', () => {
                 const lenke = arenaLenke();
                 expect(lenke.url).to.equal('http://arena-t11.adeo.no/forms/frmservlet?config=aret11');
+            });
+        });
+
+        describe('i t6', () => {
+            before(() => {
+                setHost('arena-t6.adeo.no');
+            });
+
+            it('med person i kontekst', () => {
+                const lenke = arenaLenke(AREMARK_FNR);
+                expect(lenke.url).to.equal(`http://arena-t6.adeo.no/forms/arenaMod_t6.html?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${AREMARK_FNR}`);
+            });
+
+            it('uten person i kontekst', () => {
+                const lenke = arenaLenke();
+                expect(lenke.url).to.equal('http://arena-t6.adeo.no/forms/frmservlet?config=aret06');
             });
         });
     });
