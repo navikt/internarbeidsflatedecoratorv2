@@ -8,7 +8,6 @@ export function erGyldigFodselsnummer(fodselsnummer) {
 export const lagFodselsnummerfeilmelding = (fodselsnummer) => {
     if (!fodselsnummer.match(/^\d+$/)) {
         return IKKE_BARE_TALL_FEILMELDING;
-    } else {
-        return DEFAULT_FEILMELDING;
     }
+    return DEFAULT_FEILMELDING;
 };
