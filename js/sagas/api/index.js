@@ -1,5 +1,5 @@
 function randomCallId() {
-    return ([1e7] + - 1e3 + - 4e3 + - 8e3 + - 1e11).replace(/[018]/g, c =>
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
 }
@@ -14,13 +14,8 @@ export function getWithHeaders(url, fnr) {
         },
     })
         .then((res) => {
-            if (res.status === 404) {
-                throw new Error('404');
-            } else if (res.status === 403) {
-                throw new Error('403');
-            }
-            if (res.status > 400) {
-                throw new Error('Det oppstod en feil');
+            if (res.status !== 200) {
+                throw new Error('Det oppstod en feil, statuskode: ' + res.status);
             }
             return res.json();
         })
@@ -34,13 +29,8 @@ export function get(url) {
         credentials: 'include',
     })
         .then((res) => {
-            if (res.status === 404) {
-                throw new Error('404');
-            } else if (res.status === 403) {
-                throw new Error('403');
-            }
-            if (res.status > 400) {
-                throw new Error('Det oppstod en feil');
+            if (res.status !== 200) {
+                throw new Error('Det oppstod en feil, statuskode: ' + res.status);
             }
             return res.json();
         })
