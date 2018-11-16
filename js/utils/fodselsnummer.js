@@ -8,18 +8,23 @@ const kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 const decimalRadix = 10;
 
 function erGyldigPnummer(dag, maaned) {
-    return dag > 0 && dag <= 32
-        && maaned > 0 && maaned <= 12;
+    return dag > 0 && dag < 32
+        && maaned > 0 && maaned < 13;
 }
 
 function erGyldigDNummer(dag, maaned) {
-    return dag > 40 && dag <= 72
-        && maaned > 0 && maaned <= 12;
+    return dag > 40 && dag < 72
+        && maaned > 0 && maaned < 13;
 }
 
 function erGyldigHNummer(dag, maaned) {
-    return dag > 0 && dag <= 32
-        && maaned > 40 && maaned <= 52;
+    return dag > 0 && dag < 32
+        && maaned > 40 && maaned < 53;
+}
+
+function erGyldigBNummer(dag, maaned) {
+    return dag > 0 && dag < 32
+        && maaned > 20 && maaned < 33;
 }
 
 function erGyldigFodselsdato(fodselsnummer) {
@@ -27,7 +32,8 @@ function erGyldigFodselsdato(fodselsnummer) {
     const maaned = parseInt(fodselsnummer.substring(2, 4), decimalRadix);
     return erGyldigPnummer(dag, maaned)
         || erGyldigDNummer(dag, maaned)
-        || erGyldigHNummer(dag, maaned);
+        || erGyldigHNummer(dag, maaned)
+        || erGyldigBNummer(dag, maaned);
 }
 
 function hentKontrollSiffer(fodselsnummer, kontrollrekke) {
@@ -60,5 +66,5 @@ export const lagFodselsnummerfeilmelding = (fodselsnummer) => {
     } else if (!erGyldigFodselsnummer(fodselsnummer)) {
         return IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING;
     }
-    return null;
+    return DEFAULT_FEILMELDING;
 };
