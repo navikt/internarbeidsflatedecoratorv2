@@ -167,6 +167,6 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke(aktorId),
+        foreldrepengerLenke(null), //Frem til VL har laget landingsside: https://jira.adeo.no/browse/PFP-1762
     ],
 });
