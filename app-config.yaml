@@ -25,3 +25,5 @@ fasitResources:
   - alias: iadecorator-js
     resourceType: restservice
     path: /internarbeidsflatedecorator/js/head.min.js
+alertProfiles:
+  - basic

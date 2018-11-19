@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import Sokefelt from '../../js/components/Sokefelt';
 
 const GYLDIG_FODSELSNUMMER = '10108000398';
-const UGYLDIG_FODSELSNUMMER = '00000000000';
+const UGYLDIG_FODSELSNUMMER = '000000000000';
 
 describe("Sokefelt", () => {
 
