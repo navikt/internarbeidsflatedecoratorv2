@@ -22,7 +22,7 @@ describe("api", () => {
         it("Skal kalle kaste en 403-exception hvis det returneres 403", (done) => {
             fetchMock.get("*", 403);
             get("/ingen-url").catch((e) => {
-                expect(e.message).to.equal("403");
+                expect(e.message).to.equal("Det oppstod en feil, statuskode: 403");
                 done();
             });
         });
@@ -30,7 +30,7 @@ describe("api", () => {
         it("Skal kalle kaste en 404-exception hvis det returneres 404", (done) => {
             fetchMock.get("*", 404);
             get("/ingen-url").catch((e) => {
-                expect(e.message).to.equal("404");
+                expect(e.message).to.equal("Det oppstod en feil, statuskode: 404");
                 done();
             });
         });
@@ -38,7 +38,7 @@ describe("api", () => {
         it("Skal kalle kaste en exception hvis det returneres > 400", (done) => {
             fetchMock.get("*", 500);
             get("/ingen-url").catch((e) => {
-                expect(e.message).to.equal("Det oppstod en feil");
+                expect(e.message).to.equal("Det oppstod en feil, statuskode: 500");
                 done();
             });
         });
