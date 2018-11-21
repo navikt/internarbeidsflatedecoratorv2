@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas/index';
 import veileder from './reducers/veileder';
 import enheter from './reducers/enheter';
+import aktor from './reducers/aktor';
 import meny from './reducers/meny';
 import feilmeldinger from './reducers/feilmelding';
 import valgtEnhet from './reducers/valgtenhet';
@@ -18,10 +19,12 @@ import './../styles/styles.less';
 import { settValgtEnhet } from './actions/valgtenhet_actions';
 import onkeyup from './hurtigtaster';
 import { configureWebSocket } from './websockets';
+import { hentAktor } from './actions/aktor_actions';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     veileder,
     enheter,
+    aktor,
     meny,
     feilmeldinger,
     valgtEnhet,
@@ -46,6 +49,8 @@ window.renderDecoratorHead = ({ config }, id = 'header') => {
     if (config.feilmelding) {
         store.dispatch(visFeilmelding(config.feilmelding));
     }
+
+    store.dispatch(hentAktor(config.fnr));
 
     const headerElement = document.getElementById(id);
     render(<Provider store={store}><HeaderContainer config={config} headerElement={headerElement} /></Provider>, headerElement);

@@ -1,4 +1,4 @@
-export default {
+export const mockEnheter = {
     enhetliste: [
         {
             enhetId: '1337',
@@ -10,3 +10,5 @@ export default {
         },
     ],
 };
+
+export default mockEnheter;

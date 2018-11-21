@@ -147,20 +147,26 @@ function aaRegister(fnr) {
     };
 }
 
-export function foreldrepengerLenke() {
+export function foreldrepengerLenke(aktorId) {
+    if (!aktorId) {
+        return {
+            tittel: 'Foreldrepenger',
+            url: `${appDomain}/fpsak`,
+        };
+    }
     return {
         tittel: 'Foreldrepenger',
-        url: `${appDomain}/fpsak`,
+        url: `${appDomain}/fpsak/${aktorId.data}`,
     };
 }
 
-export const andreSystemerLenker = (fnr, enhet) => ({ // eslint-disable-line no-unused-vars
+export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
         arenaLenke(fnr),
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke(),
+        foreldrepengerLenke(null), //Frem til VL har laget landingsside: https://jira.adeo.no/browse/PFP-1762
     ],
 });

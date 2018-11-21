@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { arenaLenke } from '../js/menyConfig';
 
-const AREMARK_FNR = '***REMOVED***8';
+const AREMARK_FNR = '101080003898';
 
 const setHost = (host) => {
     global.window = {
