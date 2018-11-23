@@ -14,4 +14,4 @@ deploy:
   keep-history: true
   local_dir: build
   on:
-    branch: maste
+    branch: master
