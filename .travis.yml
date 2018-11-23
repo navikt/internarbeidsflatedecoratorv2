@@ -1,15 +1,17 @@
 language: node_js
 node_js:
   - "8"
-
-script: npm run build
-
+cache:
+  directories:
+    - node_modules
+script:
+  - npm run build
+  - npm test
 deploy:
   provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
   keep-history: true
-  target-branch: gh-pages
-  local-dir: /
+  local_dir: build
   on:
-    branch: master
+    branch: maste
