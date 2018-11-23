@@ -3,6 +3,8 @@ Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplika
 Appen fremstår utad som en enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av klientens teknologi, 
 og style seg selv uten at det påvirker applikasjonen den ligger i.
 
+Kjørbart eksempel: https://navikt.github.io/internarbeidsflatedecorator/
+
 ### Ta i bruk
     - Legg til en <div id="header"></div> der du ønsker at headern skal plasseres. 
     - importer js-filen som ligger på /internarbeidsflatedecorator/js/head.min.js
