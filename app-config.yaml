@@ -26,4 +26,4 @@ fasitResources:
     resourceType: restservice
     path: /internarbeidsflatedecorator/js/head.min.js
 alertProfiles:
-  - basic
+  - minimal
