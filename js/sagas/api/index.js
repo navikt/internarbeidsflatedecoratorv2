@@ -15,7 +15,7 @@ export function getWithHeaders(url, fnr) {
     })
         .then((res) => {
             if (res.status !== 200) {
-                throw new Error('Det oppstod en feil, statuskode: ' + res.status);
+                throw new Error(`Det oppstod en feil, statuskode: ${res.status}`);
             }
             return res.json();
         })
@@ -30,7 +30,7 @@ export function get(url) {
     })
         .then((res) => {
             if (res.status !== 200) {
-                throw new Error('Det oppstod en feil, statuskode: ' + res.status);
+                throw new Error(`Det oppstod en feil, statuskode: ${res.status}`);
             }
             return res.json();
         })

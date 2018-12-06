@@ -1,8 +1,10 @@
-import { finnMiljoStreng } from './sagas/util';
+import { finnMiljoStreng, finnNaisMiljoStreng, finnStillingMiljoStreng } from './sagas/util';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
+const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
+const stillingsokUrl = `https://stillingsok${finnStillingMiljoStreng()}.nav.no `;
 
 const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 
@@ -160,6 +162,20 @@ export function foreldrepengerLenke(aktorId) {
     };
 }
 
+export function rekrutteringsBistandLenke() {
+    return {
+        tittel: 'Rekrutteringsbistand',
+        url: `https://rekrutteringsbistand${naisDomain}`,
+    };
+}
+
+export function sokEtterStillingLenke() {
+    return {
+        tittel: 'Søk etter stilling',
+        url: `${stillingsokUrl}`,
+    };
+}
+
 export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
     lenker: [
@@ -167,6 +183,8 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke(null), //Frem til VL har laget landingsside: https://jira.adeo.no/browse/PFP-1762
+        foreldrepengerLenke(null), // Frem til VL har laget landingsside: https://jira.adeo.no/browse/PFP-1762
+        rekrutteringsBistandLenke(),
+        sokEtterStillingLenke(),
     ],
 });

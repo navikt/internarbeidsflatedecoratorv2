@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { finnMiljoStreng } from '../../js/sagas/util';
+import { finnMiljoStreng, finnNaisMiljoStreng, finnStillingMiljoStreng, NAIS_PREPROD_SUFFIX, NAIS_PROD_SUFFIX } from '../../js/sagas/util';
 
 const setHost = (host) => {
     global.window = {
@@ -35,4 +35,60 @@ describe("Util - finnMiljoStreng", () => {
             expect(baseurl).to.equal('-t10');
         });
     });
+});
+
+describe("Util - finnNaisMiljoStreng", () => {
+    describe("T6", () => {
+        it("Returnerer preprod.local hvis modapp-t1.adeo.no", () => {
+            setHost('modapp-t1.adeo.no');
+
+            const miljostreng = finnNaisMiljoStreng();
+            expect(miljostreng).to.equal(NAIS_PREPROD_SUFFIX);
+        });
+    });
+    describe("Q1", () => {
+        it("Returnerer preprod.local hvis modapp-q1.adeo.no", () => {
+            setHost('modapp-q1.adeo.no');
+
+            const miljostreng = finnNaisMiljoStreng();
+            expect(miljostreng).to.equal(NAIS_PREPROD_SUFFIX);
+        });
+    });
+    describe("Prod", () => {
+        it("Returnerer adeo.no hvis modapp.adeo.no", () => {
+            setHost('modapp.adeo.no');
+
+            const miljostreng = finnNaisMiljoStreng();
+            expect(miljostreng).to.equal(NAIS_PROD_SUFFIX);
+        });
+    });
+
+});
+
+describe("Util - finnStillingMiljoStreng", () => {
+    describe("T6", () => {
+        it("Returnerer -q hvis modapp-t1.adeo.no", () => {
+            setHost('modapp-t1.adeo.no');
+
+            const miljostreng = finnStillingMiljoStreng();
+            expect(miljostreng).to.equal('-q');
+        });
+    });
+    describe("Q1", () => {
+        it("Returnerer -q hvis modapp-q1.adeo.no", () => {
+            setHost('modapp-q1.adeo.no');
+
+            const miljostreng = finnStillingMiljoStreng();
+            expect(miljostreng).to.equal('-q');
+        });
+    });
+    describe("Prod", () => {
+        it("Returnerer blankt hvis modapp.adeo.no", () => {
+            setHost('modapp.adeo.no');
+
+            const miljostreng = finnStillingMiljoStreng();
+            expect(miljostreng).to.equal('');
+        });
+    });
+
 });
