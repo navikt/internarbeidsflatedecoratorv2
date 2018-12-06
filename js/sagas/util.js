@@ -13,8 +13,8 @@ export const finnMiljoStreng = () => {
 
 export const finnNaisMiljoStreng = () => {
     const host = window.location.host;
-    const bindestrekIndex = host.indexOf('-');
-    if (bindestrekIndex === -1) {
+    const isProd = !host.includes('-');
+    if (isProd) {
         return NAIS_PROD_SUFFIX;
     }
     return NAIS_PREPROD_SUFFIX;
@@ -22,8 +22,8 @@ export const finnNaisMiljoStreng = () => {
 
 export const finnStillingMiljoStreng = () => {
     const host = window.location.host;
-    const bindestrekIndex = host.indexOf('-');
-    if (bindestrekIndex === -1) {
+    const isProd = !host.includes('-');
+    if (isProd) {
         return '';
     }
     return '-q';
