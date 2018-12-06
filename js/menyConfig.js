@@ -3,6 +3,7 @@ import { finnMiljoStreng, finnNaisMiljoStreng, finnStillingMiljoStreng } from '.
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
+const tjenesterDomain = `https://tjenester${finnMiljoStreng()}.nav.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
 const stillingsokUrl = `https://stillingsok${finnStillingMiljoStreng()}.nav.no `;
 
@@ -28,7 +29,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         lenker: [
             {
                 tittel: 'Arbeidsmarkedet',
-                url: `${appDomain}/mia/ledigestillinger`,
+                url: `${tjenesterDomain}/mia/`,
             },
             {
                 tittel: 'Enhetens oversikt',
