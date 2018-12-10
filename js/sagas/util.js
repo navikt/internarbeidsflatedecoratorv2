@@ -19,12 +19,3 @@ export const finnNaisMiljoStreng = () => {
     }
     return NAIS_PREPROD_SUFFIX;
 };
-
-export const finnStillingMiljoStreng = () => {
-    const host = window.location.host;
-    const isProd = !host.includes('-');
-    if (isProd) {
-        return '';
-    }
-    return '-q';
-};
