@@ -1,11 +1,10 @@
-import { finnMiljoStreng, finnNaisMiljoStreng, finnStillingMiljoStreng } from './sagas/util';
+import { finnMiljoStreng, finnNaisMiljoStreng } from './sagas/util';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const tjenesterDomain = `https://tjenester${finnMiljoStreng()}.nav.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
-const stillingsokUrl = `https://stillingsok${finnStillingMiljoStreng()}.nav.no `;
 
 const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 
@@ -173,7 +172,7 @@ export function rekrutteringsBistandLenke() {
 export function sokEtterStillingLenke() {
     return {
         tittel: 'Søk etter stilling',
-        url: `${stillingsokUrl}`,
+        url: `https://rekrutteringsbistand${naisDomain}stillinger`,
     };
 }
 

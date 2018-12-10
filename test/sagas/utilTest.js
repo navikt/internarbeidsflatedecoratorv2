@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { finnMiljoStreng, finnNaisMiljoStreng, finnStillingMiljoStreng, NAIS_PREPROD_SUFFIX, NAIS_PROD_SUFFIX } from '../../js/sagas/util';
+import { finnMiljoStreng, finnNaisMiljoStreng, NAIS_PREPROD_SUFFIX, NAIS_PROD_SUFFIX } from '../../js/sagas/util';
 
 const setHost = (host) => {
     global.window = {
@@ -60,34 +60,6 @@ describe("Util - finnNaisMiljoStreng", () => {
 
             const miljostreng = finnNaisMiljoStreng();
             expect(miljostreng).to.equal(NAIS_PROD_SUFFIX);
-        });
-    });
-
-});
-
-describe("Util - finnStillingMiljoStreng", () => {
-    describe("T6", () => {
-        it("Returnerer -q hvis modapp-t1.adeo.no", () => {
-            setHost('modapp-t1.adeo.no');
-
-            const miljostreng = finnStillingMiljoStreng();
-            expect(miljostreng).to.equal('-q');
-        });
-    });
-    describe("Q1", () => {
-        it("Returnerer -q hvis modapp-q1.adeo.no", () => {
-            setHost('modapp-q1.adeo.no');
-
-            const miljostreng = finnStillingMiljoStreng();
-            expect(miljostreng).to.equal('-q');
-        });
-    });
-    describe("Prod", () => {
-        it("Returnerer blankt hvis modapp.adeo.no", () => {
-            setHost('modapp.adeo.no');
-
-            const miljostreng = finnStillingMiljoStreng();
-            expect(miljostreng).to.equal('');
         });
     });
 
