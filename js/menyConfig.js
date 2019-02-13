@@ -61,6 +61,10 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 tittel: 'Finn fastlege',
                 url: `${appDomain}/fastlege/`,
             },
+            {
+                tittel: 'Registrer arbeidssøker',
+                url: `${appDomain}/arbeidssokerregistrering/?${fnr ? `fnr=${fnr}` : ''}${enhet ? `&enhetId=${enhet}` : ''}`,
+            },
         ],
     },
     {
