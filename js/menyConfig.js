@@ -61,9 +61,9 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 tittel: 'Finn fastlege',
                 url: `${appDomain}/fastlege/`,
             },
-            {
+            !window.location.hostname.startsWith('app-q') ? undefined : {
                 tittel: 'Registrer arbeidssøker',
-                url: `${appDomain}/arbeidssokerregistrering/?${fnr ? `fnr=${fnr}` : ''}${enhet ? `&enhetId=${enhet}` : ''}`,
+                url: `${appDomain}/arbeidssokerregistrering/?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`,
             },
         ],
     },
