@@ -154,15 +154,9 @@ function aaRegister(fnr) {
 }
 
 export function foreldrepengerLenke(aktorId) {
-    if (!aktorId) {
-        return {
-            tittel: 'Foreldrepenger',
-            url: `${appDomain}/fpsak`,
-        };
-    }
     return {
         tittel: 'Foreldrepenger',
-        url: `${appDomain}/fpsak/${aktorId.data}`,
+        url: (aktorId && aktorId.data && aktorId.length > 0 ? `${appDomain}/fpsak/aktoer/${aktorId.data}` : `${appDomain}/fpsak/`),
     };
 }
 
@@ -187,7 +181,7 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         aaRegister(fnr),
         pesysLenke(fnr),
         gosysLenke(fnr),
-        foreldrepengerLenke(null), // Frem til VL har laget landingsside: https://jira.adeo.no/browse/PFP-1762
+        foreldrepengerLenke(aktorId),
         rekrutteringsBistandLenke(),
         sokEtterStillingLenke(),
     ],
