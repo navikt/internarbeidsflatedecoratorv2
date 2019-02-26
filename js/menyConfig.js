@@ -154,16 +154,16 @@ function aaRegister(fnr) {
 }
 
 export function foreldrepengerLenke(aktorId) {
-    console.log('###'); // eslint-disable-line no-console
-    console.log(aktorId); // eslint-disable-line no-console
-    if (aktorId) {
-        console.log('###'); // eslint-disable-line no-console
-        console.log(aktorId.data); // eslint-disable-line no-console
-        console.log('###'); // eslint-disable-line no-console
-        console.log(aktorId.length); // eslint-disable-line no-console
-        console.log('###'); // eslint-disable-line no-console
-        console.log(aktorId.data.length); // eslint-disable-line no-console
-        console.log('###'); // eslint-disable-line no-console
+    console.log('###');
+    console.log(aktorId);
+    if(aktorId) {
+        console.log('###');
+        console.log(aktorId.data);
+        console.log('###');
+        console.log(aktorId.length);
+        console.log('###');
+        console.log(aktorId.data.length);
+        console.log('###');
     }
     return {
         tittel: 'Foreldrepenger',
