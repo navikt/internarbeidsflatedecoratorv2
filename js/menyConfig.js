@@ -154,6 +154,17 @@ function aaRegister(fnr) {
 }
 
 export function foreldrepengerLenke(aktorId) {
+    console.log('###');
+    console.log(aktorId);
+    if(aktorId) {
+        console.log('###');
+        console.log(aktorId.data);
+        console.log('###');
+        console.log(aktorId.length);
+        console.log('###');
+        console.log(aktorId.data.length);
+        console.log('###');
+    }
     return {
         tittel: 'Foreldrepenger',
         url: (aktorId && aktorId.data && aktorId.length > 0 ? `${appDomain}/fpsak/aktoer/${aktorId.data}` : `${appDomain}/fpsak/`),
