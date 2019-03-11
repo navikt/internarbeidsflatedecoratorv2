@@ -22,6 +22,10 @@ function getArenaStartsideLink() {
     return `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=${getArenaConfigParameter(miljø)}`;
 }
 
+function byggArbeidssokerregistreringsURL(fnr, enhet) {
+    return `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
+}
+
 export const funksjonsomradeLenker = (fnr, enhet) => [
     {
         tittel: 'Oppfølging',
@@ -63,7 +67,8 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             window.location.hostname.indexOf('-q') === -1 ? undefined : {
                 tittel: 'Registrer arbeidssøker',
-                url: `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`,
+                // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
+                url: `https://veilarblogin-${finnMiljoStreng()}${naisDomain}/veilarblogin/api/start?url=${byggArbeidssokerregistreringsURL(fnr, enhet)}`,
             },
         ],
     },
