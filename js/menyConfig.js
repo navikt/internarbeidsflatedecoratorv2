@@ -65,7 +65,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 tittel: 'Finn fastlege',
                 url: `${appDomain}/fastlege/`,
             },
-            window.location.hostname.indexOf('-q') === -1 ? undefined : {
+            window.location.hostname.indexOf('-q') === -1 ? byggArbeidssokerregistreringsURL(fnr, enhet) : {
                 tittel: 'Registrer arbeidssøker',
                 // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
                 url: `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${byggArbeidssokerregistreringsURL(fnr, enhet)}`,
