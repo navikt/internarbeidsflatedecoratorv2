@@ -23,7 +23,7 @@ function getArenaStartsideLink() {
 }
 
 function byggArbeidssokerregistreringsURL(fnr, enhet) {
-    return encodeURI(`https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`);
+    return encodeURIComponent(`https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`);
 }
 
 export const funksjonsomradeLenker = (fnr, enhet) => [
