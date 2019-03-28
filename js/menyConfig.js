@@ -75,7 +75,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                     url: window.location.href,
                     userAgent: window.navigator.userAgent,
                     appName: 'internarbeidsflatedecorator',
-                    event: 'internarbeidsflatedecorator.metrikker.registrering',
+                    name: 'internarbeidsflatedecorator.metrikker.registrering',
                     fields: {},
                     tags: {},
                 }),
