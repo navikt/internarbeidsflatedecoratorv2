@@ -1,10 +1,12 @@
 import { finnMiljoStreng, finnNaisMiljoStreng } from './sagas/util';
+import { post } from './sagas/api';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const tjenesterDomain = `https://tjenester${finnMiljoStreng()}.nav.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
+const frontendLoggerApiEvent = '/frontendlogger/api/event';
 
 const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 
@@ -69,6 +71,14 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 tittel: 'Registrer arbeidssøker',
                 // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
                 url: `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${byggArbeidssokerregistreringsURL(fnr, enhet)}`,
+                onClick: () => post(`${frontendLoggerApiEvent}`, {
+                    url: window.location.href,
+                    userAgent: window.navigator.userAgent,
+                    appName: 'internarbeidsflatedecorator',
+                    event: 'internarbeidsflatedecorator.metrikker.registrering',
+                    fields: {},
+                    tags: {},
+                }),
             },
         ],
     },

@@ -6,7 +6,7 @@ export function FunksjonsomradeLenker({ fnr, enhet }) {
     const kolonner = config.map((topniva) => {
         const lenker = topniva.lenker.filter(lenke => lenke).map((lenke) => (
             <li>
-                <a href={lenke.url} className="typo-normal dekorator__menylenke">{lenke.tittel}</a>
+                <a href={lenke.url} onClick={lenke.onClick} className="typo-normal dekorator__menylenke">{lenke.tittel}</a>
             </li>
         ));
 
