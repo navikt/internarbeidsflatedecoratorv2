@@ -70,7 +70,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             {
                 tittel: 'Registrer arbeidssøker',
                 // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
-                url:  window.location.hostname.indexOf('-q') === -1 ?
+                url: window.location.hostname.indexOf('-q') === -1 ?
                     `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}` :
                     byggArbeidssokerregistreringsURL(fnr, enhet),
                 onClick: () => post(`${frontendLoggerApiEvent}`, {
