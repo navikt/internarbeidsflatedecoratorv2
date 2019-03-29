@@ -25,7 +25,7 @@ function getArenaStartsideLink() {
 }
 
 function byggArbeidssokerregistreringsURL(fnr, enhet) {
-    return encodeURIComponent(`https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`);
+    return `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 }
 
 export const funksjonsomradeLenker = (fnr, enhet) => [
@@ -67,10 +67,12 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 tittel: 'Finn fastlege',
                 url: `${appDomain}/fastlege/`,
             },
-            window.location.hostname.indexOf('-q') === -1 ? byggArbeidssokerregistreringsURL(fnr, enhet) : {
+            {
                 tittel: 'Registrer arbeidssøker',
                 // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
-                url: `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${byggArbeidssokerregistreringsURL(fnr, enhet)}`,
+                url:  window.location.hostname.indexOf('-q') === -1 ?
+                    `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}` :
+                    byggArbeidssokerregistreringsURL(fnr, enhet),
                 onClick: () => post(`${frontendLoggerApiEvent}`, {
                     url: window.location.href,
                     userAgent: window.navigator.userAgent,
