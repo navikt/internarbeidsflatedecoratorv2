@@ -12,6 +12,9 @@ export function* aktorSaga(action) {
         yield put(actions.aktorHentet(mockAktor));
         return;
     }
+    if (!action.data.fnr || action.data.fnr.length === 0) {
+        yield put(actions.hentAktorFeilet());
+    }
 
     try {
         const data = yield call(getWithHeaders, action.data.url, action.data.fnr);
