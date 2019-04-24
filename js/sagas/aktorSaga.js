@@ -14,6 +14,7 @@ export function* aktorSaga(action) {
     }
     if (!action.data.fnr || action.data.fnr.length === 0) {
         yield put(actions.hentAktorFeilet());
+        return;
     }
 
     try {
