@@ -1,4 +1,4 @@
-import { finnMiljoStreng, finnNaisMiljoStreng } from './sagas/util';
+import { finnMiljoStreng, finnNaisMiljoStreng, NAIS_PREPROD_SUFFIX } from './sagas/util';
 import { post } from './sagas/api';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
@@ -119,11 +119,20 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
     },
 ];
 
-function getGosysUrl(fnr) {
-    if (fnr) {
-        return `${wasappDomain}/gosys/personoversikt/fnr=${fnr}`;
+function getGosysNaisUrl() {
+    const naisMiljo = finnNaisMiljoStreng();
+    if (naisMiljo === NAIS_PREPROD_SUFFIX) {
+        return 'https://gosys-nais-q1.nais.preprod.local';
     }
-    return `${wasappDomain}/gosys/`;
+    return 'https://gosys-nais.nais.adeo.no';
+}
+
+function getGosysUrl(fnr) {
+    const domain = getGosysNaisUrl();
+    if (fnr) {
+        return `${domain}/gosys/personoversikt/fnr=${fnr}`;
+    }
+    return `${domain}/gosys/`;
 }
 
 export function gosysLenke(fnr) {
