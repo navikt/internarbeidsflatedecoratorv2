@@ -82,6 +82,10 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                     tags: {},
                 }),
             },
+            {
+                tittel: 'Arbeidstrening Avtale',
+                url: `${appDomain}/tiltaksgjennomforing/`,
+            },
         ],
     },
     {
