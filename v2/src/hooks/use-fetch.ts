@@ -1,5 +1,5 @@
 import { MaybeCls as Maybe } from '@nutgaard/maybe-ts';
-import { Reducer, ReducerState, useEffect, useReducer, useState } from 'react';
+import {Reducer, ReducerState, useEffect, useReducer, useState, useMemo} from 'react';
 
 type FetchActionInit = { type: 'FETCH_INIT' };
 type FetchActionOk<TYPE> = { type: 'FETCH_OK', data: TYPE };
@@ -44,6 +44,16 @@ export const empty: UseFetchHook<any> = {
 };
 
 export default function useFetch<TYPE>(url: RequestInfo, option?: RequestInit, autorun: boolean = true): UseFetchHook<TYPE> {
+    const source = useMemo(() => async () => {
+        const resp = await fetch(url, option);
+        const json = await resp.json();
+        return json as TYPE;
+    }, [url, option]);
+
+    return usePromiseData(source, autorun);
+}
+
+export function usePromiseData<TYPE>(source: () => Promise<TYPE>, autorun: boolean = true): UseFetchHook<TYPE> {
     const [rerun, setRerun] = useState(0);
     const [state, dispatch] = useReducer<FetchReducer<TYPE>>(fetchReducer, initalState);
     useEffect(() => {
@@ -52,8 +62,7 @@ export default function useFetch<TYPE>(url: RequestInfo, option?: RequestInit, a
         async function fetchData() {
             dispatch({ type: 'FETCH_INIT' });
             try {
-                const response = await fetch(url, option);
-                const json = await response.json();
+                const json = await source();
                 if (!didCancel) {
                     dispatch({ type: 'FETCH_OK', data: json });
                 }
@@ -72,11 +81,10 @@ export default function useFetch<TYPE>(url: RequestInfo, option?: RequestInit, a
         return () => {
             didCancel = true;
         };
-    }, [url, option, rerun, autorun]);
+    }, [source, rerun, autorun]);
 
-    function refetch() {
-        setRerun(rerun + 1);
-    }
+
+    const refetch = useMemo(() => () => setRerun(rerun + 1), [rerun]);
 
     return { ...state, refetch };
 }

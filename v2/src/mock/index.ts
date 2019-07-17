@@ -1,5 +1,6 @@
-import FetchMock, { JSONObject, Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
+import FetchMock, {JSONObject, Middleware, MiddlewareUtils} from 'yet-another-fetch-mock';
 import {AktorIdResponse, Enheter, Me} from '../domain';
+import {setupWsControlAndMock} from "./context-mock";
 
 const loggingMiddleware: Middleware = (request, response) => {
     // tslint:disable
@@ -40,7 +41,9 @@ const enheter: Enheter & JSONObject = {
     ident: 'Z999999',
     enhetliste: [
         { enhetId: '0219', navn: 'NAV Bærum' },
-        { enhetId: '0299', navn: 'NAV IT og utvikling' },
+        { enhetId: '0118', navn: 'NAV Aremark' },
+        { enhetId: '0604', navn: 'NAV Kongsberg' },
+        { enhetId: '0602', navn: 'NAV Drammer' }
     ]
 };
 
@@ -58,3 +61,5 @@ mock.get('/aktoerregister/api/v1/identer', (args) => {
     };
     return data;
 });
+
+setupWsControlAndMock(mock);

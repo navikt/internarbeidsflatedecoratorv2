@@ -1,3 +1,5 @@
+@import "~nav-frontend-core/less/_variabler";
+
 .dekorator {
     font-size: 100%; // 1em === 16px
     color: @white;
@@ -8,9 +10,9 @@
     @import "_hode.less";
     @import "_meny.less";
     @import "_feilmelding.less";
+
     @import "~nav-frontend-core/less/_mixins";
     @import "~nav-frontend-core/less/hide-text";
-    @import "~nav-frontend-core/less/_variabler";
     @import "~nav-frontend-core/less/utilities";
     @import "~nav-frontend-typografi-style/src/index";
 
@@ -48,5 +50,16 @@
         line-height: 1;
         padding: 10px 20px;
         display: inline-block;
+    }
+}
+
+.decorator-context-modal {
+    &__footer {
+        border-top: 1px solid @navGra40;
+        padding: 1.1rem 2rem;
+
+        .knapp {
+            margin-right: 0.75rem;
+        }
     }
 }

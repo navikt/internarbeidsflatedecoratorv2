@@ -1,8 +1,6 @@
 export interface Me {
     readonly ident: string;
     readonly navn: string;
-    readonly fornavn: string;
-    readonly etternavn: string;
 }
 
 export interface Enhet {
@@ -11,13 +9,7 @@ export interface Enhet {
 }
 
 export interface Enheter {
-    readonly ident: string;
     readonly enhetliste: Array<Enhet>;
-}
-
-export interface ContextChange {
-    type: 'FNR' | 'ENHET';
-    value: string | null;
 }
 
 export interface Toggles {
@@ -36,4 +28,9 @@ export interface AktorIdResponse {
             identgruppe: string;
         }>
     }
+}
+
+enum ContextholderMessages {
+    NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
+    NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
 }

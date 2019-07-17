@@ -10,5 +10,5 @@ export interface WrappedState<T> {
 export type State<S> = [S, Dispatch<SetStateAction<S>>];
 export function useWrappedState<T>(initialValue: T): WrappedState<T> {
     const [value, set] = React.useState<T>(initialValue);
-    return { value, set }
+    return React.useMemo(() => ({ value, set }), [value, set]);
 }

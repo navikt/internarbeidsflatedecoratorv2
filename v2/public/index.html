@@ -36,74 +36,8 @@
       },
       onSok(nyfnr) { fnr = nyfnr; console.log('onSok', fnr); render(fnr, enhet); },
       onEnhetChange(nyenhet) { enhet = nyenhet; console.log('onEnhetChange', enhet); render(fnr, enhet); },
-      onContextChange(change) { console.log('onContextChange', change); },
     });
   }
   render(fnr, enhet);
-</script>
-<script>
-    function controlSignal(data) {
-        return JSON.stringify({ type: 'control', data});
-    }
-    function setupControls(ws) {
-        return () => {
-            const controlDiv = document.createElement('div');
-            controlDiv.id = 'ws-control';
-            controlDiv.style.position = 'absolute';
-            controlDiv.style.bottom = '0px';
-            controlDiv.style.width = 'calc(100% - 4rem)';
-            controlDiv.style.marginLeft = '2rem';
-
-            const buttonDiv = document.createElement('div');
-
-            const guttButton = document.createElement('button');
-            guttButton.innerText = 'Sendt FNR 01011950120 (gutt)';
-            guttButton.addEventListener('click', () => ws.send(controlSignal({ fnr: '01011950120' })));
-
-            const jenteButton = document.createElement('button');
-            jenteButton.innerText = 'Sendt FNR 01011950201 (jente)';
-            jenteButton.addEventListener('click', () => ws.send(controlSignal({ fnr: '01011950201' })));
-
-            const barumEnhet = document.createElement('button');
-            barumEnhet.innerText = 'Sendt FNR 0219';
-            barumEnhet.addEventListener('click', () => ws.send(controlSignal({ enhet: '0219' })));
-
-            const aremarkEnhet = document.createElement('button');
-            aremarkEnhet.innerText = 'Sendt FNR 0118';
-            aremarkEnhet.addEventListener('click', () => ws.send(controlSignal({ enhet: '0118' })));
-
-            buttonDiv.appendChild(guttButton);
-            buttonDiv.appendChild(jenteButton);
-            buttonDiv.appendChild(barumEnhet);
-            buttonDiv.appendChild(aremarkEnhet);
-
-            const header = document.createElement('h1');
-            header.innerText = 'Controls';
-            controlDiv.appendChild(header);
-            controlDiv.appendChild(buttonDiv);
-
-            const textarea = document.createElement('textarea');
-            textarea.id = 'ws-control__textarea';
-            textarea.style.width = '100%';
-            textarea.style.height = '10rem';
-            controlDiv.appendChild(textarea);
-
-
-            document.body.append(controlDiv);
-        }
-    }
-    function showMessage(ws) {
-        return (message) => {
-            const textarea = document.getElementById('ws-control__textarea');
-            const now = new Date().toLocaleTimeString();
-            textarea.value = `${now} ${message.data}\n${textarea.value}`;
-        };
-    }
-
-    if (window.location.hostname.includes('localhost')) {
-        const ws = new WebSocket('ws://localhost:2999/hereIsWS');
-        ws.addEventListener('open', setupControls(ws));
-        ws.addEventListener('message', showMessage(ws));
-    }
 </script>
 </html>
