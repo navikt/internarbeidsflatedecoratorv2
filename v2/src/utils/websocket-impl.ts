@@ -1,3 +1,4 @@
+import log from './logging';
 const SECONDS: number = 1000;
 const MINUTES: number = 60 * SECONDS;
 const MAX_RETRIES: number = 30;
@@ -145,9 +146,7 @@ class WebSocketImpl {
     }
 
     private print(...args: any[]) {
-        if (this.debug) {
-            console.log(...args); // tslint:disable-line
-        }
+        log.debug('WS:', ...args); // tslint:disable-line
     }
 }
 
