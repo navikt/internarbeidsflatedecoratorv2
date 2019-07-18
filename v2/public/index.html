@@ -19,7 +19,7 @@
 </body>
 <script>
     let fnr = '';
-    let enhet = '0219';
+    let enhet = '0219a';
 
     function render(fnr, enhet) {
         NAVSPA.internarbeidsflatefs(document.getElementById('root'), {
@@ -47,6 +47,7 @@
                 console.log('onEnhetChange', enhet);
                 render(fnr, enhet);
             },
+            useContextholder: true
         });
     }
 

@@ -1,5 +1,5 @@
 import { MaybeCls as Maybe } from '@nutgaard/maybe-ts';
-import {Reducer, ReducerState, useEffect, useReducer, useState, useMemo} from 'react';
+import {Reducer, ReducerState, useEffect, useReducer, useState, useMemo, DependencyList} from 'react';
 
 type FetchActionInit = { type: 'FETCH_INIT' };
 type FetchActionOk<TYPE> = { type: 'FETCH_OK', data: TYPE };
@@ -43,17 +43,17 @@ export const empty: UseFetchHook<any> = {
     refetch(): void {}
 };
 
-export default function useFetch<TYPE>(url: RequestInfo, option?: RequestInit, autorun: boolean = true): UseFetchHook<TYPE> {
+export default function useFetch<TYPE>(url: RequestInfo, option?: RequestInit, autorun: boolean = true, dependencyList?: DependencyList): UseFetchHook<TYPE> {
     const source = useMemo(() => async () => {
         const resp = await fetch(url, option);
         const json = await resp.json();
         return json as TYPE;
     }, [url, option]);
 
-    return usePromiseData(source, autorun);
+    return usePromiseData(source, autorun, dependencyList);
 }
 
-export function usePromiseData<TYPE>(source: () => Promise<TYPE>, autorun: boolean = true): UseFetchHook<TYPE> {
+export function usePromiseData<TYPE>(source: () => Promise<TYPE>, autorun: boolean = true, dependencyList?: DependencyList): UseFetchHook<TYPE> {
     const [rerun, setRerun] = useState(0);
     const [state, dispatch] = useReducer<FetchReducer<TYPE>>(fetchReducer, initalState);
     useEffect(() => {
@@ -81,7 +81,9 @@ export function usePromiseData<TYPE>(source: () => Promise<TYPE>, autorun: boole
         return () => {
             didCancel = true;
         };
-    }, [source, rerun, autorun]);
+        // Alle skal være med, men eslint greier ikke å analysere den
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, dependencyList ? [...dependencyList, rerun, autorun] : [source, rerun, autorun]);
 
 
     const refetch = useMemo(() => () => setRerun(rerun + 1), [rerun]);

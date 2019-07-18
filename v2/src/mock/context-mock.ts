@@ -5,7 +5,7 @@ function controlSignal(data: object | string) {
 }
 
 function updateContext(body: object) {
-    fetch('/modiacontextholder/api/context', {
+    fetch('/modiacontextholder/api/context?fromMock', {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -69,7 +69,7 @@ function showMessage(ws: WebSocket) {
 
 
         if (['"NY_AKTIV_ENHET"', '"NY_AKTIV_BRUKER"'].includes(message.data)) {
-            fetch('/modiacontextholder/api/context')
+            fetch('/modiacontextholder/api/context?fromMock')
                 .then((resp) => resp.json())
                 .then((json) => {
                     textarea.value = `${now} ${message.data} (${JSON.stringify(json)})\n${textarea.value}`;
@@ -88,7 +88,6 @@ export function setupWsControlAndMock(mock: FetchMock) {
         ws.addEventListener('message', showMessage(ws));
 
         mock.post('/modiacontextholder/api/context', ({ body }) => {
-            console.log('Update context', body);
             if (body.eventType === 'NY_AKTIV_ENHET') {
                 context.aktivEnhet = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_ENHET'));

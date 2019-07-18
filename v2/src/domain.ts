@@ -19,6 +19,10 @@ export interface Toggles {
     visEnhet: boolean;
 }
 
+export interface Markup {
+    etterSokefelt?: string
+}
+
 export interface AktorIdResponse {
     [fnr: string]: {
         feilmelding: string | null;
@@ -33,4 +37,12 @@ export interface AktorIdResponse {
 enum ContextholderMessages {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
     NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
+}
+
+export interface AktivEnhet {
+    aktivEnhet: string | null;
+}
+
+export interface AktivBruker {
+    aktivBruker: string | null;
 }

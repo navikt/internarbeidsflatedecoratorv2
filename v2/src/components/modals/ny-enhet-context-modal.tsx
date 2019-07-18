@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
-import NavFrontendModal from 'nav-frontend-modal';
+import {MaybeCls} from "@nutgaard/maybe-ts";
+import Modal from 'nav-frontend-modal';
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
 import Knapp, { Hovedknapp} from 'nav-frontend-knapper'
 import {UseFetchHook} from "../../hooks/use-fetch";
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import {AktivEnhet} from "../../domain";
 
-NavFrontendModal.setAppElement(document.getElementById('root'));
+Modal.setAppElement(document.getElementById('root'));
 
 interface Props {
     valgtEnhet: string | undefined | null;
-    contextEnhet: UseFetchHook<{ aktivEnhet: string | null }>
+    contextEnhet: UseFetchHook<AktivEnhet>
     onAccept(enhet: string):void;
     onDecline(enhet: string | undefined | null):void;
 }
@@ -18,13 +19,13 @@ interface Props {
 function NyEnhetContextModal(props: Props) {
     const [ pending, setPending ] = useState(false);
     const open: boolean = props.contextEnhet.data
-        .map((contextEnhet) => {
+        .map((contextEnhet: AktivEnhet) => {
             const beggeHarVerdi = !!contextEnhet.aktivEnhet && !!props.valgtEnhet;
             return beggeHarVerdi && contextEnhet.aktivEnhet !== props.valgtEnhet;
         })
         .withDefault(false);
     const onsketEnhet = props.contextEnhet.data
-        .flatMap((contextEnhet) => MaybeCls.of(contextEnhet.aktivEnhet))
+        .flatMap((contextEnhet: AktivEnhet) => MaybeCls.of(contextEnhet.aktivEnhet))
         .withDefault('');
 
     const onDecline = () => {
@@ -46,7 +47,7 @@ function NyEnhetContextModal(props: Props) {
     };
 
     return (
-        <NavFrontendModal
+        <Modal
             contentLabel="Brukercontext"
             isOpen={open}
             closeButton={false}
@@ -71,7 +72,7 @@ function NyEnhetContextModal(props: Props) {
                     </Knapp>
                 </div>
             </div>
-        </NavFrontendModal>
+        </Modal>
     );
 }
 
