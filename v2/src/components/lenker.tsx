@@ -1,4 +1,5 @@
 import React, {useContext} from 'react';
+import {MaybeCls} from "@nutgaard/maybe-ts";
 import {finnMiljoStreng, finnNaisMiljoStreng} from "../utils/url-utils";
 import {AppContext} from "../application";
 
@@ -25,8 +26,9 @@ function Lenker() {
     const enhet = context.enhet.withDefault('');
     const aktorId = context.aktorId
         .data
-        .filter((resp) => resp[fnr].identer.some((ident) => ident.gjeldende))
-        .map((resp) => resp[fnr].identer.find((ident) => ident.gjeldende)!)
+        .flatMap((resp) => MaybeCls.of(resp[fnr]))
+        .filter((resp) => resp.identer.some((ident) => ident.gjeldende))
+        .map((resp) => resp.identer.find((ident) => ident.gjeldende)!)
         .map(({ ident }) => ident)
         .withDefault('');
 

@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useCallback, useState} from "react";
+import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
 
 export interface FieldState {
     input: {
@@ -15,6 +15,10 @@ export default function useFieldState(initialState: string): FieldState {
         (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value),
         [setValue]
     );
+
+    useEffect(() => {
+        setValue(initialState);
+    }, [initialState]);
 
     return {
         input: {

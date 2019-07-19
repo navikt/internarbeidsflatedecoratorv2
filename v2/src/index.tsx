@@ -1,4 +1,4 @@
-import Application from './application';
+import Application, { Props } from './application';
 import NAVSPA from './utils/NAVSPA';
 import 'nav-frontend-core';
 import './styles/main.less';
@@ -8,4 +8,4 @@ if (process.env.REACT_APP_MOCK === 'true') {
 }
 
 
-NAVSPA.eksporter("internarbeidsflatefs", Application);
+NAVSPA.eksporter<Props>("internarbeidsflatefs", Application);

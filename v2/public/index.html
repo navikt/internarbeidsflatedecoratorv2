@@ -18,13 +18,10 @@
 <div id="root"></div>
 </body>
 <script>
-    let fnr = '';
-    let enhet = '0219a';
-
     function render(fnr, enhet) {
         NAVSPA.internarbeidsflatefs(document.getElementById('root'), {
             appname: 'Modia testapp',
-            fnr: '10108000398',
+            fnr,
             enhet,
             identSource: () => fetch('/hode/me').then((resp) => resp.json()),
             enheterSource: () => fetch('/hode/enheter').then((resp) => resp.json()),
@@ -38,19 +35,17 @@
                 visVeilder: false
             },
             onSok(nyfnr) {
-                fnr = nyfnr;
-                console.log('onSok', fnr);
-                render(fnr, enhet);
+                console.log('onSok', nyfnr);
+                render(nyfnr, enhet);
             },
             onEnhetChange(nyenhet) {
-                enhet = nyenhet;
-                console.log('onEnhetChange', enhet);
-                render(fnr, enhet);
+                console.log('onEnhetChange', nyenhet);
+                render(fnr, nyenhet);
             },
             useContextholder: true
         });
     }
 
-    render(fnr, enhet);
+    render('10108000398', '0219a');
 </script>
 </html>

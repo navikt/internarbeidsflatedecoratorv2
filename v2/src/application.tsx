@@ -13,7 +13,7 @@ import {useContextholder} from "./hooks/use-contextholder";
 import logging, {LogLevel} from './utils/logging';
 import NyBrukerContextModal from "./components/modals/ny-bruker-context-modal";
 
-logging.level = LogLevel.TRACE;
+logging.level = LogLevel.WARN;
 
 export interface BaseProps {
     appname: string;
@@ -38,7 +38,7 @@ interface PropsWithoutWebsocket extends BaseProps {
     useContextholder: false;
 }
 
-type Props = PropsWithoutWebsocket | PropsWithWebsocket;
+export type Props = PropsWithoutWebsocket | PropsWithWebsocket;
 
 export interface Context {
     appname: string;
@@ -143,4 +143,14 @@ function Application(props: Props) {
     );
 }
 
-export default Application;
+class ErrorHandler extends React.Component<Props> {
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+        console.log('CATCH', error, errorInfo);
+    }
+
+    render() {
+        return <Application {...this.props}/>
+    }
+}
+
+export default ErrorHandler;

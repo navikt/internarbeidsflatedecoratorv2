@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import Modal from 'nav-frontend-modal';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
 import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import {UseFetchHook} from "../../hooks/use-fetch";
@@ -53,18 +53,18 @@ function NyBrukerContextModal(props: Props) {
             closeButton={false}
             onRequestClose={() => true}
         >
-            <div className="brukercontext__modal">
+            <div className="decorator-context-modal">
                 <Innholdstittel tag="h1" className="blokk-s">
                     Du har endret bruker
                 </Innholdstittel>
-                <AlertStripeInfo className="blokk-s">
+                <AlertStripeAdvarsel className="blokk-s">
                     Du har endret bruker i et annet vindu. Du kan ikke jobbe med 2 brukere samtidig. Velger du å
                     endre bruker mister du arbeidet du ikke har lagret.
-                </AlertStripeInfo>
+                </AlertStripeAdvarsel>
                 <Normaltekst className="blokk-s">
                     {`Ønsker du å endre bruker til ${onsketFnr}?`}
                 </Normaltekst>
-                <div className="modal-footer">
+                <div className="decorator-context-modal__footer">
                     <Hovedknapp disabled={pending} onClick={() => props.onAccept(onsketFnr)}>
                         Endre
                     </Hovedknapp>

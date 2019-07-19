@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
-import {AppContext} from '../application';
 import {MaybeCls} from '@nutgaard/maybe-ts';
+import {AppContext} from '../application';
 import {Enheter} from '../domain';
 import {UseFetchHook} from '../hooks/use-fetch';
 import {EMDASH} from '../utils/string-utils';
