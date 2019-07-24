@@ -119,9 +119,9 @@ export function usePromiseData<TYPE>(
             return () => {
                 didCancel = true;
             };
-            // Alle skal være med, men eslint greier ikke å analysere den
-            // eslint-disable-next-line react-hooks/exhaustive-deps
         },
+        // Alle skal være med, men eslint greier ikke å analysere den
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         dependencyList ? [...dependencyList, rerun, autorun] : [source, rerun, autorun]
     );
 

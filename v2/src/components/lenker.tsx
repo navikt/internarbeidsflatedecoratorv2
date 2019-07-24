@@ -4,12 +4,13 @@ import { finnMiljoStreng, finnNaisMiljoStreng } from '../utils/url-utils';
 import { AppContext } from '../application';
 
 function Lenke(props: { href: string; children: string }) {
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    /* eslint-disable jsx-a11y/anchor-has-content */
     return (
         <li>
             <a {...props} className="typo-normal dekorator__menylenke" />
         </li>
     );
+    /* eslint-enable jsx-a11y/anchor-has-content */
 }
 
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
@@ -17,21 +18,12 @@ const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.
 const wasappDomain = (path: string) => `https://wasapp${finnMiljoStreng()}.adeo.no${path}`;
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
 const tjenesterDomain = (path: string) => `https://tjenester${finnMiljoStreng()}.nav.no${path}`;
-const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace(
-    '-',
-    '_'
-)}.html`;
-const modiaUrl = (fnr: string, path: string) =>
-    fnr ? modappDomain(path) : modappDomain('/modiabrukerdialog');
+const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
+const modiaUrl = (fnr: string, path: string) => fnr ? modappDomain(path) : modappDomain('/modiabrukerdialog');
 const pesysUrl = (fnr: string, path: string) => (fnr ? wasappDomain(path) : wasappDomain('/psak/'));
-const gosysUrl = (fnr: string, path: string) =>
-    fnr ? wasappDomain(path) : wasappDomain('/gosys/');
-const foreldrePengerUrl = (aktoerId: string, path: string) =>
-    aktoerId ? appDomain(path) : appDomain('/fpsak/');
-const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) =>
-    `https://arbeidssokerregistrering-fss${finnMiljoStreng()}${naisDomain}?${
-        fnr ? `fnr=${fnr}` : ''
-    }${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
+const gosysUrl = (fnr: string, path: string) => fnr ? wasappDomain(path) : wasappDomain('/gosys/');
+const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
+const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering-fss${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 
 function Lenker() {
     const context = useContext(AppContext);
