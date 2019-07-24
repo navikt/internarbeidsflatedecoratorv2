@@ -52,5 +52,5 @@ setInterval(() => {
 }, 10000);
 
 server.listen('2999', () => {
-    console.log('Started dev-server at 2999')
+    console.log('Started dev-server at 2999');
 });

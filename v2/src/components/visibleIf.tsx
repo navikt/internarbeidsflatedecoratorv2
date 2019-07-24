@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-type Props<T> = T & { visible: boolean; };
+type Props<T> = T & { visible: boolean };
 
 function visibleIf<PROPS>(component: React.ComponentType<PROPS>): React.FC<Props<PROPS>> {
     const wrapped = (props: Props<PROPS>) => {

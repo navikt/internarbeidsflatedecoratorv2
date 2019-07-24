@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, useContext, useEffect} from 'react';
+import React, { ChangeEventHandler, useContext, useEffect } from 'react';
 import visibleIf from './visibleIf';
 import { AppContext } from '../application';
 import { Enhet } from '../domain';
@@ -6,8 +6,7 @@ import { Enhet } from '../domain';
 function EnhetVelger() {
     const context = useContext(AppContext);
     const valgtEnhet = context.enhet.withDefault(undefined);
-    const enheter = context.enheter
-        .data
+    const enheter = context.enheter.data
         .map((data) => data.enhetliste)
         .withDefault([] as Array<Enhet>);
 
@@ -29,10 +28,12 @@ function EnhetVelger() {
     const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
         context.onEnhetChange(event.target.value);
     };
-    const options = enheter
-        .map((enhet) => (
-            <option key={enhet.enhetId} value={enhet.enhetId}>{`${enhet.enhetId} ${enhet.navn}`}</option>
-        ));
+    const options = enheter.map((enhet) => (
+        <option
+            key={enhet.enhetId}
+            value={enhet.enhetId}
+        >{`${enhet.enhetId} ${enhet.navn}`}</option>
+    ));
 
     return (
         <div className="dekorator-select-container">

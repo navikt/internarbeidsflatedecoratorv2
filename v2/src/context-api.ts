@@ -1,13 +1,12 @@
-import {AktivBruker, AktivEnhet} from "./domain";
-
+import { AktivBruker, AktivEnhet } from './domain';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
-    NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER',
+    NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
 }
 
 async function doFetch(url: string, options?: RequestInit): Promise<Response> {
-    return await fetch(url, {...options, credentials: 'include'});
+    return await fetch(url, { ...options, credentials: 'include' });
 }
 
 async function getJson<T>(url: string, options?: RequestInit): Promise<T> {
@@ -24,7 +23,7 @@ async function postJson<T>(url: string, body: T, options?: RequestInit): Promise
         await doFetch(url, {
             ...options,
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
         return body;
@@ -47,11 +46,13 @@ export async function oppdaterAktivEnhet(enhet: string | null | undefined) {
     });
 }
 
+export const AKTIV_ENHET_URL = '/modiacontextholder/api/context/aktivenhet';
+export const AKTIV_BRUKER_URL = '/modiacontextholder/api/context/aktivbruker';
+
 export async function hentAktivBruker(): Promise<AktivBruker> {
-    return await getJson<AktivBruker>('/modiacontextholder/api/context/aktivbruker');
+    return await getJson<AktivBruker>(AKTIV_BRUKER_URL);
 }
 
 export async function hentAktivEnhet(): Promise<AktivEnhet> {
-    return await getJson<AktivEnhet>('/modiacontextholder/api/context/aktivenhet');
-
+    return await getJson<AktivEnhet>(AKTIV_ENHET_URL);
 }

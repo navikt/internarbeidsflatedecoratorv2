@@ -7,5 +7,4 @@ if (process.env.REACT_APP_MOCK === 'true') {
     require('./mock');
 }
 
-
-NAVSPA.eksporter<Props>("internarbeidsflatefs", Application);
+NAVSPA.eksporter<Props>('internarbeidsflatefs', Application);

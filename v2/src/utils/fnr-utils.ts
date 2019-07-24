@@ -1,4 +1,4 @@
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { MaybeCls } from '@nutgaard/maybe-ts';
 
 const DEFAULT_FEILMELDING = 'Fødselsnummeret må inneholde 11 siffer';
 const IKKE_BARE_TALL_FEILMELDING = 'Fødselsnummeret må kun inneholde tall';
@@ -10,32 +10,30 @@ const kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
 const decimalRadix = 10;
 
 function erGyldigPnummer(dag: number, maaned: number) {
-    return dag > 0 && dag < 32
-        && maaned > 0 && maaned < 13;
+    return dag > 0 && dag < 32 && maaned > 0 && maaned < 13;
 }
 
 function erGyldigDNummer(dag: number, maaned: number) {
-    return dag > 40 && dag < 72
-        && maaned > 0 && maaned < 13;
+    return dag > 40 && dag < 72 && maaned > 0 && maaned < 13;
 }
 
 function erGyldigHNummer(dag: number, maaned: number) {
-    return dag > 0 && dag < 32
-        && maaned > 40 && maaned < 53;
+    return dag > 0 && dag < 32 && maaned > 40 && maaned < 53;
 }
 
 function erGyldigBNummer(dag: number, maaned: number) {
-    return dag > 0 && dag < 32
-        && maaned > 20 && maaned < 33;
+    return dag > 0 && dag < 32 && maaned > 20 && maaned < 33;
 }
 
 function erGyldigFodselsdato(fnr: string) {
     const dag = parseInt(fnr.substring(0, 2), decimalRadix);
     const maaned = parseInt(fnr.substring(2, 4), decimalRadix);
-    return erGyldigPnummer(dag, maaned)
-        || erGyldigDNummer(dag, maaned)
-        || erGyldigHNummer(dag, maaned)
-        || erGyldigBNummer(dag, maaned);
+    return (
+        erGyldigPnummer(dag, maaned) ||
+        erGyldigDNummer(dag, maaned) ||
+        erGyldigHNummer(dag, maaned) ||
+        erGyldigBNummer(dag, maaned)
+    );
 }
 
 function hentKontrollSiffer(fnr: number[], kontrollrekke: number[]) {
@@ -54,7 +52,7 @@ export function erGyldigFodselsnummer(fnr: string): boolean {
     if (!erGyldigFodselsdato(fnr.substring(0, 6))) {
         return false;
     }
-    const fodselsnummerListe = fnr.split('').map(x => parseInt(x, decimalRadix));
+    const fodselsnummerListe = fnr.split('').map((x) => parseInt(x, decimalRadix));
     const kontrollSiffer1 = hentKontrollSiffer(fodselsnummerListe.slice(0, 9), kontrollRekke1);
     const kontrollSiffer2 = hentKontrollSiffer(fodselsnummerListe.slice(0, 10), kontrollRekke2);
     return fodselsnummerListe[9] === kontrollSiffer1 && fodselsnummerListe[10] === kontrollSiffer2;

@@ -8,7 +8,7 @@ export const LogLevel: { [key: string]: LogLevel } = {
     DEBUG: { level: 1, console: 'debug' },
     INFO: { level: 2, console: 'info' },
     WARN: { level: 3, console: 'warn' },
-    ERROR: { level: 4, console: 'error' },
+    ERROR: { level: 4, console: 'error' }
 };
 
 class Logging {
@@ -36,4 +36,4 @@ class Logging {
     }
 }
 
-export default new Logging()
+export default new Logging();

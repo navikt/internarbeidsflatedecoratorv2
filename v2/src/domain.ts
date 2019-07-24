@@ -20,7 +20,7 @@ export interface Toggles {
 }
 
 export interface Markup {
-    etterSokefelt?: string
+    etterSokefelt?: string;
 }
 
 export interface AktorIdResponse {
@@ -30,8 +30,8 @@ export interface AktorIdResponse {
             gjeldende: boolean;
             ident: string;
             identgruppe: string;
-        }>
-    }
+        }>;
+    };
 }
 
 export enum AppPhase {

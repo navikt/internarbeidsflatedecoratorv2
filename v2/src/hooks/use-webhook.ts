@@ -1,11 +1,11 @@
-import WebSocket, {Listeners} from './../utils/websocket-impl';
-import {useEffect} from "react";
+import WebSocket, { Listeners } from './../utils/websocket-impl';
+import { useEffect } from 'react';
 
 type WSState = {
     [key: string]: {
-        ws: WebSocket,
-        listeners: Array<Listeners>
-    }
+        ws: WebSocket;
+        listeners: Array<Listeners>;
+    };
 };
 type BroadcaseMethod = 'onMessage' | 'onClose' | 'onOpen' | 'onError';
 
@@ -43,23 +43,28 @@ class WSContext {
         if (this.state[url]) {
             const wsstate = this.state[url];
             if (method === 'onMessage') {
-                wsstate.listeners.forEach((listener) => listener.onMessage && listener.onMessage(event as MessageEvent));
+                wsstate.listeners.forEach(
+                    (listener) => listener.onMessage && listener.onMessage(event as MessageEvent)
+                );
             } else if (method === 'onClose') {
-                wsstate.listeners.forEach((listener) => listener.onClose && listener.onClose(event as CloseEvent));
+                wsstate.listeners.forEach(
+                    (listener) => listener.onClose && listener.onClose(event as CloseEvent)
+                );
             } else {
-                wsstate.listeners.forEach((listener) => listener[method] && listener[method]!(event));
+                wsstate.listeners.forEach(
+                    (listener) => listener[method] && listener[method]!(event)
+                );
             }
-
         }
     }
 
     private createListener(url: string): Listeners {
-        return ({
+        return {
             onOpen: (event) => this.broadcast('onOpen', url, event),
             onMessage: (event) => this.broadcast('onMessage', url, event),
             onClose: (event) => this.broadcast('onClose', url, event),
             onError: (event) => this.broadcast('onError', url, event)
-        });
+        };
     }
 }
 const wsContext: WSContext = new WSContext();

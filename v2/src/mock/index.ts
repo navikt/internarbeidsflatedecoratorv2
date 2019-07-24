@@ -1,6 +1,6 @@
-import FetchMock, {JSONObject, Middleware, MiddlewareUtils} from 'yet-another-fetch-mock';
-import {AktorIdResponse, Enheter, Me} from '../domain';
-import {setupWsControlAndMock} from "./context-mock";
+import FetchMock, { JSONObject, Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
+import { AktorIdResponse, Enheter, Me } from '../domain';
+import { setupWsControlAndMock } from './context-mock';
 
 const loggingMiddleware: Middleware = (request, response) => {
     // tslint:disable
@@ -30,13 +30,15 @@ console.log('Using yet-another-fetch-mock');
 console.log('============================');
 const mock = FetchMock.configure({
     enableFallback: false,
-    middleware: MiddlewareUtils.combine(
-        MiddlewareUtils.delayMiddleware(500),
-        // loggingMiddleware
-    )
+    middleware: MiddlewareUtils.combine(MiddlewareUtils.delayMiddleware(500), loggingMiddleware)
 });
 
-const me: Me & JSONObject = { ident: 'Z999999', navn: 'Fornavn Ettersen', fornavn: 'Fornavn', etternavn: 'Ettersen'};
+const me: Me & JSONObject = {
+    ident: 'Z999999',
+    navn: 'Fornavn Ettersen',
+    fornavn: 'Fornavn',
+    etternavn: 'Ettersen'
+};
 const enheter: Enheter & JSONObject = {
     ident: 'Z999999',
     enhetliste: [
@@ -54,9 +56,7 @@ mock.get('/aktoerregister/api/v1/identer', (args) => {
     const data: AktorIdResponse = {
         [fnr]: {
             feilmelding: null,
-            identer: [
-                { gjeldende: true, ident: `000${fnr}000`, identgruppe: 'AktoerId' }
-            ]
+            identer: [{ gjeldende: true, ident: `000${fnr}000`, identgruppe: 'AktoerId' }]
         }
     };
     return data;

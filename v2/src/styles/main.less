@@ -1,4 +1,4 @@
-@import "~nav-frontend-core/less/_variabler";
+@import '~nav-frontend-core/less/_variabler';
 
 .dekorator {
     font-size: 100%; // 1em === 16px
@@ -6,15 +6,15 @@
     font-family: Arial, sans-serif;
 
     // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
-    @import "~nav-frontend-core/less/vendor/_normalize"; // TODO denne burde fjernes etter det sjekket at modiabrukerdialog takler normalize 5.x.x
-    @import "_hode.less";
-    @import "_meny.less";
-    @import "_feilmelding.less";
+    @import '~nav-frontend-core/less/vendor/_normalize'; // TODO denne burde fjernes etter det sjekket at modiabrukerdialog takler normalize 5.x.x
+    @import '_hode.less';
+    @import '_meny.less';
+    @import '_feilmelding.less';
 
-    @import "~nav-frontend-core/less/_mixins";
-    @import "~nav-frontend-core/less/hide-text";
-    @import "~nav-frontend-core/less/utilities";
-    @import "~nav-frontend-typografi-style/src/index";
+    @import '~nav-frontend-core/less/_mixins';
+    @import '~nav-frontend-core/less/hide-text';
+    @import '~nav-frontend-core/less/utilities';
+    @import '~nav-frontend-typografi-style/src/index';
 
     * {
         box-sizing: border-box;
@@ -30,10 +30,11 @@
     }
 
     h1.typo-element.dekorator__tittel {
-        margin: 0.67em 0 0.67em .7em;
+        margin: 0.67em 0 0.67em 0.7em;
     }
 
-    a, a:visited {
+    a,
+    a:visited {
         color: @white;
     }
 

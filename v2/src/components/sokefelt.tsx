@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
-import {AppContext} from "../application";
-import useFieldState from "../hooks/use-field-state";
-import {lagFnrFeilmelding} from "../utils/fnr-utils";
+import React, { useContext } from 'react';
+import { AppContext } from '../application';
+import useFieldState from '../hooks/use-field-state';
+import { lagFnrFeilmelding } from '../utils/fnr-utils';
 
 function Sokefelt() {
     const context = useContext(AppContext);
@@ -28,7 +28,9 @@ function Sokefelt() {
     return (
         <section>
             <form className="dekorator__sokefelt" onSubmit={onSubmit} onReset={onReset}>
-                <label className="visuallyhidden" htmlFor="js-dekorator-sokefelt">Personsøk</label>
+                <label className="visuallyhidden" htmlFor="js-dekorator-sokefelt">
+                    Personsøk
+                </label>
                 <input
                     className="dekorator__sokefelt__input"
                     id="js-dekorator-sokefelt"
@@ -37,18 +39,22 @@ function Sokefelt() {
                     autoComplete="off"
                     {...sokefelt.input}
                 />
-                { visSokeIkon && <input
-                    id="forstorrelsesglass_sokefelt"
-                    type="submit"
-                    value="Søk"
-                    className="dekorator__sokefelt__ikon dekorator__forstorrelsesglass--hvit"
-                /> }
-                { !visSokeIkon && <input
-                    id="forstorrelsesglass_sokefelt"
-                    type="reset"
-                    value="reset"
-                    className="dekorator__sokefelt__ikon dekorator__kryss--hvit"
-                /> }
+                {visSokeIkon && (
+                    <input
+                        id="forstorrelsesglass_sokefelt"
+                        type="submit"
+                        value="Søk"
+                        className="dekorator__sokefelt__ikon dekorator__forstorrelsesglass--hvit"
+                    />
+                )}
+                {!visSokeIkon && (
+                    <input
+                        id="forstorrelsesglass_sokefelt"
+                        type="reset"
+                        value="reset"
+                        className="dekorator__sokefelt__ikon dekorator__kryss--hvit"
+                    />
+                )}
             </form>
         </section>
     );

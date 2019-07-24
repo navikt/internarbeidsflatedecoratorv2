@@ -3,10 +3,9 @@ const CracoLessPlugin = require('craco-less');
 const BUILD_PATH = path.resolve(__dirname, './build');
 
 const RemoveCssHashPlugin = {
-    overrideWebpackConfig: ({webpackConfig, cracoConfig, pluginOptions, context: {env, paths}}) => {
+    overrideWebpackConfig: ({ webpackConfig, cracoConfig, pluginOptions, context: { env, paths } }) => {
         const plugins = webpackConfig.plugins;
-        plugins.forEach(plugin => {
-
+        plugins.forEach((plugin) => {
             const options = plugin.options;
 
             if (!options) {
@@ -14,9 +13,8 @@ const RemoveCssHashPlugin = {
             }
 
             if (options.filename && options.filename.endsWith('.css')) {
-                options.filename = "static/css/[name].css";
+                options.filename = 'static/css/[name].css';
             }
-
         });
 
         return webpackConfig;
@@ -24,26 +22,26 @@ const RemoveCssHashPlugin = {
 };
 
 const RemoveJsHashPlugin = {
-    overrideCracoConfig: ({cracoConfig, pluginOptions, context: {env, paths}}) => {
+    overrideCracoConfig: ({ cracoConfig, pluginOptions, context: { env, paths } }) => {
         cracoConfig.webpack = {
-            configure:{
+            configure: {
                 optimization: {
                     splitChunks: {
                         cacheGroups: {
                             default: false,
                             vendors: false
-                        },
+                        }
                     },
                     runtimeChunk: false
                 },
                 output: {
                     path: BUILD_PATH,
-                    filename: 'static/js/head.v2.min.js',
-                },
+                    filename: 'static/js/head.v2.min.js'
+                }
             }
         };
 
-        return cracoConfig
+        return cracoConfig;
     }
 };
 
@@ -54,8 +52,8 @@ const UsePreact = {
 
         const webpackAliases = webpackConfig.resolve.alias;
 
-        webpackAliases["react"] = "preact/compat";
-        webpackAliases["react-dom"] = "preact/compat";
+        webpackAliases['react'] = 'preact/compat';
+        webpackAliases['react-dom'] = 'preact/compat';
 
         return webpackConfig;
     }
@@ -70,10 +68,7 @@ module.exports = {
                     if (context.env === 'production') {
                         const loaders = lessRule.use;
                         const [ignore, ...keepLoaders] = loaders;
-                        lessRule.use = [
-                            {loader: require.resolve("style-loader"), options: {}},
-                            ...keepLoaders
-                        ];
+                        lessRule.use = [{ loader: require.resolve('style-loader'), options: {} }, ...keepLoaders];
                     }
 
                     return lessRule;
@@ -81,7 +76,7 @@ module.exports = {
             }
         },
         // {plugin: UsePreact},
-        {plugin: RemoveCssHashPlugin},
-        {plugin: RemoveJsHashPlugin}
+        { plugin: RemoveCssHashPlugin },
+        { plugin: RemoveJsHashPlugin }
     ]
 };

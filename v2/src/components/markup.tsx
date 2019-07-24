@@ -1,5 +1,5 @@
 import React from 'react';
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { MaybeCls } from '@nutgaard/maybe-ts';
 
 interface Props {
     markup: MaybeCls<string>;

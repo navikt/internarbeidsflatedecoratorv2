@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Modal from 'nav-frontend-modal';
-import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
-import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
-import Knapp, {Hovedknapp} from 'nav-frontend-knapper'
-import {useWebsocket} from "../../hooks/use-webhook";
-import {Listeners} from "../../utils/websocket-impl";
-import {hentAktivEnhet, oppdaterAktivEnhet} from "../../context-api";
+import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
+import { useWebsocket } from '../../hooks/use-webhook';
+import { Listeners } from '../../utils/websocket-impl';
+import { hentAktivEnhet, oppdaterAktivEnhet } from '../../context-api';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -16,15 +16,14 @@ interface Props {
     onAccept(enhet: string): void;
 }
 
-function NyEnhetContextModal({synced, valgtEnhet, onAccept}: Props) {
+function NyEnhetContextModal({ synced, valgtEnhet, onAccept }: Props) {
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
     const [onsketEnhet, setOnsketEnhet] = useState<string | null>(null);
 
     const onDecline = () => {
         setPending(true);
-        oppdaterAktivEnhet(valgtEnhet)
-            .then(() => setPending(false));
+        oppdaterAktivEnhet(valgtEnhet).then(() => setPending(false));
     };
     const onAcceptHandler = () => {
         onAccept(onsketEnhet!);
@@ -34,11 +33,10 @@ function NyEnhetContextModal({synced, valgtEnhet, onAccept}: Props) {
     const wsListener: Listeners = {
         onMessage(event: MessageEvent): void {
             if (event.data === '"NY_AKTIV_ENHET"' && synced) {
-                hentAktivEnhet()
-                    .then(({aktivEnhet}) => {
-                        setOpen(aktivEnhet !== valgtEnhet);
-                        setOnsketEnhet(aktivEnhet);
-                    })
+                hentAktivEnhet().then(({ aktivEnhet }) => {
+                    setOpen(aktivEnhet !== valgtEnhet);
+                    setOnsketEnhet(aktivEnhet);
+                });
             }
         }
     };
@@ -56,8 +54,8 @@ function NyEnhetContextModal({synced, valgtEnhet, onAccept}: Props) {
                     Du har endret Enhet
                 </Innholdstittel>
                 <AlertStripeAdvarsel className="blokk-s">
-                    Du har endret enhet i et annet vindu. Du kan ikke jobbe i 2 enheter samtidig. Velger du 'endre'
-                    mister du arbeidet du ikke har lagret.
+                    Du har endret enhet i et annet vindu. Du kan ikke jobbe i 2 enheter samtidig.
+                    Velger du 'endre' mister du arbeidet du ikke har lagret.
                 </AlertStripeAdvarsel>
                 <Normaltekst className="blokk-s">
                     Ønsker du å endre enhet til {onsketEnhet}?
@@ -66,7 +64,12 @@ function NyEnhetContextModal({synced, valgtEnhet, onAccept}: Props) {
                     <Hovedknapp disabled={pending} onClick={onAcceptHandler}>
                         Endre
                     </Hovedknapp>
-                    <Knapp onClick={onDecline} type="standard" spinner={pending} autoDisableVedSpinner>
+                    <Knapp
+                        onClick={onDecline}
+                        type="standard"
+                        spinner={pending}
+                        autoDisableVedSpinner
+                    >
                         Behold
                     </Knapp>
                 </div>

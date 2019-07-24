@@ -1,7 +1,7 @@
-import FetchMock from "yet-another-fetch-mock";
+import FetchMock from 'yet-another-fetch-mock';
 
 function controlSignal(data: object | string) {
-    return JSON.stringify({ type: 'control', data});
+    return JSON.stringify({ type: 'control', data });
 }
 
 function updateContext(body: object) {
@@ -12,7 +12,7 @@ function updateContext(body: object) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
-    })
+    });
 }
 
 function setupControls(ws: WebSocket) {
@@ -28,19 +28,27 @@ function setupControls(ws: WebSocket) {
 
         const guttButton = document.createElement('button');
         guttButton.innerText = 'Sendt FNR 01011950120 (gutt)';
-        guttButton.addEventListener('click', () => updateContext({verdi: '01011950120', eventType: 'NY_AKTIV_BRUKER'}));
+        guttButton.addEventListener('click', () =>
+            updateContext({ verdi: '01011950120', eventType: 'NY_AKTIV_BRUKER' })
+        );
 
         const jenteButton = document.createElement('button');
         jenteButton.innerText = 'Sendt FNR 01011950201 (jente)';
-        jenteButton.addEventListener('click', () => updateContext({verdi: '01011950201', eventType: 'NY_AKTIV_BRUKER'}));
+        jenteButton.addEventListener('click', () =>
+            updateContext({ verdi: '01011950201', eventType: 'NY_AKTIV_BRUKER' })
+        );
 
         const barumEnhet = document.createElement('button');
         barumEnhet.innerText = 'Sendt ENHET 0219';
-        barumEnhet.addEventListener('click', () => updateContext({verdi: '0219', eventType: 'NY_AKTIV_ENHET'}));
+        barumEnhet.addEventListener('click', () =>
+            updateContext({ verdi: '0219', eventType: 'NY_AKTIV_ENHET' })
+        );
 
         const aremarkEnhet = document.createElement('button');
         aremarkEnhet.innerText = 'Sendt ENHET 0118';
-        aremarkEnhet.addEventListener('click', () => updateContext({verdi: '0118', eventType: 'NY_AKTIV_ENHET'}));
+        aremarkEnhet.addEventListener('click', () =>
+            updateContext({ verdi: '0118', eventType: 'NY_AKTIV_ENHET' })
+        );
 
         buttonDiv.appendChild(guttButton);
         buttonDiv.appendChild(jenteButton);
@@ -59,7 +67,7 @@ function setupControls(ws: WebSocket) {
         controlDiv.appendChild(textarea);
 
         document.body.append(controlDiv);
-    }
+    };
 }
 function showMessage(ws: WebSocket) {
     return (message: MessageEvent) => {
@@ -70,8 +78,10 @@ function showMessage(ws: WebSocket) {
             fetch('/modiacontextholder/api/context?fromMock')
                 .then((resp) => resp.json())
                 .then((json) => {
-                    textarea.value = `${now} ${message.data} (${JSON.stringify(json)})\n${textarea.value}`;
-                })
+                    textarea.value = `${now} ${message.data} (${JSON.stringify(json)})\n${
+                        textarea.value
+                    }`;
+                });
         }
     };
 }
@@ -99,8 +109,16 @@ export function setupWsControlAndMock(mock: FetchMock) {
         });
     }
 
-    mock.get('/modiacontextholder/api/context/aktivenhet', () => ({ aktivEnhet: context.aktivEnhet, aktivBruker: null }));
-    mock.get('/modiacontextholder/api/context/aktivbruker', () => ({ aktivEnhet: null, aktivBruker: context.aktivBruker }));
-    mock.get('/modiacontextholder/api/context', () => ({ aktivEnhet: context.aktivEnhet, aktivBruker: context.aktivBruker }));
+    mock.get('/modiacontextholder/api/context/aktivenhet', () => ({
+        aktivEnhet: context.aktivEnhet,
+        aktivBruker: null
+    }));
+    mock.get('/modiacontextholder/api/context/aktivbruker', () => ({
+        aktivEnhet: null,
+        aktivBruker: context.aktivBruker
+    }));
+    mock.get('/modiacontextholder/api/context', () => ({
+        aktivEnhet: context.aktivEnhet,
+        aktivBruker: context.aktivBruker
+    }));
 }
-

@@ -9,8 +9,14 @@ function NAVLogo() {
                     className="dekorator__svg__hvit"
                     d="M115.2,47.8c0,25.4-20.6,46.1-46.1,46.1C43.7,93.9,23,73.3,23,47.8C23,22.4,43.7,1.7,69.1,1.7C94.6,1.7,115.2,22.4,115.2,47.8"
                 />
-                <polygon className="dekorator__svg__hvit" points="0.7,67.9 10.2,44.6 19.2,44.6 9.8,67.9"/>
-                <polygon className="dekorator__svg__hvit" points="117,67.9 126.3,44.6 131.2,44.6 121.9,67.9"/>
+                <polygon
+                    className="dekorator__svg__hvit"
+                    points="0.7,67.9 10.2,44.6 19.2,44.6 9.8,67.9"
+                />
+                <polygon
+                    className="dekorator__svg__hvit"
+                    points="117,67.9 126.3,44.6 131.2,44.6 121.9,67.9"
+                />
                 <polygon
                     className="dekorator__svg__hvit"
                     points="135.3,67.9 144.6,44.6 147.2,44.6 137.9,67.9"

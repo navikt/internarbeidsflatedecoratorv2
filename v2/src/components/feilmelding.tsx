@@ -11,7 +11,6 @@ function Feilmelding() {
             </div>
         ))
         .withDefault(null);
-
 }
 
 export default Feilmelding;

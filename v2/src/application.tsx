@@ -1,17 +1,17 @@
-import React, {useMemo} from 'react';
-import {MaybeCls} from '@nutgaard/maybe-ts';
+import React, { useMemo } from 'react';
+import { MaybeCls } from '@nutgaard/maybe-ts';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
-import {emptyWrappedState, useWrappedState, WrappedState} from './hooks/use-wrapped-state';
-import {empty as emptyFetchState, UseFetchHook, usePromiseData} from './hooks/use-fetch';
-import {AktorIdResponse, Enheter, Markup, Me, Toggles} from './domain';
-import {EMDASH} from './utils/string-utils';
-import Feilmelding from "./components/feilmelding";
-import {useAktorId} from "./utils/use-aktorid";
-import NyEnhetContextModal from "./components/modals/ny-enhet-context-modal";
-import {useContextholder} from "./hooks/use-contextholder";
-import logging, {LogLevel} from './utils/logging';
-import NyBrukerContextModal from "./components/modals/ny-bruker-context-modal";
+import { emptyWrappedState, useWrappedState, WrappedState } from './hooks/use-wrapped-state';
+import { empty as emptyFetchState, UseFetchHook, usePromiseData } from './hooks/use-fetch';
+import { AktorIdResponse, Enheter, Markup, Me, Toggles } from './domain';
+import { EMDASH } from './utils/string-utils';
+import Feilmelding from './components/feilmelding';
+import { useAktorId } from './utils/use-aktorid';
+import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
+import { useContextholder } from './hooks/use-contextholder';
+import logging, { LogLevel } from './utils/logging';
+import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
 
 logging.level = LogLevel.INFO;
 
@@ -72,27 +72,28 @@ export const AppContext = React.createContext<Context>({
         visVeilder: false
     },
     markupEttersokefelt: MaybeCls.nothing(),
-    onSok() {
-    },
-    onEnhetChange() {
-    },
+    onSok() {},
+    onEnhetChange() {},
     me: emptyFetchState,
     enheter: emptyFetchState,
     aktorId: emptyFetchState,
     feilmelding: {
-        value: MaybeCls.nothing(), set() {
-        }
+        value: MaybeCls.nothing(),
+        set() {}
     },
     apen: emptyWrappedState(false),
     contextholder: false
 });
 
 function Application(props: Props) {
-    const {fnr, enhet, markup, ...rest} = props;
+    const { fnr, enhet, markup, ...rest } = props;
 
     const maybeFnr = useMemo(() => MaybeCls.of(fnr).filter((fnr) => fnr.length > 0), [fnr]);
     const maybeEnhet = useMemo(() => MaybeCls.of(enhet).filter((fnr) => fnr.length > 0), [enhet]);
-    const markupEttersokefelt = useMemo(() => MaybeCls.of(markup).flatMap((m) => MaybeCls.of(m.etterSokefelt)), [markup]);
+    const markupEttersokefelt = useMemo(
+        () => MaybeCls.of(markup).flatMap((m) => MaybeCls.of(m.etterSokefelt)),
+        [markup]
+    );
 
     const enhetSynced = useWrappedState(false);
     const fnrSynced = useWrappedState(false);
@@ -104,7 +105,10 @@ function Application(props: Props) {
     const aktorId = useAktorId(maybeFnr);
 
     const promptBeforeEnhetChange = props.useContextholder && props.promptBeforeEnhetChange;
-    const contextholder = useMemo(() => props.useContextholder ? {promptBeforeEnhetChange} : false as false, [props.useContextholder, promptBeforeEnhetChange]);
+    const contextholder = useMemo(
+        () => (props.useContextholder ? { promptBeforeEnhetChange } : (false as false)),
+        [props.useContextholder, promptBeforeEnhetChange]
+    );
     const context = {
         ...rest,
         me,
@@ -123,9 +127,9 @@ function Application(props: Props) {
     return (
         <AppContext.Provider value={context}>
             <div className="dekorator">
-                <Banner/>
-                <Lenker/>
-                <Feilmelding/>
+                <Banner />
+                <Lenker />
+                <Feilmelding />
                 <NyEnhetContextModal
                     synced={enhetSynced.value}
                     valgtEnhet={enhet}
@@ -147,7 +151,7 @@ class ErrorHandler extends React.Component<Props> {
     }
 
     render() {
-        return <Application {...this.props}/>
+        return <Application {...this.props} />;
     }
 }
 

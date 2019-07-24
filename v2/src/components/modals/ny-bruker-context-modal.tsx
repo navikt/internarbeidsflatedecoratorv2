@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Modal from 'nav-frontend-modal';
-import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
-import Knapp, {Hovedknapp} from 'nav-frontend-knapper';
-import {Innholdstittel, Normaltekst} from 'nav-frontend-typografi';
-import {hentAktivBruker, oppdaterAktivBruker} from "../../context-api";
-import {Listeners} from "../../utils/websocket-impl";
-import {useWebsocket} from "../../hooks/use-webhook";
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
+import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
+import { hentAktivBruker, oppdaterAktivBruker } from '../../context-api';
+import { Listeners } from '../../utils/websocket-impl';
+import { useWebsocket } from '../../hooks/use-webhook';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -16,15 +16,14 @@ interface Props {
     onAccept(fnr: string): void;
 }
 
-function NyBrukerContextModal({ synced, valgtFnr, onAccept}: Props) {
+function NyBrukerContextModal({ synced, valgtFnr, onAccept }: Props) {
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
     const [onsketFnr, setOnsketFnr] = useState<string | null>(null);
 
     const onDecline = () => {
         setPending(true);
-        oppdaterAktivBruker(valgtFnr)
-            .then(() => setPending(false));
+        oppdaterAktivBruker(valgtFnr).then(() => setPending(false));
     };
 
     const onAcceptHandler = () => {
@@ -35,11 +34,10 @@ function NyBrukerContextModal({ synced, valgtFnr, onAccept}: Props) {
     const wsListener: Listeners = {
         onMessage(event: MessageEvent): void {
             if (event.data === '"NY_AKTIV_BRUKER"' && synced) {
-                hentAktivBruker()
-                    .then(({aktivBruker}) => {
-                        setOpen(aktivBruker !== valgtFnr);
-                        setOnsketFnr(aktivBruker);
-                    })
+                hentAktivBruker().then(({ aktivBruker }) => {
+                    setOpen(aktivBruker !== valgtFnr);
+                    setOnsketFnr(aktivBruker);
+                });
             }
         }
     };
@@ -57,17 +55,20 @@ function NyBrukerContextModal({ synced, valgtFnr, onAccept}: Props) {
                     Du har endret bruker
                 </Innholdstittel>
                 <AlertStripeAdvarsel className="blokk-s">
-                    Du har endret bruker i et annet vindu. Du kan ikke jobbe med 2 brukere samtidig. Velger du å
-                    endre bruker mister du arbeidet du ikke har lagret.
+                    Du har endret bruker i et annet vindu. Du kan ikke jobbe med 2 brukere samtidig.
+                    Velger du å endre bruker mister du arbeidet du ikke har lagret.
                 </AlertStripeAdvarsel>
-                <Normaltekst className="blokk-s">
-                    {`Ønsker du å endre bruker til ${onsketFnr}?`}
-                </Normaltekst>
+                <Normaltekst className="blokk-s">{`Ønsker du å endre bruker til ${onsketFnr}?`}</Normaltekst>
                 <div className="decorator-context-modal__footer">
                     <Hovedknapp disabled={pending} onClick={onAcceptHandler}>
                         Endre
                     </Hovedknapp>
-                    <Knapp type="standard" onClick={onDecline} spinner={pending} autoDisableVedSpinner>
+                    <Knapp
+                        type="standard"
+                        onClick={onDecline}
+                        spinner={pending}
+                        autoDisableVedSpinner
+                    >
                         Behold
                     </Knapp>
                 </div>

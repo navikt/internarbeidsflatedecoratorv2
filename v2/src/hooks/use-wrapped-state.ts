@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {Dispatch} from "react";
-import {SetStateAction} from "react";
+import { Dispatch } from 'react';
+import { SetStateAction } from 'react';
 
 export interface WrappedState<T> {
     value: T;
@@ -8,7 +8,7 @@ export interface WrappedState<T> {
 }
 
 export function emptyWrappedState<T>(value: T): WrappedState<T> {
-    return { value, set() {} }
+    return { value, set() {} };
 }
 
 export type State<S> = [S, Dispatch<SetStateAction<S>>];

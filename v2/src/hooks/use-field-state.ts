@@ -1,10 +1,10 @@
-import React, {Dispatch, SetStateAction, useCallback, useEffect, useState} from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 export interface FieldState {
     input: {
         value: string;
         onChange: React.ChangeEventHandler;
-    },
+    };
     setValue: Dispatch<SetStateAction<string>>;
     isPristine(trim: boolean): boolean;
 }
@@ -23,9 +23,9 @@ export default function useFieldState(initialState: string): FieldState {
     return {
         input: {
             value,
-            onChange,
+            onChange
         },
         setValue,
-        isPristine: (trim) => trim ? (value.trim() === initialState.trim()) : (value === initialState)
+        isPristine: (trim) => (trim ? value.trim() === initialState.trim() : value === initialState)
     };
 }

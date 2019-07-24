@@ -31,7 +31,8 @@
     "start": "craco start",
     "start:mock": "cross-env REACT_APP_MOCK=true concurrently \"craco start\" \"node dev-server.js\"",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "prettier": "prettier --write \"src/**/*.{js,ts,tsx,json,less,css}\""
   },
   "husky": {
     "hooks": {

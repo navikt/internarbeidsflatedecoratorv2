@@ -5,8 +5,8 @@ import Overskrift from './overskrift';
 import Enhet from './enhet';
 import EnhetVelger from './enhetvelger';
 import { AppContext } from '../application';
-import Sokefelt from "./sokefelt";
-import Markup from "./markup";
+import Sokefelt from './sokefelt';
+import Markup from './markup';
 
 function Banner() {
     const context = useContext(AppContext);
@@ -21,10 +21,10 @@ function Banner() {
                     <Overskrift />
                     <div className="flex-center">
                         <Enhet visible={context.toggles.visEnhet} />
-                        <EnhetVelger visible={context.toggles.visEnhetVelger}/>
+                        <EnhetVelger visible={context.toggles.visEnhetVelger} />
                         <Sokefelt />
-                        <Markup markup={context.markupEttersokefelt}/>
-                        <Veileder/>
+                        <Markup markup={context.markupEttersokefelt} />
+                        <Veileder />
                     </div>
                     <section>
                         <button

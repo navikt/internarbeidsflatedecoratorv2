@@ -22,7 +22,8 @@ export const finnNaisMiljoStreng = () => {
 
 export function randomCallId(): string {
     let idx = 0;
-    const rnd = Array.from(crypto.getRandomValues(new Uint8Array(32)))
-        .map((value) => (value & 15).toString(16));
-    return "00000000-0000-0000-0000-000000000000".replace(/0/g, () => rnd[idx++]);
+    const rnd = Array.from(crypto.getRandomValues(new Uint8Array(32))).map((value) =>
+        (value & 15).toString(16)
+    );
+    return '00000000-0000-0000-0000-000000000000'.replace(/0/g, () => rnd[idx++]);
 }
