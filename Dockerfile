@@ -10,6 +10,7 @@ ENV NODE_ENV=production
 RUN npm run build
 
 WORKDIR /source/v2
+RUN npm ci
 RUN npm run build
 
 FROM ${BASE_IMAGE_PREFIX}nginx
