@@ -9,8 +9,10 @@ RUN npm ci
 ENV NODE_ENV=production
 RUN npm run build
 
+ENV NODE_ENV=development
 WORKDIR /source/v2
 RUN npm ci
+ENV NODE_ENV=production
 RUN npm run build
 
 FROM ${BASE_IMAGE_PREFIX}nginx
