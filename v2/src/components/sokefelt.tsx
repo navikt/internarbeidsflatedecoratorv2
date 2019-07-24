@@ -18,6 +18,7 @@ function Sokefelt() {
             context.onSok(value);
         }
     };
+
     const onReset = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         sokefelt.setValue('');

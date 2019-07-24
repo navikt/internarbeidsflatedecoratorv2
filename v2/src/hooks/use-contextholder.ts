@@ -1,50 +1,51 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import {Listeners} from '../utils/websocket-impl';
-import {UseFetchHook} from "./use-fetch";
+import useFetch from "./use-fetch";
 import {useWebsocket} from "./use-webhook";
 import {AktivBruker, AktivEnhet, Enheter} from "../domain";
 import {Context} from "../application";
 import log from './../utils/logging';
+import {WrappedState} from "./use-wrapped-state";
+import {oppdaterAktivBruker, oppdaterAktivEnhet} from "../context-api";
 
 export function useContextholder(
     context: Context,
-    aktivEnhet: UseFetchHook<AktivEnhet>,
-    aktivBruker: UseFetchHook<AktivBruker>
+    enhetSynced: WrappedState<boolean>,
+    fnrSynced: WrappedState<boolean>
 ) {
-    const refetchEnhet = aktivEnhet.refetch;
-    const refetchBruker = aktivBruker.refetch;
     const feilmelding = context.feilmelding;
-    const wsListeners: Listeners = React.useMemo(() => ({
-        onMessage(event: MessageEvent): void {
-            if (event.data === '"NY_AKTIV_ENHET"') {
-                log.debug('WS ny enhet, refretcher fra contextholder');
-                refetchEnhet();
-            } else if (event.data === '"NY_AKTIV_BRUKER"') {
-                refetchBruker();
-            }
-        },
-        onClose(event: CloseEvent): void {
-        },
-        onError(event: Event): void {
-            feilmelding.set(MaybeCls.just('Kunne ikke koble til WebScocket'))
-        },
-        onOpen(event: Event): void {
-        },
-    }), [refetchEnhet, refetchBruker, feilmelding]);
-    useWebsocket('ws://localhost:2999/hereIsWS', wsListeners);
-
     const enheter = context.enheter.data;
     const enhet = context.enhet;
+    const fnr = context.fnr;
     const contextholder = context.contextholder;
     const onEnhetChange = context.onEnhetChange;
-    const aktivEnhetData = aktivEnhet.data;
+    const setEnhetSynced = enhetSynced.set;
+    const enhetSyncedValue = enhetSynced.value;
+    const setFnrSynced = fnrSynced.set;
+    const fnrSyncedValue = fnrSynced.value;
+    const onSok = context.onSok;
+    const aktivEnhetData = useFetch<AktivEnhet>('/modiacontextholder/api/context/aktivenhet').data;
+    const aktivBrukerData = useFetch<AktivBruker>('/modiacontextholder/api/context/aktivbruker').data;
+
+    const wsListeners: Listeners = React.useMemo(() => ({
+        onError(): void {
+            feilmelding.set(MaybeCls.just('Kunne ikke koble til WebScocket'))
+        }
+    }), [feilmelding]);
+    useWebsocket('ws://localhost:2999/hereIsWS', wsListeners);
+
+
+    const syncing = useRef(false);
     useEffect(() => {
-        log.debug('running enhet sync', enheter, enhet, onEnhetChange, aktivEnhetData, contextholder);
+        if (enhetSyncedValue) {
+            return;
+        }
+        log.debug('running enhet sync');
         enheter.map2((enheter: Enheter, enhet: string) => {
             const erGyldigEnhet = enheter.enhetliste.findIndex((e) => e.enhetId === enhet) >= 0;
-            log.debug('sjekket enhet gyldighet', erGyldigEnhet);
-            if (!erGyldigEnhet) {
+            if (!erGyldigEnhet && !syncing.current) {
+                syncing.current = true;
                 const gyldigEnhet = aktivEnhetData
                     .map((e: AktivEnhet) => e.aktivEnhet!)
                     .filter((e: string) => enheter.enhetliste.findIndex((el) => el.enhetId === e) >= 0)
@@ -54,22 +55,53 @@ export function useContextholder(
                 if (contextholder === false) {
                     log.debug('ingen contextholder i bruk, sender onchange',);
                     onEnhetChange(gyldigEnhet);
-                } else if (aktivEnhetData.isJust()){
-                    log.debug('bruker contextholder, oppdaterer aktivEnhet');
-                    fetch('/modiacontextholder/api/context', {
-                        credentials: 'include',
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            verdi: gyldigEnhet,
-                            eventType: 'NY_AKTIV_ENHET'
-                        })
-                    })
-                        .then(() => onEnhetChange(gyldigEnhet));
+                    setEnhetSynced(true);
+                } else if (aktivEnhetData.isJust()) {
+                    log.debug('bruker contextholder, oppdaterer aktivEnhet', gyldigEnhet, enhet);
+                    oppdaterAktivEnhet(gyldigEnhet)
+                        .then(() => onEnhetChange(gyldigEnhet))
+                        .then(() => {
+                            setEnhetSynced(true);
+                            syncing.current = false;
+                        });
+                } else {
+                    syncing.current = false;
                 }
             }
         }, enhet);
-    }, [enheter, enhet, onEnhetChange, aktivEnhetData, contextholder]);
+    }, [enhetSyncedValue, setEnhetSynced, enheter, enhet, onEnhetChange, aktivEnhetData, contextholder]);
+
+    useEffect(() => {
+        enheter.map2((enheter: Enheter, enhet: string) => {
+            const erGyldigEnhet = enheter.enhetliste.findIndex((e) => e.enhetId === enhet) >= 0;
+            const erISync = aktivEnhetData.isNothing() || aktivEnhetData.filter((aktiv) => aktiv.aktivEnhet === enhet).isJust();
+            if (erGyldigEnhet && !erISync) {
+                oppdaterAktivEnhet(enhet).then(() => setEnhetSynced(true));
+            }
+        }, enhet);
+    }, [enhet, enheter, aktivEnhetData, setEnhetSynced]);
+
+    useEffect(() => {
+        if (!fnrSyncedValue) {
+            log.debug('running fnr sync', fnrSyncedValue, aktivBrukerData);
+            if (fnr.isNothing() && aktivBrukerData.isJust()) {
+                aktivBrukerData
+                    .flatMap((aktiv) => MaybeCls.of(aktiv.aktivBruker))
+                    .map((aktiv) => {
+                        if (aktiv.length > 0) {
+                            onSok(aktiv);
+                        }
+                        setFnrSynced(true);
+                        return aktiv;
+                    });
+            } else if (fnr.isJust() && aktivBrukerData.isJust()) {
+                fnr.map2((fnr, { aktivBruker }) => {
+                    if (fnr !== aktivBruker) {
+                        oppdaterAktivBruker(fnr)
+                            .then(() => setFnrSynced(true));
+                    }
+                }, aktivBrukerData);
+            }
+        }
+    }, [setFnrSynced, fnrSyncedValue, fnr, aktivBrukerData, onSok]);
 }

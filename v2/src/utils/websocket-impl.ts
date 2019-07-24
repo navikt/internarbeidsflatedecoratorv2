@@ -11,7 +11,7 @@ export enum Status {
 }
 
 export interface Listeners {
-    onMessage(event: MessageEvent): void;
+    onMessage?(event: MessageEvent): void;
     onOpen?(event: Event): void;
     onError?(event: Event): void;
     onClose?(event: CloseEvent): void;
@@ -57,7 +57,7 @@ class WebSocketImpl {
             this.print('Stopping creation of WS, since it is closed');
             return;
         }
-
+        log.info("Opening WS", this.wsUrl);
         this.connection = new WebSocket(this.wsUrl);
         this.connection.addEventListener('open', this.onWSOpen.bind(this));
         this.connection.addEventListener('message', this.onWSMessage.bind(this));
@@ -66,6 +66,7 @@ class WebSocketImpl {
     }
 
     public close() {
+        log.info("Closing WS", this.wsUrl);
         this.clearResetTimer();
         this.clearRetryTimer();
         this.status = Status.CLOSE;
@@ -102,7 +103,9 @@ class WebSocketImpl {
 
     private onWSMessage(event: MessageEvent) {
         this.print('message', event);
-        this.listeners.onMessage(event);
+        if (this.listeners.onMessage) {
+            this.listeners.onMessage(event);
+        }
     }
 
     private onWSError(event: Event) {

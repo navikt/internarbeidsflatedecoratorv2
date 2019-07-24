@@ -2,9 +2,9 @@ import React, {useMemo} from 'react';
 import {MaybeCls} from '@nutgaard/maybe-ts';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
-import {useWrappedState, WrappedState} from './hooks/use-wrapped-state';
-import useFetch, {empty as emptyFetchState, UseFetchHook, usePromiseData} from './hooks/use-fetch';
-import {AktivBruker, AktivEnhet, AktorIdResponse, Enheter, Markup, Me, Toggles} from './domain';
+import {emptyWrappedState, useWrappedState, WrappedState} from './hooks/use-wrapped-state';
+import {empty as emptyFetchState, UseFetchHook, usePromiseData} from './hooks/use-fetch';
+import {AktorIdResponse, Enheter, Markup, Me, Toggles} from './domain';
 import {EMDASH} from './utils/string-utils';
 import Feilmelding from "./components/feilmelding";
 import {useAktorId} from "./utils/use-aktorid";
@@ -13,7 +13,7 @@ import {useContextholder} from "./hooks/use-contextholder";
 import logging, {LogLevel} from './utils/logging';
 import NyBrukerContextModal from "./components/modals/ny-bruker-context-modal";
 
-logging.level = LogLevel.WARN;
+logging.level = LogLevel.INFO;
 
 export interface BaseProps {
     appname: string;
@@ -83,29 +83,28 @@ export const AppContext = React.createContext<Context>({
         value: MaybeCls.nothing(), set() {
         }
     },
-    apen: {
-        value: false, set() {
-        }
-    },
+    apen: emptyWrappedState(false),
     contextholder: false
 });
 
 function Application(props: Props) {
     const {fnr, enhet, markup, ...rest} = props;
+
     const maybeFnr = useMemo(() => MaybeCls.of(fnr).filter((fnr) => fnr.length > 0), [fnr]);
     const maybeEnhet = useMemo(() => MaybeCls.of(enhet).filter((fnr) => fnr.length > 0), [enhet]);
     const markupEttersokefelt = useMemo(() => MaybeCls.of(markup).flatMap((m) => MaybeCls.of(m.etterSokefelt)), [markup]);
+
+    const enhetSynced = useWrappedState(false);
+    const fnrSynced = useWrappedState(false);
 
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
     const me = usePromiseData<Me>(props.identSource, true, []);
     const enheter = usePromiseData<Enheter>(props.enheterSource, true, []);
-    const aktivEnhet = useFetch<AktivEnhet>('/modiacontextholder/api/context/aktivenhet');
-    const aktivBruker = useFetch<AktivBruker>('/modiacontextholder/api/context/aktivbruker');
     const aktorId = useAktorId(maybeFnr);
 
     const promptBeforeEnhetChange = props.useContextholder && props.promptBeforeEnhetChange;
-    const contextholder = useMemo(() => props.useContextholder ? { promptBeforeEnhetChange } : false as false, [props.useContextholder, promptBeforeEnhetChange]);
+    const contextholder = useMemo(() => props.useContextholder ? {promptBeforeEnhetChange} : false as false, [props.useContextholder, promptBeforeEnhetChange]);
     const context = {
         ...rest,
         me,
@@ -119,7 +118,8 @@ function Application(props: Props) {
         contextholder
     };
 
-    useContextholder(context, aktivEnhet, aktivBruker);
+    useContextholder(context, enhetSynced, fnrSynced);
+
     return (
         <AppContext.Provider value={context}>
             <div className="dekorator">
@@ -127,16 +127,14 @@ function Application(props: Props) {
                 <Lenker/>
                 <Feilmelding/>
                 <NyEnhetContextModal
+                    synced={enhetSynced.value}
                     valgtEnhet={enhet}
-                    contextEnhet={aktivEnhet}
                     onAccept={props.onEnhetChange}
-                    onDecline={() => {}}
                 />
                 <NyBrukerContextModal
+                    synced={fnrSynced.value}
                     valgtFnr={fnr}
-                    contextFnr={aktivBruker}
                     onAccept={props.onSok}
-                    onDecline={() => {}}
                 />
             </div>
         </AppContext.Provider>

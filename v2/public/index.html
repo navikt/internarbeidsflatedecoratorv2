@@ -35,17 +35,17 @@
                 visVeilder: false
             },
             onSok(nyfnr) {
-                console.log('onSok', nyfnr);
+                console.warn('onSok', nyfnr);
                 render(nyfnr, enhet);
             },
             onEnhetChange(nyenhet) {
-                console.log('onEnhetChange', nyenhet);
+                console.warn('onEnhetChange', nyenhet);
                 render(fnr, nyenhet);
             },
             useContextholder: true
         });
     }
 
-    render('10108000398', '0219a');
+    render('10108000398', '0219');
 </script>
 </html>

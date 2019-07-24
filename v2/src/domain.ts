@@ -34,9 +34,9 @@ export interface AktorIdResponse {
     }
 }
 
-enum ContextholderMessages {
-    NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
-    NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
+export enum AppPhase {
+    INIT = 'INIT',
+    INSYNC = 'INSYNC'
 }
 
 export interface AktivEnhet {

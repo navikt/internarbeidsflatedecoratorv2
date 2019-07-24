@@ -26,7 +26,9 @@ function EnhetVelger() {
         );
     }
 
-    const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => context.onEnhetChange(event.target.value);
+    const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
+        context.onEnhetChange(event.target.value);
+    };
     const options = enheter
         .map((enhet) => (
             <option key={enhet.enhetId} value={enhet.enhetId}>{`${enhet.enhetId} ${enhet.navn}`}</option>

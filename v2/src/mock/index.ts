@@ -32,7 +32,7 @@ const mock = FetchMock.configure({
     enableFallback: false,
     middleware: MiddlewareUtils.combine(
         MiddlewareUtils.delayMiddleware(500),
-        loggingMiddleware
+        // loggingMiddleware
     )
 });
 

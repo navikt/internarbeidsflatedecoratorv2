@@ -58,7 +58,6 @@ function setupControls(ws: WebSocket) {
         textarea.style.height = '10rem';
         controlDiv.appendChild(textarea);
 
-
         document.body.append(controlDiv);
     }
 }
@@ -67,7 +66,6 @@ function showMessage(ws: WebSocket) {
         const textarea = document.getElementById('ws-control__textarea')! as HTMLTextAreaElement;
         const now = new Date().toLocaleTimeString();
 
-
         if (['"NY_AKTIV_ENHET"', '"NY_AKTIV_BRUKER"'].includes(message.data)) {
             fetch('/modiacontextholder/api/context?fromMock')
                 .then((resp) => resp.json())
@@ -75,11 +73,10 @@ function showMessage(ws: WebSocket) {
                     textarea.value = `${now} ${message.data} (${JSON.stringify(json)})\n${textarea.value}`;
                 })
         }
-
     };
 }
 
-const context = { aktivEnhet: null, aktivBruker: null };
+const context = { aktivEnhet: '', aktivBruker: '' };
 
 export function setupWsControlAndMock(mock: FetchMock) {
     if (window.location.hostname.includes('localhost')) {

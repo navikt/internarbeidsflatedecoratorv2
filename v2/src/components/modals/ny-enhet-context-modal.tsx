@@ -1,50 +1,48 @@
 import React, {useState} from 'react';
-import {MaybeCls} from "@nutgaard/maybe-ts";
 import Modal from 'nav-frontend-modal';
 import {Innholdstittel, Normaltekst} from "nav-frontend-typografi";
 import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
-import Knapp, { Hovedknapp} from 'nav-frontend-knapper'
-import {UseFetchHook} from "../../hooks/use-fetch";
-import {AktivEnhet} from "../../domain";
+import Knapp, {Hovedknapp} from 'nav-frontend-knapper'
+import {useWebsocket} from "../../hooks/use-webhook";
+import {Listeners} from "../../utils/websocket-impl";
+import {hentAktivEnhet, oppdaterAktivEnhet} from "../../context-api";
 
 Modal.setAppElement(document.getElementById('root'));
 
 interface Props {
-    valgtEnhet: string | undefined | null;
-    contextEnhet: UseFetchHook<AktivEnhet>
-    onAccept(enhet: string):void;
-    onDecline(enhet: string | undefined | null):void;
+    synced: boolean;
+    valgtEnhet: string | null | undefined;
+
+    onAccept(enhet: string): void;
 }
 
-function NyEnhetContextModal(props: Props) {
-    const [ pending, setPending ] = useState(false);
-    const open: boolean = props.contextEnhet.data
-        .map((contextEnhet: AktivEnhet) => {
-            const beggeHarVerdi = !!contextEnhet.aktivEnhet && !!props.valgtEnhet;
-            return beggeHarVerdi && contextEnhet.aktivEnhet !== props.valgtEnhet;
-        })
-        .withDefault(false);
-    const onsketEnhet = props.contextEnhet.data
-        .flatMap((contextEnhet: AktivEnhet) => MaybeCls.of(contextEnhet.aktivEnhet))
-        .withDefault('');
+function NyEnhetContextModal({synced, valgtEnhet, onAccept}: Props) {
+    const [pending, setPending] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [onsketEnhet, setOnsketEnhet] = useState<string | null>(null);
 
     const onDecline = () => {
         setPending(true);
-        fetch('/modiacontextholder/api/context', {
-            credentials: 'include',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                verdi: props.valgtEnhet,
-                eventType: 'NY_AKTIV_ENHET'
-            })
-        })
-            .then(() => props.contextEnhet.refetch())
-            .then(() => setPending(false))
-            .then(() => props.onDecline(props.valgtEnhet))
+        oppdaterAktivEnhet(valgtEnhet)
+            .then(() => setPending(false));
     };
+    const onAcceptHandler = () => {
+        onAccept(onsketEnhet!);
+        setOpen(false);
+    };
+
+    const wsListener: Listeners = {
+        onMessage(event: MessageEvent): void {
+            if (event.data === '"NY_AKTIV_ENHET"' && synced) {
+                hentAktivEnhet()
+                    .then(({aktivEnhet}) => {
+                        setOpen(aktivEnhet !== valgtEnhet);
+                        setOnsketEnhet(aktivEnhet);
+                    })
+            }
+        }
+    };
+    useWebsocket('ws://localhost:2999/hereIsWS', wsListener);
 
     return (
         <Modal
@@ -58,13 +56,14 @@ function NyEnhetContextModal(props: Props) {
                     Du har endret Enhet
                 </Innholdstittel>
                 <AlertStripeAdvarsel className="blokk-s">
-                    Du har endret enhet i et annet vindu. Du kan ikke jobbe i 2 enheter samtidig. Velger du 'endre' mister du arbeidet du ikke har lagret.
+                    Du har endret enhet i et annet vindu. Du kan ikke jobbe i 2 enheter samtidig. Velger du 'endre'
+                    mister du arbeidet du ikke har lagret.
                 </AlertStripeAdvarsel>
                 <Normaltekst className="blokk-s">
                     Ønsker du å endre enhet til {onsketEnhet}?
                 </Normaltekst>
                 <div className="decorator-context-modal__footer">
-                    <Hovedknapp disabled={pending} onClick={() => props.onAccept(onsketEnhet)}>
+                    <Hovedknapp disabled={pending} onClick={onAcceptHandler}>
                         Endre
                     </Hovedknapp>
                     <Knapp onClick={onDecline} type="standard" spinner={pending} autoDisableVedSpinner>
@@ -76,4 +75,4 @@ function NyEnhetContextModal(props: Props) {
     );
 }
 
-export default NyEnhetContextModal;
+export default React.memo(NyEnhetContextModal);

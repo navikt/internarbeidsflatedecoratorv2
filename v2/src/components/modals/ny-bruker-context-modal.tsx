@@ -1,50 +1,49 @@
 import React, {useState} from 'react';
-import {MaybeCls} from "@nutgaard/maybe-ts";
 import Modal from 'nav-frontend-modal';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
-import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
-import {UseFetchHook} from "../../hooks/use-fetch";
-import {AktivBruker} from "../../domain";
+import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
+import Knapp, {Hovedknapp} from 'nav-frontend-knapper';
+import {Innholdstittel, Normaltekst} from 'nav-frontend-typografi';
+import {hentAktivBruker, oppdaterAktivBruker} from "../../context-api";
+import {Listeners} from "../../utils/websocket-impl";
+import {useWebsocket} from "../../hooks/use-webhook";
 
 Modal.setAppElement(document.getElementById('root'));
 
 interface Props {
-    valgtFnr: string | undefined | null;
-    contextFnr: UseFetchHook<AktivBruker>
-    onAccept(fnr: string):void;
-    onDecline(fnr: string | undefined | null):void;
+    synced: boolean;
+    valgtFnr: string | null | undefined;
+
+    onAccept(fnr: string): void;
 }
 
-function NyBrukerContextModal(props: Props) {
-    const [ pending, setPending ] = useState(false);
-    const open: boolean = props.contextFnr.data
-        .map((contextFnr: AktivBruker) => {
-            const beggeHarVerdi = !!contextFnr.aktivBruker && !!props.valgtFnr;
-            return beggeHarVerdi && contextFnr.aktivBruker !== props.valgtFnr;
-        })
-        .withDefault(false);
-    const onsketFnr = props.contextFnr.data
-        .flatMap((contextFnr: AktivBruker) => MaybeCls.of(contextFnr.aktivBruker))
-        .withDefault('');
+function NyBrukerContextModal({ synced, valgtFnr, onAccept}: Props) {
+    const [pending, setPending] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [onsketFnr, setOnsketFnr] = useState<string | null>(null);
 
     const onDecline = () => {
         setPending(true);
-        fetch('/modiacontextholder/api/context', {
-            credentials: 'include',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                verdi: props.valgtFnr,
-                eventType: 'NY_AKTIV_BRUKER'
-            })
-        })
-            .then(() => props.contextFnr.refetch())
-            .then(() => setPending(false))
-            .then(() => props.onDecline(props.valgtFnr))
+        oppdaterAktivBruker(valgtFnr)
+            .then(() => setPending(false));
     };
+
+    const onAcceptHandler = () => {
+        onAccept(onsketFnr!);
+        setOpen(false);
+    };
+
+    const wsListener: Listeners = {
+        onMessage(event: MessageEvent): void {
+            if (event.data === '"NY_AKTIV_BRUKER"' && synced) {
+                hentAktivBruker()
+                    .then(({aktivBruker}) => {
+                        setOpen(aktivBruker !== valgtFnr);
+                        setOnsketFnr(aktivBruker);
+                    })
+            }
+        }
+    };
+    useWebsocket('ws://localhost:2999/hereIsWS', wsListener);
 
     return (
         <Modal
@@ -65,7 +64,7 @@ function NyBrukerContextModal(props: Props) {
                     {`Ønsker du å endre bruker til ${onsketFnr}?`}
                 </Normaltekst>
                 <div className="decorator-context-modal__footer">
-                    <Hovedknapp disabled={pending} onClick={() => props.onAccept(onsketFnr)}>
+                    <Hovedknapp disabled={pending} onClick={onAcceptHandler}>
                         Endre
                     </Hovedknapp>
                     <Knapp type="standard" onClick={onDecline} spinner={pending} autoDisableVedSpinner>
@@ -76,4 +75,5 @@ function NyBrukerContextModal(props: Props) {
         </Modal>
     );
 }
+
 export default NyBrukerContextModal;
