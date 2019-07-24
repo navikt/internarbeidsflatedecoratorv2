@@ -92,7 +92,6 @@ function useKeepEnhetInSync(
                 aktivEnhetData.isNothing() ||
                 aktivEnhetData.filter((aktiv) => aktiv.aktivEnhet === enhet).isJust();
             if (erGyldigEnhet && !erISync) {
-                console.log('keep insync', enhet, aktivEnhetData);
                 oppdaterAktivEnhet(enhet)
                     .then(() => setEnhetSynced(true))
                     .then(aktivEnhetRefetch);
@@ -116,6 +115,7 @@ function useInitialFnrSync(
     fnrSyncedValue: boolean,
     fnr: MaybeCls<string>,
     aktivBrukerData: MaybeCls<AktivBruker>,
+    aktivBrukerRefretch: () => void,
     onSok: (fnr: string) => void
 ) {
     useEffect(() => {
@@ -137,6 +137,7 @@ function useInitialFnrSync(
                         syncingFnr.current = true;
                         oppdaterAktivBruker(fnr)
                             .then(() => setFnrSynced(true))
+                            .then(aktivBrukerRefretch)
                             .then(() => {
                                 syncingFnr.current = false;
                             });
@@ -144,7 +145,7 @@ function useInitialFnrSync(
                 }, aktivBrukerData);
             }
         }
-    }, [syncingFnr, contextholder, setFnrSynced, fnrSyncedValue, fnr, aktivBrukerData, onSok]);
+    }, [syncingFnr, contextholder, setFnrSynced, fnrSyncedValue, fnr, aktivBrukerData, aktivBrukerRefretch, onSok]);
 }
 
 function useKeepFnrInSync(
@@ -156,7 +157,7 @@ function useKeepFnrInSync(
     aktivBrukerData: MaybeCls<AktivBruker>
 ) {
     useEffect(() => {
-        if (fnrSyncedValue || syncingFnr.current || contextholder.isNothing()) {
+        if (!fnrSyncedValue || syncingFnr.current || contextholder.isNothing()) {
             return;
         }
         if (fnr.isJust() && aktivBrukerData.isJust() && contextholder.isJust()) {
@@ -234,6 +235,7 @@ export function useContextholder(
         fnrSyncedValue,
         fnr,
         aktivBruker.data,
+        aktivBruker.refetch,
         onSok
     );
 
