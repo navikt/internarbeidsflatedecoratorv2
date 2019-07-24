@@ -2,6 +2,7 @@
   "name": "v2",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/internarbeidsflatedecorator/v2",
   "dependencies": {
     "@nutgaard/maybe-ts": "^1.4.0",
     "babel-polyfill": "^6.26.0",
