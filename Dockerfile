@@ -9,5 +9,9 @@ RUN npm ci
 ENV NODE_ENV=production
 RUN npm run build
 
+WORKDIR /source/v2
+RUN npm run build
+
 FROM ${BASE_IMAGE_PREFIX}nginx
 COPY --from=builder /source/build /usr/share/nginx/html/internarbeidsflatedecorator
+COPY --from=builder /source/v2/build /usr/share/nginx/html/internarbeidsflatedecorator/v2
