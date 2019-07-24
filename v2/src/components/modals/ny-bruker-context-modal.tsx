@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'nav-frontend-modal';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
@@ -6,6 +6,7 @@ import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { hentAktivBruker, oppdaterAktivBruker } from '../../context-api';
 import { Listeners } from '../../utils/websocket-impl';
 import { useWebsocket } from '../../hooks/use-webhook';
+import { AppContext } from '../../application';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -17,6 +18,7 @@ interface Props {
 }
 
 function NyBrukerContextModal({ synced, valgtFnr, onAccept }: Props) {
+    const context = useContext(AppContext);
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
     const [onsketFnr, setOnsketFnr] = useState<string | null>(null);
@@ -41,7 +43,8 @@ function NyBrukerContextModal({ synced, valgtFnr, onAccept }: Props) {
             }
         }
     };
-    useWebsocket('ws://localhost:2999/hereIsWS', wsListener);
+
+    useWebsocket(context.contextholder.map(({ url }) => url).withDefault(null), wsListener);
 
     return (
         <Modal

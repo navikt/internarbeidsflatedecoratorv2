@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'nav-frontend-modal';
 import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
@@ -6,6 +6,7 @@ import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
 import { useWebsocket } from '../../hooks/use-webhook';
 import { Listeners } from '../../utils/websocket-impl';
 import { hentAktivEnhet, oppdaterAktivEnhet } from '../../context-api';
+import { AppContext } from '../../application';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -17,6 +18,12 @@ interface Props {
 }
 
 function NyEnhetContextModal({ synced, valgtEnhet, onAccept }: Props) {
+    const context = useContext(AppContext);
+    const wsUrl = context.contextholder.map(({ url }) => url).withDefault(null);
+    const promptBeforeOpen = context.contextholder
+        .map(({ promptBeforeEnhetChange }) => promptBeforeEnhetChange)
+        .withDefault(true);
+
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
     const [onsketEnhet, setOnsketEnhet] = useState<string | null>(null);
@@ -34,13 +41,18 @@ function NyEnhetContextModal({ synced, valgtEnhet, onAccept }: Props) {
         onMessage(event: MessageEvent): void {
             if (event.data === '"NY_AKTIV_ENHET"' && synced) {
                 hentAktivEnhet().then(({ aktivEnhet }) => {
-                    setOpen(aktivEnhet !== valgtEnhet);
-                    setOnsketEnhet(aktivEnhet);
+                    if (promptBeforeOpen) {
+                        setOnsketEnhet(aktivEnhet);
+                        setOpen(aktivEnhet !== valgtEnhet);
+                    } else if (aktivEnhet && aktivEnhet !== valgtEnhet) {
+                        onAccept(aktivEnhet);
+                    }
                 });
             }
         }
     };
-    useWebsocket('ws://localhost:2999/hereIsWS', wsListener);
+
+    useWebsocket(wsUrl, wsListener);
 
     return (
         <Modal

@@ -4,7 +4,7 @@ import Banner from './components/banner';
 import Lenker from './components/lenker';
 import { emptyWrappedState, useWrappedState, WrappedState } from './hooks/use-wrapped-state';
 import { empty as emptyFetchState, UseFetchHook, usePromiseData } from './hooks/use-fetch';
-import { AktorIdResponse, Enheter, Markup, Me, Toggles } from './domain';
+import { AktorIdResponse, Contextholder, Enheter, Markup, Me, Toggles } from './domain';
 import { EMDASH } from './utils/string-utils';
 import Feilmelding from './components/feilmelding';
 import { useAktorId } from './utils/use-aktorid';
@@ -15,7 +15,7 @@ import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
 
 logging.level = LogLevel.INFO;
 
-export interface BaseProps {
+export interface Props {
     appname: string;
     fnr: string | undefined | null;
     enhet: string | undefined | null;
@@ -27,18 +27,8 @@ export interface BaseProps {
     onSok(fnr: string): void;
 
     onEnhetChange(enhet: string): void;
+    contextholder?: Contextholder;
 }
-
-interface PropsWithWebsocket extends BaseProps {
-    useContextholder: true;
-    promptBeforeEnhetChange: boolean;
-}
-
-interface PropsWithoutWebsocket extends BaseProps {
-    useContextholder: false;
-}
-
-export type Props = PropsWithoutWebsocket | PropsWithWebsocket;
 
 export interface Context {
     appname: string;
@@ -56,9 +46,7 @@ export interface Context {
     aktorId: UseFetchHook<AktorIdResponse>;
     feilmelding: WrappedState<MaybeCls<string>>;
     apen: WrappedState<boolean>;
-    contextholder: false | {
-        promptBeforeEnhetChange: boolean;
-    }
+    contextholder: MaybeCls<Contextholder>;
 }
 
 export const AppContext = React.createContext<Context>({
@@ -77,12 +65,9 @@ export const AppContext = React.createContext<Context>({
     me: emptyFetchState,
     enheter: emptyFetchState,
     aktorId: emptyFetchState,
-    feilmelding: {
-        value: MaybeCls.nothing(),
-        set() {}
-    },
+    feilmelding: emptyWrappedState(MaybeCls.nothing()),
     apen: emptyWrappedState(false),
-    contextholder: false
+    contextholder: MaybeCls.nothing()
 });
 
 function Application(props: Props) {
@@ -104,11 +89,8 @@ function Application(props: Props) {
     const enheter = usePromiseData<Enheter>(props.enheterSource, true, []);
     const aktorId = useAktorId(maybeFnr);
 
-    const promptBeforeEnhetChange = props.useContextholder && props.promptBeforeEnhetChange;
-    const contextholder = useMemo(
-        () => (props.useContextholder ? { promptBeforeEnhetChange } : (false as false)),
-        [props.useContextholder, promptBeforeEnhetChange]
-    );
+    const contextholder = useMemo(() => MaybeCls.of(props.contextholder), [props.contextholder]);
+
     const context = {
         ...rest,
         me,
@@ -147,7 +129,7 @@ function Application(props: Props) {
 
 class ErrorHandler extends React.Component<Props> {
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-        console.log('CATCH', error, errorInfo);
+        console.error('CATCH', error, errorInfo);
     }
 
     render() {

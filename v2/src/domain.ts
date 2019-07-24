@@ -18,6 +18,10 @@ export interface Toggles {
     visEnhetVelger: boolean;
     visEnhet: boolean;
 }
+export interface Contextholder {
+    url: string;
+    promptBeforeEnhetChange?: boolean;
+}
 
 export interface Markup {
     etterSokefelt?: string;

@@ -69,8 +69,11 @@ class WSContext {
 }
 const wsContext: WSContext = new WSContext();
 
-export function useWebsocket(url: string, listeners: Listeners) {
+export function useWebsocket(url: string | null, listeners: Listeners) {
     useEffect(() => {
+        if (!url) {
+            return;
+        }
         wsContext.register(url, listeners);
         return () => wsContext.unregister(url, listeners);
     }, [url, listeners]);
