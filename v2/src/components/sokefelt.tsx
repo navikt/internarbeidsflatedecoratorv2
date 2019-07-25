@@ -12,9 +12,10 @@ function Sokefelt() {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const value = sokefelt.input.value.replace(/\s/g, '');
-        context.feilmelding.set(lagFnrFeilmelding(value));
+        const feilmelding = lagFnrFeilmelding(value);
+        context.feilmelding.set(feilmelding);
 
-        if (context.feilmelding.value.isNothing()) {
+        if (feilmelding.isNothing()) {
             context.onSok(value);
         }
     };
