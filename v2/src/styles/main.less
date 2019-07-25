@@ -1,57 +1,13 @@
-@import '~nav-frontend-core/less/_variabler';
+@import '~nav-frontend-core/less/core';
+@import '_hode.less';
+@import '_meny.less';
+@import '_feilmelding.less';
 
+// Untatt for scoping
 .dekorator {
     font-size: 100%; // 1em === 16px
     color: @white;
     font-family: Arial, sans-serif;
-
-    // Namespacer dette slik at vi ikke styler elementer utenfor dekoratøren
-    @import '~nav-frontend-core/less/vendor/_normalize'; // TODO denne burde fjernes etter det sjekket at modiabrukerdialog takler normalize 5.x.x
-    @import '_hode.less';
-    @import '_meny.less';
-    @import '_feilmelding.less';
-
-    @import '~nav-frontend-core/less/_mixins';
-    @import '~nav-frontend-core/less/hide-text';
-    @import '~nav-frontend-core/less/utilities';
-    @import '~nav-frontend-typografi-style/src/index';
-
-    * {
-        box-sizing: border-box;
-    }
-
-    .typo-normal {
-        font-size: 1em;
-    }
-
-    h1.typo-innholdstittel {
-        font-size: 1.875em;
-        margin: 0;
-    }
-
-    h1.typo-element.dekorator__tittel {
-        margin: 0.67em 0 0.67em 0.7em;
-    }
-
-    a,
-    a:visited {
-        color: @white;
-    }
-
-    .dekorator__container {
-        max-width: 60em;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .dekorator__knapp {
-        color: @white;
-        background: @navLysBla;
-        border: 1px solid @navBlaDarken40;
-        line-height: 1;
-        padding: 10px 20px;
-        display: inline-block;
-    }
 }
 
 .decorator-context-modal {
@@ -63,4 +19,42 @@
             margin-right: 0.75rem;
         }
     }
+}
+
+// Blir scopet
+* {
+    box-sizing: border-box;
+}
+
+.typo-normal {
+    font-size: 1em;
+}
+
+h1.typo-innholdstittel {
+    font-size: 1.875em;
+    margin: 0;
+}
+
+h1.typo-element.dekorator__tittel {
+    margin: 0.67em 0 0.67em 0.7em;
+}
+
+a,
+a:visited {
+    color: @white;
+}
+
+.dekorator__container {
+    max-width: 60em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.dekorator__knapp {
+    color: @white;
+    background: @navLysBla;
+    border: 1px solid @navBlaDarken40;
+    line-height: 1;
+    padding: 10px 20px;
+    display: inline-block;
 }

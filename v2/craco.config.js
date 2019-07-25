@@ -1,5 +1,7 @@
 const path = require('path');
 const CracoLessPlugin = require('craco-less');
+const Base64InlineLoaderPlugin = require('craco-base64-inline-loader');
+const cssprefixer = require('postcss-prefix-selector');
 const BUILD_PATH = path.resolve(__dirname, './build');
 
 const RemoveCssHashPlugin = {
@@ -45,37 +47,31 @@ const RemoveJsHashPlugin = {
     }
 };
 
-const UsePreact = {
-    overrideWebpackConfig: ({ webpackConfig }) => {
-        webpackConfig.resolve = webpackConfig.resolve || {};
-        webpackConfig.resolve.alias = webpackConfig.resolve.alias || {};
-
-        const webpackAliases = webpackConfig.resolve.alias;
-
-        webpackAliases['react'] = 'preact/compat';
-        webpackAliases['react-dom'] = 'preact/compat';
-
-        return webpackConfig;
-    }
-};
-
 module.exports = {
-    plugins: [
-        {
-            plugin: CracoLessPlugin,
-            options: {
-                modifyLessRule(lessRule, context) {
-                    if (context.env === 'production') {
-                        const loaders = lessRule.use;
-                        const [ignore, ...keepLoaders] = loaders;
-                        lessRule.use = [{ loader: require.resolve('style-loader'), options: {} }, ...keepLoaders];
+    style: {
+        postcss: {
+            plugins: [cssprefixer({
+                prefix: '.dekorator',
+                exclude: ['html', 'body', '.dekorator'],
+                transform: function(prefix, selector, prefixedSelector) {
+                    if (selector.includes('decorator-context-modal')) {
+                        return selector;
+                    } else if (selector.startsWith('.dekorator ')) {
+                        return selector;
                     }
-
-                    return lessRule;
+                    return prefixedSelector;
                 }
+            })]
+        }
+    },
+    plugins: [
+        { plugin: CracoLessPlugin },
+        {
+            plugin: Base64InlineLoaderPlugin,
+            options: {
+                test: /\.svg$/
             }
         },
-        // {plugin: UsePreact},
         { plugin: RemoveCssHashPlugin },
         { plugin: RemoveJsHashPlugin }
     ]

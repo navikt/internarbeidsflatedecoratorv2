@@ -1,6 +1,5 @@
 import Application, { Props } from './application';
-import NAVSPA from './utils/NAVSPA';
-import 'nav-frontend-core';
+import NAVSPA from '@navikt/navspa';
 import './styles/main.less';
 
 if (process.env.REACT_APP_MOCK === 'true') {
