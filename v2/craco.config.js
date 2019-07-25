@@ -54,9 +54,13 @@ module.exports = {
                 prefix: '.dekorator',
                 exclude: ['html', 'body', '.dekorator'],
                 transform: function(prefix, selector, prefixedSelector) {
-                    if (selector.includes('decorator-context-modal')) {
-                        return selector;
+                    if (selector.startsWith('body ')) {
+                        return `body ${prefix} ${selector.slice(5)}`;
+                    } else if (selector.startsWith('html ')) {
+                        return `html ${prefix} ${selector.slice(5)}`;
                     } else if (selector.startsWith('.dekorator ')) {
+                        return selector;
+                    }else if (selector.includes('modal')) {
                         return selector;
                     }
                     return prefixedSelector;

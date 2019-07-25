@@ -48,6 +48,7 @@ function NyBrukerContextModal({ synced, valgtFnr, onAccept }: Props) {
 
     return (
         <Modal
+            className="dekorator"
             contentLabel="Brukercontext"
             isOpen={open}
             closeButton={false}

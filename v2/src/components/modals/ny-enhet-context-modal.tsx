@@ -56,6 +56,7 @@ function NyEnhetContextModal({ synced, valgtEnhet, onAccept }: Props) {
 
     return (
         <Modal
+            className="dekorator"
             contentLabel="Brukercontext"
             isOpen={open}
             closeButton={false}
