@@ -48,18 +48,10 @@ function Lenker() {
                         <h2 className="dekorator__lenkeheader">Oppfølging</h2>
                         <ul className="dekorator__menyliste">
                             <Lenke href={tjenesterDomain(`/mia/`)}>Arbeidsmarkedet</Lenke>
-                            <Lenke
-                                href={appDomain(
-                                    `/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`
-                                )}
-                            >
+                            <Lenke href={appDomain(`/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`)}>
                                 Enhetens oversikt
                             </Lenke>
-                            <Lenke
-                                href={appDomain(
-                                    `/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`
-                                )}
-                            >
+                            <Lenke href={appDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
                                 Min oversikt
                             </Lenke>
                             <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}`)}>
@@ -84,43 +76,22 @@ function Lenker() {
                             <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}`)}>
                                 Oversikt
                             </Lenke>
-                            <Lenke
-                                href={modiaUrl(
-                                    fnr,
-                                    `/modiabrukerdialog/person/${fnr}#!saksoversikt`
-                                )}
-                            >
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!saksoversikt`)}>
                                 Saksoversikt
                             </Lenke>
-                            <Lenke
-                                href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!meldinger`)}
-                            >
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!meldinger`)}>
                                 Meldinger
                             </Lenke>
-                            <Lenke
-                                href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!varsling`)}
-                            >
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!varsling`)}>
                                 Varslinger
                             </Lenke>
-                            <Lenke
-                                href={modiaUrl(
-                                    fnr,
-                                    `/modiabrukerdialog/person/${fnr}#!utbetalinger`
-                                )}
-                            >
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!utbetalinger`)}>
                                 Utbetalinger
                             </Lenke>
-                            <Lenke
-                                href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!kontrakter`)}
-                            >
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!kontrakter`)}>
                                 Oppfølging
                             </Lenke>
-                            <Lenke
-                                href={modiaUrl(
-                                    fnr,
-                                    `/modiabrukerdialog/person/${fnr}#!brukerprofil`
-                                )}
-                            >
+                            <Lenke href={modiaUrl(fnr,`/modiabrukerdialog/person/${fnr}#!brukerprofil`)}>
                                 Brukerprofil
                             </Lenke>
                         </ul>
@@ -129,18 +100,10 @@ function Lenker() {
                 <section className="dekorator__rad">
                     <h2 className="dekorator__lenkeheader">Andre systemer</h2>
                     <ul className="dekorator__menyliste">
-                        <Lenke
-                            href={`${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${
-                                fnr ? `fodselsnr=${fnr}` : ''
-                            }`}
-                        >
+                        <Lenke href={`${arenaLink}?oppstart_skj=AS_REGPERSONALIA&${fnr ? `fodselsnr=${fnr}` : ''}`}>
                             Arena personmappen
                         </Lenke>
-                        <Lenke
-                            href={modappDomain(
-                                `/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`
-                            )}
-                        >
+                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}>
                             AA register
                         </Lenke>
                         <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)}>Pesys</Lenke>
