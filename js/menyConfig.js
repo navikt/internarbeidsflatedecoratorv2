@@ -83,7 +83,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 }),
             },
             {
-                tittel: 'Arbeidstrening Avtale',
+                tittel: 'Arbeidstrening',
                 url: `${arbeidstreningDomain}tiltaksgjennomforing`,
             },
         ],
