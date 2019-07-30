@@ -1,4 +1,4 @@
-import { finnMiljoStreng, finnNaisMiljoStreng, NAIS_PREPROD_SUFFIX } from './sagas/util';
+import { finnMiljoStreng, finnNaisMiljoStreng, NAIS_PREPROD_SUFFIX, NAIS_PROD_ARBEIDSGIVER } from './sagas/util';
 import { post } from './sagas/api';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
@@ -7,7 +7,7 @@ const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const tjenesterDomain = `https://tjenester${finnMiljoStreng()}.nav.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
 const frontendLoggerApiEvent = '/frontendlogger/api/event';
-
+const arbeidstreningDomain = `https:/arbeidsgiver.nais.${NAIS_PROD_ARBEIDSGIVER}`;
 const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 
 function getArenaConfigParameter(miljø) {
@@ -84,7 +84,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Arbeidstrening Avtale',
-                url: `${appDomain}/tiltaksgjennomforing/`,
+                url: `${arbeidstreningDomain}tiltaksgjennomforing`,
             },
         ],
     },

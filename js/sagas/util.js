@@ -1,5 +1,6 @@
 export const NAIS_PREPROD_SUFFIX = 'preprod.local/';
 export const NAIS_PROD_SUFFIX = 'adeo.no/';
+export const NAIS_PROD_ARBEIDSGIVER = 'adeo.no/';
 
 export const finnMiljoStreng = () => {
     const host = window.location.host;
@@ -19,3 +20,4 @@ export const finnNaisMiljoStreng = () => {
     }
     return NAIS_PREPROD_SUFFIX;
 };
+
