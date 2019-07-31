@@ -1,68 +1,90 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Dekoratør for interne arbeidsflater
+Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplikasjoner i NAV.
 
-## Available Scripts
+## Forsjell fra tidligere versjon
+Den mest markante endringer fra V1 til V2, er at V2 nå har ansvar for kommunikasjon med contextholderen (modia-contextholder og modia-eventdistribution).
+Dette betyr at hvis man sender inn `contextholder` i konfigurasjonen, så vil det bli satt opp en WebSocket-connection, 
+og appen vil holde context i sync med hva som vises i decoratøren. 
+Ved eventuelle endringer i andre flater vil det vises en bekreftelse-modal, og hvis saksbehandler bekrefter endringen så vil `onEnhetChange` eller `onSok` bli kalt. 
 
-In the project directory, you can run:
 
-### `npm start`
+## Ta ibruk
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Legg til følgende i index.html
+```html
+<script src="/internarbeidsflatedecorator/v2/static/js/head.v2.min.js"></script>
+<link rel="stylesheet" href="/internarbeidsflatedecorator/v2/static/css/main.css" />
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### React med navspa
+Om man bruker react som frontendbibliotek kan man så ta ibruk `@navikt/navspa` (Eksemplet er med typescript, fjern `DecoratorProps` om det ikke brukes).
+```typescript jsx
+import NAVSPA from '@navikt/navspa';
+import DecoratorProps from './decorator-props';
+import decoratorConfig from './decorator-config';
 
-### `npm test`
+const InternflateDecorator = NAVSPA.importer<DecoratorProps>('internarbeidsflatefs');
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function App() {
+    return (
+        <>
+            <InternflateDecorator {...decoratorConfig}/>
+            <h1>Resten av appen din her.</h1>
+        </>
+    );
+}
+```
 
-### `npm run build`
+### Manuelt oppsett
+Om man ikke bruker react så kan man fortsatt ta ibruk decoratoren, men man må da kalle render-funksjonen selv.
+Ett eksempel på hvordan dette kan gjøres kan ses i [index.html](public/index.html).
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Konfigurasjon
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```typescript jsx
+interface DecoratorProps {
+    appname: string;                        // Navn på applikasjon
+    fnr: string | undefined | null;         // Fødselsnummer på bruker i context. NB, endring av denne medfører oppdatering av context 
+    enhet: string | undefined | null;       // Enhetsnummer på enhet i context. NB, endring av denne medfører oppdatering av context
+    toggles: Toggles;                       // Konfigurasjon av hvile elementer som skal vises i dekoratøren
+    markup?: Markup;                        // Ekstra innhold i dekoratøren, kan brukes om man trenger å legge en knapp innenfor dekoratøren
+    identSource: () => Promise<Me>;         // Kilde til informasjon om innlogget saksbehandler. NB, må returnere JSON
+    enheterSource: () => Promise<Enheter>;  // Kilde til informasjon om tilgjengelige enheter. NB, må returnere JSON
 
-### `npm run eject`
+    onSok(fnr: string): void;               // Callback-funksjon for når man skal bytte bruker (blir kalt etter bekreftelse-modal, eller ved direkte søk i søkefeltet)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    onEnhetChange(enhet: string): void;     // Callback-funksjon for når man skal bytte enhet (blir kalt etter beksreftelse-modal, eller ved direkte endring i enhets-dropdown)
+    contextholder?: Contextholder;          // Konfigurasjn av tilkobling til contextholder. Om denne utelates vil man ikke ta ibruk contextholderen.
+}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+interface Toggles {
+    visVeilder: boolean;
+    visSokefelt: boolean;
+    visEnhetVelger: boolean;
+    visEnhet: boolean;
+}
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+interface Contextholder {
+    url: string;
+    promptBeforeEnhetChange?: boolean;      // Kan settes om man ikke ønsker bekreftelse-modal ved enhets-endringer
+}
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+interface Markup {
+    etterSokefelt?: string;
+}
 
-## Learn More
+interface Me {
+    readonly ident: string;
+    readonly navn: string;
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+interface Enhet {
+    readonly enhetId: string;
+    readonly navn: string;
+}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+interface Enheter {
+    readonly enhetliste: Array<Enhet>;
+}
+```

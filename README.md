@@ -1,3 +1,7 @@
+# NB! V2 opprettet
+En V2 versjon av dekoratøren er utviklet for å forenkle integrering med appen, og contextholder-appene.
+[Se egen dokumentasjon](v2)
+
 # Dekoratør for interne arbeidsflater
 Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplikasjoner i NAV.
 Appen fremstår utad som en enkeltstående JS-fil som skal kunne bygge seg selv uavhengig av klientens teknologi, 

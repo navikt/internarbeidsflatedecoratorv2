@@ -4,9 +4,19 @@ node_js:
 cache:
   directories:
     - node_modules
+    - v2/node_modules
 script:
   - npm run build
   - npm test
+  - cd v2
+  - npm ci
+  - npm run build
+  - cd ..
+  - cp -r v2/build/static/js build
+  - cp -r v2/build/static/css build
+  - ls build
+  - ls build/js
+  - ls build/css
 deploy:
   provider: pages
   skip_cleanup: true
