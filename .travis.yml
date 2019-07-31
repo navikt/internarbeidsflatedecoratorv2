@@ -12,11 +12,8 @@ script:
   - npm ci
   - npm run build
   - cd ..
-  - cp -r v2/build/static/js build
-  - cp -r v2/build/static/css build
+  - cp -r v2/build build/v2
   - ls build
-  - ls build/js
-  - ls build/css
 deploy:
   provider: pages
   skip_cleanup: true
