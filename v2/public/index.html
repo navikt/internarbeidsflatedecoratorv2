@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <title>React App</title>
+    <style>
+        html, body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
+<script>
+    function render(fnr, enhet) {
+        NAVSPA.internarbeidsflatefs(document.getElementById('root'), {
+            appname: 'Modia testapp',
+            fnr,
+            enhet,
+            identSource: () => fetch('/hode/me').then((resp) => resp.json()),
+            enheterSource: () => fetch('/hode/enheter').then((resp) => resp.json()),
+            markup: {
+                etterSokefelt: '<button>Min knapp</button>',
+            },
+            toggles: {
+                visEnhet: false,
+                visEnhetVelger: true,
+                visSokefelt: false,
+                visVeilder: false
+            },
+            onSok(nyfnr) {
+                console.warn('onSok', nyfnr);
+                render(nyfnr, enhet);
+            },
+            onEnhetChange(nyenhet) {
+                console.warn('onEnhetChange', nyenhet);
+                render(fnr, nyenhet);
+            },
+            contextholder: { url: 'ws://localhost:2999/hereIsWS' }
+        });
+    }
+
+    render('10108000398', '0219');
+</script>
+</html>

@@ -97,7 +97,7 @@ class WebSocketImpl {
         } else if (data === 'NY_AKTIV_BRUKER') {
             this.fetchBruker().then(this.onBrukerChange);
         } else {
-            console.log('Unknown data on WS: ', event); // eslint-disable-line no-console
+            this.print('Unknown data on WS: ', event); // eslint-disable-line no-console
         }
     }
 
