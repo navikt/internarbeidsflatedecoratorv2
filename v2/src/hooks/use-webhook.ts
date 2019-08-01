@@ -69,7 +69,7 @@ class WSContext {
 }
 const wsContext: WSContext = new WSContext();
 
-export function useWebsocket(url: string | null, listeners: Listeners) {
+export function useWebsocket(url: string | null | undefined, listeners: Listeners) {
     useEffect(() => {
         if (!url) {
             return;
