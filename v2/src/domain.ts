@@ -18,7 +18,7 @@ export interface Toggles {
     visEnhet: boolean;
 }
 export interface Contextholder {
-    url: string;
+    url?: string;
     promptBeforeEnhetChange?: boolean;
 }
 

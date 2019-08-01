@@ -1,4 +1,5 @@
 import { AktivBruker, AktivEnhet } from './domain';
+import {finnMiljoStreng} from "./utils/url-utils";
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -48,6 +49,7 @@ export async function oppdaterAktivEnhet(enhet: string | null | undefined) {
 
 export const AKTIV_ENHET_URL = '/modiacontextholder/api/context/aktivenhet';
 export const AKTIV_BRUKER_URL = '/modiacontextholder/api/context/aktivbruker';
+export const SAKSBEHANDLER_URL = '/modiacontextholder/api/decorator';
 
 export async function hentAktivBruker(): Promise<AktivBruker> {
     return await getJson<AktivBruker>(AKTIV_BRUKER_URL);
@@ -55,4 +57,11 @@ export async function hentAktivBruker(): Promise<AktivBruker> {
 
 export async function hentAktivEnhet(): Promise<AktivEnhet> {
     return await getJson<AktivEnhet>(AKTIV_ENHET_URL);
+}
+
+export function getWebSocketUrl() {
+    if (process.env.NODE_ENV === 'development') {
+        return 'ws://localhost:2999/hereIsWS';
+    }
+    return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/websocket`
 }

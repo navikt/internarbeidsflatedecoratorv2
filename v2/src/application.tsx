@@ -12,6 +12,7 @@ import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
 import { useContextholder } from './hooks/use-contextholder';
 import logging, { LogLevel } from './utils/logging';
 import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
+import {getWebSocketUrl, SAKSBEHANDLER_URL} from "./context-api";
 
 logging.level = LogLevel.INFO;
 
@@ -25,7 +26,7 @@ export interface Props {
     onSok(fnr: string): void;
 
     onEnhetChange(enhet: string): void;
-    contextholder?: Contextholder;
+    contextholder?: true | Contextholder;
 }
 
 export interface Context {
@@ -81,10 +82,13 @@ function Application(props: Props) {
 
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
-    const saksbehandler = useFetch<Saksbehandler>('/modiacontextholder/api/decorator', { credentials: 'include'}, true, []);
+    const saksbehandler = useFetch<Saksbehandler>(SAKSBEHANDLER_URL, { credentials: 'include'}, true, []);
     const aktorId = useAktorId(maybeFnr);
 
-    const contextholder = useMemo(() => MaybeCls.of(props.contextholder), [props.contextholder]);
+    const contextholder = useMemo(() => {
+        return MaybeCls.of(props.contextholder)
+            .map((config) => ({ url: getWebSocketUrl(), ...(config === true ? {} : config) }));
+    }, [props.contextholder]);
 
     const context = {
         ...rest,
