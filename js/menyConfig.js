@@ -7,7 +7,7 @@ const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const tjenesterDomain = `https://tjenester${finnMiljoStreng()}.nav.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
 const frontendLoggerApiEvent = '/frontendlogger/api/event';
-
+const arbeidstreningDomain = `https:/arbeidsgiver.nais.${finnNaisMiljoStreng()}`;
 const arenaLink = () => `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 
 function getArenaConfigParameter(miljø) {
@@ -81,6 +81,10 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                     fields: {},
                     tags: {},
                 }),
+            },
+            {
+                tittel: 'Arbeidstrening',
+                url: `${arbeidstreningDomain}tiltaksgjennomforing`,
             },
         ],
     },
