@@ -4,8 +4,8 @@ import { EMDASH } from '../utils/string-utils';
 
 function Veileder() {
     const context = useContext(AppContext);
-    const ident = context.me.data.map((data) => data.ident).withDefault(EMDASH);
-    const navn = context.me.data.map((data) => data.navn).withDefault('');
+    const ident = context.saksbehandler.data.map((data) => data.ident).withDefault(EMDASH);
+    const navn = context.saksbehandler.data.map((data) => data.navn).withDefault('');
 
     return (
         <section className="dekorator__hode__veileder_container">

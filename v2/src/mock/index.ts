@@ -1,5 +1,5 @@
 import FetchMock, { JSONObject, Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
-import { AktorIdResponse, Enheter, Me } from '../domain';
+import { AktorIdResponse, Saksbehandler } from '../domain';
 import { setupWsControlAndMock } from './context-mock';
 
 const loggingMiddleware: Middleware = (request, response) => {
@@ -33,15 +33,12 @@ const mock = FetchMock.configure({
     middleware: MiddlewareUtils.combine(MiddlewareUtils.delayMiddleware(500), loggingMiddleware)
 });
 
-const me: Me & JSONObject = {
+const me: Saksbehandler & JSONObject = {
     ident: 'Z999999',
     navn: 'Fornavn Ettersen',
     fornavn: 'Fornavn',
-    etternavn: 'Ettersen'
-};
-const enheter: Enheter & JSONObject = {
-    ident: 'Z999999',
-    enhetliste: [
+    etternavn: 'Ettersen',
+    enheter: [
         { enhetId: '0219', navn: 'NAV Bærum' },
         { enhetId: '0118', navn: 'NAV Aremark' },
         { enhetId: '0604', navn: 'NAV Kongsberg' },
@@ -49,8 +46,7 @@ const enheter: Enheter & JSONObject = {
     ]
 };
 
-mock.get('/hode/me', me);
-mock.get('/hode/enheter', enheter);
+mock.get('/modiacontextholder/api/decorator', me);
 mock.get('/aktoerregister/api/v1/identer', (args) => {
     const fnr = (args.init!.headers! as Record<string, string>)['Nav-Personidenter'];
     const data: AktorIdResponse = {

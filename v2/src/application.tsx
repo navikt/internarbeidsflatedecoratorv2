@@ -3,8 +3,8 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
 import { emptyWrappedState, useWrappedState, WrappedState } from './hooks/use-wrapped-state';
-import { empty as emptyFetchState, UseFetchHook, usePromiseData } from './hooks/use-fetch';
-import { AktorIdResponse, Contextholder, Enheter, Markup, Me, Toggles } from './domain';
+import useFetch, { empty as emptyFetchState, UseFetchHook } from './hooks/use-fetch';
+import {AktorIdResponse, Contextholder, Saksbehandler, Markup, Toggles} from './domain';
 import { EMDASH } from './utils/string-utils';
 import Feilmelding from './components/feilmelding';
 import { useAktorId } from './utils/use-aktorid';
@@ -21,8 +21,6 @@ export interface Props {
     enhet: string | undefined | null;
     toggles: Toggles;
     markup?: Markup;
-    identSource: () => Promise<Me>;
-    enheterSource: () => Promise<Enheter>;
 
     onSok(fnr: string): void;
 
@@ -41,8 +39,7 @@ export interface Context {
 
     onEnhetChange(enhet: string): void;
 
-    me: UseFetchHook<Me>;
-    enheter: UseFetchHook<Enheter>;
+    saksbehandler: UseFetchHook<Saksbehandler>;
     aktorId: UseFetchHook<AktorIdResponse>;
     feilmelding: WrappedState<MaybeCls<string>>;
     apen: WrappedState<boolean>;
@@ -62,8 +59,7 @@ export const AppContext = React.createContext<Context>({
     markupEttersokefelt: MaybeCls.nothing(),
     onSok() {},
     onEnhetChange() {},
-    me: emptyFetchState,
-    enheter: emptyFetchState,
+    saksbehandler: emptyFetchState,
     aktorId: emptyFetchState,
     feilmelding: emptyWrappedState(MaybeCls.nothing()),
     apen: emptyWrappedState(false),
@@ -85,16 +81,14 @@ function Application(props: Props) {
 
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
-    const me = usePromiseData<Me>(props.identSource, true, []);
-    const enheter = usePromiseData<Enheter>(props.enheterSource, true, []);
+    const saksbehandler = useFetch<Saksbehandler>('/modiacontextholder/api/decorator', { credentials: 'include'}, true, []);
     const aktorId = useAktorId(maybeFnr);
 
     const contextholder = useMemo(() => MaybeCls.of(props.contextholder), [props.contextholder]);
 
     const context = {
         ...rest,
-        me,
-        enheter,
+        saksbehandler,
         aktorId,
         fnr: maybeFnr,
         enhet: maybeEnhet,
