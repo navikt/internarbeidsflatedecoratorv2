@@ -19,3 +19,4 @@ export const finnNaisMiljoStreng = () => {
     }
     return NAIS_PREPROD_SUFFIX;
 };
+
