@@ -216,4 +216,3 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         sokEtterStillingLenke(),
     ],
 });
-
