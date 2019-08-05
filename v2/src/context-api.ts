@@ -47,6 +47,10 @@ export async function oppdaterAktivEnhet(enhet: string | null | undefined) {
     });
 }
 
+export async function nullstillAktivBruker() {
+    return await fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
+}
+
 export const AKTIV_ENHET_URL = '/modiacontextholder/api/context/aktivenhet';
 export const AKTIV_BRUKER_URL = '/modiacontextholder/api/context/aktivbruker';
 export const SAKSBEHANDLER_URL = '/modiacontextholder/api/decorator';
