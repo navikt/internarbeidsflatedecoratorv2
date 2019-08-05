@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
@@ -13,6 +13,7 @@ import { useContextholder } from './hooks/use-contextholder';
 import logging, { LogLevel } from './utils/logging';
 import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
 import {getWebSocketUrl, SAKSBEHANDLER_URL} from "./context-api";
+import useOnClickOutside from "./hooks/use-on-click-outside";
 
 logging.level = LogLevel.INFO;
 
@@ -102,11 +103,14 @@ function Application(props: Props) {
         contextholder
     };
 
+    const ref = useRef(null);
+    const outsideHandler = useCallback(() => apen.set(false), [apen]);
+    useOnClickOutside(ref, outsideHandler);
     useContextholder(context, enhetSynced, fnrSynced);
 
     return (
         <AppContext.Provider value={context}>
-            <div className="dekorator">
+            <div className="dekorator" ref={ref}>
                 <Banner />
                 <Lenker />
                 <Feilmelding />
