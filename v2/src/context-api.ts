@@ -49,7 +49,7 @@ export async function oppdaterAktivEnhet(enhet: string | null | undefined) {
 }
 
 export async function nullstillAktivBruker() {
-    return await fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
+    return await fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' });
 }
 
 export const AKTIV_ENHET_URL = '/modiacontextholder/api/context/aktivenhet';
