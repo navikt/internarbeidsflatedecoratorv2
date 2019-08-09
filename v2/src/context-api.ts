@@ -1,5 +1,6 @@
-import { AktivBruker, AktivEnhet } from './domain';
+import {AktivBruker, AktivEnhet, Saksbehandler} from './domain';
 import {finnMiljoStreng} from "./utils/url-utils";
+import {UseFetchHook} from "./hooks/use-fetch";
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -63,9 +64,13 @@ export async function hentAktivEnhet(): Promise<AktivEnhet> {
     return await getJson<AktivEnhet>(AKTIV_ENHET_URL);
 }
 
-export function getWebSocketUrl() {
+export function getWebSocketUrl(saksbehandler: UseFetchHook<Saksbehandler>) {
     if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
     }
-    return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/websocket`
+    return saksbehandler
+        .data
+        .map((saksbehandler) => saksbehandler.ident)
+        .map((ident) => `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`)
+        .withDefault(undefined);
 }

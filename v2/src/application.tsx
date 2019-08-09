@@ -88,7 +88,7 @@ function Application(props: Props) {
 
     const contextholder = useMemo(() => {
         return MaybeCls.of(props.contextholder)
-            .map((config) => ({ url: getWebSocketUrl(), ...(config === true ? {} : config) }));
+            .map((config) => ({ url: getWebSocketUrl(saksbehandler), ...(config === true ? {} : config) }));
     }, [props.contextholder]);
 
     const context = {
