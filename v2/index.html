@@ -3,8 +3,6 @@
             appname: 'Modia testapp',
             fnr,
             enhet,
-            identSource: () => fetch('/hode/me').then((resp) => resp.json()),
-            enheterSource: () => fetch('/hode/enheter').then((resp) => resp.json()),
             markup: {
                 etterSokefelt: '<button>Min knapp</button>',
             },
@@ -22,7 +20,7 @@
                 console.warn('onEnhetChange', nyenhet);
                 render(fnr, nyenhet);
             },
-            contextholder: { url: 'ws://localhost:2999/hereIsWS' }
+            contextholder: true
         });
     }
 
