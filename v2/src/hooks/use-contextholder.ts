@@ -3,7 +3,7 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import { Listeners } from '../utils/websocket-impl';
 import useFetch from './use-fetch';
 import { useWebsocket } from './use-webhook';
-import { AktivBruker, AktivEnhet, Contextholder, Enheter } from '../domain';
+import {AktivBruker, AktivEnhet, Contextholder, Saksbehandler} from '../domain';
 import { Context } from '../application';
 import log from './../utils/logging';
 import { WrappedState } from './use-wrapped-state';
@@ -18,7 +18,7 @@ function useInitialEnhetSync(
     syncingEnhet: MutableRefObject<boolean>,
     enhetSyncedValue: boolean,
     setEnhetSynced: (value: boolean) => void,
-    enheter: MaybeCls<Enheter>,
+    saksbehandler: MaybeCls<Saksbehandler>,
     enhet: MaybeCls<string>,
     onEnhetChange: (enhet: string) => void,
     aktivEnhetData: MaybeCls<AktivEnhet>,
@@ -30,16 +30,16 @@ function useInitialEnhetSync(
             return;
         }
         log.debug('running enhet sync');
-        enheter.map2((enheter: Enheter, enhet: string) => {
-            const erGyldigEnhet = enheter.enhetliste.findIndex((e) => e.enhetId === enhet) >= 0;
+        saksbehandler.map2((saksbehandler: Saksbehandler, enhet: string) => {
+            const erGyldigEnhet = saksbehandler.enheter.findIndex((e) => e.enhetId === enhet) >= 0;
             if (!erGyldigEnhet && !syncingEnhet.current) {
                 syncingEnhet.current = true;
                 const gyldigEnhet = aktivEnhetData
                     .map((e: AktivEnhet) => e.aktivEnhet!)
                     .filter(
-                        (e: string) => enheter.enhetliste.findIndex((el) => el.enhetId === e) >= 0
+                        (e: string) => saksbehandler.enheter.findIndex((el) => el.enhetId === e) >= 0
                     )
-                    .withDefault(enheter.enhetliste[0].enhetId);
+                    .withDefault(saksbehandler.enheter[0].enhetId);
                 log.debug('var ikke gyldig byttet til', gyldigEnhet);
 
                 if (contextholder.isNothing()) {
@@ -64,7 +64,7 @@ function useInitialEnhetSync(
         syncingEnhet,
         enhetSyncedValue,
         setEnhetSynced,
-        enheter,
+        saksbehandler,
         enhet,
         onEnhetChange,
         aktivEnhetData,
@@ -77,7 +77,7 @@ function useKeepEnhetInSync(
     syncingEnhet: MutableRefObject<boolean>,
     contextholder: MaybeCls<Contextholder>,
     enhet: MaybeCls<string>,
-    enheter: MaybeCls<Enheter>,
+    saksbehandler: MaybeCls<Saksbehandler>,
     aktivEnhetData: MaybeCls<AktivEnhet>,
     aktivEnhetRefetch: () => void,
     setEnhetSynced: (value: boolean) => void
@@ -86,8 +86,8 @@ function useKeepEnhetInSync(
         if (syncingEnhet.current || contextholder.isNothing()) {
             return;
         }
-        enheter.map2((enheter: Enheter, enhet: string) => {
-            const erGyldigEnhet = enheter.enhetliste.findIndex((e) => e.enhetId === enhet) >= 0;
+        saksbehandler.map2((saksbehandler: Saksbehandler, enhet: string) => {
+            const erGyldigEnhet = saksbehandler.enheter.findIndex((e) => e.enhetId === enhet) >= 0;
             const erISync =
                 aktivEnhetData.isNothing() ||
                 aktivEnhetData.filter((aktiv) => aktiv.aktivEnhet === enhet).isJust();
@@ -101,7 +101,7 @@ function useKeepEnhetInSync(
         syncingEnhet,
         contextholder,
         enhet,
-        enheter,
+        saksbehandler,
         aktivEnhetData,
         setEnhetSynced,
         aktivEnhetRefetch
@@ -181,7 +181,7 @@ export function useContextholder(
     fnrSynced: WrappedState<boolean>
 ) {
     const feilmelding = context.feilmelding;
-    const enheter = context.enheter.data;
+    const saksbehandler = context.saksbehandler.data;
     const enhet = context.enhet;
     const fnr = context.fnr;
     const contextholder = context.contextholder;
@@ -210,7 +210,7 @@ export function useContextholder(
         syncingEnhet,
         enhetSyncedValue,
         setEnhetSynced,
-        enheter,
+        saksbehandler,
         enhet,
         onEnhetChange,
         aktivEnhet.data,
@@ -222,7 +222,7 @@ export function useContextholder(
         syncingEnhet,
         contextholder,
         enhet,
-        enheter,
+        saksbehandler,
         aktivEnhet.data,
         aktivEnhet.refetch,
         setEnhetSynced

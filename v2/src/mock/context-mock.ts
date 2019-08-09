@@ -86,7 +86,8 @@ function showMessage(ws: WebSocket) {
     };
 }
 
-const context = { aktivEnhet: '', aktivBruker: '' };
+type Context = { aktivEnhet: string | null, aktivBruker: string | null };
+const context: Context = { aktivEnhet: '', aktivBruker: '' };
 
 export function setupWsControlAndMock(mock: FetchMock) {
     if (window.location.hostname.includes('localhost')) {
@@ -106,6 +107,11 @@ export function setupWsControlAndMock(mock: FetchMock) {
             } else {
                 return Promise.resolve({ status: 500 });
             }
+        });
+
+        mock.delete('/modiacontextholder/api/context/aktivenhet', () => {
+            context.aktivBruker = null;
+            return {};
         });
     }
 

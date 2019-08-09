@@ -6,8 +6,8 @@ import { Enhet } from '../domain';
 function EnhetVelger() {
     const context = useContext(AppContext);
     const valgtEnhet = context.enhet.withDefault(undefined);
-    const enheter = context.enheter.data
-        .map((data) => data.enhetliste)
+    const enheter = context.saksbehandler.data
+        .map((data) => data.enheter)
         .withDefault([] as Array<Enhet>);
 
     useEffect(() => {
