@@ -38,7 +38,6 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
         {
             tittel: 'Oppfølging',
             lenker: [
-                ...lenkeTilTilretteleggern,
                 {
                     tittel: 'Arbeidsmarkedet',
                     url: `${tjenesterDomain}/mia/`,
@@ -93,6 +92,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                     tittel: 'Arbeidstrening',
                     url: `${arbeidstreningDomain}tiltaksgjennomforing`,
                 },
+                ...lenkeTilTilretteleggern,
             ],
         },
         {
