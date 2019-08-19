@@ -15,7 +15,7 @@ function updateContext(body: object) {
     });
 }
 
-function setupControls(ws: WebSocket) {
+function setupControls() {
     return () => {
         const controlDiv = document.createElement('div');
         controlDiv.id = 'ws-control';
@@ -69,12 +69,12 @@ function setupControls(ws: WebSocket) {
         document.body.append(controlDiv);
     };
 }
-function showMessage(ws: WebSocket) {
+function showMessage() {
     return (message: MessageEvent) => {
         const textarea = document.getElementById('ws-control__textarea')! as HTMLTextAreaElement;
         const now = new Date().toLocaleTimeString();
 
-        if (['"NY_AKTIV_ENHET"', '"NY_AKTIV_BRUKER"'].includes(message.data)) {
+        if (['NY_AKTIV_ENHET', 'NY_AKTIV_BRUKER'].includes(message.data)) {
             fetch('/modiacontextholder/api/context?fromMock')
                 .then((resp) => resp.json())
                 .then((json) => {
@@ -86,13 +86,14 @@ function showMessage(ws: WebSocket) {
     };
 }
 
-const context = { aktivEnhet: '', aktivBruker: '' };
+type Context = { aktivEnhet: string | null, aktivBruker: string | null };
+const context: Context = { aktivEnhet: '', aktivBruker: '' };
 
 export function setupWsControlAndMock(mock: FetchMock) {
     if (window.location.hostname.includes('localhost')) {
         const ws = new WebSocket('ws://localhost:2999/hereIsWS');
-        ws.addEventListener('open', setupControls(ws));
-        ws.addEventListener('message', showMessage(ws));
+        ws.addEventListener('open', setupControls());
+        ws.addEventListener('message', showMessage());
 
         mock.post('/modiacontextholder/api/context', ({ body }) => {
             if (body.eventType === 'NY_AKTIV_ENHET') {
@@ -106,6 +107,11 @@ export function setupWsControlAndMock(mock: FetchMock) {
             } else {
                 return Promise.resolve({ status: 500 });
             }
+        });
+
+        mock.delete('/modiacontextholder/api/context/aktivenhet', () => {
+            context.aktivBruker = null;
+            return {};
         });
     }
 

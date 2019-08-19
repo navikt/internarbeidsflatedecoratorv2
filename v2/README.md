@@ -49,13 +49,11 @@ interface DecoratorProps {
     enhet: string | undefined | null;       // Enhetsnummer på enhet i context. NB, endring av denne medfører oppdatering av context
     toggles: Toggles;                       // Konfigurasjon av hvile elementer som skal vises i dekoratøren
     markup?: Markup;                        // Ekstra innhold i dekoratøren, kan brukes om man trenger å legge en knapp innenfor dekoratøren
-    identSource: () => Promise<Me>;         // Kilde til informasjon om innlogget saksbehandler. NB, må returnere JSON
-    enheterSource: () => Promise<Enheter>;  // Kilde til informasjon om tilgjengelige enheter. NB, må returnere JSON
 
     onSok(fnr: string): void;               // Callback-funksjon for når man skal bytte bruker (blir kalt etter bekreftelse-modal, eller ved direkte søk i søkefeltet)
 
     onEnhetChange(enhet: string): void;     // Callback-funksjon for når man skal bytte enhet (blir kalt etter beksreftelse-modal, eller ved direkte endring i enhets-dropdown)
-    contextholder?: Contextholder;          // Konfigurasjn av tilkobling til contextholder. Om denne utelates vil man ikke ta ibruk contextholderen.
+    contextholder?: true | Contextholder;   // Konfigurasjn av tilkobling til contextholder. true; use default. Om man sender inn objekt så kan man overstyre url og om enhet skal generere bekreftelsemodal. Om den ikke settes vil man ikke bruke contextholder.
 }
 
 interface Toggles {
@@ -66,7 +64,7 @@ interface Toggles {
 }
 
 interface Contextholder {
-    url: string;
+    url?: string;
     promptBeforeEnhetChange?: boolean;      // Kan settes om man ikke ønsker bekreftelse-modal ved enhets-endringer
 }
 
@@ -74,17 +72,16 @@ interface Markup {
     etterSokefelt?: string;
 }
 
-interface Me {
-    readonly ident: string;
-    readonly navn: string;
+export interface Saksbehandler {
+    ident: string;
+    fornavn: string;
+    etternavn: string;
+    navn: string;
+    enheter: Array<Enhet>;
 }
 
 interface Enhet {
-    readonly enhetId: string;
-    readonly navn: string;
-}
-
-interface Enheter {
-    readonly enhetliste: Array<Enhet>;
+    enhetId: string;
+    navn: string;
 }
 ```

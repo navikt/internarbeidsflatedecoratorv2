@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
 import { emptyWrappedState, useWrappedState, WrappedState } from './hooks/use-wrapped-state';
-import { empty as emptyFetchState, UseFetchHook, usePromiseData } from './hooks/use-fetch';
-import { AktorIdResponse, Contextholder, Enheter, Markup, Me, Toggles } from './domain';
+import useFetch, { empty as emptyFetchState, UseFetchHook } from './hooks/use-fetch';
+import {AktorIdResponse, Contextholder, Saksbehandler, Markup, Toggles} from './domain';
 import { EMDASH } from './utils/string-utils';
 import Feilmelding from './components/feilmelding';
 import { useAktorId } from './utils/use-aktorid';
@@ -12,6 +12,8 @@ import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
 import { useContextholder } from './hooks/use-contextholder';
 import logging, { LogLevel } from './utils/logging';
 import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
+import {getWebSocketUrl, SAKSBEHANDLER_URL} from "./context-api";
+import useOnClickOutside from "./hooks/use-on-click-outside";
 
 logging.level = LogLevel.INFO;
 
@@ -21,13 +23,11 @@ export interface Props {
     enhet: string | undefined | null;
     toggles: Toggles;
     markup?: Markup;
-    identSource: () => Promise<Me>;
-    enheterSource: () => Promise<Enheter>;
 
     onSok(fnr: string): void;
 
     onEnhetChange(enhet: string): void;
-    contextholder?: Contextholder;
+    contextholder?: true | Contextholder;
 }
 
 export interface Context {
@@ -41,8 +41,7 @@ export interface Context {
 
     onEnhetChange(enhet: string): void;
 
-    me: UseFetchHook<Me>;
-    enheter: UseFetchHook<Enheter>;
+    saksbehandler: UseFetchHook<Saksbehandler>;
     aktorId: UseFetchHook<AktorIdResponse>;
     feilmelding: WrappedState<MaybeCls<string>>;
     apen: WrappedState<boolean>;
@@ -62,8 +61,7 @@ export const AppContext = React.createContext<Context>({
     markupEttersokefelt: MaybeCls.nothing(),
     onSok() {},
     onEnhetChange() {},
-    me: emptyFetchState,
-    enheter: emptyFetchState,
+    saksbehandler: emptyFetchState,
     aktorId: emptyFetchState,
     feilmelding: emptyWrappedState(MaybeCls.nothing()),
     apen: emptyWrappedState(false),
@@ -85,16 +83,17 @@ function Application(props: Props) {
 
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
-    const me = usePromiseData<Me>(props.identSource, true, []);
-    const enheter = usePromiseData<Enheter>(props.enheterSource, true, []);
+    const saksbehandler = useFetch<Saksbehandler>(SAKSBEHANDLER_URL, { credentials: 'include'}, true, []);
     const aktorId = useAktorId(maybeFnr);
 
-    const contextholder = useMemo(() => MaybeCls.of(props.contextholder), [props.contextholder]);
+    const contextholder = useMemo(() => {
+        return MaybeCls.of(props.contextholder)
+            .map((config) => ({ url: getWebSocketUrl(saksbehandler), ...(config === true ? {} : config) }));
+    }, [props.contextholder, saksbehandler]);
 
     const context = {
         ...rest,
-        me,
-        enheter,
+        saksbehandler,
         aktorId,
         fnr: maybeFnr,
         enhet: maybeEnhet,
@@ -104,11 +103,14 @@ function Application(props: Props) {
         contextholder
     };
 
+    const ref = useRef(null);
+    const outsideHandler = useCallback(() => apen.set(false), [apen]);
+    useOnClickOutside(ref, outsideHandler);
     useContextholder(context, enhetSynced, fnrSynced);
 
     return (
         <AppContext.Provider value={context}>
-            <div className="dekorator">
+            <div className="dekorator" ref={ref}>
                 <Banner />
                 <Lenker />
                 <Feilmelding />

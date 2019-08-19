@@ -35,7 +35,7 @@ function NyBrukerContextModal({ synced, valgtFnr, onAccept }: Props) {
 
     const wsListener: Listeners = {
         onMessage(event: MessageEvent): void {
-            if (event.data === '"NY_AKTIV_BRUKER"' && synced) {
+            if (event.data === 'NY_AKTIV_BRUKER' && synced) {
                 hentAktivBruker().then(({ aktivBruker }) => {
                     setOpen(aktivBruker !== valgtFnr);
                     setOnsketFnr(aktivBruker);

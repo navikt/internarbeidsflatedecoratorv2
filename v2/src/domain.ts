@@ -1,15 +1,14 @@
-export interface Me {
+export interface Saksbehandler {
     readonly ident: string;
+    readonly fornavn: string;
+    readonly etternavn: string;
     readonly navn: string;
+    readonly enheter: Array<Enhet>;
 }
 
 export interface Enhet {
     readonly enhetId: string;
     readonly navn: string;
-}
-
-export interface Enheter {
-    readonly enhetliste: Array<Enhet>;
 }
 
 export interface Toggles {
@@ -19,7 +18,7 @@ export interface Toggles {
     visEnhet: boolean;
 }
 export interface Contextholder {
-    url: string;
+    url?: string;
     promptBeforeEnhetChange?: boolean;
 }
 
@@ -36,11 +35,6 @@ export interface AktorIdResponse {
             identgruppe: string;
         }>;
     };
-}
-
-export enum AppPhase {
-    INIT = 'INIT',
-    INSYNC = 'INSYNC'
 }
 
 export interface AktivEnhet {

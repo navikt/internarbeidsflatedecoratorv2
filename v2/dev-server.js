@@ -11,9 +11,10 @@ function handleJsonMessage(ws, json) {
     if (!json.type || json.type !== 'control') {
         throw Error('Unknown type');
     }
+
     const data = json.data;
 
-    wss.clients.forEach((client) => client.send(JSON.stringify(data)));
+    wss.clients.forEach((client) => client.send(data));
 }
 
 function handleMessage(ws, message) {

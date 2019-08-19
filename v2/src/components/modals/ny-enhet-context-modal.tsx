@@ -39,7 +39,7 @@ function NyEnhetContextModal({ synced, valgtEnhet, onAccept }: Props) {
 
     const wsListener: Listeners = {
         onMessage(event: MessageEvent): void {
-            if (event.data === '"NY_AKTIV_ENHET"' && synced) {
+            if (event.data === 'NY_AKTIV_ENHET' && synced) {
                 hentAktivEnhet().then(({ aktivEnhet }) => {
                     if (promptBeforeOpen) {
                         setOnsketEnhet(aktivEnhet);
