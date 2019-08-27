@@ -1,29 +1,52 @@
-export const NAIS_PREPROD_SUFFIX = 'preprod.local/';
-export const NAIS_PROD_SUFFIX = 'adeo.no/';
-
-export const finnMiljoStreng = () => {
-    const host = window.location.host;
-    const bindestrekIndex = host.indexOf('-');
-    if (bindestrekIndex === -1) {
-        return '';
-    }
-    const dotIndex = host.indexOf('.');
-    return host.substring(bindestrekIndex, dotIndex);
-};
-
-export const finnNaisMiljoStreng = () => {
-    const host = window.location.host;
-    const isProd = !host.includes('-');
-    if (isProd) {
-        return NAIS_PROD_SUFFIX;
-    }
-    return NAIS_PREPROD_SUFFIX;
-};
-
 declare global {
     interface Window {
-        msCrypto: {}
+        msCrypto: {};
     }
+}
+
+function matchTest(url: string, regex: RegExp, ifMatch: (match: RegExpExecArray) => string) {
+    const res = regex.exec(url);
+    if (res) {
+        return ifMatch(res);
+    }
+}
+
+export function hentMiljoFraUrl(): string {
+    const url = window.location.host;
+
+    const matched =
+        matchTest(url, /localhost/, () => 'local') ||
+        matchTest(url, /-([tq]\d+)\.nais\.preprod\.local/, (match) => match[1]) ||
+        matchTest(url, /\.nais\.preprod\.local/, (match) => 'q0') ||
+        matchTest(url, /\.nais\.adeo\.no/, () => 'p') ||
+        matchTest(url, /-([tq]\d+)\.adeo\.no/, (match) => match[1]) ||
+        matchTest(url, /\.adeo\.no/, () => 'p') ||
+        'p'; // Hvis alt har feilet så antar vi produksjon, slik at ting fungerer der.
+
+    if (matched === 'q') {
+        return 'q0';
+    }
+    return matched;
+}
+
+export function erLocalhost() {
+    return hentMiljoFraUrl() === 'local';
+}
+
+export function finnMiljoStreng() {
+    const miljo = hentMiljoFraUrl();
+    if (miljo === 'p') {
+        return '';
+    }
+    return miljo === 'local' ? '-q0' : `-${miljo}`;
+}
+
+export function finnNaisMiljoStreng() {
+    const miljo = hentMiljoFraUrl();
+    if (miljo === 'p') {
+        return 'nais.adeo.no/';
+    }
+    return 'nais.preprod.local/';
 }
 
 export function randomCallId() {
