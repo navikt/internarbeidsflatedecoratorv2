@@ -91,6 +91,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                 {
                     tittel: 'Arbeidstrening',
                     url: `${arbeidstreningDomain}tiltaksgjennomforing`,
+                    target: '_blank',
                 },
                 ...lenkeTilTilretteleggern,
             ],
