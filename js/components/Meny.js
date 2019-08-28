@@ -4,9 +4,9 @@ import { funksjonsomradeLenker, andreSystemerLenker } from './../menyConfig';
 export function FunksjonsomradeLenker({ fnr, enhet }) {
     const config = funksjonsomradeLenker(fnr, enhet);
     const kolonner = config.map((topniva) => {
-        const lenker = topniva.lenker.map((lenke) => (
+        const lenker = topniva.lenker.map(({ url, tittel, ...extra }) => (
             <li>
-                <a href={lenke.url} onClick={lenke.onClick} className="typo-normal dekorator__menylenke">{lenke.tittel}</a>
+                <a href={url} className="typo-normal dekorator__menylenke" {...extra}>{tittel}</a>
             </li>
         ));
 
