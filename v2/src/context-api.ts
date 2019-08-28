@@ -1,6 +1,6 @@
-import {AktivBruker, AktivEnhet, Saksbehandler} from './domain';
-import {finnMiljoStreng} from "./utils/url-utils";
-import {UseFetchHook} from "./hooks/use-fetch";
+import { AktivBruker, AktivEnhet, Saksbehandler } from './domain';
+import { erLocalhost, finnMiljoStreng } from './utils/url-utils';
+import { UseFetchHook } from './hooks/use-fetch';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -34,15 +34,22 @@ async function postJson<T>(url: string, body: T, options?: RequestInit): Promise
     }
 }
 
+export const modiacontextholderUrl = (() => {
+    if (erLocalhost()) {
+        return '/modiacontextholder/api';
+    }
+    return `https://app${finnMiljoStreng()}.adeo.no/modiacontextholder/api`;
+})();
+
 export async function oppdaterAktivBruker(fnr: string | null | undefined) {
-    return await postJson('/modiacontextholder/api/context', {
+    return await postJson(`${modiacontextholderUrl}/context`, {
         verdi: fnr,
         eventType: ContextApiType.NY_AKTIV_BRUKER
     });
 }
 
 export async function oppdaterAktivEnhet(enhet: string | null | undefined) {
-    return await postJson('/modiacontextholder/api/context', {
+    return await postJson(`${modiacontextholderUrl}/context`, {
         verdi: enhet,
         eventType: ContextApiType.NY_AKTIV_ENHET
     });
@@ -52,9 +59,9 @@ export async function nullstillAktivBruker() {
     return await fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' });
 }
 
-export const AKTIV_ENHET_URL = '/modiacontextholder/api/context/aktivenhet';
-export const AKTIV_BRUKER_URL = '/modiacontextholder/api/context/aktivbruker';
-export const SAKSBEHANDLER_URL = '/modiacontextholder/api/decorator';
+export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
+export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
+export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
 
 export async function hentAktivBruker(): Promise<AktivBruker> {
     return await getJson<AktivBruker>(AKTIV_BRUKER_URL);
@@ -68,9 +75,11 @@ export function getWebSocketUrl(saksbehandler: UseFetchHook<Saksbehandler>) {
     if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
     }
-    return saksbehandler
-        .data
+    return saksbehandler.data
         .map((saksbehandler) => saksbehandler.ident)
-        .map((ident) => `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`)
+        .map(
+            (ident) =>
+                `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`
+        )
         .withDefault(undefined);
 }

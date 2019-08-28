@@ -28,7 +28,7 @@ function getArenaStartsideLink() {
     return `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=${getArenaConfigParameter(miljo)}`;
 }
 
-const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
+const naisDomain = `.${finnNaisMiljoStreng()}`;
 const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.no${path}`;
 const wasappDomain = (path: string) => `https://wasapp${finnMiljoStreng()}.adeo.no${path}`;
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
