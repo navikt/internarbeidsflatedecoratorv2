@@ -191,8 +191,8 @@ export function useContextholder(
     const setFnrSynced = fnrSynced.set;
     const fnrSyncedValue = fnrSynced.value;
     const onSok = context.onSok;
-    const aktivEnhet = useFetch<AktivEnhet>(AKTIV_ENHET_URL);
-    const aktivBruker = useFetch<AktivBruker>(AKTIV_BRUKER_URL);
+    const aktivEnhet = useFetch<AktivEnhet>(AKTIV_ENHET_URL, { credentials: 'include' });
+    const aktivBruker = useFetch<AktivBruker>(AKTIV_BRUKER_URL, { credentials: 'include' });
     const syncingEnhet = useRef(false);
     const syncingFnr = useRef(false);
 
