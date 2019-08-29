@@ -61,9 +61,10 @@ export const empty: UseFetchHook<any> = {
     refetch(): void {}
 };
 
+export const withCredentials: RequestInit = { credentials: 'include' };
 export default function useFetch<TYPE>(
     url: RequestInfo,
-    option?: RequestInit,
+    option: RequestInit = withCredentials,
     autorun: boolean = true,
     dependencyList?: DependencyList
 ): UseFetchHook<TYPE> {

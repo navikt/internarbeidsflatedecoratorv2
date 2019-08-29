@@ -3,7 +3,7 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import { Listeners } from '../utils/websocket-impl';
 import useFetch from './use-fetch';
 import { useWebsocket } from './use-webhook';
-import {AktivBruker, AktivEnhet, Contextholder, Saksbehandler} from '../domain';
+import { AktivBruker, AktivEnhet, Contextholder, Saksbehandler } from '../domain';
 import { Context } from '../application';
 import log from './../utils/logging';
 import { WrappedState } from './use-wrapped-state';
@@ -37,7 +37,8 @@ function useInitialEnhetSync(
                 const gyldigEnhet = aktivEnhetData
                     .map((e: AktivEnhet) => e.aktivEnhet!)
                     .filter(
-                        (e: string) => saksbehandler.enheter.findIndex((el) => el.enhetId === e) >= 0
+                        (e: string) =>
+                            saksbehandler.enheter.findIndex((el) => el.enhetId === e) >= 0
                     )
                     .withDefault(saksbehandler.enheter[0].enhetId);
                 log.debug('var ikke gyldig byttet til', gyldigEnhet);
@@ -145,7 +146,16 @@ function useInitialFnrSync(
                 }, aktivBrukerData);
             }
         }
-    }, [syncingFnr, contextholder, setFnrSynced, fnrSyncedValue, fnr, aktivBrukerData, aktivBrukerRefretch, onSok]);
+    }, [
+        syncingFnr,
+        contextholder,
+        setFnrSynced,
+        fnrSyncedValue,
+        fnr,
+        aktivBrukerData,
+        aktivBrukerRefretch,
+        onSok
+    ]);
 }
 
 function useKeepFnrInSync(
@@ -191,8 +201,8 @@ export function useContextholder(
     const setFnrSynced = fnrSynced.set;
     const fnrSyncedValue = fnrSynced.value;
     const onSok = context.onSok;
-    const aktivEnhet = useFetch<AktivEnhet>(AKTIV_ENHET_URL, { credentials: 'include' });
-    const aktivBruker = useFetch<AktivBruker>(AKTIV_BRUKER_URL, { credentials: 'include' });
+    const aktivEnhet = useFetch<AktivEnhet>(AKTIV_ENHET_URL);
+    const aktivBruker = useFetch<AktivBruker>(AKTIV_BRUKER_URL);
     const syncingEnhet = useRef(false);
     const syncingFnr = useRef(false);
 
