@@ -1,13 +1,15 @@
 import React from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import { randomCallId } from './url-utils';
+import {finnMiljoStreng, randomCallId} from './url-utils';
 import useFetch, { UseFetchHook } from '../hooks/use-fetch';
 import { AktorIdResponse } from '../domain';
 import { erGyldigFodselsnummer } from './fnr-utils';
 
+
+const aktorIdUrl = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;
 export function useAktorId(maybeFnr: MaybeCls<string>): UseFetchHook<AktorIdResponse> {
     const fnr = maybeFnr.withDefault('');
-    const aktorRequest: RequestInit = React.useMemo<RequestInit>(
+    const aktorIdRequest: RequestInit = React.useMemo<RequestInit>(
         () => ({
             credentials: 'include',
             headers: {
@@ -20,8 +22,8 @@ export function useAktorId(maybeFnr: MaybeCls<string>): UseFetchHook<AktorIdResp
     );
 
     return useFetch<AktorIdResponse>(
-        '/aktoerregister/api/v1/identer?identgruppe=AktoerId',
-        aktorRequest,
+        aktorIdUrl,
+        aktorIdRequest,
         erGyldigFodselsnummer(fnr)
     );
 }
