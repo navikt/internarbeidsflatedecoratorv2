@@ -1,6 +1,7 @@
 import FetchMock, { JSONObject, Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
 import { AktorIdResponse, Saksbehandler } from '../domain';
 import { setupWsControlAndMock } from './context-mock';
+import {finnMiljoStreng} from "../utils/url-utils";
 
 const loggingMiddleware: Middleware = (request, response) => {
     // tslint:disable
@@ -47,7 +48,7 @@ const me: Saksbehandler & JSONObject = {
 };
 
 mock.get('/modiacontextholder/api/decorator', me);
-mock.get('/aktoerregister/api/v1/identer', (args) => {
+mock.get(`https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer`, (args) => {
     const fnr = (args.init!.headers! as Record<string, string>)['Nav-Personidenter'];
     const data: AktorIdResponse = {
         [fnr]: {
