@@ -28,8 +28,8 @@ export interface Markup {
 
 export interface AktorIdResponse {
     [fnr: string]: {
-        feilmelding: string | null;
-        identer: Array<{
+        feilmelding: null | string;
+        identer: null | Array<{
             gjeldende: boolean;
             ident: string;
             identgruppe: string;

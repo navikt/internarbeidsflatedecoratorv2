@@ -70,8 +70,9 @@ function Lenker() {
     const enhet = context.enhet.withDefault('');
     const aktorId = context.aktorId.data
         .flatMap((resp) => MaybeCls.of(resp[fnr]))
-        .filter((resp) => resp.identer.some((ident) => ident.gjeldende))
-        .map((resp) => resp.identer.find((ident) => ident.gjeldende)!)
+        .flatMap((resp) => MaybeCls.of(resp.identer))
+        .filter((identer) => identer.some((ident) => ident.gjeldende))
+        .map((identer) => identer.find((ident) => ident.gjeldende)!)
         .map(({ ident }) => ident)
         .withDefault('');
 
