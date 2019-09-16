@@ -89,7 +89,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                     }),
                 },
                 {
-                    tittel: 'Arbeidstrening',
+                    tittel: 'Arbeidstrening (kun Agder)',
                     url: `${arbeidstreningDomain}tiltaksgjennomforing`,
                     target: '_blank',
                 },
