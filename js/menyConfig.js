@@ -30,7 +30,7 @@ function byggArbeidssokerregistreringsURL(fnr, enhet) {
 
 export const funksjonsomradeLenker = (fnr, enhet) => {
     // TODO Denne quickfixen erstattes av Unleash-integrasjon, se OPP-902
-    const lenkeTilTilretteleggern = enhet === '0213' ? [{
+    const lenkeTilTilretteleggern = enhet === '0213' || enhet === '0315' ? [{
         tittel: 'Tilrettelegger’n',
         url: `${arbeidstreningDomain}finn-kandidat/`,
     }] : [];
