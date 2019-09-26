@@ -6,8 +6,8 @@ import { AktorIdResponse } from '../domain';
 import { erGyldigFodselsnummer } from './fnr-utils';
 
 
-export const aktorIdUrl = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;
-export function useAktorId(maybeFnr: MaybeCls<string>): UseFetchHook<AktorIdResponse> {
+export const defaultAktorIdUrl = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;
+export function useAktorId(aktoridUrl: string, maybeFnr: MaybeCls<string>): UseFetchHook<AktorIdResponse> {
     const fnr = maybeFnr.withDefault('');
     const aktorIdRequest: RequestInit = React.useMemo<RequestInit>(
         () => ({
@@ -22,7 +22,7 @@ export function useAktorId(maybeFnr: MaybeCls<string>): UseFetchHook<AktorIdResp
     );
 
     return useFetch<AktorIdResponse>(
-        aktorIdUrl,
+        aktoridUrl,
         aktorIdRequest,
         erGyldigFodselsnummer(fnr)
     );

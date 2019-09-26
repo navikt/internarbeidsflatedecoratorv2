@@ -7,7 +7,7 @@ import useFetch, { empty as emptyFetchState, UseFetchHook } from './hooks/use-fe
 import {AktorIdResponse, Contextholder, Saksbehandler, Markup, Toggles} from './domain';
 import { EMDASH } from './utils/string-utils';
 import Feilmelding from './components/feilmelding';
-import { useAktorId } from './utils/use-aktorid';
+import {defaultAktorIdUrl, useAktorId} from './utils/use-aktorid';
 import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
 import { useContextholder } from './hooks/use-contextholder';
 import logging, { LogLevel } from './utils/logging';
@@ -28,6 +28,9 @@ export interface Props {
 
     onEnhetChange(enhet: string): void;
     contextholder?: true | Contextholder;
+    urler?: {
+        aktoerregister?: string;
+    }
 }
 
 export interface Context {
@@ -84,7 +87,11 @@ function Application(props: Props) {
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
     const saksbehandler = useFetch<Saksbehandler>(SAKSBEHANDLER_URL, { credentials: 'include'}, true, []);
-    const aktorId = useAktorId(maybeFnr);
+
+    const aktorIdUrl = MaybeCls.of(props.urler)
+        .flatMap((urler) => MaybeCls.of(urler.aktoerregister))
+        .getOrElse(defaultAktorIdUrl);
+    const aktorId = useAktorId(aktorIdUrl, maybeFnr);
 
     const contextholder = useMemo(() => {
         return MaybeCls.of(props.contextholder)
