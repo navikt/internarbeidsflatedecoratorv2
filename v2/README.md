@@ -54,6 +54,9 @@ interface DecoratorProps {
 
     onEnhetChange(enhet: string): void;     // Callback-funksjon for når man skal bytte enhet (blir kalt etter beksreftelse-modal, eller ved direkte endring i enhets-dropdown)
     contextholder?: true | Contextholder;   // Konfigurasjn av tilkobling til contextholder. true; use default. Om man sender inn objekt så kan man overstyre url og om enhet skal generere bekreftelsemodal. Om den ikke settes vil man ikke bruke contextholder.
+    urler?: {
+        aktoerregister?: string;            // Konfigurasjon av url til aktoerregisteret om man har behov for å sende via en proxy eller ligende. Default-verdien tar hensyn til miljø og kaller direkte mot app.adeo.no/aktoerregister
+    }
 }
 
 interface Toggles {
