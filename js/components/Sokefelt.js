@@ -77,7 +77,7 @@ class Sokefelt extends React.Component {
                     </label>
                     <input
                         id="js-deokorator-sokefelt"
-                        ref={inputRef => this.inputRef = inputRef}
+                        ref={(inputRef) => { this.inputRef = inputRef; }}
                         onChange={this.sokefeltEndret}
                         className={sokefeltKlasser}
                         placeholder="Personsøk"
