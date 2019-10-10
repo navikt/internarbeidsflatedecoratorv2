@@ -6,6 +6,7 @@ class Sokefelt extends React.Component {
 
     constructor(props) {
         super(props);
+        this.inputRef = null;
         this.state = {
             valideringsfeil: false,
             value: props.fnr,
@@ -76,6 +77,7 @@ class Sokefelt extends React.Component {
                     </label>
                     <input
                         id="js-deokorator-sokefelt"
+                        ref={inputRef => this.inputRef = inputRef}
                         onChange={this.sokefeltEndret}
                         className={sokefeltKlasser}
                         placeholder="Personsøk"
@@ -94,6 +96,11 @@ class Sokefelt extends React.Component {
                         type="reset"
                         value="reset"
                         className="dekorator__sokefelt__ikon dekorator__kryss--hvit"
+                        onClick={() => {
+                            if (this.inputRef) {
+                                this.inputRef.focus();
+                            }
+                        }}
                     /> }
                 </form>
             </section>
