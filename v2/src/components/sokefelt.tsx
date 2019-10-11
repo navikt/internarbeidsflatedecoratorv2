@@ -83,6 +83,11 @@ function Sokefelt() {
                         type="reset"
                         value="reset"
                         className="dekorator__sokefelt__ikon dekorator__kryss--hvit"
+                        onClick={() => {
+                            if (sokefeltRef.current) {
+                                sokefeltRef.current.focus();
+                            }
+                        }}
                     />
                 )}
             </form>
