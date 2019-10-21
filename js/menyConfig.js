@@ -54,7 +54,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                     tittel: 'Aktivitetsplan',
                     // Feil i eslint, fnr kan være undefined og da havner det i urlen, og det vil vi ikke
                     // eslint-disable-next-line no-unneeded-ternary
-                    url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}`,
+                    url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`,
                 },
                 {
                     tittel: 'Sykmeldt enkeltperson',

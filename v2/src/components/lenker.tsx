@@ -97,7 +97,7 @@ function Lenker() {
                             <Lenke href={appDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
                                 Min oversikt
                             </Lenke>
-                            <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}`)}>
+                            <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={appDomain(`/sykefravaer/${fnr ? fnr : ''}`)}>
