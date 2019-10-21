@@ -3,7 +3,7 @@ import { finnEnhetForVisning } from './Header';
 
 import { EMDASH } from '../utils/utils';
 
-const Enhet = ({ valgtEnhet, enheter }) => {
+const Enhet = ({ enheter }) => {
     let visningsTekst = '';
 
     if (enheter.henter) {
@@ -11,7 +11,7 @@ const Enhet = ({ valgtEnhet, enheter }) => {
     } else if (enheter.hentingFeilet) {
         visningsTekst = EMDASH;
     } else {
-        const enhet = finnEnhetForVisning(valgtEnhet, enheter.data);
+        const enhet = finnEnhetForVisning(enheter.data);
         visningsTekst = `${enhet.enhetId} ${enhet.navn}`;
     }
 
@@ -23,7 +23,6 @@ const Enhet = ({ valgtEnhet, enheter }) => {
 };
 
 Enhet.propTypes = {
-    valgtEnhet: PropTypes.string,
     enheter: PropTypes.arrayOf({
         henter: PropTypes.bool,
         hentingFeilet: PropTypes.bool,

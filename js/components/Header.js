@@ -14,22 +14,16 @@ import { connect } from 'react-redux';
 const finnValgtEnhet = (valgtEnhetId, enhetliste) =>
     enhetliste.find(enhet => valgtEnhetId === enhet.enhetId);
 
-export const finnEnhetForVisning = (valgtEnhet, data) => {
+export const finnEnhetForVisning = data => {
     if (!data || data.length === 0) {
         return '';
     }
 
-    const finnValgtEnhetIEnhetListe = finnValgtEnhet(valgtEnhet, data.enhetliste);
-
-    if (finnValgtEnhetIEnhetListe) {
-        return finnValgtEnhetIEnhetListe;
-    }
-
-    const enhetFraUrl = finnValgtEnhet(hentValgtEnhetIDFraURL(), data.enhetliste);
-    if (!enhetFraUrl) {
+    const valgtEnhet = finnValgtEnhet(hentValgtEnhetIDFraURL(), data.enhetliste);
+    if (!valgtEnhet) {
         return data.enhetliste[0];
     }
-    return enhetFraUrl;
+    return valgtEnhet;
 };
 
 export class Header extends React.Component {
@@ -132,7 +126,7 @@ export class Header extends React.Component {
                         <header className="dekorator__banner">
                             <Overskrift applicationName={applicationName} />
                             <div className="flex-center">
-                                {toggles.visEnhet && <Enhet valgtEnhet={valgtEnhet} enheter={enheter} />}
+                                {toggles.visEnhet && <Enhet enheter={enheter} />}
                                 {toggles.visEnhetVelger && <EnhetVelger
                                     toggleSendEventVedEnEnhet={toggles.toggleSendEventVedEnEnhet}
                                     enheter={enheter}
