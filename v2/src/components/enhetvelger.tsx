@@ -20,7 +20,7 @@ function EnhetVelger() {
         const enhet = enheter[0];
         return (
             <section className="dekorator-enhet">
-                <h1 className="typo-avsnitt">{`${enhet.enhetId} ${enhet.navn}`}</h1>
+                <h2 className="typo-avsnitt">{`${enhet.enhetId} ${enhet.navn}`}</h2>
             </section>
         );
     }

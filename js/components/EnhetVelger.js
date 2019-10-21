@@ -13,7 +13,7 @@ class HentEnhetListeInnerHTML extends Component {
         if (enhetliste.length === 1) {
             return (
                 <section className="dekorator-enhet">
-                    <h1 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h1>
+                    <h2 className="typo-avsnitt">{`${enhetliste[0].enhetId} ${enhetliste[0].navn}`}</h2>
                 </section>
             );
         }
