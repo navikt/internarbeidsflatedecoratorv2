@@ -8,7 +8,7 @@ function Lenke(props: { href: string; children: string }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" target="_blank" />
+            <a {...props} className="typo-normal dekorator__menylenke" target="_blank" rel=”noopener noreferrer” />
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
