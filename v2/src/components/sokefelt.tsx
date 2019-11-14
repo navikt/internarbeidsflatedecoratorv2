@@ -1,4 +1,4 @@
-import React, {RefObject, useCallback, useContext, useRef} from 'react';
+import React, {RefObject, useCallback, useContext, useLayoutEffect, useRef} from 'react';
 import { AppContext } from '../application';
 import useFieldState from '../hooks/use-field-state';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
@@ -24,13 +24,13 @@ function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
 
 function Sokefelt() {
     const context = useContext(AppContext);
+    const autoSubmit = context.autoSubmit;
     const fnr = context.fnr.withDefault('');
     const sokefelt = useFieldState(fnr);
     const sokefeltRef = useRef<HTMLInputElement>(null);
     const visSokeIkon = !fnr || fnr !== sokefelt.input.value;
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+    const eventlessOnSubmit = () => {
         const value = sokefelt.input.value.replace(/\s/g, '');
         const feilmelding = lagFnrFeilmelding(value);
         context.feilmelding.set(feilmelding);
@@ -38,6 +38,11 @@ function Sokefelt() {
         if (feilmelding.isNothing()) {
             context.onSok(value);
         }
+    };
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        eventlessOnSubmit()
     };
 
     const reset = useCallback(() => {
@@ -53,6 +58,11 @@ function Sokefelt() {
     };
 
     useHotkeys(useCallback(lagHotkeys, [sokefeltRef, reset])(sokefeltRef, reset));
+    useLayoutEffect(() => {
+        if (autoSubmit && fnr.length > 0) {
+            eventlessOnSubmit();
+        }
+    } ,[]);
 
     return (
         <section>
