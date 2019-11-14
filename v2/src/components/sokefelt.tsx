@@ -1,7 +1,7 @@
-import React, {RefObject, useCallback, useContext, useLayoutEffect, useRef} from 'react';
-import { AppContext } from '../application';
+import React, {EffectCallback, RefObject, useCallback, useContext, useEffect, useRef} from 'react';
+import {AppContext} from '../application';
 import useFieldState from '../hooks/use-field-state';
-import { lagFnrFeilmelding } from '../utils/fnr-utils';
+import {lagFnrFeilmelding} from '../utils/fnr-utils';
 import useHotkeys, {erAltOg} from "../hooks/use-hotkeys";
 import {nullstillAktivBruker} from "../context-api";
 
@@ -20,6 +20,10 @@ function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
             execute: reset
         }
     ];
+}
+
+function useOnMount(effect: EffectCallback) {
+    useEffect(effect, []);
 }
 
 function Sokefelt() {
@@ -58,11 +62,11 @@ function Sokefelt() {
     };
 
     useHotkeys(useCallback(lagHotkeys, [sokefeltRef, reset])(sokefeltRef, reset));
-    useLayoutEffect(() => {
+    useOnMount(() => {
         if (autoSubmit && fnr.length > 0) {
             eventlessOnSubmit();
         }
-    } ,[]);
+    });
 
     return (
         <section>
