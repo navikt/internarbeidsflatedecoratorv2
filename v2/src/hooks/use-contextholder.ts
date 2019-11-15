@@ -9,10 +9,11 @@ import log from './../utils/logging';
 import { WrappedState } from './use-wrapped-state';
 import {
     AKTIV_BRUKER_URL,
-    AKTIV_ENHET_URL,
+    AKTIV_ENHET_URL, nullstillAktivBruker,
     oppdaterAktivBruker,
     oppdaterAktivEnhet
 } from '../context-api';
+import {lagFnrFeilmelding} from "../utils/fnr-utils";
 
 function useInitialEnhetSync(
     syncingEnhet: MutableRefObject<boolean>,
@@ -136,12 +137,16 @@ function useInitialFnrSync(
                 fnr.map2((fnr, { aktivBruker }) => {
                     if (!syncingFnr.current && fnr !== aktivBruker) {
                         syncingFnr.current = true;
-                        oppdaterAktivBruker(fnr)
-                            .then(() => setFnrSynced(true))
-                            .then(aktivBrukerRefretch)
-                            .then(() => {
-                                syncingFnr.current = false;
-                            });
+                        if (lagFnrFeilmelding(fnr).isNothing()) {
+                            oppdaterAktivBruker(fnr)
+                                .then(() => setFnrSynced(true))
+                                .then(aktivBrukerRefretch)
+                                .then(() => {
+                                    syncingFnr.current = false;
+                                });
+                        } else {
+                            nullstillAktivBruker()
+                        }
                     }
                 }, aktivBrukerData);
             }
