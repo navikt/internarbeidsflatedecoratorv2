@@ -28,7 +28,7 @@ function useOnMount(effect: EffectCallback) {
 
 function Sokefelt() {
     const context = useContext(AppContext);
-    const autoSubmit = context.autoSubmit;
+    const autoSubmitOnMount = context.autoSubmitOnMount;
     const fnr = context.fnr.withDefault('');
     const sokefelt = useFieldState(fnr);
     const sokefeltRef = useRef<HTMLInputElement>(null);
@@ -63,7 +63,7 @@ function Sokefelt() {
 
     useHotkeys(useCallback(lagHotkeys, [sokefeltRef, reset])(sokefeltRef, reset));
     useOnMount(() => {
-        if (autoSubmit && fnr.length > 0) {
+        if (autoSubmitOnMount && fnr.length > 0) {
             eventlessOnSubmit();
         }
     });
