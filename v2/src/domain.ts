@@ -3,7 +3,7 @@ export interface Saksbehandler {
     readonly fornavn: string;
     readonly etternavn: string;
     readonly navn: string;
-    readonly enheter: Array<Enhet>;
+    readonly enheter?: Array<Enhet>;
 }
 
 export interface Enhet {

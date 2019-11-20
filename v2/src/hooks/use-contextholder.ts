@@ -9,11 +9,12 @@ import log from './../utils/logging';
 import { WrappedState } from './use-wrapped-state';
 import {
     AKTIV_BRUKER_URL,
-    AKTIV_ENHET_URL, nullstillAktivBruker,
+    AKTIV_ENHET_URL,
+    nullstillAktivBruker,
     oppdaterAktivBruker,
     oppdaterAktivEnhet
 } from '../context-api';
-import {lagFnrFeilmelding} from "../utils/fnr-utils";
+import { lagFnrFeilmelding } from '../utils/fnr-utils';
 
 function useInitialEnhetSync(
     syncingEnhet: MutableRefObject<boolean>,
@@ -32,16 +33,18 @@ function useInitialEnhetSync(
         }
         log.debug('running enhet sync');
         saksbehandler.map2((saksbehandler: Saksbehandler, enhet: string) => {
-            const erGyldigEnhet = saksbehandler.enheter.findIndex((e) => e.enhetId === enhet) >= 0;
+            const enheter = saksbehandler.enheter;
+            if (!enheter) {
+                log.error('Kunne ikke hente ut enheter');
+                return;
+            }
+            const erGyldigEnhet = enheter.findIndex((e) => e.enhetId === enhet) >= 0;
             if (!erGyldigEnhet && !syncingEnhet.current) {
                 syncingEnhet.current = true;
                 const gyldigEnhet = aktivEnhetData
                     .map((e: AktivEnhet) => e.aktivEnhet!)
-                    .filter(
-                        (e: string) =>
-                            saksbehandler.enheter.findIndex((el) => el.enhetId === e) >= 0
-                    )
-                    .withDefault(saksbehandler.enheter[0].enhetId);
+                    .filter((e: string) => enheter.findIndex((el) => el.enhetId === e) >= 0)
+                    .withDefault(enheter[0].enhetId);
                 log.debug('var ikke gyldig byttet til', gyldigEnhet);
 
                 if (contextholder.isNothing()) {
@@ -89,7 +92,12 @@ function useKeepEnhetInSync(
             return;
         }
         saksbehandler.map2((saksbehandler: Saksbehandler, enhet: string) => {
-            const erGyldigEnhet = saksbehandler.enheter.findIndex((e) => e.enhetId === enhet) >= 0;
+            const enheter = saksbehandler.enheter;
+            if (!enheter) {
+                log.error('Kunne ikke hente ut enheter');
+                return;
+            }
+            const erGyldigEnhet = enheter.findIndex((e) => e.enhetId === enhet) >= 0;
             const erISync =
                 aktivEnhetData.isNothing() ||
                 aktivEnhetData.filter((aktiv) => aktiv.aktivEnhet === enhet).isJust();
@@ -145,7 +153,7 @@ function useInitialFnrSync(
                                     syncingFnr.current = false;
                                 });
                         } else {
-                            nullstillAktivBruker()
+                            nullstillAktivBruker();
                         }
                     }
                 }, aktivBrukerData);
