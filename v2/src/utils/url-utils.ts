@@ -41,12 +41,13 @@ export function finnMiljoStreng() {
     return miljo === 'local' ? '-q0' : `-${miljo}`;
 }
 
-export function finnNaisMiljoStreng() {
+export function finnNaisMiljoStreng(envNamespace: boolean = false) {
     const miljo = hentMiljoFraUrl();
+    const prefix = envNamespace && miljo !== 'p' ? (`-${miljo}`) : '';
     if (miljo === 'p') {
-        return 'nais.adeo.no/';
+        return `${prefix}.nais.adeo.no`;
     }
-    return 'nais.preprod.local/';
+    return `${prefix}.nais.preprod.local`;
 }
 
 export function randomCallId() {
