@@ -14,7 +14,7 @@ describe("Meny", () => {
 
         expect(meny.find('.dekorator__kolonner')).to.have.length(1);
         expect(meny.find('.dekorator__rad')).to.have.length(1);
-        expect(meny.find('section')).to.have.length(3);
+        expect(meny.find('section')).to.have.length(4);
     });
 
 });

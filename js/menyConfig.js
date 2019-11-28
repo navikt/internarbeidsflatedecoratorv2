@@ -4,7 +4,6 @@ import { post } from './sagas/api';
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
-const tjenesterDomain = `https://tjenester${finnMiljoStreng()}.nav.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
 const frontendLoggerApiEvent = '/frontendlogger/api/event';
 const arbeidstreningDomain = `https://arbeidsgiver.nais.${finnNaisMiljoStreng()}`;
@@ -36,67 +35,6 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
     }] : [];
     return [
         {
-            tittel: 'Oppfølging',
-            lenker: [
-                {
-                    tittel: 'Arbeidsmarkedet',
-                    url: `${tjenesterDomain}/mia/`,
-                },
-                {
-                    tittel: 'Enhetens oversikt',
-                    url: `${appDomain}/veilarbportefoljeflatefs/enhet?enhet=${enhet}&clean`,
-                },
-                {
-                    tittel: 'Min oversikt',
-                    url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
-                },
-                {
-                    tittel: 'Aktivitetsplan',
-                    // Feil i eslint, fnr kan være undefined og da havner det i urlen, og det vil vi ikke
-                    // eslint-disable-next-line no-unneeded-ternary
-                    url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`,
-                },
-                {
-                    tittel: 'Sykmeldt enkeltperson',
-                    // eslint-disable-next-line no-unneeded-ternary
-                    url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
-                },
-                {
-                    tittel: 'Sykefraværsoppgaver',
-                    url: `${appDomain}/sykefravaersoppfoelging/`,
-                },
-                {
-                    tittel: 'Dialogmøter',
-                    url: `${appDomain}/moteoversikt/`,
-                },
-                {
-                    tittel: 'Finn fastlege',
-                    url: `https://finnfastlege${naisDomain}fastlege/`,
-                },
-                {
-                    tittel: 'Registrer arbeidssøker',
-                    // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
-                    url: window.location.hostname.indexOf('-q') === -1 ?
-                        byggArbeidssokerregistreringsURL(fnr, enhet) :
-                        `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}`,
-                    onClick: () => post(`${frontendLoggerApiEvent}`, {
-                        url: window.location.href,
-                        userAgent: window.navigator.userAgent,
-                        appName: 'internarbeidsflatedecorator',
-                        name: 'internarbeidsflatedecorator.metrikker.registrering',
-                        fields: {},
-                        tags: {},
-                    }),
-                },
-                {
-                    tittel: 'Arbeidstrening (kun Agder)',
-                    url: `${arbeidstreningDomain}tiltaksgjennomforing`,
-                    target: '_blank',
-                },
-                ...lenkeTilTilretteleggern,
-            ],
-        },
-        {
             tittel: 'Personoversikt',
             lenker: [
                 {
@@ -126,6 +64,68 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                 {
                     tittel: 'Brukerprofil',
                     url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!brukerprofil` : ''}`,
+                },
+            ],
+        },
+        {
+            tittel: 'Oppfølging',
+            lenker: [
+                {
+                    tittel: 'Enhetens oversikt',
+                    url: `${appDomain}/veilarbportefoljeflatefs/enhet?enhet=${enhet}&clean`,
+                },
+                {
+                    tittel: 'Min oversikt',
+                    url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
+                },
+                {
+                    tittel: 'Aktivitetsplan',
+                    // Feil i eslint, fnr kan være undefined og da havner det i urlen, og det vil vi ikke
+                    // eslint-disable-next-line no-unneeded-ternary
+                    url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`,
+                },
+                {
+                    tittel: 'Registrer arbeidssøker',
+                    // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
+                    url: window.location.hostname.indexOf('-q') === -1 ?
+                        byggArbeidssokerregistreringsURL(fnr, enhet) :
+                        `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}`,
+                    onClick: () => post(`${frontendLoggerApiEvent}`, {
+                        url: window.location.href,
+                        userAgent: window.navigator.userAgent,
+                        appName: 'internarbeidsflatedecorator',
+                        name: 'internarbeidsflatedecorator.metrikker.registrering',
+                        fields: {},
+                        tags: {},
+                    }),
+                },
+                {
+                    tittel: 'Arbeidstrening (kun Agder)',
+                    url: `${arbeidstreningDomain}tiltaksgjennomforing`,
+                    target: '_blank',
+                },
+                ...lenkeTilTilretteleggern,
+            ],
+        },
+        {
+            tittel: 'Sykefraværsoppfolging',
+            lenker: [
+                {
+                    tittel: 'Sykmeldt enkeltperson',
+                    // eslint-disable-next-line no-unneeded-ternary
+                    url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
+                },
+                {
+                    tittel: 'Sykefraværsoppgaver',
+                    url: `${appDomain}/sykefravaersoppfoelging/`,
+                },
+                {
+                    tittel: 'Dialogmøter',
+                    url: `${appDomain}/moteoversikt/`,
+                },
+                {
+                    tittel: 'Finn fastlege',
+                    url: `https://finnfastlege${naisDomain}fastlege/`,
                 },
             ],
         },
