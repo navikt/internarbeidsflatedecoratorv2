@@ -107,7 +107,7 @@ function Lenker() {
                                 Sykefraværsoppgaver
                             </Lenke>
                             <Lenke href={appDomain(`/moteoversikt/`)}>Dialogmøter</Lenke>
-                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
+                            <Lenke href={`https://finnfastlege${naisDomain}fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={byggArbeidssokerregistreringsURL(fnr, enhet)}>
                                 Registrer arbeidssøker
                             </Lenke>
