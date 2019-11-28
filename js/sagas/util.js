@@ -13,7 +13,7 @@ export const finnMiljoStreng = () => {
 
 export const finnNaisMiljoStreng = () => {
     const host = window.location.host;
-    const isProd = !host.includes('-');
+    const isProd = !host.includes('-') || host.includes('.nais.adeo.no');
     if (isProd) {
         return NAIS_PROD_SUFFIX;
     }
