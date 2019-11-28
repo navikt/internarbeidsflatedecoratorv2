@@ -154,7 +154,7 @@ function Lenker() {
                                 Sykefraværsoppgaver
                             </Lenke>
                             <Lenke href={appDomain(`/moteoversikt/`)}>Dialogmøter</Lenke>
-                            <Lenke href={appDomain(`/fastlege/`)}>Finn fastlege</Lenke>
+                            <Lenke href={`https://finnfastlege${naisDomain}fastlege/`}>Finn fastlege</Lenke>
                         </ul>
                     </section>
                 </div>

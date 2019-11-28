@@ -125,7 +125,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                 },
                 {
                     tittel: 'Finn fastlege',
-                    url: `${appDomain}/fastlege/`,
+                    url: `https://finnfastlege${naisDomain}fastlege/`,
                 },
             ],
         },
