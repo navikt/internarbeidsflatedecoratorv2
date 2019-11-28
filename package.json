@@ -45,7 +45,7 @@
     "css-loader": "0.26.2",
     "deep-freeze": "0.0.1",
     "enzyme": "2.3.0",
-    "eslint": "2.5.3",
+    "eslint": "4.18.2",
     "eslint-config-airbnb": "6.2.0",
     "eslint-plugin-react": "4.2.3",
     "fetch-mock": "5.5.0",
