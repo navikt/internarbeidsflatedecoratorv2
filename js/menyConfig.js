@@ -71,7 +71,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
                 },
                 {
                     tittel: 'Finn fastlege',
-                    url: `finnfastlege${naisDomain}/fastlege/`,
+                    url: `https://finnfastlege${naisDomain}/fastlege/`,
                 },
                 {
                     tittel: 'Registrer arbeidssøker',
