@@ -45,6 +45,10 @@ class WebSocketImpl {
         this.state = Status.INIT;
         this.retryCounter = 0;
 
+        this.print = this.print.bind(this);
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+
         this.open();
     }
 
