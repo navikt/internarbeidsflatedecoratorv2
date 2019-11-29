@@ -68,7 +68,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
             ],
         },
         {
-            tittel: 'Oppfølging',
+            tittel: 'Arbeidsrettet oppfølging',
             lenker: [
                 {
                     tittel: 'Enhetens oversikt',
@@ -108,7 +108,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => {
             ],
         },
         {
-            tittel: 'Sykefraværsoppfolging',
+            tittel: 'Sykefraværsoppfølging',
             lenker: [
                 {
                     tittel: 'Sykmeldt enkeltperson',

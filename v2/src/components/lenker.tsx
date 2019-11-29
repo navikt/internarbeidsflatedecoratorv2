@@ -124,7 +124,7 @@ function Lenker() {
                         </ul>
                     </section>
                     <section className="dekorator__kolonne">
-                        <h2 className="dekorator__lenkeheader">Oppfølging</h2>
+                        <h2 className="dekorator__lenkeheader">Arbeidsrettet oppfølging</h2>
                         <ul className="dekorator__menyliste">
                             <Lenke href={appDomain(`/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`)}>
                                 Enhetens oversikt
@@ -145,7 +145,7 @@ function Lenker() {
                         </ul>
                     </section>
                     <section className="dekorator__kolonne">
-                        <h2 className="dekorator__lenkeheader">Sykefraværsoppfolging</h2>
+                        <h2 className="dekorator__lenkeheader">Sykefraværsoppfølging</h2>
                         <ul className="dekorator__menyliste">
                             <Lenke href={appDomain(`/sykefravaer/${fnr ? fnr : ''}`)}>
                                 Sykmeldt enkeltperson
