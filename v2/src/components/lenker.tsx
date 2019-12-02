@@ -139,7 +139,7 @@ function Lenker() {
                                 Registrer arbeidssøker
                             </Lenke>
                             <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
-                                Arbeidstrening (kun Agder)
+                                Arbeidstrening
                             </Lenke>
                             {tilretteLeggern}
                         </ul>
