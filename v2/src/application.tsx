@@ -1,19 +1,19 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
 import { emptyWrappedState, useWrappedState, WrappedState } from './hooks/use-wrapped-state';
 import useFetch, { empty as emptyFetchState, UseFetchHook } from './hooks/use-fetch';
-import {AktorIdResponse, Contextholder, Saksbehandler, Markup, Toggles} from './domain';
+import { AktorIdResponse, Contextholder, Saksbehandler, Markup, Toggles } from './domain';
 import { EMDASH } from './utils/string-utils';
 import Feilmelding from './components/feilmelding';
-import {defaultAktorIdUrl, useAktorId} from './utils/use-aktorid';
+import { defaultAktorIdUrl, useAktorId } from './utils/use-aktorid';
 import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
 import { useContextholder } from './hooks/use-contextholder';
 import logging, { LogLevel } from './utils/logging';
 import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
-import {getWebSocketUrl, SAKSBEHANDLER_URL} from "./context-api";
-import useOnClickOutside from "./hooks/use-on-click-outside";
+import { getWebSocketUrl, SAKSBEHANDLER_URL } from './context-api';
+import useOnClickOutside from './hooks/use-on-click-outside';
 
 logging.level = LogLevel.INFO;
 
@@ -28,10 +28,9 @@ export interface Props {
 
     onEnhetChange(enhet: string): void;
     contextholder?: true | Contextholder;
-    autoSubmitOnMount?: boolean;
     urler?: {
         aktoerregister?: string;
-    }
+    };
 }
 
 export interface Context {
@@ -50,7 +49,6 @@ export interface Context {
     feilmelding: WrappedState<MaybeCls<string>>;
     apen: WrappedState<boolean>;
     contextholder: MaybeCls<Contextholder>;
-    autoSubmitOnMount: boolean;
 }
 
 export const AppContext = React.createContext<Context>({
@@ -70,12 +68,11 @@ export const AppContext = React.createContext<Context>({
     aktorId: emptyFetchState,
     feilmelding: emptyWrappedState(MaybeCls.nothing()),
     apen: emptyWrappedState(false),
-    contextholder: MaybeCls.nothing(),
-    autoSubmitOnMount: false
+    contextholder: MaybeCls.nothing()
 });
 
 function Application(props: Props) {
-    const { fnr, enhet, markup, autoSubmitOnMount, ...rest } = props;
+    const { fnr, enhet, markup, ...rest } = props;
 
     const maybeFnr = useMemo(() => MaybeCls.of(fnr).filter((fnr) => fnr.length > 0), [fnr]);
     const maybeEnhet = useMemo(() => MaybeCls.of(enhet).filter((fnr) => fnr.length > 0), [enhet]);
@@ -89,7 +86,12 @@ function Application(props: Props) {
 
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
-    const saksbehandler = useFetch<Saksbehandler>(SAKSBEHANDLER_URL, { credentials: 'include'}, true, []);
+    const saksbehandler = useFetch<Saksbehandler>(
+        SAKSBEHANDLER_URL,
+        { credentials: 'include' },
+        true,
+        []
+    );
 
     const aktorIdUrl = MaybeCls.of(props.urler)
         .flatMap((urler) => MaybeCls.of(urler.aktoerregister))
@@ -97,8 +99,10 @@ function Application(props: Props) {
     const aktorId = useAktorId(aktorIdUrl, maybeFnr);
 
     const contextholder = useMemo(() => {
-        return MaybeCls.of(props.contextholder)
-            .map((config) => ({ url: getWebSocketUrl(saksbehandler), ...(config === true ? {} : config) }));
+        return MaybeCls.of(props.contextholder).map((config) => ({
+            url: getWebSocketUrl(saksbehandler),
+            ...(config === true ? {} : config)
+        }));
     }, [props.contextholder, saksbehandler]);
 
     const context = {
@@ -110,8 +114,7 @@ function Application(props: Props) {
         feilmelding,
         apen,
         markupEttersokefelt,
-        contextholder,
-        autoSubmitOnMount: autoSubmitOnMount || false
+        contextholder
     };
 
     const ref = useRef(null);
