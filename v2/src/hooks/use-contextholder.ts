@@ -9,11 +9,12 @@ import log from './../utils/logging';
 import { WrappedState } from './use-wrapped-state';
 import {
     AKTIV_BRUKER_URL,
-    AKTIV_ENHET_URL, nullstillAktivBruker,
+    AKTIV_ENHET_URL,
+    nullstillAktivBruker,
     oppdaterAktivBruker,
     oppdaterAktivEnhet
 } from '../context-api';
-import {lagFnrFeilmelding} from "../utils/fnr-utils";
+import { lagFnrFeilmelding } from '../utils/fnr-utils';
 
 function useInitialEnhetSync(
     syncingEnhet: MutableRefObject<boolean>,
@@ -60,6 +61,9 @@ function useInitialEnhetSync(
                 } else {
                     syncingEnhet.current = false;
                 }
+            }
+            if (erGyldigEnhet) {
+                onEnhetChange(enhet);
             }
         }, enhet);
     }, [
@@ -145,7 +149,7 @@ function useInitialFnrSync(
                                     syncingFnr.current = false;
                                 });
                         } else {
-                            nullstillAktivBruker()
+                            nullstillAktivBruker();
                         }
                     }
                 }, aktivBrukerData);
