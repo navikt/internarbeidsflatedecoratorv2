@@ -1,6 +1,8 @@
 import { AktivBruker, AktivEnhet, Saksbehandler } from './domain';
 import { erLocalhost, finnMiljoStreng } from './utils/url-utils';
 import { UseFetchHook } from './hooks/use-fetch';
+import {FetchResponse} from "./redux/api";
+import {MaybeCls} from "@nutgaard/maybe-ts";
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -71,11 +73,11 @@ export async function hentAktivEnhet(): Promise<AktivEnhet> {
     return await getJson<AktivEnhet>(AKTIV_ENHET_URL);
 }
 
-export function getWebSocketUrl(saksbehandler: UseFetchHook<Saksbehandler>) {
+export function getWebSocketUrl(saksbehandler: FetchResponse<Saksbehandler>) {
     if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
     }
-    return saksbehandler.data
+    return MaybeCls.of(saksbehandler.data)
         .map((saksbehandler) => saksbehandler.ident)
         .map(
             (ident) =>

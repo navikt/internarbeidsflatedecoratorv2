@@ -112,10 +112,12 @@ export function setupWsControlAndMock(mock: FetchMock) {
 
         mock.delete('/modiacontextholder/api/context/aktivenhet', () => {
             context.aktivEnhet = null;
+            ws.send(controlSignal('NY_AKTIV_ENHET'));
             return {};
         });
         mock.delete('/modiacontextholder/api/context/aktivbruker', () => {
             context.aktivBruker = null;
+            ws.send(controlSignal('NY_AKTIV_BRUKER'));
             return {};
         });
     }
