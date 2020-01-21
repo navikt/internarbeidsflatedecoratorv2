@@ -62,9 +62,6 @@ function useInitialEnhetSync(
                     syncingEnhet.current = false;
                 }
             }
-            if (erGyldigEnhet) {
-                onEnhetChange(enhet);
-            }
         }, enhet);
     }, [
         syncingEnhet,
