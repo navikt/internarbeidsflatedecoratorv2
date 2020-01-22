@@ -9,10 +9,10 @@ function Veileder() {
 
     return (
         <section className="dekorator__hode__veileder_container">
-            <h2 className="typo-avsnitt dekorator__hode__veileder_header">
+            <p className="typo-avsnitt dekorator__hode__veileder_header">
                 <span className="dekorator__hode__veileder_id">{ident}</span>
                 <span className="dekorator__hode__veileder_navn">{navn}</span>
-            </h2>
+            </p>
         </section>
     );
 }
