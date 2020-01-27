@@ -108,9 +108,10 @@ jobs:
           RESOURCE: .nais/prod.yaml
 
   deploy-gh-pages:
-    name: Deploy til gh-pags
+    name: Deploy til gh-pages
     needs: build-and-push
-    if: github.ref == 'refs/heads/master'
+    # TODO bytt til master etter at dev-test er gjort
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

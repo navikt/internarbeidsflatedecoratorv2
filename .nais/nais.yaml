@@ -15,11 +15,9 @@ spec:
   - https://app.adeo.no/internarbeidsflatedecorator
   liveness:
     path: isAlive
-    port: 80
     initialDelay: 10
   readiness:
     path: isReady
-    port: 80
     initialDelay: 10
   replicas:
     min: 2
@@ -29,4 +27,4 @@ spec:
     - name: CONTEXT_PATH
       value: "internarbeidsflatedecorator"
     - name: AKTOERREGISTER_API_V1_URL
-      value: https://app.adeo.no/aktoerregister/api/v1
+      value: "https://app.adeo.no/aktoerregister/api/v1"

@@ -15,11 +15,9 @@ spec:
   - https://modapp-{{ namespace }}.adeo.no/internarbeidsflatedecorator
   liveness:
     path: isAlive
-    port: 80
     initialDelay: 10
   readiness:
     path: isReady
-    port: 80
     initialDelay: 10
   replicas:
     min: 2
