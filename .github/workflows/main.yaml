@@ -62,11 +62,6 @@ jobs:
 #          Den dagen vi lager tester for V2
 #          cd v2
 #          npm run test
-      - name: Build
-        run: |
-          npm run build
-          cd v2
-          npm run build
       - name: Publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -110,8 +105,7 @@ jobs:
   deploy-gh-pages:
     name: Deploy til gh-pages
     needs: build-and-push
-    # TODO bytt til master etter at dev-test er gjort
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
