@@ -1,0 +1,30 @@
+---
+kind: Application
+apiVersion: nais.io/v1alpha1
+metadata:
+  name: internarbeidsflatedecorator
+  namespace: default
+  labels:
+    team: personoversikt
+spec:
+  image: "{{ image }}"
+  port: 80
+  ingresses:
+  - https://internarbeidsflatedecorator.nais.adeo.no
+  - https://modapp.adeo.no/internarbeidsflatedecorator
+  - https://app.adeo.no/internarbeidsflatedecorator
+  liveness:
+    path: isAlive
+    initialDelay: 10
+  readiness:
+    path: isReady
+    initialDelay: 10
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  env:
+    - name: CONTEXT_PATH
+      value: "internarbeidsflatedecorator"
+    - name: AKTOERREGISTER_API_V1_URL
+      value: "https://app.adeo.no/aktoerregister/api/v1"
