@@ -25,6 +25,7 @@ function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
 
 function Sokefelt() {
     const context = useContext(AppContext);
+    const autoSubmitOnMount = context.autoSubmitOnMount;
     const fnr = context.fnr.withDefault('');
     const sokefelt = useFieldState(fnr);
     const sokefeltRef = useRef<HTMLInputElement>(null);
@@ -59,7 +60,7 @@ function Sokefelt() {
 
     useHotkeys(useCallback(lagHotkeys, [sokefeltRef, reset])(sokefeltRef, reset));
     useOnMount(() => {
-        if (fnr.length > 0) {
+        if (autoSubmitOnMount && fnr.length > 0) {
             eventlessOnSubmit();
         }
     });

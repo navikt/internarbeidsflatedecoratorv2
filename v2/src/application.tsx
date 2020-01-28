@@ -28,6 +28,7 @@ export interface Props {
 
     onEnhetChange(enhet: string): void;
     contextholder?: true | Contextholder;
+    autoSubmitOnMount?: boolean;
     urler?: {
         aktoerregister?: string;
     };
@@ -49,6 +50,7 @@ export interface Context {
     feilmelding: WrappedState<MaybeCls<string>>;
     apen: WrappedState<boolean>;
     contextholder: MaybeCls<Contextholder>;
+    autoSubmitOnMount: boolean;
 }
 
 export const AppContext = React.createContext<Context>({
@@ -68,11 +70,12 @@ export const AppContext = React.createContext<Context>({
     aktorId: emptyFetchState,
     feilmelding: emptyWrappedState(MaybeCls.nothing()),
     apen: emptyWrappedState(false),
-    contextholder: MaybeCls.nothing()
+    contextholder: MaybeCls.nothing(),
+    autoSubmitOnMount: false
 });
 
 function Application(props: Props) {
-    const { fnr, enhet, markup, ...rest } = props;
+    const { fnr, enhet, markup, autoSubmitOnMount: autoSubmitOnMount, ...rest } = props;
 
     const maybeFnr = useMemo(() => MaybeCls.of(fnr).filter((fnr) => fnr.length > 0), [fnr]);
     const maybeEnhet = useMemo(() => MaybeCls.of(enhet).filter((fnr) => fnr.length > 0), [enhet]);
@@ -114,7 +117,8 @@ function Application(props: Props) {
         feilmelding,
         apen,
         markupEttersokefelt,
-        contextholder
+        contextholder,
+        autoSubmitOnMount: autoSubmitOnMount || false
     };
 
     const ref = useRef(null);
