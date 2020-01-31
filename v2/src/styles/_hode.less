@@ -37,7 +37,7 @@ p.typo-avsnitt {
     border: 0;
     svg {
         height: 30px;
-        width: 108px;
+        width: 75px;
         border-right: 1px solid @navGra40;
     }
     &:focus {
@@ -93,7 +93,6 @@ p.typo-avsnitt {
 }
 
 .dekorator__hode__toggleMeny_wrapper {
-    flex-grow: 1;
     display: flex;
     justify-content: flex-end;
 }
@@ -116,7 +115,6 @@ p.typo-avsnitt {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-grow: 1;
 }
 
 .dekorator__banner {
@@ -126,11 +124,14 @@ p.typo-avsnitt {
     justify-content: space-between;
 }
 
+.dekorator__banner > * {
+    flex-grow: 1;
+}
+
 .dekorator__sokefelt {
     position: relative;
 }
 .dekorator__tittel {
-    width: 100%;
     min-width: 7.75em;
     max-width: 16em;
 }
@@ -285,7 +286,6 @@ p.typo-avsnitt {
         background-color: #1d1d1d;
         border-radius: 1px;
         margin-right: 3px;
-        margin-left: 2em;
         margin-top: 1px;
         padding: 8px 2rem 7px 10px;
         width: 210px;
