@@ -85,15 +85,6 @@ function Lenker() {
         return null;
     }
 
-    const tilretteLeggern = context.enhet
-        .filter((enhetId) => ['0213', '0315'].includes(enhetId))
-        .map(() => (
-            <Lenke href={`${arbeidstreningDomain}/finn-kandidat/`}>
-                Tilrettelegger’n
-            </Lenke>
-        ))
-        .getOrElse(null);
-
     return (
         <div className="dekorator__nav dekorator__nav--apen">
             <div className="dekorator__container dekorator__meny">
@@ -142,7 +133,6 @@ function Lenker() {
                             <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
                                 Arbeidstrening
                             </Lenke>
-                            {tilretteLeggern}
                         </ul>
                     </section>
                     <section className="dekorator__kolonne">
