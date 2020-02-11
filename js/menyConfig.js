@@ -27,104 +27,102 @@ function byggArbeidssokerregistreringsURL(fnr, enhet) {
     return `https://arbeidssokerregistrering-fss${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 }
 
-export const funksjonsomradeLenker = (fnr, enhet) => {
-    return [
-        {
-            tittel: 'Personoversikt',
-            lenker: [
-                {
-                    tittel: 'Oversikt',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
-                },
-                {
-                    tittel: 'Saksoversikt',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!saksoversikt` : ''}`,
-                },
-                {
-                    tittel: 'Meldinger',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!meldinger` : ''}`,
-                },
-                {
-                    tittel: 'Varslinger',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!varsling` : ''}`,
-                },
-                {
-                    tittel: 'Utbetalinger',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!utbetalinger` : ''}`,
-                },
-                {
-                    tittel: 'Oppfølging',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!kontrakter` : ''}`,
-                },
-                {
-                    tittel: 'Brukerprofil',
-                    url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!brukerprofil` : ''}`,
-                },
-            ],
-        },
-        {
-            tittel: 'Arbeidsrettet oppfølging',
-            lenker: [
-                {
-                    tittel: 'Enhetens oversikt',
-                    url: `${appDomain}/veilarbportefoljeflatefs/enhet?enhet=${enhet}&clean`,
-                },
-                {
-                    tittel: 'Min oversikt',
-                    url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
-                },
-                {
-                    tittel: 'Aktivitetsplan',
-                    // Feil i eslint, fnr kan være undefined og da havner det i urlen, og det vil vi ikke
-                    // eslint-disable-next-line no-unneeded-ternary
-                    url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`,
-                },
-                {
-                    tittel: 'Registrer arbeidssøker',
-                    // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
-                    url: window.location.hostname.indexOf('-q') === -1 ?
-                        byggArbeidssokerregistreringsURL(fnr, enhet) :
-                        `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}`,
-                    onClick: () => post(`${frontendLoggerApiEvent}`, {
-                        url: window.location.href,
-                        userAgent: window.navigator.userAgent,
-                        appName: 'internarbeidsflatedecorator',
-                        name: 'internarbeidsflatedecorator.metrikker.registrering',
-                        fields: {},
-                        tags: {},
-                    }),
-                },
-                {
-                    tittel: 'Arbeidstrening',
-                    url: `${arbeidstreningDomain}tiltaksgjennomforing`,
-                    target: '_blank',
-                },
-            ],
-        },
-        {
-            tittel: 'Sykefraværsoppfølging',
-            lenker: [
-                {
-                    tittel: 'Sykmeldt enkeltperson',
-                    // eslint-disable-next-line no-unneeded-ternary
-                    url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
-                },
-                {
-                    tittel: 'Sykefraværsoppgaver',
-                    url: `${appDomain}/sykefravaersoppfoelging/`,
-                },
-                {
-                    tittel: 'Dialogmøter',
-                    url: `https://syfomoteoversikt${naisDomain}`,
-                },
-                {
-                    tittel: 'Finn fastlege',
-                    url: `https://finnfastlege${naisDomain}fastlege/`,
-                },
-            ],
-        },
-    ];
-};
+export const funksjonsomradeLenker = (fnr, enhet) => [
+    {
+        tittel: 'Personoversikt',
+        lenker: [
+            {
+                tittel: 'Oversikt',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
+            },
+            {
+                tittel: 'Saksoversikt',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!saksoversikt` : ''}`,
+            },
+            {
+                tittel: 'Meldinger',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!meldinger` : ''}`,
+            },
+            {
+                tittel: 'Varslinger',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!varsling` : ''}`,
+            },
+            {
+                tittel: 'Utbetalinger',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!utbetalinger` : ''}`,
+            },
+            {
+                tittel: 'Oppfølging',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!kontrakter` : ''}`,
+            },
+            {
+                tittel: 'Brukerprofil',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!brukerprofil` : ''}`,
+            },
+        ],
+    },
+    {
+        tittel: 'Arbeidsrettet oppfølging',
+        lenker: [
+            {
+                tittel: 'Enhetens oversikt',
+                url: `${appDomain}/veilarbportefoljeflatefs/enhet?enhet=${enhet}&clean`,
+            },
+            {
+                tittel: 'Min oversikt',
+                url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
+            },
+            {
+                tittel: 'Aktivitetsplan',
+                // Feil i eslint, fnr kan være undefined og da havner det i urlen, og det vil vi ikke
+                // eslint-disable-next-line no-unneeded-ternary
+                url: `${appDomain}/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`,
+            },
+            {
+                tittel: 'Registrer arbeidssøker',
+                // gå mot endepunkt i veilarblogin som setter cookie på nais-domene i preprod
+                url: window.location.hostname.indexOf('-q') === -1 ?
+                    byggArbeidssokerregistreringsURL(fnr, enhet) :
+                    `https://veilarblogin${finnMiljoStreng()}${naisDomain}veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}`,
+                onClick: () => post(`${frontendLoggerApiEvent}`, {
+                    url: window.location.href,
+                    userAgent: window.navigator.userAgent,
+                    appName: 'internarbeidsflatedecorator',
+                    name: 'internarbeidsflatedecorator.metrikker.registrering',
+                    fields: {},
+                    tags: {},
+                }),
+            },
+            {
+                tittel: 'Arbeidstrening',
+                url: `${arbeidstreningDomain}tiltaksgjennomforing`,
+                target: '_blank',
+            },
+        ],
+    },
+    {
+        tittel: 'Sykefraværsoppfølging',
+        lenker: [
+            {
+                tittel: 'Sykmeldt enkeltperson',
+                // eslint-disable-next-line no-unneeded-ternary
+                url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
+            },
+            {
+                tittel: 'Sykefraværsoppgaver',
+                url: `${appDomain}/sykefravaersoppfoelging/`,
+            },
+            {
+                tittel: 'Dialogmøter',
+                url: `https://syfomoteoversikt${naisDomain}`,
+            },
+            {
+                tittel: 'Finn fastlege',
+                url: `https://finnfastlege${naisDomain}fastlege/`,
+            },
+        ],
+    },
+];
 
 function getGosysNaisUrl() {
     const naisMiljo = finnNaisMiljoStreng();
