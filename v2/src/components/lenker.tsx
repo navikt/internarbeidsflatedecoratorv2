@@ -138,14 +138,13 @@ function Lenker() {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Sykefraværsoppfølging</h2>
                         <ul className="dekorator__menyliste">
+                            <Lenke href={`https://syfooversikt${naisDomain}/enhet`}>Enhetens oversikt</Lenke>
+                            <Lenke href={`https://syfooversikt${naisDomain}/minoversikt`}>Min oversikt</Lenke>
+                            <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøte</Lenke>
+                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={appDomain(`/sykefravaer/${fnr ? fnr : ''}`)}>
                                 Sykmeldt enkeltperson
                             </Lenke>
-                            <Lenke href={appDomain(`/sykefravaersoppfoelging/`)}>
-                                Sykefraværsoppgaver
-                            </Lenke>
-                            <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøter</Lenke>
-                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
                         </ul>
                     </section>
                 </div>
