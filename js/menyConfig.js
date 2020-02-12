@@ -104,21 +104,25 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         tittel: 'Sykefraværsoppfølging',
         lenker: [
             {
-                tittel: 'Sykmeldt enkeltperson',
-                // eslint-disable-next-line no-unneeded-ternary
-                url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
+                tittel: 'Enhetens oversikt',
+                url: `syfooversikt${naisDomain}enhet`,
             },
             {
-                tittel: 'Sykefraværsoppgaver',
-                url: `${appDomain}/sykefravaersoppfoelging/`,
+                tittel: 'Min oversikt ',
+                url: `syfooversikt${naisDomain}minoversikt`,
             },
             {
-                tittel: 'Dialogmøter',
+                tittel: 'Dialogmøte',
                 url: `https://syfomoteoversikt${naisDomain}`,
             },
             {
                 tittel: 'Finn fastlege',
                 url: `https://finnfastlege${naisDomain}fastlege/`,
+            },
+            {
+                tittel: 'Sykmeldt enkeltperson',
+                // eslint-disable-next-line no-unneeded-ternary
+                url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
             },
         ],
     },
