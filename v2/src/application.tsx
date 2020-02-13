@@ -30,6 +30,7 @@ export interface Props {
     contextholder?: true | Contextholder;
     urler?: {
         aktoerregister?: string;
+        saksbehandler?: string;
     };
 }
 
@@ -72,7 +73,7 @@ export const AppContext = React.createContext<Context>({
 });
 
 function Application(props: Props) {
-    const { fnr, enhet, markup, ...rest } = props;
+    const { fnr, enhet, markup, urler, ...rest } = props;
 
     const maybeFnr = useMemo(() => MaybeCls.of(fnr).filter((fnr) => fnr.length > 0), [fnr]);
     const maybeEnhet = useMemo(() => MaybeCls.of(enhet).filter((fnr) => fnr.length > 0), [enhet]);
@@ -86,8 +87,13 @@ function Application(props: Props) {
 
     const apen = useWrappedState(false);
     const feilmelding = useWrappedState<MaybeCls<string>>(MaybeCls.nothing());
+
+    const saksbehandlerUrl = MaybeCls.of(urler)
+        .flatMap((url) => MaybeCls.of(url.saksbehandler))
+        .getOrElse(SAKSBEHANDLER_URL);
+
     const saksbehandler = useFetch<Saksbehandler>(
-        SAKSBEHANDLER_URL,
+        saksbehandlerUrl,
         { credentials: 'include' },
         true,
         []
