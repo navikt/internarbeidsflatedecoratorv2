@@ -6,11 +6,12 @@ import {WrappedState} from "../hooks/use-wrapped-state";
 import {useSelector} from "react-redux";
 import {State} from "../redux";
 
-function Lenke(props: { href: string; children: string }) {
+function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
+    const rel = props.target ? 'noopener noreferrer' : undefined;
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" target={'_blank'} rel={'noopener noreferrer'}/>
+            <a {...props} className="typo-normal dekorator__menylenke" rel={rel} />
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
@@ -81,15 +82,6 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
     const hotkeys = useCallback(lagHotkeys, [fnr, aktorId])(fnr, aktorId);
     useHotkeys(hotkeys);
 
-    const tilretteLeggern = useSelector((state: State) => state.enhet)
-        .filter((enhetId) => ['0213', '0315'].includes(enhetId))
-        .map(() => (
-            <Lenke href={`${arbeidstreningDomain}/finn-kandidat/`}>
-                Tilrettelegger’n
-            </Lenke>
-        ))
-        .getOrElse(null);
-
     if (!apen.value) {
         return null;
     }
@@ -142,20 +134,18 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                             <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
                                 Arbeidstrening
                             </Lenke>
-                            {tilretteLeggern}
                         </ul>
                     </section>
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Sykefraværsoppfølging</h2>
                         <ul className="dekorator__menyliste">
+                            <Lenke href={`https://syfooversikt${naisDomain}/enhet`}>Enhetens oversikt</Lenke>
+                            <Lenke href={`https://syfooversikt${naisDomain}/minoversikt`}>Min oversikt</Lenke>
+                            <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøte</Lenke>
+                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={appDomain(`/sykefravaer/${fnr ? fnr : ''}`)}>
                                 Sykmeldt enkeltperson
                             </Lenke>
-                            <Lenke href={appDomain(`/sykefravaersoppfoelging/`)}>
-                                Sykefraværsoppgaver
-                            </Lenke>
-                            <Lenke href={appDomain(`/moteoversikt/`)}>Dialogmøter</Lenke>
-                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
                         </ul>
                     </section>
                 </div>

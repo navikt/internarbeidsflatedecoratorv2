@@ -38,7 +38,7 @@ function Banner(props: Props) {
                         <Markup markup={ettersokefeltet} />
                         <Veileder visible={toggles.visVeileder}/>
                     </div>
-                    <section>
+                    <section className="dekorator__hode__toggleMeny_wrapper">
                         <button
                             className={btnCls}
                             aria-pressed={apen.value}
