@@ -53,13 +53,15 @@ interface Context {
 
 function gittOnsketFnr(fnr: string | null | undefined): InitialSyncFnrProps {
     return {
-        fnr,
+        defaultFnr: fnr,
         onSok: jest.fn()
     }
 }
 
 function gittInitialState(): InitialSyncFnrState {
-    return {fnr: MaybeCls.nothing()};
+    return {
+        fnr: MaybeCls.nothing()
+    };
 }
 
 const MOCK_FNR_1 = '16012050147';

@@ -1,11 +1,12 @@
 import React, { RefObject, useCallback, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'redux';
+import { State } from '../redux';
 import useFieldState from '../hooks/use-field-state';
 import useHotkeys, { erAltOg } from '../hooks/use-hotkeys';
-import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../redux';
 import { ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes } from '../redux/actions';
-import { Dispatch } from 'redux';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
+import visibleIf from "./visibleIf";
 
 function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
     return [
@@ -97,4 +98,4 @@ function Sokefelt() {
     );
 }
 
-export default Sokefelt;
+export default visibleIf(Sokefelt);

@@ -1,58 +1,44 @@
-import React, { useContext, useState } from 'react';
+import React, {useState} from 'react';
 import Modal from 'nav-frontend-modal';
-import { Innholdstittel, Normaltekst } from 'nav-frontend-typografi';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Knapp, { Hovedknapp } from 'nav-frontend-knapper';
-import { useWebsocket } from '../../hooks/use-webhook';
-import { Listeners } from '../../utils/websocket-impl';
-import { hentAktivEnhet, oppdaterAktivEnhet } from '../../context-api';
-import { AppContext } from '../../application';
+import {Innholdstittel, Normaltekst} from 'nav-frontend-typografi';
+import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
+import Knapp, {Hovedknapp} from 'nav-frontend-knapper';
+import {oppdaterAktivEnhet} from '../../context-api';
 
 Modal.setAppElement(document.getElementById('root'));
 
 interface Props {
-    synced: boolean;
-    valgtEnhet: string | null | undefined;
-
-    onAccept(enhet: string): void;
+    onAccept?(enhet: string): void;
 }
 
-function NyEnhetContextModal({ synced, valgtEnhet, onAccept }: Props) {
-    const context = useContext(AppContext);
-    const wsUrl = context.contextholder.map(({ url }) => url).withDefault(null);
-    const promptBeforeOpen = context.contextholder
-        .map(({ promptBeforeEnhetChange }) => promptBeforeEnhetChange)
-        .withDefault(true);
-
+function NyEnhetContextModal({onAccept}: Props) {
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
-    const [onsketEnhet, setOnsketEnhet] = useState<string | null>(null);
+    const [onsketEnhet] = useState<string | null>(null);
 
     const onDecline = () => {
         setPending(true);
-        oppdaterAktivEnhet(valgtEnhet).then(() => setPending(false));
+        oppdaterAktivEnhet("valgtEnhet").then(() => setPending(false));
     };
     const onAcceptHandler = () => {
-        onAccept(onsketEnhet!);
+        onAccept && onAccept(onsketEnhet!);
         setOpen(false);
     };
-
-    const wsListener: Listeners = {
-        onMessage(event: MessageEvent): void {
-            if (event.data === 'NY_AKTIV_ENHET' && synced) {
-                hentAktivEnhet().then(({ aktivEnhet }) => {
-                    if (promptBeforeOpen) {
-                        setOnsketEnhet(aktivEnhet);
-                        setOpen(aktivEnhet !== valgtEnhet);
-                    } else if (aktivEnhet && aktivEnhet !== valgtEnhet) {
-                        onAccept(aktivEnhet);
-                    }
-                });
-            }
-        }
-    };
-
-    useWebsocket(wsUrl, wsListener);
+    //
+    // const wsListener: Listeners = {
+    //     onMessage(event: MessageEvent): void {
+    //         if (event.data === 'NY_AKTIV_ENHET') {
+    //             hentAktivEnhet().then(({aktivEnhet}) => {
+    //                 if (true) {
+    //                     setOnsketEnhet(aktivEnhet);
+    //                     setOpen(aktivEnhet !== "valgtEnhet");
+    //                 } else if (aktivEnhet && aktivEnhet !== "valgtEnhet") {
+    //                     onAccept("aktivEnhet");
+    //                 }
+    //             });
+    //         }
+    //     }
+    // };
 
     return (
         <Modal

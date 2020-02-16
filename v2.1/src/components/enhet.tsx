@@ -25,7 +25,7 @@ function lagEnhetvisning(
 
 function Enhet() {
     const enhet: MaybeCls<string> = useSelector((state: State) => state.enhet);
-    const saksbehandler = useSelector((state: State) => state.saksbehandler);
+    const saksbehandler = useSelector((state: State) => state.data.saksbehandler);
 
     return <span className="dekorator__hode__enhet">{lagEnhetvisning(enhet, saksbehandler)}</span>;
 }

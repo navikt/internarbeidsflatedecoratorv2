@@ -18,32 +18,55 @@
 <div id="root"></div>
 </body>
 <script>
-    function render(fnr, enhet) {
-        NAVSPA.internarbeidsflatefs(document.getElementById('root'), {
-            appname: 'Modia testapp',
-            fnr,
-            enhet,
-            markup: {
-                etterSokefelt: '<button>Min knapp</button>',
-            },
-            toggles: {
-                visEnhet: false,
-                visEnhetVelger: true,
-                visSokefelt: false,
-                visVeilder: false
-            },
-            onSok(nyfnr) {
-                console.warn('onSok', nyfnr);
-                render(nyfnr, enhet);
-            },
-            onEnhetChange(nyenhet) {
-                console.warn('onEnhetChange', nyenhet);
-                render(fnr, nyenhet);
-            },
-            contextholder: true
-        });
-    }
+    const defaultFnr = '10108000398';
+    const defaultEnhet = '0604';
+    const onSok = (nyFnr) => {
+        console.warn('onSok', nyFnr)
+    };
+    const onEnhetChange = (nyEnhet) => {
+        console.warn('onEnhetChange', nyEnhet);
+    };
 
-    render('10108000398', '0604');
+    const minimal = {
+        appname: 'Modia basic'
+    };
+    const enhetAware = {
+        appname: 'Modia enhet',
+        defaultEnhet,
+        onEnhetChange,
+        toggles: {
+            visEnhetVelger: true
+        }
+    };
+    const fnrAware = {
+        appname: 'Modia enhet',
+        defaultFnr,
+        onSok,
+        toggles: {
+            visSokefelt: true
+        }
+    };
+    const complete = {
+        appname: 'Modia maximum',
+        defaultFnr,
+        defaultEnhet,
+        toggles: {
+            visVeileder: true,
+            visSokefelt: true,
+            visEnhetVelger: true,
+            visEnhet: false
+        },
+        markup: {
+            etterSokefelt: '<button>Min knapp</button>',
+        },
+        onEnhetChange,
+        onSok,
+        contextholderConfig: {
+            enabled: true,
+            promptBeforeEnhetChange: true
+        }
+    };
+
+    NAVSPA.internarbeidsflatefs(document.getElementById('root'), complete);
 </script>
 </html>

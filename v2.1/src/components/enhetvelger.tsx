@@ -9,7 +9,7 @@ import { SagaActions, SagaActionTypes } from '../redux/actions';
 function EnhetVelger() {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
     const valgtEnhet = useSelector((state: State) => state.enhet).withDefault(undefined);
-    const enheter = useSelector((state: State) => state.saksbehandler)
+    const enheter = useSelector((state: State) => state.data.saksbehandler)
         .map((data) => data.enheter)
         .withDefault([] as Array<Enhet>);
 

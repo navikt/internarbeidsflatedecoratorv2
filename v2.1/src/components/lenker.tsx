@@ -70,7 +70,7 @@ function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
 function Lenker({apen}: { apen: WrappedState<boolean> }) {
     const fnr = useSelector((state: State) => state.fnr).withDefault('');
     const enhet = useSelector((state: State) => state.enhet).withDefault('');
-    const aktorId = useSelector((state: State) => state.aktorId)
+    const aktorId = useSelector((state: State) => state.data.aktorId)
         .flatMap((resp) => MaybeCls.of(resp[fnr]))
         .flatMap((resp) => MaybeCls.of(resp.identer))
         .filter((identer) => identer.some((ident) => ident.gjeldende))

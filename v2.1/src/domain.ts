@@ -12,13 +12,14 @@ export interface Enhet {
 }
 
 export interface Toggles {
-    visVeilder: boolean;
+    visVeileder: boolean;
     visSokefelt: boolean;
     visEnhetVelger: boolean;
     visEnhet: boolean;
 }
+
 export interface Contextholder {
-    url?: string;
+    enabled: boolean;
     promptBeforeEnhetChange?: boolean;
 }
 

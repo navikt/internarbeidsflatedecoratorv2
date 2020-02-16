@@ -1,10 +1,11 @@
 import {runSaga, Saga} from 'redux-saga';
 import FetchMock, {JSONObject, MatcherUrl, MatcherUtils, SpyMiddleware} from 'yet-another-fetch-mock';
-import initialSyncEnhet, {InitialSyncEnhetProps, InitialSyncEnhetState} from './initialSyncEnhet';
-import {AKTIV_BRUKER_URL, AKTIV_ENHET_URL} from "./api";
 import {MaybeCls} from "@nutgaard/maybe-ts";
+import initialSyncEnhet, {InitialSyncEnhetProps} from './initialSyncEnhet';
+import {AKTIV_BRUKER_URL, AKTIV_ENHET_URL} from "./api";
 import {ContextApiType, modiacontextholderUrl} from "../context-api";
-import {AktivBruker, AktivEnhet, Enhet, Saksbehandler} from "../domain";
+import {AktivBruker, AktivEnhet, AktorIdResponse, Enhet, Saksbehandler} from "../domain";
+import {Data} from "./index";
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -13,15 +14,17 @@ const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     etternavn: ''
 };
 
-function gittGyldigeEnheter(enheter: Array<Enhet>): InitialSyncEnhetState {
-    return {
+function gittGyldigeEnheter(enheter: Array<Enhet>): { data: Data } {
+    const data = {
+        aktorId: MaybeCls.nothing<AktorIdResponse>(),
         saksbehandler: MaybeCls.of({...mockSaksbehandler, enheter})
     };
+    return { data };
 }
 
 function gittOnsketEnhet(enhet: string | undefined | null): InitialSyncEnhetProps {
     return {
-        enhet,
+        defaultEnhet: enhet,
         onEnhetChange: jest.fn()
     }
 }

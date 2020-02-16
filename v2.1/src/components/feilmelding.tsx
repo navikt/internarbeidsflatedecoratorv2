@@ -3,15 +3,20 @@ import { useSelector } from 'react-redux';
 import { State } from '../redux';
 
 function Feilmelding() {
-    const maybeFeilmelding = useSelector((state: State) => state.feilmelding);
+    const feilmeldinger = useSelector((state: State) => state.feilmeldinger);
 
-    return maybeFeilmelding
-        .map((feilmelding) => (
-            <div className="dekorator__feilmelding" aria-live="assertive" role="alert">
-                <span className="dekorator__feilmelding__tekst">{feilmelding}</span>
-            </div>
-        ))
-        .withDefault(null);
+    if (feilmeldinger.length === 0) {
+        return null;
+    }
+
+    const elementer = feilmeldinger
+        .map((feilmelding) => <span className="dekorator__feilmelding__tekst">{feilmelding}</span>);
+
+    return (
+        <div className="dekorator__feilmelding" aria-live="assertive" role="alert">
+            {elementer}
+        </div>
+    );
 }
 
 export default Feilmelding;

@@ -49,7 +49,7 @@ function* wsChange(event: ContextApiType) {
 }
 
 export function* wsListener() {
-    const wsUrl = yield select((state: State) => state.contextholder.map(({ url }) => url).withDefault(null));
+    const wsUrl = yield select((state: State) => state.urler.wsUrl);
     const wsChannel = yield call(createWsChannel, wsUrl);
     yield takeLatest(wsChannel, wsChange);
 }

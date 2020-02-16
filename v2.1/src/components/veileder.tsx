@@ -1,10 +1,11 @@
 import React from 'react';
-import { EMDASH } from '../utils/string-utils';
 import { useSelector } from 'react-redux';
 import { State } from '../redux';
+import { EMDASH } from '../utils/string-utils';
+import visibleIf from "./visibleIf";
 
 function Veileder() {
-    const saksbehandler = useSelector((state: State) => state.saksbehandler);
+    const saksbehandler = useSelector((state: State) => state.data.saksbehandler);
     const ident = saksbehandler.map((data) => data.ident).withDefault(EMDASH);
     const navn = saksbehandler.map((data) => data.navn).withDefault('');
 
@@ -18,4 +19,4 @@ function Veileder() {
     );
 }
 
-export default Veileder;
+export default visibleIf(Veileder);
