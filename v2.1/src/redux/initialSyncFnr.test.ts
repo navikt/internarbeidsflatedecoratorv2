@@ -1,10 +1,11 @@
 import {runSaga, Saga} from 'redux-saga';
 import FetchMock, {JSONObject, MatcherUrl, MatcherUtils, ResponseUtils, SpyMiddleware} from 'yet-another-fetch-mock';
-import initialSyncFnr, {InitialSyncFnrState} from './initialSyncFnr';
-import {AKTIV_BRUKER_URL} from "./api";
+import initialSyncFnr from './initialSyncFnr';
+import {AKTIV_BRUKER_URL, ContextApiType, modiacontextholderUrl} from "./api";
 import {MaybeCls} from "@nutgaard/maybe-ts";
-import {ContextApiType, modiacontextholderUrl} from "../context-api";
-import {AktivBruker, AktivEnhet, Contextvalue} from "../domain";
+import {FnrContextvalue, FnrDisplay} from "../domain";
+import {AktivBruker, AktivEnhet} from "../internal-domain";
+import {InitializedState} from "./index";
 
 function gittContextholder(context: Context, aktiveContext: AktivEnhet & AktivBruker & JSONObject, error: boolean = false) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
@@ -51,17 +52,26 @@ interface Context {
     contextholder: ContextholderValue;
 }
 
-function gittOnsketFnr(fnr: string | null): Contextvalue {
+function gittOnsketFnr(fnr: string | null): FnrContextvalue {
     return {
         initialValue: fnr,
-        onChange: jest.fn()
+        onChange: jest.fn(),
+        display: FnrDisplay.SOKEFELT
     }
 }
 
-function gittInitialState(): InitialSyncFnrState {
+function gittInitialState(): Partial<InitializedState> {
     return {
-        fnr: MaybeCls.nothing()
-    };
+        initialized: true,
+        fnr: {
+            value: MaybeCls.nothing(),
+            display: FnrDisplay.SOKEFELT,
+            enabled: true,
+            onChange(value: string | null): void {
+            },
+            wsRequestedValue: MaybeCls.nothing()
+        }
+    }
 }
 
 const MOCK_FNR_1 = '16012050147';
@@ -88,10 +98,9 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke hente ut person i kontekst'}),
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.nothing()}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Kunne ikke hente ut person i kontekst'});
+        expect(dispatched[1]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.nothing() }}});
+
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
@@ -104,9 +113,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.nothing()}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.nothing() }}});
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
@@ -119,9 +126,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_1)}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.just(MOCK_FNR_1) }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
@@ -134,9 +139,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_2)}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.just(MOCK_FNR_2) }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
@@ -151,9 +154,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_1)}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.just(MOCK_FNR_1) }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
@@ -167,10 +168,8 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Fødselsnummeret er ikke gyldig'}),
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just('12345678910')}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Fødselsnummeret er ikke gyldig'});
+        expect(dispatched[1]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.just('12345678910') }}});
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
@@ -184,10 +183,8 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke hente ut person i kontekst'}),
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_1)}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Kunne ikke hente ut person i kontekst'});
+        expect(dispatched[1]).toMatchObject({type: "REDUX/UPDATESTATE", data: { fnr: { value: MaybeCls.just(MOCK_FNR_1) }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();

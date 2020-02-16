@@ -1,27 +1,51 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import {MaybeCls} from "@nutgaard/maybe-ts";
-import { State } from '../redux';
 import Veileder from './veileder';
 import Overskrift from './overskrift';
 import Enhet from './enhet';
 import EnhetVelger from './enhetvelger';
 import Sokefelt from './sokefelt';
 import Markup from './markup';
-import { WrappedState } from '../hooks/use-wrapped-state';
+import {WrappedState} from '../hooks/use-wrapped-state';
+import {useInitializedState} from "../hooks/use-initialized-state";
+import {useSelector} from "react-redux";
+import {State} from "../redux";
+import {EnhetDisplay} from "../domain";
+import {isEnabled} from "../internal-domain";
 
 interface Props {
+    appname: string;
     apen: WrappedState<boolean>;
+}
+
+function BannerContent() {
+    const maybeMarkup = useInitializedState((state) => MaybeCls.of(state.markup));
+    const ettersokefeltet = maybeMarkup
+        .flatMap((markup) => MaybeCls.of(markup.etterSokefelt))
+        .withDefault(undefined);
+    const toggles = useInitializedState((state) => state.toggles);
+    const enhetConfig = useInitializedState((state) => state.enhet);
+    const visEnhet = isEnabled(enhetConfig) && enhetConfig.display === EnhetDisplay.ENHET;
+    const visEnhetVelger = isEnabled(enhetConfig) && enhetConfig.display === EnhetDisplay.ENHET_VALG;
+
+    const fnrConfig = useInitializedState((state) => state.fnr);
+    const visSokefelt = isEnabled(fnrConfig);
+
+    return (
+        <>
+            <Enhet visible={visEnhet} />
+            <EnhetVelger visible={visEnhetVelger} />
+            <Sokefelt visible={visSokefelt} />
+            <Markup markup={ettersokefeltet} />
+            <Veileder visible={toggles.visVeileder}/>
+        </>
+    );
 }
 
 function Banner(props: Props) {
     const { apen } = props;
-    const maybeMarkup = useSelector((state: State) => MaybeCls.of(state.markup));
-    const ettersokefeltet = maybeMarkup
-        .flatMap((markup) => MaybeCls.of(markup.etterSokefelt))
-        .withDefault(undefined);
-    const toggles = useSelector((state: State) => state.toggles);
+    const isInitialized = useSelector((state: State) => state.initialized);
     const btnCls = classNames('dekorator__hode__toggleMeny', {
         'dekorator__hode__toggleMeny--apen': apen.value
     });
@@ -30,13 +54,9 @@ function Banner(props: Props) {
         <div className="dekorator__hode" role="banner">
             <div className="dekorator__container">
                 <header className="dekorator__banner">
-                    <Overskrift />
+                    <Overskrift appname={props.appname}/>
                     <div className="flex-center">
-                        <Enhet visible={toggles.visEnhet} />
-                        <EnhetVelger visible={toggles.visEnhetVelger} />
-                        <Sokefelt visible={toggles.visSokefelt} />
-                        <Markup markup={ettersokefeltet} />
-                        <Veileder visible={toggles.visVeileder}/>
+                        {isInitialized && <BannerContent />}
                     </div>
                     <section className="dekorator__hode__toggleMeny_wrapper">
                         <button

@@ -27,7 +27,8 @@
             initialValue: '0604',
             onChange(enhet) {
                 console.warn('ENHET onChange', enhet);
-            }
+            },
+            display: 'ENHET_VALG'
         },
         toggles: {
             visEnhetVelger: true
@@ -39,7 +40,8 @@
             initialValue: '10108000398',
             onChange(enhet) {
                 console.warn('FNR onChange', enhet);
-            }
+            },
+            display: 'SOKEFELT'
         },
         toggles: {
             visSokefelt: true
@@ -49,21 +51,20 @@
         appname: 'Modia maximum',
         fnr: {
             initialValue: null,
+            display: 'SOKEFELT',
             onChange(enhet) {
                 console.warn('FNR onChange', enhet);
             }
         },
         enhet: {
             initialValue: null,
+            display: 'ENHET_VALG',
             onChange(enhet) {
                 console.warn('ENHET onChange', enhet);
             }
         },
         toggles: {
-            visVeileder: true,
-            visSokefelt: true,
-            visEnhetVelger: true,
-            visEnhet: false
+            visVeileder: true
         },
         markup: {
             etterSokefelt: '<button>Min knapp</button>',

@@ -1,12 +1,12 @@
-import React, { RefObject, useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from 'redux';
-import { State } from '../redux';
+import React, {RefObject, useCallback, useRef} from 'react';
+import {useDispatch} from 'react-redux';
+import {Dispatch} from 'redux';
 import useFieldState from '../hooks/use-field-state';
-import useHotkeys, { erAltOg } from '../hooks/use-hotkeys';
-import { ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes } from '../redux/actions';
-import { lagFnrFeilmelding } from '../utils/fnr-utils';
+import useHotkeys, {erAltOg} from '../hooks/use-hotkeys';
+import {ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes} from '../redux/actions';
+import {lagFnrFeilmelding} from '../utils/fnr-utils';
 import visibleIf from "./visibleIf";
+import {useFnrContextvalueState} from "../hooks/use-contextvalue-state";
 
 function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
     return [
@@ -27,8 +27,7 @@ function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
 
 function Sokefelt() {
     const dispatch = useDispatch<Dispatch<SagaActions | ReduxActions>>();
-    const maybeFnr = useSelector((state: State) => state.fnr);
-    const fnr = maybeFnr.withDefault('');
+    const fnr = useFnrContextvalueState().withDefault('');
     const sokefelt = useFieldState(fnr);
     const sokefeltRef = useRef<HTMLInputElement>(null);
     const visSokeIkon = !fnr || fnr !== sokefelt.input.value;
@@ -37,9 +36,9 @@ function Sokefelt() {
         const value = sokefelt.input.value.trim();
         const feilmelding = lagFnrFeilmelding(value);
 
-        dispatch({ type: ReduxActionTypes.FEILMELDING, data: feilmelding.withDefault('') });
+        dispatch({type: ReduxActionTypes.FEILMELDING, data: feilmelding.withDefault('')});
         if (feilmelding.isNothing()) {
-            dispatch({ type: SagaActionTypes.FNRSUBMIT, data: value });
+            dispatch({type: SagaActionTypes.FNRSUBMIT, data: value});
         }
     };
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,7 +47,7 @@ function Sokefelt() {
     };
 
     const reset = () => {
-        dispatch({ type: SagaActionTypes.FNRRESET });
+        dispatch({type: SagaActionTypes.FNRRESET});
     };
     const onReset = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

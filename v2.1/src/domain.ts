@@ -1,57 +1,38 @@
-export interface Saksbehandler {
-    readonly ident: string;
-    readonly fornavn: string;
-    readonly etternavn: string;
-    readonly navn: string;
-    readonly enheter: Array<Enhet>;
-}
-
-export interface Enhet {
-    readonly enhetId: string;
-    readonly navn: string;
-}
-
-export interface Toggles {
-    visVeileder: boolean;
-    visSokefelt: boolean;
-    visEnhetVelger: boolean;
-    visEnhet: boolean;
-}
-
-export interface Contextvalue {
-    initialValue: string | null;
-    onChange(value: string | null): void;
+export interface TogglesConfig {
+    visVeileder?: boolean;
 }
 
 export interface Contextholder {
-    enabled: boolean;
     promptBeforeEnhetChange?: boolean;
-}
-
-export interface UrlOverrides {
-    veilederdataUrl?: string;
-    aktoerregister?: string;
 }
 
 export interface Markup {
     etterSokefelt?: string;
 }
 
-export interface AktorIdResponse {
-    [fnr: string]: {
-        feilmelding: null | string;
-        identer: null | Array<{
-            gjeldende: boolean;
-            ident: string;
-            identgruppe: string;
-        }>;
-    };
+export interface Contextvalue<T> {
+    initialValue: string | null;
+    display: T;
+    onChange(value: string | null): void;
 }
 
-export interface AktivEnhet {
-    aktivEnhet: string | null;
+export enum EnhetDisplay {
+    ENHET = 'ENHET',
+    ENHET_VALG = 'ENHET_VALG',
 }
 
-export interface AktivBruker {
-    aktivBruker: string | null;
+export enum FnrDisplay {
+    SOKEFELT = 'SOKEFELT'
+}
+
+export type EnhetContextvalue = Contextvalue<EnhetDisplay>;
+export type FnrContextvalue = Contextvalue<FnrDisplay>;
+
+export interface ApplicationProps {
+    appname: string;
+    fnr?: FnrContextvalue,
+    enhet?: EnhetContextvalue,
+    toggles?: TogglesConfig;
+    markup?: Markup;
+    contextholderConfig?: Contextholder;
 }

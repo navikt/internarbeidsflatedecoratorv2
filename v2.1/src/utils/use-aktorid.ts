@@ -2,7 +2,7 @@ import React from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { finnMiljoStreng, randomCallId } from './url-utils';
 import useFetch, { UseFetchHook } from '../hooks/use-fetch';
-import { AktorIdResponse } from '../domain';
+import { AktorIdResponse } from '../internal-domain';
 import { erGyldigFodselsnummer } from './fnr-utils';
 
 export const defaultAktorIdUrl = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;

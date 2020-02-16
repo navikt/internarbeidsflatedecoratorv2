@@ -1,7 +1,22 @@
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, randomCallId } from '../utils/url-utils';
-import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../domain';
-import { ContextApiType, modiacontextholderUrl } from '../context-api';
+import {erLocalhost, finnMiljoStreng, randomCallId} from '../utils/url-utils';
+import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
+
+export enum ContextApiType {
+    NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
+    NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
+}
+
+export const modiacontextholderUrl = (() => {
+    if (erLocalhost()) {
+        return '/modiacontextholder/api';
+    }
+    return `https://app${finnMiljoStreng()}.adeo.no/modiacontextholder/api`;
+})();
+export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
+export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
+export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
+export const AKTORID_URL = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;
 
 export type ResponseError = { data: undefined; error: string };
 export type ResponseOk<T> = { data: T; error: undefined };
@@ -39,12 +54,7 @@ async function postJson<T>(url: string, body: T, options?: RequestInit): Promise
     }
 }
 
-export const defaultAktorIdUrl = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;
-
-export function hentAktorId(
-    aktoridUrl: string,
-    fnr: string
-): Promise<FetchResponse<AktorIdResponse>> {
+export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>> {
     const feilmelding = lagFnrFeilmelding(fnr);
 
     if (feilmelding.isJust()) {
@@ -60,7 +70,7 @@ export function hentAktorId(
         }
     };
 
-    return getJson<AktorIdResponse>(aktoridUrl, request);
+    return getJson<AktorIdResponse>(AKTORID_URL, request);
 }
 
 export function oppdaterAktivBruker(fnr: string | null | undefined) {
@@ -85,10 +95,6 @@ export function nullstillAktivEnhet() {
     return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
 }
 
-export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
-export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
-export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
-
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {
     return getJson<AktivBruker>(AKTIV_BRUKER_URL);
 }
@@ -99,4 +105,11 @@ export function hentAktivEnhet(): Promise<FetchResponse<AktivEnhet>> {
 
 export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
     return getJson<Saksbehandler>(SAKSBEHANDLER_URL);
+}
+export function getWebSocketUrl(saksbehandler: Saksbehandler): string {
+    if (process.env.NODE_ENV === 'development') {
+        return 'ws://localhost:2999/hereIsWS';
+    }
+    const ident = saksbehandler.ident;
+    return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }

@@ -1,44 +1,94 @@
-import {call, fork, put, select} from "redux-saga/effects";
+import {call, fork, put, spawn} from "redux-saga/effects";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import * as Api from './api';
 import {FetchResponse, hasError} from './api';
-import {AktivBruker, AktorIdResponse, Contextvalue} from "../domain";
+import {AktivBruker, AktorIdResponse} from "../internal-domain";
 import {lagFnrFeilmelding} from "../utils/fnr-utils";
 import {ReduxActionTypes} from "./actions";
-import {State} from "./index";
-import {defaultAktorIdUrl} from "../utils/use-aktorid";
-import {RESET_VALUE, spawnConditionally} from "./utils";
+import {FnrContextvalueState, isEnabled} from "../internal-domain";
+import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./utils";
+import {ApplicationProps, FnrContextvalue} from "../domain";
+import {InitializedState} from "./index";
 
 function* initAktorId() {
-    const state: State = yield select();
-    const aktorIdUrl = MaybeCls.of(state.urler)
-        .flatMap((urler) => MaybeCls.of(urler.aktoerregister))
-        .getOrElse(defaultAktorIdUrl);
+    const state: InitializedState = yield selectFromInitializedState((state) => state);
 
-    if (state.fnr.isJust()) {
-        const fnr = state.fnr.withDefaultLazy(() => {
+    if (isEnabled(state.fnr) && state.fnr.value.isJust()) {
+        const fnr = state.fnr.value.withDefaultLazy(() => {
             throw new Error(`'state.fnr' was NOTHING while expecting JUST`);
         });
 
-        const response: FetchResponse<AktorIdResponse> = yield call(
-            Api.hentAktorId,
-            aktorIdUrl,
-            fnr
-        );
-        if (hasError(response)) {
-            yield put({
-                type: ReduxActionTypes.FEILMELDING,
-                data: response.error,
-                scope: 'initAktorId'
-            });
-        } else {
-            yield put({type: ReduxActionTypes.AKTORIDDATA, data: response.data});
+        const feilFnr = state.fnr.value.flatMap(lagFnrFeilmelding);
+        if (feilFnr.isNothing()) {
+            const response: FetchResponse<AktorIdResponse> = yield call(
+                Api.hentAktorId,
+                fnr
+            );
+            if (hasError(response)) {
+                yield put({
+                    type: ReduxActionTypes.FEILMELDING,
+                    data: response.error,
+                    scope: 'initAktorId'
+                });
+            } else {
+                yield put({type: ReduxActionTypes.AKTORIDDATA, data: response.data});
+            }
         }
     }
 }
 
-export type InitialSyncFnrState = Pick<State, 'fnr'>;
-export default function* initialSyncFnr(props: Contextvalue) {
+function* updateFnrState(onsketFnr: MaybeCls<string>) {
+    const data: FnrContextvalueState = yield selectFromInitializedState((state) => state.fnr);
+
+    if (isEnabled(data)) {
+        const newData: FnrContextvalueState = {
+            ...data,
+            value: onsketFnr
+        };
+        yield put({
+            type: ReduxActionTypes.UPDATESTATE,
+            data: {
+                fnr: newData
+            },
+            scope: 'initialSyncFnr - by props'
+        });
+        yield fork(initAktorId);
+    }
+}
+
+export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
+    const data: FnrContextvalueState = yield selectFromInitializedState((state) => state.fnr);
+    if (isEnabled(data)) {
+        const newData: FnrContextvalueState = {
+            ...data,
+            wsRequestedValue: onsketFnr
+        };
+
+        yield put({
+            type: ReduxActionTypes.UPDATESTATE,
+            data: {
+                fnr: newData
+            },
+            scope: 'initialSyncFnr - by props'
+        })
+    }
+}
+
+export function* updateFnr(props: ApplicationProps, value: { data: string }) {
+    const fnr = MaybeCls.of(value.data).filter((v) => v.length > 0);
+    if (fnr.isNothing()) {
+        yield fork(Api.nullstillAktivBruker);
+    } else {
+        yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
+    }
+
+    yield* updateFnrState(fnr);
+    if (props.fnr) {
+        yield spawn(props.fnr.onChange, fnr.withDefault(''));
+    }
+}
+
+export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
         yield call(Api.nullstillAktivBruker);
         return;
@@ -58,8 +108,7 @@ export default function* initialSyncFnr(props: Contextvalue) {
     if (hasError(response)) {
         yield put({
             type: ReduxActionTypes.FEILMELDING,
-            data: 'Kunne ikke hente ut person i kontekst',
-            scope: 'initSyncFnr - hasError'
+            data: 'Kunne ikke hente ut person i kontekst'
         });
     }
 
@@ -77,36 +126,14 @@ export default function* initialSyncFnr(props: Contextvalue) {
         if (erUlikContextholderFnr) {
             yield fork(Api.oppdaterAktivBruker, onsketFnr.withDefault(''));
         }
-
-        yield put({
-            type: ReduxActionTypes.UPDATESTATE,
-            data: {
-                fnr: onsketFnr
-            },
-            scope: 'initSyncFnr - by props'
-        });
+        yield* updateFnrState(onsketFnr);
         yield spawnConditionally(props.onChange, onsketFnr.withDefault(''));
     } else if (onsketFnr.isNothing() && contextholderFnr.isJust()) {
         // Ikke noe fnr via props, bruker fnr fra contextholder og kaller onSok med dette
-        yield put({
-            type: ReduxActionTypes.UPDATESTATE,
-            data: {
-                fnr: contextholderFnr
-            },
-            scope: 'initSyncFnr - by contextholder'
-        });
+        yield* updateFnrState(contextholderFnr);
         yield spawnConditionally(props.onChange, contextholderFnr.withDefault(''));
     } else {
-        yield put({
-            type: ReduxActionTypes.UPDATESTATE,
-            data: {
-                fnr: onsketFnr
-            },
-            scope: 'initSyncFnr - by fallback'
-        });
+        yield* updateFnrState(onsketFnr);
     }
 
-    if (feilFnr.isNothing()) {
-        yield fork(initAktorId);
-    }
 }

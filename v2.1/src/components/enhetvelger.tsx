@@ -1,17 +1,15 @@
-import React, { ChangeEventHandler } from 'react';
+import React, {ChangeEventHandler} from 'react';
 import visibleIf from './visibleIf';
-import { Enhet } from '../domain';
-import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../redux';
-import { Dispatch } from 'redux';
-import { SagaActions, SagaActionTypes } from '../redux/actions';
+import {useDispatch} from 'react-redux';
+import {Dispatch} from 'redux';
+import {SagaActions, SagaActionTypes} from '../redux/actions';
+import {useInitializedState} from "../hooks/use-initialized-state";
+import {useEnhetContextvalueState} from "../hooks/use-contextvalue-state";
 
 function EnhetVelger() {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
-    const valgtEnhet = useSelector((state: State) => state.enhet).withDefault(undefined);
-    const enheter = useSelector((state: State) => state.data.saksbehandler)
-        .map((data) => data.enheter)
-        .withDefault([] as Array<Enhet>);
+    const valgtEnhet = useEnhetContextvalueState().withDefault(undefined);
+    const enheter = useInitializedState((state) => state.data.saksbehandler).enheter;
 
     if (enheter.length === 1) {
         const enhet = enheter[0];
@@ -23,7 +21,7 @@ function EnhetVelger() {
     }
 
     const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
-        dispatch({ type: SagaActionTypes.ENHETCHANGED, data: event.target.value });
+        dispatch({type: SagaActionTypes.ENHETCHANGED, data: event.target.value});
     };
     const options = enheter.map((enhet) => (
         <option

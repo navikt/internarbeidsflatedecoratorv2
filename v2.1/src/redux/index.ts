@@ -1,140 +1,139 @@
 import {applyMiddleware, createStore} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import {all, call, fork, put, spawn, take, takeLatest} from 'redux-saga/effects';
+import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {MaybeCls} from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import {FetchResponse, hasError} from './api';
-import {Props} from '../application';
-import {AktorIdResponse, Contextholder, Markup, Saksbehandler, Toggles} from '../domain';
-import {EMDASH} from '../utils/string-utils';
-import {ReduxActions, ReduxActionTypes, SagaActionTypes} from './actions';
-import {getWebSocketUrl} from "../context-api";
+import {
+    ContextvalueState,
+    ContextvalueStateEnabled,
+    Data,
+    EnhetContextvalueState,
+    FnrContextvalueState,
+    Saksbehandler,
+    Toggles,
+    UninitializedState
+} from '../internal-domain';
+import {ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes} from './actions';
 import {wsListener} from "./wsSaga";
-import initialSyncEnhet from "./initialSyncEnhet";
-import initialSyncFnr from "./initialSyncFnr";
+import initialSyncEnhet, {updateEnhet} from "./initialSyncEnhet";
+import initialSyncFnr, {updateFnr} from "./initialSyncFnr";
+import {ApplicationProps, Contextholder, FnrDisplay, Markup} from "../domain";
 
-export interface Data {
-    saksbehandler: MaybeCls<Saksbehandler>;
-    aktorId: MaybeCls<AktorIdResponse>;
-}
-
-export interface Urler {
-    veilederdataUrl: string;
-    wsUrl: string;
-    aktoerregister: string;
-}
-
-export interface State {
+export interface InitializedState {
+    initialized: true;
     appname: string;
-    fnr: MaybeCls<string>;
-    enhet: MaybeCls<string>;
+    fnr: FnrContextvalueState;
+    enhet: EnhetContextvalueState;
     toggles: Toggles;
     markup?: Markup;
     contextholderConfig: Contextholder;
-    urler: Urler;
     data: Data;
     feilmeldinger: Array<string>;
 }
 
+export type State = UninitializedState | InitializedState;
+
 const initialState: State = {
-    appname: EMDASH,
-    fnr: MaybeCls.nothing(),
-    enhet: MaybeCls.nothing(),
-    toggles: {
-        visEnhet: false,
-        visEnhetVelger: true,
-        visSokefelt: true,
-        visVeileder: false
-    },
-    markup: undefined,
-    contextholderConfig: {
-        enabled: true
-    },
-    urler: {
-        veilederdataUrl: '',
-        wsUrl: '',
-        aktoerregister: ''
-    },
-    data: {
-        saksbehandler: MaybeCls.nothing(),
-        aktorId: MaybeCls.nothing()
-    },
-    feilmeldinger: []
+    initialized: false
 };
 
-function reducer(state: State = initialState, action: ReduxActions): State {
-    console.log('action', action);
-    switch (action.type) {
-        case ReduxActionTypes.UPDATESTATE:
-            return {...state, ...action.data};
-        case ReduxActionTypes.FEILMELDING:
-            return {
-                ...state,
-                feilmeldinger: MaybeCls.of(action.data)
-                    .filter((feilmelding) => feilmelding.length > 0)
-                    .map((feilmelding) => [feilmelding])
-                    .withDefault([])
-            };
-        case ReduxActionTypes.AKTORIDDATA:
-            const aktorId = {
-                ...state.data,
-                aktorId: MaybeCls.of(action.data)
-            };
-            return {
-                ...state,
-                data: aktorId
-            };
-        case ReduxActionTypes.DEKORATORDATA:
-            const saksbehandler = {
-                ...state.data,
-                saksbehandler: MaybeCls.of(action.data)
-            };
-            return {
-                ...state,
-                data: saksbehandler
-            };
-        default:
+export function isInitialized(state: State): state is InitializedState {
+    return state.initialized
+}
+
+function reducer(state: State = initialState, action: ReduxActions | SagaActions): State {
+    if (isInitialized(state)) {
+        if (action.type === ReduxActionTypes.INITIALIZE) {
+            throw new Error(`Got '${action.type}' while store has already been initialized`);
+        }
+
+        switch (action.type) {
+            case ReduxActionTypes.UPDATESTATE:
+                return {...state, ...action.data};
+            case ReduxActionTypes.FEILMELDING:
+                return {
+                    ...state,
+                    feilmeldinger: MaybeCls.of(action.data)
+                        .filter((feilmelding) => feilmelding.length > 0)
+                        .map((feilmelding) => [feilmelding])
+                        .withDefault([])
+                };
+            case ReduxActionTypes.AKTORIDDATA:
+                const aktorId = {
+                    ...state.data,
+                    aktorId: MaybeCls.of(action.data)
+                };
+                return {
+                    ...state,
+                    data: aktorId
+                };
+            default:
+                return state;
+        }
+    } else {
+        if (action.type.startsWith('@@redux/INIT') || action.type.startsWith("SAGA/")) {
             return state;
+        }
+        if (action.type !== ReduxActionTypes.INITIALIZE) {
+            throw new Error(`Got '${action.type} while expecting ${ReduxActionTypes.INITIALIZE}'`);
+        }
+        return action.data;
     }
 }
 
-function* initializeStore(props: Props, saksbehandler: Saksbehandler) {
-    const veilederdataUrl: string = MaybeCls.of(props.urler)
-        .flatMap((urler) => MaybeCls.of(urler.veilederdataUrl))
-        .withDefault('');
-    const aktoerregister: string = MaybeCls.of(props.urler)
-        .flatMap((urler) => MaybeCls.of(urler.aktoerregister))
-        .withDefault('');
+function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler) {
+    const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
+        .map((config) => {
+            return {
+                enabled: true,
+                value: MaybeCls.of(config.initialValue),
+                wsRequestedValue: MaybeCls.nothing<string>(),
+                onChange: config.onChange,
+                display: FnrDisplay.SOKEFELT
+            };
+        })
+        .withDefault({enabled: false});
 
-    const toggles = MaybeCls.of(props.toggles)
-        .withDefault({
-            visEnhet: false,
-            visEnhetVelger: false,
-            visSokefelt: false,
-            visVeileder: false
-        });
+    const enhet: EnhetContextvalueState = MaybeCls.of(props.enhet)
+        .map((config) => {
+            return {
+                enabled: true,
+                value: MaybeCls.of(config.initialValue),
+                wsRequestedValue: MaybeCls.nothing<string>(),
+                onChange: config.onChange,
+                display: config.display
+            };
+        })
+        .withDefault({enabled: false});
 
-    const state: Partial<State> = {
+    const visVeileder: boolean = MaybeCls.of(props.toggles)
+        .flatMap((toggles) => MaybeCls.of(toggles.visVeileder))
+        .withDefault(true);
+
+    const promptBeforeEnhetChange: boolean = MaybeCls.of(props.contextholderConfig)
+        .flatMap((config) => MaybeCls.of(config.promptBeforeEnhetChange))
+        .withDefault(true);
+
+    const state: InitializedState = {
+        initialized: true,
         appname: props.appname,
-        toggles: {
-            visEnhet: toggles.visEnhet,
-            visEnhetVelger: toggles.visEnhetVelger,
-            visSokefelt: toggles.visSokefelt,
-            visVeileder: toggles.visVeileder
-        },
+        fnr,
+        enhet,
+        toggles: {visVeileder},
         markup: props.markup,
-        contextholderConfig: props.contextholderConfig,
-        urler: {
-            veilederdataUrl,
-            wsUrl: getWebSocketUrl(saksbehandler),
-            aktoerregister
-        }
+        contextholderConfig: {promptBeforeEnhetChange},
+        data: {
+            saksbehandler,
+            aktorId: MaybeCls.nothing()
+        },
+        feilmeldinger: []
     };
 
-    yield put({type: 'REDUX/UPDATESTATE', data: state});
+    yield put({type: 'REDUX/INITSTATE', data: state});
 }
 
-function* initDekoratorData(props: Props) {
+function* initDekoratorData(props: ApplicationProps) {
     const response: FetchResponse<Saksbehandler> = yield call(Api.hentSaksbehandlerData);
 
     if (hasError(response)) {
@@ -144,50 +143,15 @@ function* initDekoratorData(props: Props) {
             scope: 'initDekoratorData'
         });
     } else {
-        yield put({type: ReduxActionTypes.DEKORATORDATA, data: response.data});
         yield call(initializeStore, props, response.data);
     }
 
     return response;
 }
 
-function* updateFnr(props: Props, value: { data: string }) {
-    const fnr = MaybeCls.of(value.data).filter((v) => v.length > 0);
-    if (fnr.isNothing()) {
-        yield fork(Api.nullstillAktivBruker);
-    } else {
-        yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
-    }
-    yield put({
-        type: ReduxActionTypes.UPDATESTATE,
-        data: {
-            fnr
-        }
-    });
-
-    if (props.fnr) {
-        yield spawn(props.fnr.onChange, fnr.withDefault(''));
-    }
-}
-
-function* updateEnhet(props: Props, value: { data: string }) {
-    yield fork(Api.oppdaterAktivEnhet, value.data);
-    yield put({
-        type: ReduxActionTypes.UPDATESTATE,
-        data: {
-            enhet: MaybeCls.of(value)
-        },
-        scope: 'initialSyncEnhet - by fallback'
-    });
-
-    if (props.enhet) {
-        yield spawn(props.enhet.onChange, value.data);
-    }
-}
-
 export function* initSaga(): IterableIterator<any> {
     console.time('initSaga');
-    const action: { data: Props } = yield take(SagaActionTypes.INIT);
+    const action: { data: ApplicationProps } = yield take(SagaActionTypes.INIT);
     const props = action.data;
 
     console.time('init');

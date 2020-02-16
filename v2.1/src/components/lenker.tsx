@@ -3,15 +3,15 @@ import {MaybeCls} from '@nutgaard/maybe-ts';
 import {finnMiljoStreng, finnNaisMiljoStreng} from '../utils/url-utils';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 import {WrappedState} from "../hooks/use-wrapped-state";
-import {useSelector} from "react-redux";
-import {State} from "../redux";
+import {useInitializedState} from "../hooks/use-initialized-state";
+import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-contextvalue-state";
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
     const rel = props.target ? 'noopener noreferrer' : undefined;
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" rel={rel} />
+            <a {...props} className="typo-normal dekorator__menylenke" rel={rel}/>
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
@@ -69,9 +69,9 @@ function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
 
 
 function Lenker({apen}: { apen: WrappedState<boolean> }) {
-    const fnr = useSelector((state: State) => state.fnr).withDefault('');
-    const enhet = useSelector((state: State) => state.enhet).withDefault('');
-    const aktorId = useSelector((state: State) => state.data.aktorId)
+    const fnr = useFnrContextvalueState().withDefault('');
+    const enhet = useEnhetContextvalueState().withDefault('');
+    const aktorId = useInitializedState((state) => state.data.aktorId)
         .flatMap((resp) => MaybeCls.of(resp[fnr]))
         .flatMap((resp) => MaybeCls.of(resp.identer))
         .filter((identer) => identer.some((ident) => ident.gjeldende))

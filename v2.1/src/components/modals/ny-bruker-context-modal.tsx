@@ -3,7 +3,7 @@ import Modal from 'nav-frontend-modal';
 import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
 import Knapp, {Hovedknapp} from 'nav-frontend-knapper';
 import {Innholdstittel, Normaltekst} from 'nav-frontend-typografi';
-import {oppdaterAktivBruker} from '../../context-api';
+import {oppdaterAktivBruker} from "../../redux/api";
 
 Modal.setAppElement(document.getElementById('root'));
 

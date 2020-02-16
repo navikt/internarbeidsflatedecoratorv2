@@ -2,10 +2,16 @@ import {runSaga, Saga} from 'redux-saga';
 import FetchMock, {JSONObject, MatcherUrl, MatcherUtils, SpyMiddleware} from 'yet-another-fetch-mock';
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import initialSyncEnhet from './initialSyncEnhet';
-import {AKTIV_BRUKER_URL, AKTIV_ENHET_URL} from "./api";
-import {ContextApiType, modiacontextholderUrl} from "../context-api";
-import {AktivBruker, AktivEnhet, AktorIdResponse, Contextvalue, Enhet, Saksbehandler} from "../domain";
-import {Data} from "./index";
+import {AKTIV_BRUKER_URL, AKTIV_ENHET_URL, ContextApiType, modiacontextholderUrl} from "./api";
+import {
+    AktivBruker,
+    AktivEnhet,
+    AktorIdResponse, Data,
+    Enhet,
+    Saksbehandler
+} from "../internal-domain";
+import {EnhetContextvalue, EnhetDisplay, FnrDisplay,} from '../domain'
+import {InitializedState} from "./index";
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -14,18 +20,30 @@ const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     etternavn: ''
 };
 
-function gittGyldigeEnheter(enheter: Array<Enhet>): { data: Data } {
+function gittGyldigeEnheter(enheter: Array<Enhet>): Partial<InitializedState> {
     const data = {
         aktorId: MaybeCls.nothing<AktorIdResponse>(),
-        saksbehandler: MaybeCls.of({...mockSaksbehandler, enheter})
+        saksbehandler: {...mockSaksbehandler, enheter}
     };
-    return { data };
+    return {
+        initialized: true,
+        enhet: {
+            value: MaybeCls.nothing(),
+            display: EnhetDisplay.ENHET_VALG,
+            enabled: true,
+            onChange(value: string | null): void {
+            },
+            wsRequestedValue: MaybeCls.nothing()
+        },
+        data
+    };
 }
 
-function gittOnsketEnhet(enhet: string | null): Contextvalue {
+function gittOnsketEnhet(enhet: string | null): EnhetContextvalue {
     return {
         initialValue: enhet,
-        onChange: jest.fn()
+        onChange: jest.fn(),
+        display: EnhetDisplay.ENHET
     }
 }
 
@@ -94,9 +112,8 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'});
+
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -112,9 +129,8 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'});
+
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -130,9 +146,8 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {enhet: MaybeCls.just('1234')}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { enhet: { value: MaybeCls.just('1234') }}});
+
         expect(props.onChange).toBeCalledWith('1234');
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -148,9 +163,8 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {enhet: MaybeCls.just('1235')}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { enhet: { value: MaybeCls.just('1235') }}});
+
         expect(props.onChange).toBeCalledWith('1235');
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -166,9 +180,7 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'});
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -184,9 +196,7 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/FEILMELDING", data: 'Kunne ikke finne en passende enhet'});
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -202,9 +212,7 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {enhet: MaybeCls.just('1235')}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { enhet: { value: MaybeCls.just('1235') }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -220,9 +228,7 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {enhet: MaybeCls.just('1234')}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { enhet: { value: MaybeCls.just('1234') }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -238,9 +244,7 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched).toEqual([
-            expect.objectContaining({type: "REDUX/UPDATESTATE", data: {enhet: MaybeCls.just('1235')}})
-        ]);
+        expect(dispatched[0]).toMatchObject({type: "REDUX/UPDATESTATE", data: { enhet: { value: MaybeCls.just('1235') }}});
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();

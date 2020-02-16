@@ -1,9 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { State } from '../redux';
+import {useInitializedState} from "../hooks/use-initialized-state";
 
 function Feilmelding() {
-    const feilmeldinger = useSelector((state: State) => state.feilmeldinger);
+    const feilmeldinger = useInitializedState((state) => state.feilmeldinger);
 
     if (feilmeldinger.length === 0) {
         return null;

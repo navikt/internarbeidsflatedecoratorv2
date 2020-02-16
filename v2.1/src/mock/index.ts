@@ -1,5 +1,5 @@
 import FetchMock, { JSONObject, Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
-import { AktorIdResponse, Saksbehandler } from '../domain';
+import { AktorIdResponse, Saksbehandler } from '../internal-domain';
 import { setupWsControlAndMock } from './context-mock';
 import { finnMiljoStreng } from '../utils/url-utils';
 

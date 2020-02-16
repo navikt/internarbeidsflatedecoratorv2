@@ -1,19 +1,19 @@
 import {eventChannel} from "redux-saga";
 import WebSocketImpl from "../utils/websocket-impl";
-import {ContextApiType} from "../context-api";
 import * as Api from './api';
-import {FetchResponse} from './api';
-import {AktivBruker, AktivEnhet} from "../domain";
-import {call, put, select, takeLatest} from "redux-saga/effects";
-import {ReduxActionTypes} from "./actions";
+import {ContextApiType, FetchResponse, getWebSocketUrl} from './api';
+import {AktivBruker, AktivEnhet} from "../internal-domain";
+import {call, takeLatest} from "redux-saga/effects";
 import {MaybeCls} from "@nutgaard/maybe-ts";
-import {State} from "./index";
+import {selectFromInitializedState} from "./utils";
+import {updateWSRequestedEnhet} from "./initialSyncEnhet";
+import {updateWSRequestedFnr} from "./initialSyncFnr";
 
 function createWsChannel(url: string | null | undefined) {
-    console.log('createWsChannel', url);
     if (!url) {
         return eventChannel((emit) => {
-            return () => {};
+            return () => {
+            };
         });
     }
 
@@ -31,25 +31,20 @@ function createWsChannel(url: string | null | undefined) {
 function* wsChange(event: ContextApiType) {
     if (event === ContextApiType.NY_AKTIV_BRUKER) {
         const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
-        yield put({
-            type: ReduxActionTypes.UPDATESTATE,
-            data: {
-                fnr: MaybeCls.of(response.data).map((data) => data.aktivBruker)
-            }
-        });
+        const onsketFnr: MaybeCls<string> = MaybeCls.of(response.data)
+            .flatMap((data) => MaybeCls.of(data.aktivBruker));
+        yield* updateWSRequestedFnr(onsketFnr);
     } else if (event === ContextApiType.NY_AKTIV_ENHET) {
         const response: FetchResponse<AktivEnhet> = yield call(Api.hentAktivEnhet);
-        yield put({
-            type: ReduxActionTypes.UPDATESTATE,
-            data: {
-                enhet: MaybeCls.of(response.data).map((data) => data.aktivEnhet)
-            }
-        });
+        const onsketEnhet: MaybeCls<string> = MaybeCls.of(response.data)
+            .flatMap((data) => MaybeCls.of(data.aktivEnhet));
+        yield* updateWSRequestedEnhet(onsketEnhet);
     }
 }
 
 export function* wsListener() {
-    const wsUrl = yield select((state: State) => state.urler.wsUrl);
+    const saksbehandler = yield selectFromInitializedState((state) => state.data.saksbehandler);
+    const wsUrl = getWebSocketUrl(saksbehandler);
     const wsChannel = yield call(createWsChannel, wsUrl);
     yield takeLatest(wsChannel, wsChange);
 }
