@@ -10,7 +10,7 @@ import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./uti
 import {ApplicationProps, FnrContextvalue} from "../domain";
 import {InitializedState} from "./index";
 
-function* initAktorId() {
+function* hentAktorId() {
     const state: InitializedState = yield selectFromInitializedState((state) => state);
 
     if (isEnabled(state.fnr) && state.fnr.value.isJust()) {
@@ -52,7 +52,7 @@ function* updateFnrState(onsketFnr: MaybeCls<string>) {
             },
             scope: 'initialSyncFnr - by props'
         });
-        yield fork(initAktorId);
+        yield fork(hentAktorId);
     }
 }
 

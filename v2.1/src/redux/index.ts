@@ -5,8 +5,6 @@ import {MaybeCls} from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import {FetchResponse, hasError} from './api';
 import {
-    ContextvalueState,
-    ContextvalueStateEnabled,
     Data,
     EnhetContextvalueState,
     FnrContextvalueState,
