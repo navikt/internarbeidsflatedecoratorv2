@@ -8,10 +8,10 @@ import {oppdaterAktivBruker} from '../../context-api';
 Modal.setAppElement(document.getElementById('root'));
 
 interface Props {
-    onAccept?(fnr: string): void;
+
 }
 
-function NyBrukerContextModal({onAccept}: Props) {
+function NyBrukerContextModal() {
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
     const [onsketFnr] = useState<string | null>(null);
@@ -22,7 +22,7 @@ function NyBrukerContextModal({onAccept}: Props) {
     };
 
     const onAcceptHandler = () => {
-        onAccept && onAccept(onsketFnr!);
+        // onAccept && onAccept(onsketFnr!);
         setOpen(false);
     };
 

@@ -27,8 +27,6 @@ const RemoveCssHashPlugin = {
             }
         });
 
-        fs.writeFileSync('out.json', JSON.stringify(webpackConfig.plugins, null, 2), 'utf-8');
-
         return webpackConfig;
     }
 };

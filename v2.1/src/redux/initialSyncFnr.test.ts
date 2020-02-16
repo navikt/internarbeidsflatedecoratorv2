@@ -1,10 +1,10 @@
 import {runSaga, Saga} from 'redux-saga';
 import FetchMock, {JSONObject, MatcherUrl, MatcherUtils, ResponseUtils, SpyMiddleware} from 'yet-another-fetch-mock';
-import initialSyncFnr, {InitialSyncFnrProps, InitialSyncFnrState} from './initialSyncFnr';
+import initialSyncFnr, {InitialSyncFnrState} from './initialSyncFnr';
 import {AKTIV_BRUKER_URL} from "./api";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import {ContextApiType, modiacontextholderUrl} from "../context-api";
-import {AktivBruker, AktivEnhet} from "../domain";
+import {AktivBruker, AktivEnhet, Contextvalue} from "../domain";
 
 function gittContextholder(context: Context, aktiveContext: AktivEnhet & AktivBruker & JSONObject, error: boolean = false) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
@@ -51,10 +51,10 @@ interface Context {
     contextholder: ContextholderValue;
 }
 
-function gittOnsketFnr(fnr: string | null | undefined): InitialSyncFnrProps {
+function gittOnsketFnr(fnr: string | null): Contextvalue {
     return {
-        defaultFnr: fnr,
-        onSok: jest.fn()
+        initialValue: fnr,
+        onChange: jest.fn()
     }
 }
 
@@ -92,7 +92,7 @@ describe('saga - root', () => {
             expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke hente ut person i kontekst'}),
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.nothing()}})
         ]);
-        expect(props.onSok).toBeCalledTimes(0);
+        expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
     });
@@ -107,7 +107,7 @@ describe('saga - root', () => {
         expect(dispatched).toEqual([
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.nothing()}})
         ]);
-        expect(props.onSok).toBeCalledTimes(0);
+        expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
     });
@@ -122,7 +122,7 @@ describe('saga - root', () => {
         expect(dispatched).toEqual([
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_1)}})
         ]);
-        expect(props.onSok).toBeCalledTimes(1);
+        expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
     });
@@ -137,7 +137,7 @@ describe('saga - root', () => {
         expect(dispatched).toEqual([
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_2)}})
         ]);
-        expect(props.onSok).toBeCalledTimes(1);
+        expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
         expect(spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))).toBeTruthy();
@@ -154,13 +154,13 @@ describe('saga - root', () => {
         expect(dispatched).toEqual([
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_1)}})
         ]);
-        expect(props.onSok).toBeCalledTimes(1);
+        expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 
-    it(`onsketFnr: invalid, aktivBruker: ${MOCK_FNR_1} => stateFnr: Just(invalid), ikke kall onSok eller oppdater contextholder`, async () => {
+    it(`onsketFnr: invalid, aktivBruker: ${MOCK_FNR_1} => stateFnr: Just(invalid), ikke kall onChange eller oppdater contextholder`, async () => {
         const state = gittInitialState();
         const props = gittOnsketFnr('12345678910');
         gittContextholder(context, {aktivBruker: MOCK_FNR_1, aktivEnhet: null});
@@ -171,7 +171,7 @@ describe('saga - root', () => {
             expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Fødselsnummeret er ikke gyldig'}),
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just('12345678910')}})
         ]);
-        expect(props.onSok).toBeCalledTimes(0);
+        expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
@@ -188,7 +188,7 @@ describe('saga - root', () => {
             expect.objectContaining({type: "REDUX/FEILMELDING", data: 'Kunne ikke hente ut person i kontekst'}),
             expect.objectContaining({type: "REDUX/UPDATESTATE", data: {fnr: MaybeCls.just(MOCK_FNR_1)}})
         ]);
-        expect(props.onSok).toBeCalledTimes(1);
+        expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
         expect(spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))).toBeTruthy();

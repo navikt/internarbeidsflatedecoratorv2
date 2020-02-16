@@ -116,8 +116,6 @@ function* initializeStore(props: Props, saksbehandler: Saksbehandler) {
 
     const state: Partial<State> = {
         appname: props.appname,
-        fnr: MaybeCls.of(props.defaultFnr).filter((fnr) => fnr.length > 0),
-        enhet: MaybeCls.of(props.defaultEnhet).filter((enhet) => enhet.length > 0),
         toggles: {
             visEnhet: toggles.visEnhet,
             visEnhetVelger: toggles.visEnhetVelger,
@@ -167,8 +165,8 @@ function* updateFnr(props: Props, value: { data: string }) {
         }
     });
 
-    if (props.onSok) {
-        yield spawn(props.onSok, fnr.withDefault(''));
+    if (props.fnr) {
+        yield spawn(props.fnr.onChange, fnr.withDefault(''));
     }
 }
 
@@ -182,8 +180,8 @@ function* updateEnhet(props: Props, value: { data: string }) {
         scope: 'initialSyncEnhet - by fallback'
     });
 
-    if (props.onEnhetChange) {
-        yield spawn(props.onEnhetChange, value.data);
+    if (props.enhet) {
+        yield spawn(props.enhet.onChange, value.data);
     }
 }
 
@@ -198,11 +196,11 @@ export function* initSaga(): IterableIterator<any> {
 
     console.time('sync');
     const syncJobs = [];
-    if (props.onEnhetChange) {
-        syncJobs.push(call(initialSyncEnhet, props));
+    if (props.enhet) {
+        syncJobs.push(call(initialSyncEnhet, props.enhet));
     }
-    if (props.onSok) {
-        syncJobs.push(call(initialSyncFnr, props));
+    if (props.fnr) {
+        syncJobs.push(call(initialSyncFnr, props.fnr));
     }
     yield all(syncJobs);
     console.timeEnd('sync');

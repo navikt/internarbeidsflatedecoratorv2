@@ -18,9 +18,19 @@ export interface Toggles {
     visEnhet: boolean;
 }
 
+export interface Contextvalue {
+    initialValue: string | null;
+    onChange(value: string | null): void;
+}
+
 export interface Contextholder {
     enabled: boolean;
     promptBeforeEnhetChange?: boolean;
+}
+
+export interface UrlOverrides {
+    veilederdataUrl?: string;
+    aktoerregister?: string;
 }
 
 export interface Markup {

@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { Provider, useDispatch } from 'react-redux';
 import store from './redux';
 import { SagaActions, SagaActionTypes } from './redux/actions';
-import { Contextholder, Markup, Toggles } from './domain';
+import { Contextholder, Contextvalue, Markup, Toggles, UrlOverrides } from './domain';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
 import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
@@ -15,20 +15,12 @@ import { useOnMount } from './hooks/use-on-mount';
 
 export interface Props {
     appname: string;
-    defaultFnr: string | undefined | null;
-    defaultEnhet: string | undefined | null;
+    fnr?: Contextvalue,
+    enhet?: Contextvalue,
     toggles?: Toggles;
     markup?: Markup;
-
-    onSok?(fnr: string): void;
-
-    onEnhetChange?(enhet: string): void;
-
     contextholderConfig?: Contextholder;
-    urler?: {
-        veilederdataUrl?: string;
-        aktoerregister?: string;
-    };
+    urler?: UrlOverrides
 }
 
 function Application(props: Props) {
@@ -48,8 +40,8 @@ function Application(props: Props) {
             <Banner apen={apen} />
             <Lenker apen={apen} />
             <Feilmelding />
-            <NyEnhetContextModal onAccept={props.onEnhetChange} />
-            <NyBrukerContextModal onAccept={props.onSok} />
+            <NyEnhetContextModal />
+            <NyBrukerContextModal />
         </div>
     );
 }

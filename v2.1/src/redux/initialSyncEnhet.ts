@@ -1,15 +1,16 @@
 import {call, fork, put, select} from "redux-saga/effects";
 import {MaybeCls} from "@nutgaard/maybe-ts";
-import {Props} from "../application";
 import * as Api from './api';
 import {FetchResponse} from './api';
-import {AktivEnhet} from "../domain";
+import {AktivEnhet, Contextvalue} from "../domain";
 import {ReduxActionTypes} from "./actions";
 import {Data, State} from "./index";
-import {spawnConditionally} from "./utils";
+import {RESET_VALUE, spawnConditionally} from "./utils";
 
-export type InitialSyncEnhetProps = Pick<Props, 'defaultEnhet' | 'onEnhetChange'>;
-export default function* initialSyncEnhet(props: InitialSyncEnhetProps) {
+export default function* initialSyncEnhet(props: Contextvalue) {
+    if (props.initialValue === RESET_VALUE) {
+        yield call(Api.nullstillAktivEnhet);
+    }
     const response: FetchResponse<AktivEnhet> = yield call(Api.hentAktivEnhet);
 
     const state: Data = yield select((state: State) => state.data);
@@ -18,7 +19,7 @@ export default function* initialSyncEnhet(props: InitialSyncEnhetProps) {
         .map((enheter) => enheter.map((enhet) => enhet.enhetId))
         .withDefault([]);
 
-    const onsketEnhet = MaybeCls.of(props.defaultEnhet)
+    const onsketEnhet = MaybeCls.of(props.initialValue)
         .map((enhet) => enhet.trim())
         .filter((enhet) => enhet.length > 0)
         .filter((enhet) => gyldigeEnheter.includes(enhet));
@@ -42,7 +43,7 @@ export default function* initialSyncEnhet(props: InitialSyncEnhetProps) {
             },
             scope: 'initialSyncEnhet - by props'
         });
-        yield spawnConditionally(props.onEnhetChange, onsketEnhet.withDefault(''));
+        yield spawnConditionally(props.onChange, onsketEnhet.withDefault(''));
     } else if (contextholderEnhet.isJust()) {
         yield put({
             type: ReduxActionTypes.UPDATESTATE,
@@ -51,7 +52,7 @@ export default function* initialSyncEnhet(props: InitialSyncEnhetProps) {
             },
             scope: 'initialSyncEnhet - by contextholder'
         });
-        yield spawnConditionally(props.onEnhetChange, contextholderEnhet.withDefault(''));
+        yield spawnConditionally(props.onChange, contextholderEnhet.withDefault(''));
     } else if (gyldigeEnheter.length > 0) {
         const fallbackEnhet = gyldigeEnheter[0];
         yield fork(Api.oppdaterAktivEnhet, fallbackEnhet);
@@ -62,7 +63,7 @@ export default function* initialSyncEnhet(props: InitialSyncEnhetProps) {
             },
             scope: 'initialSyncEnhet - by fallback'
         });
-        yield spawnConditionally(props.onEnhetChange, fallbackEnhet);
+        yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield fork(Api.nullstillAktivBruker);
         yield put({type: ReduxActionTypes.FEILMELDING, data: 'Kunne ikke finne en passende enhet'});

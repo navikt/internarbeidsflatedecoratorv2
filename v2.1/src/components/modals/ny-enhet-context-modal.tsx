@@ -8,10 +8,10 @@ import {oppdaterAktivEnhet} from '../../context-api';
 Modal.setAppElement(document.getElementById('root'));
 
 interface Props {
-    onAccept?(enhet: string): void;
+    // onAccept?(enhet: string, source: ChangeSource): void;
 }
 
-function NyEnhetContextModal({onAccept}: Props) {
+function NyEnhetContextModal() {
     const [pending, setPending] = useState(false);
     const [open, setOpen] = useState(false);
     const [onsketEnhet] = useState<string | null>(null);
@@ -21,7 +21,7 @@ function NyEnhetContextModal({onAccept}: Props) {
         oppdaterAktivEnhet("valgtEnhet").then(() => setPending(false));
     };
     const onAcceptHandler = () => {
-        onAccept && onAccept(onsketEnhet!);
+        // onAccept && onAccept(onsketEnhet!);
         setOpen(false);
     };
     //

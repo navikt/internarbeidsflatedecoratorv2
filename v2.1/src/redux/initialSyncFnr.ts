@@ -1,14 +1,13 @@
 import {call, fork, put, select} from "redux-saga/effects";
 import {MaybeCls} from "@nutgaard/maybe-ts";
-import {Props} from "../application";
 import * as Api from './api';
 import {FetchResponse, hasError} from './api';
-import {AktivBruker, AktorIdResponse} from "../domain";
+import {AktivBruker, AktorIdResponse, Contextvalue} from "../domain";
 import {lagFnrFeilmelding} from "../utils/fnr-utils";
 import {ReduxActionTypes} from "./actions";
 import {State} from "./index";
 import {defaultAktorIdUrl} from "../utils/use-aktorid";
-import {spawnConditionally} from "./utils";
+import {RESET_VALUE, spawnConditionally} from "./utils";
 
 function* initAktorId() {
     const state: State = yield select();
@@ -38,11 +37,15 @@ function* initAktorId() {
     }
 }
 
-export type InitialSyncFnrProps = Pick<Props, 'defaultFnr' | 'onSok'>;
 export type InitialSyncFnrState = Pick<State, 'fnr'>;
-export default function* initialSyncFnr(props: InitialSyncFnrProps) {
+export default function* initialSyncFnr(props: Contextvalue) {
+    if (props.initialValue === RESET_VALUE) {
+        yield call(Api.nullstillAktivBruker);
+        return;
+    }
+
     const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
-    const onsketFnr = MaybeCls.of(props.defaultFnr)
+    const onsketFnr = MaybeCls.of(props.initialValue)
         .map((fnr) => fnr.trim())
         .filter((fnr) => fnr.length > 0);
     const feilFnr = onsketFnr.flatMap(lagFnrFeilmelding);
@@ -82,7 +85,7 @@ export default function* initialSyncFnr(props: InitialSyncFnrProps) {
             },
             scope: 'initSyncFnr - by props'
         });
-        yield spawnConditionally(props.onSok, onsketFnr.withDefault(''));
+        yield spawnConditionally(props.onChange, onsketFnr.withDefault(''));
     } else if (onsketFnr.isNothing() && contextholderFnr.isJust()) {
         // Ikke noe fnr via props, bruker fnr fra contextholder og kaller onSok med dette
         yield put({
@@ -92,7 +95,7 @@ export default function* initialSyncFnr(props: InitialSyncFnrProps) {
             },
             scope: 'initSyncFnr - by contextholder'
         });
-        yield spawnConditionally(props.onSok, contextholderFnr.withDefault(''));
+        yield spawnConditionally(props.onChange, contextholderFnr.withDefault(''));
     } else {
         yield put({
             type: ReduxActionTypes.UPDATESTATE,

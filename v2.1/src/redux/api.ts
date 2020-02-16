@@ -81,6 +81,10 @@ export function nullstillAktivBruker() {
     return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' });
 }
 
+export function nullstillAktivEnhet() {
+    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
+}
+
 export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
 export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
 export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
