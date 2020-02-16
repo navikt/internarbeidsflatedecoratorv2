@@ -17,7 +17,7 @@ h1.typo-element {
     margin-left: 0.7em;
 }
 
-h1.typo-avsnitt, h2.typo-avsnitt {
+h1.typo-avsnitt, h2.typo-avsnitt, p.typo-avsnitt {
     font-family: Arial, sans-serif;
     font-size: 0.875em;
     font-weight: normal;
@@ -35,7 +35,7 @@ h1.typo-avsnitt, h2.typo-avsnitt {
     border: 0;
     svg {
         height: 30px;
-        width: 108px;
+        width: 75px;
         border-right: 1px solid @navGra40;
     }
     &:focus {
@@ -89,6 +89,11 @@ h1.typo-avsnitt, h2.typo-avsnitt {
     }
 }
 
+.dekorator__hode__toggleMeny_wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .dekorator__hode__toggleMeny {
     font-size: 0.875em;
     .dekorator__hode__button;
@@ -106,19 +111,24 @@ h1.typo-avsnitt, h2.typo-avsnitt {
 .flex-center {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .dekorator__banner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+}
+
+.dekorator__banner > * {
+    flex-grow: 1;
 }
 
 .dekorator__sokefelt {
     position: relative;
 }
 .dekorator__tittel {
-    width: 100%;
     min-width: 7.75em;
     max-width: 16em;
 }
@@ -264,14 +274,11 @@ h1.typo-avsnitt, h2.typo-avsnitt {
     display: inline-block;
     top: -0.125em;
 
-
-
     select {
         color: @white;
         background-color: #1d1d1d;
         border-radius: 1px;
         margin-right: 3px;
-        margin-left: 2em;
         margin-top:1px;
         padding: 8px 2rem 7px 10px;
         width: 210px;

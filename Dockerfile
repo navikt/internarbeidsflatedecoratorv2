@@ -1,9 +1,10 @@
-# gjør det mulig å bytte base-image slik at vi får bygd både innenfor og utenfor NAV
-ARG BASE_IMAGE_PREFIX="docker.adeo.no:5000/pus/"
-FROM ${BASE_IMAGE_PREFIX}node as builder
+FROM node as builder
+
+RUN ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
+RUN npm install -g npm@latest
+ENV CI=true
 
 ADD / /source
-ENV CI=true
 WORKDIR /source
 RUN npm ci
 ENV NODE_ENV=production
@@ -21,7 +22,7 @@ RUN npm ci
 ENV NODE_ENV=production
 RUN npm run build
 
-FROM ${BASE_IMAGE_PREFIX}nginx
+FROM navikt/pus-nginx:20.20191015.1303
 COPY --from=builder /source/build /usr/share/nginx/html/internarbeidsflatedecorator
 COPY --from=builder /source/v2/build /usr/share/nginx/html/internarbeidsflatedecorator/v2
 COPY --from=builder /source/v2.1/build /usr/share/nginx/html/internarbeidsflatedecorator/v2.1

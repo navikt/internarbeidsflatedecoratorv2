@@ -153,7 +153,7 @@ export class Header extends React.Component {
                                 {toggles.visVeileder &&
                                 <Veileder veileder={veileder} nameCase={toggles.nameCaseVeileder} />}
                             </div>
-                            <section>
+                            <section className="dekorator__hode__toggleMeny_wrapper">
                                 <button
                                     aria-expanded={visMeny}
                                     className={`dekorator__hode__toggleMeny ${visMeny ? 'dekorator__hode__toggleMeny--apen' : ''} `}

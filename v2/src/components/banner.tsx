@@ -26,7 +26,7 @@ function Banner() {
                         <Markup markup={context.markupEttersokefelt} />
                         <Veileder />
                     </div>
-                    <section>
+                    <section className="dekorator__hode__toggleMeny_wrapper">
                         <button
                             className={btnCls}
                             aria-pressed={context.apen.value}

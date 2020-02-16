@@ -4,11 +4,12 @@ import {finnMiljoStreng, finnNaisMiljoStreng} from '../utils/url-utils';
 import { AppContext } from '../application';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 
-function Lenke(props: { href: string; children: string }) {
+function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
+    const rel = props.target ? 'noopener noreferrer' : undefined;
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" target={'_blank'} rel={'noopener noreferrer'} />
+            <a {...props} className="typo-normal dekorator__menylenke" rel={rel} />
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
@@ -84,15 +85,6 @@ function Lenker() {
         return null;
     }
 
-    const tilretteLeggern = context.enhet
-        .filter((enhetId) => ['0213', '0315'].includes(enhetId))
-        .map(() => (
-            <Lenke href={`${arbeidstreningDomain}/finn-kandidat/`}>
-                Tilrettelegger’n
-            </Lenke>
-        ))
-        .getOrElse(null);
-
     return (
         <div className="dekorator__nav dekorator__nav--apen">
             <div className="dekorator__container dekorator__meny">
@@ -141,43 +133,41 @@ function Lenker() {
                             <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
                                 Arbeidstrening
                             </Lenke>
-                            {tilretteLeggern}
                         </ul>
                     </section>
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Sykefraværsoppfølging</h2>
                         <ul className="dekorator__menyliste">
+                            <Lenke href={`https://syfooversikt${naisDomain}/enhet`}>Enhetens oversikt</Lenke>
+                            <Lenke href={`https://syfooversikt${naisDomain}/minoversikt`}>Min oversikt</Lenke>
+                            <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøte</Lenke>
+                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={appDomain(`/sykefravaer/${fnr ? fnr : ''}`)}>
                                 Sykmeldt enkeltperson
                             </Lenke>
-                            <Lenke href={appDomain(`/sykefravaersoppfoelging/`)}>
-                                Sykefraværsoppgaver
-                            </Lenke>
-                            <Lenke href={appDomain(`/moteoversikt/`)}>Dialogmøter</Lenke>
-                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
                         </ul>
                     </section>
                 </div>
                 <section className="dekorator__rad">
                     <h2 className="dekorator__lenkeheader">Andre systemer</h2>
                     <ul className="dekorator__menyliste">
-                        <Lenke href={arenaUrl(fnr)}>
+                        <Lenke href={arenaUrl(fnr)} target="_blank">
                             Arena personmappen
                         </Lenke>
-                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}>
+                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)} target="_blank">
                             AA register
                         </Lenke>
-                        <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)}>Pesys</Lenke>
-                        <Lenke href={gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`)}>
+                        <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)} target="_blank">Pesys</Lenke>
+                        <Lenke href={gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`)} target="_blank">
                             Gosys
                         </Lenke>
-                        <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)}>
+                        <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
                             Foreldrepenger
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}`}>
+                        <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
                             Rekrutteringsbistand
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`}>
+                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`} target="_blank">
                             Søk etter stilling
                         </Lenke>
                     </ul>
