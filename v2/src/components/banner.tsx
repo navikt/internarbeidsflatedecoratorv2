@@ -22,9 +22,9 @@ function Banner() {
                     <div className="flex-center">
                         <Enhet visible={context.toggles.visEnhet} />
                         <EnhetVelger visible={context.toggles.visEnhetVelger} />
-                        <Sokefelt />
+                        <Sokefelt visible={context.toggles.visSokefelt}/>
                         <Markup markup={context.markupEttersokefelt} />
-                        <Veileder />
+                        <Veileder visible={context.toggles.visVeilder}/>
                     </div>
                     <section className="dekorator__hode__toggleMeny_wrapper">
                         <button

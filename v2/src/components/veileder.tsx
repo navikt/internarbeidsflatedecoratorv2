@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../application';
 import { EMDASH } from '../utils/string-utils';
+import visibleIf from './visibleIf';
 
 function Veileder() {
     const context = useContext(AppContext);
@@ -17,4 +18,4 @@ function Veileder() {
     );
 }
 
-export default Veileder;
+export default visibleIf(Veileder);
