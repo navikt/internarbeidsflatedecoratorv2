@@ -5,6 +5,7 @@ import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import useHotkeys, { erAltOg } from '../hooks/use-hotkeys';
 import { nullstillAktivBruker } from '../context-api';
 import { useOnMount } from '../hooks/use-on-mount';
+import visibleIf from './visibleIf';
 
 function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
     return [
@@ -105,4 +106,4 @@ function Sokefelt() {
     );
 }
 
-export default Sokefelt;
+export default visibleIf(Sokefelt);
