@@ -4,7 +4,7 @@ import * as Api from './api';
 import {FetchResponse, hasError} from './api';
 import {AktivBruker, AktorIdResponse} from "../internal-domain";
 import {lagFnrFeilmelding} from "../utils/fnr-utils";
-import {ReduxActionTypes} from "./actions";
+import {EnhetChanged, ReduxActionTypes} from "./actions";
 import {FnrContextvalueState, isEnabled} from "../internal-domain";
 import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./utils";
 import {ApplicationProps, FnrContextvalue} from "../domain";
@@ -74,17 +74,18 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
     }
 }
 
-export function* updateFnr(props: ApplicationProps, value: { data: string }) {
-    const fnr = MaybeCls.of(value.data).filter((v) => v.length > 0);
-    if (fnr.isNothing()) {
-        yield fork(Api.nullstillAktivBruker);
-    } else {
-        yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
-    }
+export function* updateFnr(action: EnhetChanged) {
+    const props = yield selectFromInitializedState((state) => state.fnr);
+    if (isEnabled(props)) {
+        const fnr = MaybeCls.of(action.data).filter((v) => v.length > 0);
+        if (fnr.isNothing()) {
+            yield fork(Api.nullstillAktivBruker);
+        } else {
+            yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
+        }
 
-    yield* updateFnrState(fnr);
-    if (props.fnr) {
-        yield spawn(props.fnr.onChange, fnr.withDefault(''));
+        yield* updateFnrState(fnr);
+        yield spawn(props.onChange, fnr.withDefault(''));
     }
 }
 

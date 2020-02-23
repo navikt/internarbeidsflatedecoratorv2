@@ -169,9 +169,9 @@ export function* initSaga(): IterableIterator<any> {
 
     console.timeEnd('initSaga');
 
-    yield takeLatest(SagaActionTypes.FNRSUBMIT, updateFnr as any, props);
-    yield takeLatest(SagaActionTypes.FNRRESET, updateFnr as any, props);
-    yield takeLatest(SagaActionTypes.ENHETCHANGED, updateEnhet as any, props);
+    yield takeLatest(SagaActionTypes.FNRSUBMIT, updateFnr);
+    yield takeLatest(SagaActionTypes.FNRRESET, updateFnr);
+    yield takeLatest(SagaActionTypes.ENHETCHANGED, updateEnhet);
     yield fork(wsListener);
 }
 

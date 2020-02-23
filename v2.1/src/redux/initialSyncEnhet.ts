@@ -3,9 +3,9 @@ import {MaybeCls} from "@nutgaard/maybe-ts";
 import * as Api from './api';
 import {FetchResponse} from './api';
 import {AktivEnhet, Data, EnhetContextvalueState, isEnabled} from "../internal-domain";
-import {ReduxActionTypes} from "./actions";
+import {FnrReset, FnrSubmit, ReduxActionTypes, SagaActionTypes} from "./actions";
 import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./utils";
-import {ApplicationProps, EnhetContextvalue} from "../domain";
+import {EnhetContextvalue} from "../domain";
 
 function* updateEnhetState(onsketEnhet: MaybeCls<string>) {
     const data: EnhetContextvalueState = yield selectFromInitializedState((state) => state.enhet);
@@ -43,11 +43,18 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
     }
 }
 
-export function* updateEnhet(props: ApplicationProps, value: { data: string }) {
-    yield fork(Api.oppdaterAktivEnhet, value.data);
-    yield* updateEnhetState(MaybeCls.of(value.data));
-    if (props.enhet) {
-        yield spawn(props.enhet.onChange, value.data);
+export function* updateEnhet(action: FnrSubmit | FnrReset) {
+    const props = yield selectFromInitializedState((state) => state.enhet);
+    if (isEnabled(props)) {
+        if (action.type === SagaActionTypes.FNRRESET) {
+            yield fork(Api.nullstillAktivBruker);
+            yield* updateEnhetState(MaybeCls.nothing());
+            yield spawn(props.onChange, null);
+        } else {
+            yield fork(Api.oppdaterAktivEnhet, action.data);
+            yield* updateEnhetState(MaybeCls.of(action.data));
+            yield spawn(props.onChange, action.data);
+        }
     }
 }
 
