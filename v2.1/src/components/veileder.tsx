@@ -1,6 +1,6 @@
 import React from 'react';
-import visibleIf from "./visibleIf";
-import {useInitializedState} from "../hooks/use-initialized-state";
+import visibleIf from './visibleIf';
+import { useInitializedState } from '../hooks/use-initialized-state';
 
 function Veileder() {
     const saksbehandler = useInitializedState((state) => state.data.saksbehandler);

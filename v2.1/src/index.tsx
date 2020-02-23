@@ -1,8 +1,8 @@
 import 'core-js/stable';
-import Application  from './application';
 import NAVSPA from '@navikt/navspa';
+import Application from './application';
 import './styles/main.less';
-import {ApplicationProps} from "./domain";
+import { ApplicationProps } from './domain';
 
 if (process.env.REACT_APP_MOCK === 'true') {
     require('./mock');

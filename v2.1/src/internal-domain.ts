@@ -1,5 +1,5 @@
-import {MaybeCls} from "@nutgaard/maybe-ts";
-import {EnhetDisplay, FnrDisplay} from "./domain";
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { EnhetDisplay, FnrDisplay } from './domain';
 
 export interface Saksbehandler {
     readonly ident: string;
@@ -64,5 +64,5 @@ export type EnhetContextvalueState = ContextvalueState<EnhetDisplay>;
 export type FnrContextvalueState = ContextvalueState<FnrDisplay>;
 
 export function isEnabled<T>(value: ContextvalueState<T>): value is ContextvalueStateEnabled<T> {
-    return value.enabled
+    return value.enabled;
 }

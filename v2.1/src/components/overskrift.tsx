@@ -8,7 +8,7 @@ interface Props {
 function Overskrift(props: Props) {
     return (
         <section className="dekorator__hode__logo">
-            <NAVLogo/>
+            <NAVLogo />
             <h1 className="typo-element dekorator__tittel">{props.appname}</h1>
         </section>
     );

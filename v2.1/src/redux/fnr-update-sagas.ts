@@ -1,12 +1,12 @@
-import {InitializedState} from "./reducer";
-import {selectFromInitializedState} from "./utils";
-import {AktorIdResponse, FnrContextvalueState, isEnabled} from "../internal-domain";
-import {lagFnrFeilmelding} from "../utils/fnr-utils";
+import { call, fork, put, spawn, take } from 'redux-saga/effects';
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { InitializedState } from './reducer';
+import { selectFromInitializedState } from './utils';
+import { AktorIdResponse, FnrContextvalueState, isEnabled } from '../internal-domain';
+import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import * as Api from './api';
-import {FetchResponse, hasError} from "./api";
-import {call, fork, put, spawn, take} from "redux-saga/effects";
-import {EnhetChanged, ReduxActionTypes, SagaActionTypes} from "./actions";
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { FetchResponse, hasError } from './api';
+import { EnhetChanged, ReduxActionTypes, SagaActionTypes } from './actions';
 
 export function* hentAktorId() {
     const state: InitializedState = yield selectFromInitializedState((state) => state);
@@ -22,10 +22,7 @@ export function* hentAktorId() {
 
         const feilFnr = state.fnr.value.flatMap(lagFnrFeilmelding);
         if (feilFnr.isNothing()) {
-            const response: FetchResponse<AktorIdResponse> = yield call(
-                Api.hentAktorId,
-                fnr
-            );
+            const response: FetchResponse<AktorIdResponse> = yield call(Api.hentAktorId, fnr);
             if (hasError(response)) {
                 yield put({
                     type: ReduxActionTypes.FEILMELDING,
@@ -33,7 +30,7 @@ export function* hentAktorId() {
                     scope: 'initAktorId'
                 });
             } else {
-                yield put({type: ReduxActionTypes.AKTORIDDATA, data: response.data});
+                yield put({ type: ReduxActionTypes.AKTORIDDATA, data: response.data });
             }
         }
     }
@@ -77,7 +74,10 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
             showModal
         });
 
-        const resolution = yield take([SagaActionTypes.WS_FNR_ACCEPT, SagaActionTypes.WS_FNR_DECLINE]);
+        const resolution = yield take([
+            SagaActionTypes.WS_FNR_ACCEPT,
+            SagaActionTypes.WS_FNR_DECLINE
+        ]);
         if (resolution.type === SagaActionTypes.WS_FNR_ACCEPT) {
             yield* updateFnrState({
                 showModal: false,

@@ -57,8 +57,12 @@ function setupControls() {
         const clearBothLogs = document.createElement('button');
         clearBothLogs.innerText = 'Clear both logs';
         clearBothLogs.addEventListener('click', () => {
-            const wsTextarea = document.getElementById('mock-control__ws-log')! as HTMLTextAreaElement;
-            const contextTextarea = document.getElementById('mock-control__context-log')! as HTMLTextAreaElement;
+            const wsTextarea = document.getElementById(
+                'mock-control__ws-log'
+            )! as HTMLTextAreaElement;
+            const contextTextarea = document.getElementById(
+                'mock-control__context-log'
+            )! as HTMLTextAreaElement;
             wsTextarea.value = '';
             contextTextarea.value = '';
         });
@@ -88,7 +92,9 @@ function setupControls() {
         wsLogClear.id = 'mock-control_ws-log-clear';
         wsLogClear.innerText = 'Clear';
         wsLogClear.addEventListener('click', () => {
-            const textarea = document.getElementById('mock-control__ws-log')! as HTMLTextAreaElement;
+            const textarea = document.getElementById(
+                'mock-control__ws-log'
+            )! as HTMLTextAreaElement;
             textarea.value = '';
         });
         wsLogHeader.appendChild(wsLogClear);
@@ -112,7 +118,9 @@ function setupControls() {
         contextLogClear.id = 'mock-control_context-log-clear';
         contextLogClear.innerText = 'Clear';
         contextLogClear.addEventListener('click', () => {
-            const textarea = document.getElementById('mock-control__context-log')! as HTMLTextAreaElement;
+            const textarea = document.getElementById(
+                'mock-control__context-log'
+            )! as HTMLTextAreaElement;
             textarea.value = '';
         });
         contextLogHeader.appendChild(contextLogClear);
@@ -148,7 +156,9 @@ function addWSLogEntry() {
 
 function addContextholderLogEntry(input: RequestInfo, message: string) {
     if (typeof input !== 'string' || !input.endsWith('fromMock')) {
-        const textarea = document.getElementById('mock-control__context-log')! as HTMLTextAreaElement;
+        const textarea = document.getElementById(
+            'mock-control__context-log'
+        )! as HTMLTextAreaElement;
         const now = new Date().toLocaleTimeString('en-GB');
 
         const current = textarea.value;
@@ -189,7 +199,7 @@ export function setupWsControlAndMock(mock: FetchMock) {
             addContextholderLogEntry(input, `DELETE NY_AKTIV_ENHET`);
             return {};
         });
-        mock.delete('/modiacontextholder/api/context/aktivbruker', ({ input}) => {
+        mock.delete('/modiacontextholder/api/context/aktivbruker', ({ input }) => {
             context.aktivBruker = null;
             ws.send(controlSignal('NY_AKTIV_BRUKER'));
             addContextholderLogEntry(input, `DELETE NY_AKTIV_BRUKER`);

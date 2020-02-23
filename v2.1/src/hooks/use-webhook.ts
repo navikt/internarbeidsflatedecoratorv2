@@ -1,5 +1,5 @@
-import WebSocket, { Listeners } from './../utils/websocket-impl';
 import { useEffect } from 'react';
+import WebSocket, { Listeners } from './../utils/websocket-impl';
 
 type WSState = {
     [key: string]: {

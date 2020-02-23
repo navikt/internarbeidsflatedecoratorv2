@@ -1,13 +1,13 @@
-import {call, fork, put} from "redux-saga/effects";
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { call, fork, put } from 'redux-saga/effects';
+import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
-import {FetchResponse, hasError} from './api';
-import {AktivBruker} from "../internal-domain";
-import {lagFnrFeilmelding} from "../utils/fnr-utils";
-import {ReduxActionTypes} from "./actions";
-import {RESET_VALUE, spawnConditionally} from "./utils";
-import {FnrContextvalue} from "../domain";
-import {updateFnrValue} from "./fnr-update-sagas";
+import { FetchResponse, hasError } from './api';
+import { AktivBruker } from '../internal-domain';
+import { lagFnrFeilmelding } from '../utils/fnr-utils';
+import { ReduxActionTypes } from './actions';
+import { RESET_VALUE, spawnConditionally } from './utils';
+import { FnrContextvalue } from '../domain';
+import { updateFnrValue } from './fnr-update-sagas';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -43,7 +43,8 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
 
     if (onsketFnr.isJust() && feilFnr.isNothing()) {
         // Gyldig fnr via props, oppdaterer contextholder og kaller onSok med fnr
-        const erUlikContextholderFnr = onsketFnr.withDefault('') !== contextholderFnr.withDefault('');
+        const erUlikContextholderFnr =
+            onsketFnr.withDefault('') !== contextholderFnr.withDefault('');
         if (erUlikContextholderFnr) {
             yield fork(Api.oppdaterAktivBruker, onsketFnr.withDefault(''));
         }
@@ -56,5 +57,4 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
     } else {
         yield* updateFnrValue(onsketFnr);
     }
-
 }

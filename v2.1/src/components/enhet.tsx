@@ -1,15 +1,12 @@
 import React from 'react';
-import {MaybeCls} from '@nutgaard/maybe-ts';
-import {Saksbehandler} from '../internal-domain';
-import {EMDASH} from '../utils/string-utils';
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { Saksbehandler } from '../internal-domain';
+import { EMDASH } from '../utils/string-utils';
 import visibleIf from './visibleIf';
-import {useInitializedState} from "../hooks/use-initialized-state";
-import {useEnhetContextvalueState} from "../hooks/use-contextvalue-state";
+import { useInitializedState } from '../hooks/use-initialized-state';
+import { useEnhetContextvalueState } from '../hooks/use-contextvalue-state';
 
-function lagEnhetvisning(
-    maybeEnhet: MaybeCls<string>,
-    saksbehandler: Saksbehandler
-): string {
+function lagEnhetvisning(maybeEnhet: MaybeCls<string>, saksbehandler: Saksbehandler): string {
     const enheter = saksbehandler.enheter;
     return maybeEnhet
         .filter((enhet) => enheter.find((e) => e.enhetId === enhet) !== undefined)

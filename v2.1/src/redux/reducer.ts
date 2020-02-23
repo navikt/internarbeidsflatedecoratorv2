@@ -1,7 +1,13 @@
-import {Data, EnhetContextvalueState, FnrContextvalueState, Toggles, UninitializedState} from "../internal-domain";
-import {Contextholder, Markup} from "../domain";
-import {ReduxActions, ReduxActionTypes, SagaActions} from "./actions";
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import {
+    Data,
+    EnhetContextvalueState,
+    FnrContextvalueState,
+    Toggles,
+    UninitializedState
+} from '../internal-domain';
+import { Contextholder, Markup } from '../domain';
+import { ReduxActions, ReduxActionTypes, SagaActions } from './actions';
 
 export interface InitializedState {
     initialized: true;
@@ -22,7 +28,7 @@ const initialState: State = {
 };
 
 export function isInitialized(state: State): state is InitializedState {
-    return state.initialized
+    return state.initialized;
 }
 
 export function reducer(state: State = initialState, action: ReduxActions | SagaActions): State {
@@ -33,7 +39,7 @@ export function reducer(state: State = initialState, action: ReduxActions | Saga
 
         switch (action.type) {
             case ReduxActionTypes.UPDATESTATE:
-                return {...state, ...action.data};
+                return { ...state, ...action.data };
             case ReduxActionTypes.FEILMELDING:
                 return {
                     ...state,

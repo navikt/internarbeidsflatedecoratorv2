@@ -18,7 +18,7 @@ export interface Contextvalue<T> {
 
 export enum EnhetDisplay {
     ENHET = 'ENHET',
-    ENHET_VALG = 'ENHET_VALG',
+    ENHET_VALG = 'ENHET_VALG'
 }
 
 export enum FnrDisplay {
@@ -30,8 +30,8 @@ export type FnrContextvalue = Contextvalue<FnrDisplay>;
 
 export interface ApplicationProps {
     appname: string;
-    fnr?: FnrContextvalue,
-    enhet?: EnhetContextvalue,
+    fnr?: FnrContextvalue;
+    enhet?: EnhetContextvalue;
     toggles?: TogglesConfig;
     markup?: Markup;
     contextholderConfig?: Contextholder;

@@ -1,12 +1,12 @@
-import {call, fork, put} from "redux-saga/effects";
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { call, fork, put } from 'redux-saga/effects';
+import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
-import {FetchResponse} from './api';
-import {AktivEnhet, Data} from "../internal-domain";
-import {ReduxActionTypes} from "./actions";
-import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./utils";
-import {EnhetContextvalue} from "../domain";
-import {updateEnhetValue} from "./enhet-update-sagas";
+import { FetchResponse } from './api';
+import { AktivEnhet, Data } from '../internal-domain';
+import { ReduxActionTypes } from './actions';
+import { RESET_VALUE, selectFromInitializedState, spawnConditionally } from './utils';
+import { EnhetContextvalue } from '../domain';
+import { updateEnhetValue } from './enhet-update-sagas';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -29,7 +29,8 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         .filter((enhet) => gyldigeEnheter.includes(enhet));
 
     if (onsketEnhet.isJust()) {
-        const erUlikContextholderEnhet = onsketEnhet.withDefault('') !== contextholderEnhet.withDefault('');
+        const erUlikContextholderEnhet =
+            onsketEnhet.withDefault('') !== contextholderEnhet.withDefault('');
         if (erUlikContextholderEnhet) {
             yield fork(Api.oppdaterAktivEnhet, onsketEnhet.withDefault(''));
         }
@@ -46,6 +47,9 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield fork(Api.nullstillAktivBruker);
-        yield put({type: ReduxActionTypes.FEILMELDING, data: 'Kunne ikke finne en passende enhet'});
+        yield put({
+            type: ReduxActionTypes.FEILMELDING,
+            data: 'Kunne ikke finne en passende enhet'
+        });
     }
 }

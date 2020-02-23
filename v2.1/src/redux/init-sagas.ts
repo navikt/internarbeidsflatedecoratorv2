@@ -1,16 +1,16 @@
-import {ApplicationProps, FnrDisplay} from "../domain";
-import {EnhetContextvalueState, FnrContextvalueState, Saksbehandler} from "../internal-domain";
-import {MaybeCls} from "@nutgaard/maybe-ts";
-import {all, call, fork, put, take, takeLatest} from "redux-saga/effects";
-import {ReduxActionTypes, SagaActionTypes} from "./actions";
-import * as Api from "./api";
-import {FetchResponse, hasError} from "./api";
-import initialSyncEnhet from "./enhet-initial-sync-saga";
-import initialSyncFnr from "./fnr-initial-sync-saga";
-import {updateFnr} from "./fnr-update-sagas";
-import {updateEnhet} from "./enhet-update-sagas";
-import {wsListener} from "./wsSaga";
-import {InitializedState} from "./reducer";
+import { all, call, fork, put, take, takeLatest } from 'redux-saga/effects';
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { ApplicationProps, FnrDisplay } from '../domain';
+import { EnhetContextvalueState, FnrContextvalueState, Saksbehandler } from '../internal-domain';
+import { ReduxActionTypes, SagaActionTypes } from './actions';
+import * as Api from './api';
+import { FetchResponse, hasError } from './api';
+import initialSyncEnhet from './enhet-initial-sync-saga';
+import initialSyncFnr from './fnr-initial-sync-saga';
+import { updateFnr } from './fnr-update-sagas';
+import { updateEnhet } from './enhet-update-sagas';
+import { wsListener } from './wsSaga';
+import { InitializedState } from './reducer';
 
 function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler) {
     const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
@@ -24,7 +24,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 showModal: false
             };
         })
-        .withDefault({enabled: false});
+        .withDefault({ enabled: false });
 
     const enhet: EnhetContextvalueState = MaybeCls.of(props.enhet)
         .map((config) => {
@@ -37,7 +37,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 showModal: false
             };
         })
-        .withDefault({enabled: false});
+        .withDefault({ enabled: false });
 
     const visVeileder: boolean = MaybeCls.of(props.toggles)
         .flatMap((toggles) => MaybeCls.of(toggles.visVeileder))
@@ -52,9 +52,9 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         appname: props.appname,
         fnr,
         enhet,
-        toggles: {visVeileder},
+        toggles: { visVeileder },
         markup: props.markup,
-        contextholderConfig: {promptBeforeEnhetChange},
+        contextholderConfig: { promptBeforeEnhetChange },
         data: {
             saksbehandler,
             aktorId: MaybeCls.nothing()
@@ -62,7 +62,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         feilmeldinger: []
     };
 
-    yield put({type: ReduxActionTypes.INITIALIZE, data: state});
+    yield put({ type: ReduxActionTypes.INITIALIZE, data: state });
 }
 
 function* initDekoratorData(props: ApplicationProps) {

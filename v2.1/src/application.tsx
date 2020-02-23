@@ -1,23 +1,23 @@
-import React, {useCallback, useRef} from 'react';
-import {Dispatch} from 'redux';
-import {Provider, useDispatch, useSelector} from 'react-redux';
+import React, { useCallback, useRef } from 'react';
+import { Dispatch } from 'redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './redux';
-import {SagaActions, SagaActionTypes} from './redux/actions';
-import {ApplicationProps} from './domain';
+import { SagaActions, SagaActionTypes } from './redux/actions';
+import { ApplicationProps } from './domain';
 import Banner from './components/banner';
 import Lenker from './components/lenker';
 import NyEnhetContextModal from './components/modals/ny-enhet-context-modal';
 import NyBrukerContextModal from './components/modals/ny-bruker-context-modal';
 import Feilmelding from './components/feilmelding';
-import {useWrappedState, WrappedState} from './hooks/use-wrapped-state';
+import { useWrappedState, WrappedState } from './hooks/use-wrapped-state';
 import useOnClickOutside from './hooks/use-on-click-outside';
-import {useOnMount} from './hooks/use-on-mount';
-import {State} from "./redux/reducer";
+import { useOnMount } from './hooks/use-on-mount';
+import { State } from './redux/reducer';
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
     useOnMount(() => {
-        dispatch({type: SagaActionTypes.INIT, data: props});
+        dispatch({ type: SagaActionTypes.INIT, data: props });
     });
     const isInitialized = useSelector((state: State) => state.initialized);
 
@@ -29,11 +29,11 @@ function Application(props: ApplicationProps) {
 
     return (
         <div className="dekorator" ref={ref}>
-            <Banner apen={apen} appname={props.appname}/>
-            {isInitialized && <Lenker apen={apen}/>}
-            {isInitialized && <Feilmelding/>}
-            {isInitialized && <NyEnhetContextModal/>}
-            {isInitialized && <NyBrukerContextModal/>}
+            <Banner apen={apen} appname={props.appname} />
+            {isInitialized && <Lenker apen={apen} />}
+            {isInitialized && <Feilmelding />}
+            {isInitialized && <NyEnhetContextModal />}
+            {isInitialized && <NyBrukerContextModal />}
         </div>
     );
 }

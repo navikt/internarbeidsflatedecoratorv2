@@ -1,5 +1,5 @@
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import {erLocalhost, finnMiljoStreng, randomCallId} from '../utils/url-utils';
+import { erLocalhost, finnMiljoStreng, randomCallId } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 
 export enum ContextApiType {

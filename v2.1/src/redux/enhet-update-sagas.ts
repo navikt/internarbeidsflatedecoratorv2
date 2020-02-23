@@ -1,9 +1,9 @@
-import {MaybeCls} from "@nutgaard/maybe-ts";
-import {EnhetContextvalueState, isEnabled} from "../internal-domain";
-import {selectFromInitializedState} from "./utils";
-import {fork, put, spawn, take} from "redux-saga/effects";
-import {FnrReset, FnrSubmit, ReduxActionTypes, SagaActionTypes} from "./actions";
-import * as Api from "./api";
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { fork, put, spawn, take } from 'redux-saga/effects';
+import { EnhetContextvalueState, isEnabled } from '../internal-domain';
+import { selectFromInitializedState } from './utils';
+import { FnrReset, FnrSubmit, ReduxActionTypes, SagaActionTypes } from './actions';
+import * as Api from './api';
 
 export function* updateEnhetState(updated: Partial<EnhetContextvalueState>) {
     const data: EnhetContextvalueState = yield selectFromInitializedState((state) => state.enhet);
@@ -19,14 +19,14 @@ export function* updateEnhetState(updated: Partial<EnhetContextvalueState>) {
                 enhet: newData
             },
             scope: 'initialSyncEnhet - by props'
-        })
+        });
     }
 }
 
 export function* updateEnhetValue(onsketEnhet: MaybeCls<string>) {
     yield* updateEnhetState({
         value: onsketEnhet
-    })
+    });
 }
 
 export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
@@ -41,7 +41,10 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
             showModal
         });
 
-        const resolution = yield take([SagaActionTypes.WS_ENHET_ACCEPT, SagaActionTypes.WS_ENHET_DECLINE]);
+        const resolution = yield take([
+            SagaActionTypes.WS_ENHET_ACCEPT,
+            SagaActionTypes.WS_ENHET_DECLINE
+        ]);
         if (resolution.type === SagaActionTypes.WS_ENHET_ACCEPT) {
             yield* updateEnhetState({
                 showModal: false,

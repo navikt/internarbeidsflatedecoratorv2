@@ -1,7 +1,7 @@
 import { Action } from 'redux';
-import {InitializedState, State} from './reducer';
+import { InitializedState, State } from './reducer';
 import { AktorIdResponse } from '../internal-domain';
-import {ApplicationProps} from "../domain";
+import { ApplicationProps } from '../domain';
 
 interface DataAction<TYPE, DATA> extends Action<TYPE> {
     data: DATA;
