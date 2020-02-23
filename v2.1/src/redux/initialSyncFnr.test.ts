@@ -67,6 +67,7 @@ function gittInitialState(): Partial<InitializedState> {
             value: MaybeCls.nothing(),
             display: FnrDisplay.SOKEFELT,
             enabled: true,
+            showModal: false,
             onChange(value: string | null): void {
             },
             wsRequestedValue: MaybeCls.nothing()

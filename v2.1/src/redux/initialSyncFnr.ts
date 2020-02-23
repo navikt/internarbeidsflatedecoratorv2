@@ -1,13 +1,13 @@
-import {call, fork, put, spawn} from "redux-saga/effects";
+import {take, call, fork, put, spawn} from "redux-saga/effects";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import * as Api from './api';
 import {FetchResponse, hasError} from './api';
 import {AktivBruker, AktorIdResponse} from "../internal-domain";
 import {lagFnrFeilmelding} from "../utils/fnr-utils";
-import {EnhetChanged, ReduxActionTypes} from "./actions";
+import {EnhetChanged, ReduxActionTypes, SagaActionTypes} from "./actions";
 import {FnrContextvalueState, isEnabled} from "../internal-domain";
 import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./utils";
-import {ApplicationProps, FnrContextvalue} from "../domain";
+import {FnrContextvalue} from "../domain";
 import {InitializedState} from "./index";
 
 function* hentAktorId() {
@@ -17,6 +17,10 @@ function* hentAktorId() {
         const fnr = state.fnr.value.withDefaultLazy(() => {
             throw new Error(`'state.fnr' was NOTHING while expecting JUST`);
         });
+
+        if (state.data.aktorId.filter((data) => data[fnr] !== undefined).isJust()) {
+            return;
+        }
 
         const feilFnr = state.fnr.value.flatMap(lagFnrFeilmelding);
         if (feilFnr.isNothing()) {
@@ -36,14 +40,18 @@ function* hentAktorId() {
         }
     }
 }
-
-function* updateFnrState(onsketFnr: MaybeCls<string>) {
+function* updateFnrValue(onsketFnr: MaybeCls<string>) {
+    yield* updateFnrState({
+        value: onsketFnr
+    });
+}
+function* updateFnrState(updated: Partial<FnrContextvalueState>) {
     const data: FnrContextvalueState = yield selectFromInitializedState((state) => state.fnr);
 
     if (isEnabled(data)) {
         const newData: FnrContextvalueState = {
             ...data,
-            value: onsketFnr
+            ...updated
         };
         yield put({
             type: ReduxActionTypes.UPDATESTATE,
@@ -52,6 +60,7 @@ function* updateFnrState(onsketFnr: MaybeCls<string>) {
             },
             scope: 'initialSyncFnr - by props'
         });
+
         yield fork(hentAktorId);
     }
 }
@@ -59,18 +68,28 @@ function* updateFnrState(onsketFnr: MaybeCls<string>) {
 export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
     const data: FnrContextvalueState = yield selectFromInitializedState((state) => state.fnr);
     if (isEnabled(data)) {
-        const newData: FnrContextvalueState = {
-            ...data,
-            wsRequestedValue: onsketFnr
-        };
+        const fnr = data.value.withDefault('');
+        const onsket = onsketFnr.withDefault('');
+        const showModal = fnr !== onsket;
 
-        yield put({
-            type: ReduxActionTypes.UPDATESTATE,
-            data: {
-                fnr: newData
-            },
-            scope: 'initialSyncFnr - by props'
-        })
+        yield* updateFnrState({
+            wsRequestedValue: onsketFnr,
+            showModal
+        });
+
+        const resolution = yield take([SagaActionTypes.WS_FNR_ACCEPT, SagaActionTypes.WS_FNR_DECLINE]);
+        if (resolution.type === SagaActionTypes.WS_FNR_ACCEPT) {
+            yield* updateFnrState({
+                showModal: false,
+                value: onsketFnr
+            });
+            yield spawn(data.onChange, onsketFnr.withDefault(null));
+        } else {
+            yield fork(Api.oppdaterAktivBruker, fnr);
+            yield* updateFnrState({
+                showModal: false
+            });
+        }
     }
 }
 
@@ -84,7 +103,7 @@ export function* updateFnr(action: EnhetChanged) {
             yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
         }
 
-        yield* updateFnrState(fnr);
+        yield* updateFnrValue(fnr);
         yield spawn(props.onChange, fnr.withDefault(''));
     }
 }
@@ -127,14 +146,14 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
         if (erUlikContextholderFnr) {
             yield fork(Api.oppdaterAktivBruker, onsketFnr.withDefault(''));
         }
-        yield* updateFnrState(onsketFnr);
+        yield* updateFnrValue(onsketFnr);
         yield spawnConditionally(props.onChange, onsketFnr.withDefault(''));
     } else if (onsketFnr.isNothing() && contextholderFnr.isJust()) {
         // Ikke noe fnr via props, bruker fnr fra contextholder og kaller onSok med dette
-        yield* updateFnrState(contextholderFnr);
+        yield* updateFnrValue(contextholderFnr);
         yield spawnConditionally(props.onChange, contextholderFnr.withDefault(''));
     } else {
-        yield* updateFnrState(onsketFnr);
+        yield* updateFnrValue(onsketFnr);
     }
 
 }

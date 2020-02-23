@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Modal from 'nav-frontend-modal';
 import {Innholdstittel, Normaltekst} from 'nav-frontend-typografi';
 import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
 import Knapp, {Hovedknapp} from 'nav-frontend-knapper';
-import {oppdaterAktivEnhet} from "../../redux/api";
+import {useInitializedState} from "../../hooks/use-initialized-state";
+import {isEnabled} from "../../internal-domain";
+import {useDispatch} from "react-redux";
+import {SagaActionTypes} from "../../redux/actions";
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -12,39 +15,25 @@ interface Props {
 }
 
 function NyEnhetContextModal() {
-    const [pending, setPending] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [onsketEnhet] = useState<string | null>(null);
+    const dispatch = useDispatch();
+    const enhetState = useInitializedState((state) => state.enhet);
+    if (!isEnabled(enhetState)) {
+        return null;
+    }
+
 
     const onDecline = () => {
-        setPending(true);
-        oppdaterAktivEnhet("valgtEnhet").then(() => setPending(false));
+        dispatch({type: SagaActionTypes.WS_ENHET_DECLINE});
     };
     const onAcceptHandler = () => {
-        // onAccept && onAccept(onsketEnhet!);
-        setOpen(false);
+        dispatch({type: SagaActionTypes.WS_ENHET_ACCEPT});
     };
-    //
-    // const wsListener: Listeners = {
-    //     onMessage(event: MessageEvent): void {
-    //         if (event.data === 'NY_AKTIV_ENHET') {
-    //             hentAktivEnhet().then(({aktivEnhet}) => {
-    //                 if (true) {
-    //                     setOnsketEnhet(aktivEnhet);
-    //                     setOpen(aktivEnhet !== "valgtEnhet");
-    //                 } else if (aktivEnhet && aktivEnhet !== "valgtEnhet") {
-    //                     onAccept("aktivEnhet");
-    //                 }
-    //             });
-    //         }
-    //     }
-    // };
 
     return (
         <Modal
             className="dekorator"
             contentLabel="Brukercontext"
-            isOpen={open}
+            isOpen={enhetState.showModal}
             closeButton={false}
             onRequestClose={() => true}
         >
@@ -57,16 +46,15 @@ function NyEnhetContextModal() {
                     Velger du 'endre' mister du arbeidet du ikke har lagret.
                 </AlertStripeAdvarsel>
                 <Normaltekst className="blokk-s">
-                    Ønsker du å endre enhet til {onsketEnhet}?
+                    Ønsker du å endre enhet til {enhetState.wsRequestedValue.withDefault('Ukjent enhet')}?
                 </Normaltekst>
                 <div className="decorator-context-modal__footer">
-                    <Hovedknapp disabled={pending} onClick={onAcceptHandler}>
+                    <Hovedknapp onClick={onAcceptHandler}>
                         Endre
                     </Hovedknapp>
                     <Knapp
                         onClick={onDecline}
                         type="standard"
-                        spinner={pending}
                         autoDisableVedSpinner
                     >
                         Behold

@@ -31,6 +31,7 @@ function gittGyldigeEnheter(enheter: Array<Enhet>): Partial<InitializedState> {
             value: MaybeCls.nothing(),
             display: EnhetDisplay.ENHET_VALG,
             enabled: true,
+            showModal: false,
             onChange(value: string | null): void {
             },
             wsRequestedValue: MaybeCls.nothing()

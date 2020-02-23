@@ -1,9 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Modal from 'nav-frontend-modal';
 import {AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
 import Knapp, {Hovedknapp} from 'nav-frontend-knapper';
 import {Innholdstittel, Normaltekst} from 'nav-frontend-typografi';
-import {oppdaterAktivBruker} from "../../redux/api";
+import {useDispatch} from "react-redux";
+import {useInitializedState} from "../../hooks/use-initialized-state";
+import {isEnabled} from "../../internal-domain";
+import {SagaActionTypes} from "../../redux/actions";
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -12,36 +15,23 @@ interface Props {
 }
 
 function NyBrukerContextModal() {
-    const [pending, setPending] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [onsketFnr] = useState<string | null>(null);
-
+    const dispatch = useDispatch();
+    const fnrState = useInitializedState((state) => state.fnr);
+    if (!isEnabled(fnrState)) {
+        return null;
+    }
     const onDecline = () => {
-        setPending(true);
-        oppdaterAktivBruker("valgtFnr").then(() => setPending(false));
+        dispatch({type: SagaActionTypes.WS_FNR_DECLINE});
     };
-
     const onAcceptHandler = () => {
-        // onAccept && onAccept(onsketFnr!);
-        setOpen(false);
+        dispatch({type: SagaActionTypes.WS_FNR_ACCEPT});
     };
-
-    // const wsListener: Listeners = {
-    //     onMessage(event: MessageEvent): void {
-    //         if (event.data === 'NY_AKTIV_BRUKER') {
-    //             hentAktivBruker().then(({aktivBruker}) => {
-    //                 setOpen(aktivBruker !== "valgtFnr");
-    //                 setOnsketFnr(aktivBruker);
-    //             });
-    //         }
-    //     }
-    // };
 
     return (
         <Modal
             className="dekorator"
             contentLabel="Brukercontext"
-            isOpen={open}
+            isOpen={fnrState.showModal}
             closeButton={false}
             onRequestClose={() => true}
         >
@@ -53,15 +43,14 @@ function NyBrukerContextModal() {
                     Du har endret bruker i et annet vindu. Du kan ikke jobbe med 2 brukere samtidig.
                     Velger du å endre bruker mister du arbeidet du ikke har lagret.
                 </AlertStripeAdvarsel>
-                <Normaltekst className="blokk-s">{`Ønsker du å endre bruker til ${onsketFnr}?`}</Normaltekst>
+                <Normaltekst className="blokk-s">{`Ønsker du å endre bruker til ${fnrState.wsRequestedValue.withDefault('Ukjent FNR')}?`}</Normaltekst>
                 <div className="decorator-context-modal__footer">
-                    <Hovedknapp disabled={pending} onClick={onAcceptHandler}>
+                    <Hovedknapp onClick={onAcceptHandler}>
                         Endre
                     </Hovedknapp>
                     <Knapp
                         type="standard"
                         onClick={onDecline}
-                        spinner={pending}
                         autoDisableVedSpinner
                     >
                         Behold

@@ -54,10 +54,9 @@ export interface ContextvalueStateEnabled<T> {
     enabled: true;
     value: MaybeCls<string>;
     wsRequestedValue: MaybeCls<string>;
-
-    onChange(value: string | null): void;
-
     display: T;
+    showModal: boolean;
+    onChange(value: string | null): void;
 }
 
 export type ContextvalueState<T> = ContextvalueStateDisabled | ContextvalueStateEnabled<T>;
