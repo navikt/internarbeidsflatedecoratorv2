@@ -11,7 +11,7 @@ import { updateWSRequestedFnr } from './fnr-update-sagas';
 
 function createWsChannel(url: string | null | undefined) {
     if (!url) {
-        return eventChannel((emit) => {
+        return eventChannel(() => {
             return () => {};
         });
     }

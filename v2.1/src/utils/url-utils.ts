@@ -17,7 +17,7 @@ export function hentMiljoFraUrl(): string {
     const matched =
         matchTest(url, /localhost/, () => 'local') ||
         matchTest(url, /-([tq]\d+)\.nais\.preprod\.local/, (match) => match[1]) ||
-        matchTest(url, /\.nais\.preprod\.local/, (match) => 'q0') ||
+        matchTest(url, /\.nais\.preprod\.local/, () => 'q0') ||
         matchTest(url, /\.nais\.adeo\.no/, () => 'p') ||
         matchTest(url, /-([tq]\d+)\.adeo\.no/, (match) => match[1]) ||
         matchTest(url, /\.adeo\.no/, () => 'p') ||

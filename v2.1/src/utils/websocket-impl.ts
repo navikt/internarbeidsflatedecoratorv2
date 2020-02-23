@@ -38,13 +38,12 @@ function createRetrytime(tryCount: number): number {
 
 class WebSocketImpl {
     private status: Status;
-    private wsUrl: string;
-    private listeners: Listeners;
+    private readonly wsUrl: string;
+    private readonly listeners: Listeners;
     private connection?: WebSocket;
     private resettimer?: number | null;
     private retrytimer?: number | null;
     private retryCounter: number = 0;
-    private debug: boolean = false;
 
     constructor(wsUrl: string, listeners: Listeners) {
         this.wsUrl = wsUrl;
@@ -54,10 +53,10 @@ class WebSocketImpl {
 
     public open() {
         if (this.status === Status.CLOSE) {
-            this.print('Stopping creation of WS, since it is closed');
+            WebSocketImpl.print('Stopping creation of WS, since it is closed');
             return;
         }
-        this.print('Opening WS', this.wsUrl);
+        WebSocketImpl.print('Opening WS', this.wsUrl);
         this.connection = new WebSocket(this.wsUrl);
         this.connection.addEventListener('open', this.onWSOpen.bind(this));
         this.connection.addEventListener('message', this.onWSMessage.bind(this));
@@ -66,7 +65,7 @@ class WebSocketImpl {
     }
 
     public close() {
-        this.print('Closing WS', this.wsUrl);
+        WebSocketImpl.print('Closing WS', this.wsUrl);
         this.clearResetTimer();
         this.clearRetryTimer();
         this.status = Status.CLOSE;
@@ -80,12 +79,12 @@ class WebSocketImpl {
     }
 
     private onWSOpen(event: Event) {
-        this.print('open', event);
+        WebSocketImpl.print('open', event);
         this.clearResetTimer();
         this.clearRetryTimer();
 
         const delay = createDelay(45 * MINUTES);
-        this.print('Creating resettimer', delay);
+        WebSocketImpl.print('Creating resettimer', delay);
 
         this.resettimer = window.setTimeout(() => {
             this.status = Status.REFRESH;
@@ -102,21 +101,21 @@ class WebSocketImpl {
     }
 
     private onWSMessage(event: MessageEvent) {
-        this.print('message', event);
+        WebSocketImpl.print('message', event);
         if (this.listeners.onMessage) {
             this.listeners.onMessage(event);
         }
     }
 
     private onWSError(event: Event) {
-        this.print('error', event);
+        WebSocketImpl.print('error', event);
         if (this.listeners.onError) {
             this.listeners.onError(event);
         }
     }
 
     private onWSClose(event: CloseEvent) {
-        this.print('close', event);
+        WebSocketImpl.print('close', event);
         if (this.status === Status.REFRESH) {
             this.open();
             return;
@@ -124,7 +123,7 @@ class WebSocketImpl {
 
         if (this.status !== Status.CLOSE) {
             const delay = createRetrytime(this.retryCounter++);
-            this.print('Creating retrytimer', delay);
+            WebSocketImpl.print('Creating retrytimer', delay);
 
             this.retrytimer = window.setTimeout(this.open.bind(this), delay);
         }
@@ -148,7 +147,7 @@ class WebSocketImpl {
         this.retryCounter = 0;
     }
 
-    private print(...args: any[]) {
+    private static print(...args: any[]) {
         if (process.env.REACT_APP_MOCK === 'true') {
             log.debug('WS:', ...args); // tslint:disable-line
         }

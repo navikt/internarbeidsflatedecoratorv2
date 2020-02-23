@@ -31,7 +31,7 @@ function gittGyldigeEnheter(enheter: Array<Enhet>): Partial<InitializedState> {
             display: EnhetDisplay.ENHET_VALG,
             enabled: true,
             showModal: false,
-            onChange(value: string | null): void {},
+            onChange(): void {},
             wsRequestedValue: MaybeCls.nothing()
         },
         data
