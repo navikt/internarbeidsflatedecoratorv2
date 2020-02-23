@@ -1,7 +1,7 @@
 import React, {useCallback, useRef} from 'react';
 import {Dispatch} from 'redux';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import store, {State} from './redux';
+import store from './redux';
 import {SagaActions, SagaActionTypes} from './redux/actions';
 import {ApplicationProps} from './domain';
 import Banner from './components/banner';
@@ -12,6 +12,7 @@ import Feilmelding from './components/feilmelding';
 import {useWrappedState, WrappedState} from './hooks/use-wrapped-state';
 import useOnClickOutside from './hooks/use-on-click-outside';
 import {useOnMount} from './hooks/use-on-mount';
+import {State} from "./redux/reducer";
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();

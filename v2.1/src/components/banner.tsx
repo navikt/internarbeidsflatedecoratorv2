@@ -10,7 +10,7 @@ import Markup from './markup';
 import {WrappedState} from '../hooks/use-wrapped-state';
 import {useInitializedState} from "../hooks/use-initialized-state";
 import {useSelector} from "react-redux";
-import {State} from "../redux";
+import {State} from "../redux/reducer";
 import {EnhetDisplay} from "../domain";
 import {isEnabled} from "../internal-domain";
 

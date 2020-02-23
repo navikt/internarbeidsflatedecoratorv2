@@ -1,5 +1,5 @@
 import {select, spawn} from "redux-saga/effects";
-import {InitializedState, isInitialized, State} from "./index";
+import {InitializedState, isInitialized, State} from "./reducer";
 
 export const RESET_VALUE = '\u0000';
 

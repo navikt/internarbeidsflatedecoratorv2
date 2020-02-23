@@ -5,7 +5,7 @@ import {AKTIV_BRUKER_URL, ContextApiType, modiacontextholderUrl} from "./api";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import {FnrContextvalue, FnrDisplay} from "../domain";
 import {AktivBruker, AktivEnhet} from "../internal-domain";
-import {InitializedState} from "./index";
+import {InitializedState} from "./reducer";
 
 function gittContextholder(context: Context, aktiveContext: AktivEnhet & AktivBruker & JSONObject, error: boolean = false) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;

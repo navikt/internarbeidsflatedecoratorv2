@@ -11,7 +11,7 @@ import {
     Saksbehandler
 } from "../internal-domain";
 import {EnhetContextvalue, EnhetDisplay} from '../domain'
-import {InitializedState} from "./index";
+import {InitializedState} from "./reducer";
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',

@@ -1,4 +1,4 @@
-import {InitializedState} from "./index";
+import {InitializedState} from "./reducer";
 import {selectFromInitializedState} from "./utils";
 import {AktorIdResponse, FnrContextvalueState, isEnabled} from "../internal-domain";
 import {lagFnrFeilmelding} from "../utils/fnr-utils";

@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import {InitializedState, State} from './index';
+import {InitializedState, State} from './reducer';
 import { AktorIdResponse } from '../internal-domain';
 import {ApplicationProps} from "../domain";
 

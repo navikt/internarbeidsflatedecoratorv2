@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {InitializedState, isInitialized, State} from "../redux";
+import {InitializedState, isInitialized, State} from "../redux/reducer";
 
 export function useInitializedState<T>(selector: (state: InitializedState) => T): T {
     const state = useSelector((state: State) => state);
