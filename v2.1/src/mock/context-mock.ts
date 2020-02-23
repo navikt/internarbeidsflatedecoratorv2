@@ -146,13 +146,15 @@ function addWSLogEntry() {
     };
 }
 
-function addContextholderLogEntry(message: string) {
-    const textarea = document.getElementById('mock-control__context-log')! as HTMLTextAreaElement;
-    const now = new Date().toLocaleTimeString('en-GB');
+function addContextholderLogEntry(input: RequestInfo, message: string) {
+    if (typeof input !== 'string' || !input.endsWith('fromMock')) {
+        const textarea = document.getElementById('mock-control__context-log')! as HTMLTextAreaElement;
+        const now = new Date().toLocaleTimeString('en-GB');
 
-    const current = textarea.value;
-    const newEntry = `${now} ${message}`;
-    textarea.value = `${newEntry}\n${current}`;
+        const current = textarea.value;
+        const newEntry = `${now} ${message}`;
+        textarea.value = `${newEntry}\n${current}`;
+    }
 }
 
 type Context = { aktivEnhet: string | null; aktivBruker: string | null };
@@ -164,55 +166,54 @@ export function setupWsControlAndMock(mock: FetchMock) {
         ws.addEventListener('open', setupControls());
         ws.addEventListener('message', addWSLogEntry());
 
-        mock.post('/modiacontextholder/api/context', ({ body }) => {
+        mock.post('/modiacontextholder/api/context', ({ input, body }) => {
             if (body.eventType === 'NY_AKTIV_ENHET') {
                 context.aktivEnhet = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_ENHET'));
-                addContextholderLogEntry(`POST NY_AKTIV_ENHET ${body.verdi}`);
+                addContextholderLogEntry(input, `POST NY_AKTIV_ENHET ${body.verdi}`);
                 return Promise.resolve({ status: 200 });
             } else if (body.eventType === 'NY_AKTIV_BRUKER') {
                 context.aktivBruker = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_BRUKER'));
-                addContextholderLogEntry(`POST NY_AKTIV_BRUKER ${body.verdi}`);
+                addContextholderLogEntry(input, `POST NY_AKTIV_BRUKER ${body.verdi}`);
                 return Promise.resolve({ status: 200 });
             } else {
-                addContextholderLogEntry(`POST UKJENT_ENDEPUNKT`);
+                addContextholderLogEntry(input, `POST UKJENT_ENDEPUNKT`);
                 return Promise.resolve({ status: 500 });
             }
         });
 
-        mock.delete('/modiacontextholder/api/context/aktivenhet', () => {
+        mock.delete('/modiacontextholder/api/context/aktivenhet', ({ input }) => {
             context.aktivEnhet = null;
             ws.send(controlSignal('NY_AKTIV_ENHET'));
-            addContextholderLogEntry(`DELETE NY_AKTIV_ENHET`);
+            addContextholderLogEntry(input, `DELETE NY_AKTIV_ENHET`);
             return {};
         });
-        mock.delete('/modiacontextholder/api/context/aktivbruker', () => {
+        mock.delete('/modiacontextholder/api/context/aktivbruker', ({ input}) => {
             context.aktivBruker = null;
             ws.send(controlSignal('NY_AKTIV_BRUKER'));
-            addContextholderLogEntry(`DELETE NY_AKTIV_BRUKER`);
+            addContextholderLogEntry(input, `DELETE NY_AKTIV_BRUKER`);
             return {};
         });
     }
 
-    mock.get('/modiacontextholder/api/context/aktivenhet', () => {
-        addContextholderLogEntry(`GET NY_AKTIV_ENHET ${context.aktivEnhet || '<null>'}`);
+    mock.get('/modiacontextholder/api/context/aktivenhet', ({ input }) => {
+        addContextholderLogEntry(input, `GET NY_AKTIV_ENHET ${context.aktivEnhet || '<null>'}`);
         return {
             aktivEnhet: context.aktivEnhet,
             aktivBruker: null
         };
     });
-    mock.get('/modiacontextholder/api/context/aktivbruker', () => {
-        addContextholderLogEntry(`GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`);
+    mock.get('/modiacontextholder/api/context/aktivbruker', ({ input }) => {
+        addContextholderLogEntry(input, `GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`);
         return {
             aktivEnhet: null,
             aktivBruker: context.aktivBruker
         };
     });
     mock.get('/modiacontextholder/api/context', ({ input }) => {
-        if (typeof input !== 'string' || !input.endsWith('fromMock')) {
-            addContextholderLogEntry(`GET BOTH\n${JSON.stringify(context)}`);
-        }
+        addContextholderLogEntry(input, `GET BOTH\n${JSON.stringify(context)}`);
+
         return {
             aktivEnhet: context.aktivEnhet,
             aktivBruker: context.aktivBruker
