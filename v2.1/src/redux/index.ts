@@ -14,9 +14,11 @@ import {
 } from '../internal-domain';
 import {ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes} from './actions';
 import {wsListener} from "./wsSaga";
-import initialSyncEnhet, {updateEnhet} from "./initialSyncEnhet";
-import initialSyncFnr, {updateFnr} from "./initialSyncFnr";
+import initialSyncEnhet from "./enhet-initial-sync-saga";
+import initialSyncFnr from "./fnr-initial-sync-saga";
 import {ApplicationProps, Contextholder, FnrDisplay, Markup} from "../domain";
+import {updateEnhet} from "./enhet-update-sagas";
+import {updateFnr} from "./fnr-update-sagas";
 
 export interface InitializedState {
     initialized: true;
@@ -131,7 +133,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         feilmeldinger: []
     };
 
-    yield put({type: 'REDUX/INITSTATE', data: state});
+    yield put({type: ReduxActionTypes.INITIALIZE, data: state});
 }
 
 function* initDekoratorData(props: ApplicationProps) {

@@ -1,16 +1,14 @@
-import {take, call, fork, put, spawn} from "redux-saga/effects";
-import {MaybeCls} from "@nutgaard/maybe-ts";
-import * as Api from './api';
-import {FetchResponse, hasError} from './api';
-import {AktivBruker, AktorIdResponse} from "../internal-domain";
-import {lagFnrFeilmelding} from "../utils/fnr-utils";
-import {EnhetChanged, ReduxActionTypes, SagaActionTypes} from "./actions";
-import {FnrContextvalueState, isEnabled} from "../internal-domain";
-import {RESET_VALUE, selectFromInitializedState, spawnConditionally} from "./utils";
-import {FnrContextvalue} from "../domain";
 import {InitializedState} from "./index";
+import {selectFromInitializedState} from "./utils";
+import {AktorIdResponse, FnrContextvalueState, isEnabled} from "../internal-domain";
+import {lagFnrFeilmelding} from "../utils/fnr-utils";
+import * as Api from './api';
+import {FetchResponse, hasError} from "./api";
+import {call, fork, put, spawn, take} from "redux-saga/effects";
+import {EnhetChanged, ReduxActionTypes, SagaActionTypes} from "./actions";
+import {MaybeCls} from "@nutgaard/maybe-ts";
 
-function* hentAktorId() {
+export function* hentAktorId() {
     const state: InitializedState = yield selectFromInitializedState((state) => state);
 
     if (isEnabled(state.fnr) && state.fnr.value.isJust()) {
@@ -40,11 +38,13 @@ function* hentAktorId() {
         }
     }
 }
-function* updateFnrValue(onsketFnr: MaybeCls<string>) {
+
+export function* updateFnrValue(onsketFnr: MaybeCls<string>) {
     yield* updateFnrState({
         value: onsketFnr
     });
 }
+
 function* updateFnrState(updated: Partial<FnrContextvalueState>) {
     const data: FnrContextvalueState = yield selectFromInitializedState((state) => state.fnr);
 
@@ -106,54 +106,4 @@ export function* updateFnr(action: EnhetChanged) {
         yield* updateFnrValue(fnr);
         yield spawn(props.onChange, fnr.withDefault(''));
     }
-}
-
-export default function* initialSyncFnr(props: FnrContextvalue) {
-    if (props.initialValue === RESET_VALUE) {
-        yield call(Api.nullstillAktivBruker);
-        return;
-    }
-
-    const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
-    const onsketFnr = MaybeCls.of(props.initialValue)
-        .map((fnr) => fnr.trim())
-        .filter((fnr) => fnr.length > 0);
-    const feilFnr = onsketFnr.flatMap(lagFnrFeilmelding);
-
-    const contextholderFnr: MaybeCls<string> = MaybeCls.of(response.data)
-        .flatMap((data) => MaybeCls.of(data.aktivBruker))
-        .map((fnr) => fnr.trim())
-        .filter((fnr) => fnr.length > 0);
-
-    if (hasError(response)) {
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: 'Kunne ikke hente ut person i kontekst'
-        });
-    }
-
-    if (feilFnr.isJust()) {
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: feilFnr.withDefault('Ukjent feil ved validering av fødselsnummer.'),
-            scope: 'initSyncFnr - ugyldig fnr'
-        });
-    }
-
-    if (onsketFnr.isJust() && feilFnr.isNothing()) {
-        // Gyldig fnr via props, oppdaterer contextholder og kaller onSok med fnr
-        const erUlikContextholderFnr = onsketFnr.withDefault('') !== contextholderFnr.withDefault('');
-        if (erUlikContextholderFnr) {
-            yield fork(Api.oppdaterAktivBruker, onsketFnr.withDefault(''));
-        }
-        yield* updateFnrValue(onsketFnr);
-        yield spawnConditionally(props.onChange, onsketFnr.withDefault(''));
-    } else if (onsketFnr.isNothing() && contextholderFnr.isJust()) {
-        // Ikke noe fnr via props, bruker fnr fra contextholder og kaller onSok med dette
-        yield* updateFnrValue(contextholderFnr);
-        yield spawnConditionally(props.onChange, contextholderFnr.withDefault(''));
-    } else {
-        yield* updateFnrValue(onsketFnr);
-    }
-
 }

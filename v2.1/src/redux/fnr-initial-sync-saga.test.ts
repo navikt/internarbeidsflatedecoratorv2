@@ -1,6 +1,6 @@
 import {runSaga, Saga} from 'redux-saga';
 import FetchMock, {JSONObject, MatcherUrl, MatcherUtils, ResponseUtils, SpyMiddleware} from 'yet-another-fetch-mock';
-import initialSyncFnr from './initialSyncFnr';
+import initialSyncFnr from './fnr-initial-sync-saga';
 import {AKTIV_BRUKER_URL, ContextApiType, modiacontextholderUrl} from "./api";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import {FnrContextvalue, FnrDisplay} from "../domain";

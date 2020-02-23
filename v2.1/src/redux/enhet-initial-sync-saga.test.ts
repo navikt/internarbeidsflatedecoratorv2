@@ -1,16 +1,16 @@
 import {runSaga, Saga} from 'redux-saga';
 import FetchMock, {JSONObject, MatcherUrl, MatcherUtils, SpyMiddleware} from 'yet-another-fetch-mock';
 import {MaybeCls} from "@nutgaard/maybe-ts";
-import initialSyncEnhet from './initialSyncEnhet';
+import initialSyncEnhet from './enhet-initial-sync-saga';
 import {AKTIV_BRUKER_URL, AKTIV_ENHET_URL, ContextApiType, modiacontextholderUrl} from "./api";
 import {
     AktivBruker,
     AktivEnhet,
-    AktorIdResponse, Data,
+    AktorIdResponse,
     Enhet,
     Saksbehandler
 } from "../internal-domain";
-import {EnhetContextvalue, EnhetDisplay, FnrDisplay,} from '../domain'
+import {EnhetContextvalue, EnhetDisplay} from '../domain'
 import {InitializedState} from "./index";
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {

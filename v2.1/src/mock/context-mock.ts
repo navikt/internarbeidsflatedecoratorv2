@@ -158,7 +158,7 @@ function addContextholderLogEntry(input: RequestInfo, message: string) {
 }
 
 type Context = { aktivEnhet: string | null; aktivBruker: string | null };
-const context: Context = { aktivEnhet: '', aktivBruker: '' };
+const context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
 
 export function setupWsControlAndMock(mock: FetchMock) {
     if (window.location.hostname.includes('localhost')) {

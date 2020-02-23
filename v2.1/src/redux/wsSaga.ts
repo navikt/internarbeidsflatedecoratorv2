@@ -6,8 +6,8 @@ import {AktivBruker, AktivEnhet} from "../internal-domain";
 import {call, takeLatest} from "redux-saga/effects";
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import {selectFromInitializedState} from "./utils";
-import {updateWSRequestedEnhet} from "./initialSyncEnhet";
-import {updateWSRequestedFnr} from "./initialSyncFnr";
+import {updateWSRequestedEnhet} from "./enhet-update-sagas";
+import {updateWSRequestedFnr} from "./fnr-update-sagas";
 
 function createWsChannel(url: string | null | undefined) {
     if (!url) {
