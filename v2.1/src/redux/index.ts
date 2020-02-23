@@ -1,4 +1,4 @@
-import {applyMiddleware, createStore} from 'redux';
+import {applyMiddleware, compose, createStore} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
 import {MaybeCls} from '@nutgaard/maybe-ts';
@@ -70,7 +70,8 @@ function reducer(state: State = initialState, action: ReduxActions | SagaActions
                 return state;
         }
     } else {
-        if (action.type.startsWith('@@redux/INIT') || action.type.startsWith("SAGA/")) {
+        const ignorePatterns = ['@@redux/INIT', '@@INIT', 'SAGA/'];
+        if (ignorePatterns.some((pattern) => action.type.startsWith(pattern))) {
             return state;
         }
         if (action.type !== ReduxActionTypes.INITIALIZE) {
@@ -88,7 +89,8 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 value: MaybeCls.of(config.initialValue),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
-                display: FnrDisplay.SOKEFELT
+                display: FnrDisplay.SOKEFELT,
+                showModal: false
             };
         })
         .withDefault({enabled: false});
@@ -100,7 +102,8 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 value: MaybeCls.of(config.initialValue),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
-                display: config.display
+                display: config.display,
+                showModal: false
             };
         })
         .withDefault({enabled: false});
@@ -181,7 +184,10 @@ function* rootSaga() {
     yield all([initSaga()]);
 }
 
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(
+    applyMiddleware(sagaMiddleware)
+));
 sagaMiddleware.run(rootSaga);
 
 export default store;
