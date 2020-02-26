@@ -122,7 +122,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             {
                 tittel: 'Sykmeldt enkeltperson',
                 // eslint-disable-next-line no-unneeded-ternary
-                url: `${appDomain}/sykefravaer/${fnr ? fnr : ''}`,
+                url: `https://syfomodiaperson${naisDomain}sykefravaer/${fnr ? fnr : ''}`,
             },
         ],
     },
