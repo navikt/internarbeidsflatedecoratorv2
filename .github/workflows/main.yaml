@@ -25,9 +25,13 @@ jobs:
           npm ci
           cd v2
           npm ci
+          cd ../v2.1
+          npm ci
       - name: Lint and Test
         run: |
           npm run lint
+          npm run test
+          cd v2.1
           npm run test
 #          Den dagen vi lager tester for V2
 #          cd v2
@@ -36,6 +40,8 @@ jobs:
         run: |
           npm run build
           cd v2
+          npm run build
+          cd ../v2.1
           npm run build
 
   build-and-push:
@@ -50,18 +56,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Install dependencies
-        run: |
-          npm ci
-          cd v2
-          npm ci
-      - name: Lint and Test
-        run: |
-          npm run lint
-          npm run test
-#          Den dagen vi lager tester for V2
-#          cd v2
-#          npm run test
       - name: Publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -120,14 +114,19 @@ jobs:
           npm ci
           cd v2
           npm ci
+          cd ../v2.1
+          npm ci
       - name: Build
         run: |
           npm run build
           cd v2
           npm run build
+          cd ../v2.1
+          npm run build
       - name: Bundle
         run: |
           cp -r v2/build build/v2
+          cp -r v2.1/build build/v2.1
           ls build
       - name: Deploy gh-pages
         uses: peaceiris/actions-gh-pages@v2.9.0
