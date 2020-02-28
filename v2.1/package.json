@@ -2,7 +2,7 @@
     "name": "v3",
     "version": "0.1.0",
     "private": true,
-    "homepage": "/internarbeidsflatedecorator/v2",
+    "homepage": "/internarbeidsflatedecorator/v2.1",
     "dependencies": {
         "@navikt/navspa": "^1.0.1",
         "@nutgaard/maybe-ts": "^1.4.0",
