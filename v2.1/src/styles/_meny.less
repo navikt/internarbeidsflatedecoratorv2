@@ -1,0 +1,71 @@
+@import (reference) '~nav-frontend-core/less/core';
+
+.dekorator__nav {
+    background-color: @navMorkGra;
+}
+
+.dekorator__nav--apen {
+    overflow-y: hidden;
+}
+
+.dekorator__meny {
+    padding: 1em;
+    line-height: 1.5;
+
+    .dekorator__kolonner {
+        display: flex;
+        margin-bottom: 2em;
+    }
+
+    .dekorator__kolonne {
+        min-width: 25%;
+        padding: 0 3em 0 0;
+    }
+
+    .dekorator__menyliste {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+    .dekorator__rad .dekorator__menyliste {
+        display: flex;
+    }
+
+    .dekorator__lenkeheader {
+        border-bottom: 1px solid white;
+        margin: 0 auto 0.5em;
+        font-size: 1em;
+    }
+
+    .dekorator__menylenke {
+        display: block;
+        color: @white;
+        text-decoration: none;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        &:hover {
+            color: @navLysBla;
+            &:before {
+                @circle-width: 7px;
+                width: @circle-width;
+                height: @circle-width;
+                margin-right: -@circle-width;
+                background: @navLysBla;
+                border-radius: 100%;
+                display: inline-block;
+                content: '';
+                left: -15px;
+                position: relative;
+                margin-bottom: 2px;
+            }
+        }
+        &:focus {
+            outline: 0;
+            box-shadow: 0 0 0 2px @orangeFocus;
+        }
+    }
+    .dekorator__rad .dekorator__menylenke {
+        margin-right: 2em;
+    }
+}

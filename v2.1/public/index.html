@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+    <title>React App</title>
+    <style>
+        html, body {
+            margin: 0;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
+<script>
+    const minimal = {
+        appname: 'Modia basic'
+    };
+    const enhetAware = {
+        appname: 'Modia enhet',
+        enhet: {
+            initialValue: '0604',
+            onChange(enhet) {
+                console.warn('ENHET onChange', enhet);
+            },
+            display: 'ENHET_VALG'
+        },
+        toggles: {
+            visEnhetVelger: true
+        }
+    };
+    const fnrAware = {
+        appname: 'Modia enhet',
+        fnr: {
+            initialValue: '10108000398',
+            onChange(enhet) {
+                console.warn('FNR onChange', enhet);
+            },
+            display: 'SOKEFELT'
+        },
+        toggles: {
+            visSokefelt: true
+        }
+    };
+    const complete = {
+        appname: 'Modia maximum',
+        fnr: {
+            initialValue: null,
+            display: 'SOKEFELT',
+            onChange(enhet) {
+                console.warn('FNR onChange', enhet);
+            }
+        },
+        enhet: {
+            initialValue: null,
+            display: 'ENHET_VALG',
+            onChange(enhet) {
+                console.warn('ENHET onChange', enhet);
+            }
+        },
+        toggles: {
+            visVeileder: true
+        },
+        markup: {
+            etterSokefelt: '<button>Min knapp</button>',
+        },
+        contextholderConfig: {
+            enabled: true,
+            promptBeforeEnhetChange: true
+        }
+    };
+
+    NAVSPA.internarbeidsflatefs(document.getElementById('root'), complete);
+</script>
+</html>
