@@ -64,10 +64,16 @@ function* updateFnrState(updated: Partial<FnrContextvalueState>) {
 
 export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
     const data: FnrContextvalueState = yield selectFromInitializedState((state) => state.fnr);
-    if (isEnabled(data)) {
+    if (isEnabled(data) && !data.ignoreWsEvents) {
         const fnr = data.value.withDefault('');
         const onsket = onsketFnr.withDefault('');
         const showModal = fnr !== onsket;
+
+        if (!data.showModalBeforeChange) {
+            yield* updateFnrValue(onsketFnr);
+            yield spawn(data.onChange, onsketFnr.withDefault(null));
+            return;
+        }
 
         yield* updateFnrState({
             wsRequestedValue: onsketFnr,

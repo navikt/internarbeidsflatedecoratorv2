@@ -6,7 +6,7 @@ import {
     Toggles,
     UninitializedState
 } from '../internal-domain';
-import { Contextholder, Markup } from '../domain';
+import { Markup } from '../domain';
 import { ReduxActions, ReduxActionTypes, SagaActions } from './actions';
 
 export interface InitializedState {
@@ -16,7 +16,6 @@ export interface InitializedState {
     enhet: EnhetContextvalueState;
     toggles: Toggles;
     markup?: Markup;
-    contextholderConfig: Contextholder;
     data: Data;
     feilmeldinger: Array<string>;
 }
