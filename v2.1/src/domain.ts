@@ -2,10 +2,6 @@ export interface TogglesConfig {
     visVeileder?: boolean;
 }
 
-export interface Contextholder {
-    promptBeforeEnhetChange?: boolean;
-}
-
 export interface Markup {
     etterSokefelt?: string;
 }
@@ -14,6 +10,8 @@ export interface Contextvalue<T> {
     initialValue: string | null;
     display: T;
     onChange(value: string | null): void;
+    skipModal?: boolean;
+    ignoreWsEvents?: boolean;
 }
 
 export enum EnhetDisplay {
@@ -34,5 +32,4 @@ export interface ApplicationProps {
     enhet?: EnhetContextvalue;
     toggles?: TogglesConfig;
     markup?: Markup;
-    contextholderConfig?: Contextholder;
 }

@@ -31,10 +31,16 @@ export function* updateEnhetValue(onsketEnhet: MaybeCls<string>) {
 
 export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
     const data: EnhetContextvalueState = yield selectFromInitializedState((state) => state.enhet);
-    if (isEnabled(data)) {
+    if (isEnabled(data) && !data.ignoreWsEvents) {
         const enhet = data.value.withDefault('');
         const onsket = onsketEnhet.withDefault('');
         const showModal = enhet !== onsket;
+
+        if (data.skipModal) {
+            yield* updateEnhetValue(onsketEnhet);
+            yield spawn(data.onChange, onsketEnhet.withDefault(null));
+            return;
+        }
 
         yield updateEnhetState({
             wsRequestedValue: onsketEnhet,

@@ -21,7 +21,9 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: FnrDisplay.SOKEFELT,
-                showModal: false
+                showModal: false,
+                skipModal: config.skipModal === undefined ? false : config.skipModal,
+                ignoreWsEvents: config.ignoreWsEvents === undefined ? false : config.ignoreWsEvents
             };
         })
         .withDefault({ enabled: false });
@@ -34,17 +36,15 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: config.display,
-                showModal: false
+                showModal: false,
+                skipModal: config.skipModal === undefined ? false : config.skipModal,
+                ignoreWsEvents: config.ignoreWsEvents === undefined ? false : config.ignoreWsEvents
             };
         })
         .withDefault({ enabled: false });
 
     const visVeileder: boolean = MaybeCls.of(props.toggles)
         .flatMap((toggles) => MaybeCls.of(toggles.visVeileder))
-        .withDefault(true);
-
-    const promptBeforeEnhetChange: boolean = MaybeCls.of(props.contextholderConfig)
-        .flatMap((config) => MaybeCls.of(config.promptBeforeEnhetChange))
         .withDefault(true);
 
     const state: InitializedState = {
@@ -54,7 +54,6 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         enhet,
         toggles: { visVeileder },
         markup: props.markup,
-        contextholderConfig: { promptBeforeEnhetChange },
         data: {
             saksbehandler,
             aktorId: MaybeCls.nothing()

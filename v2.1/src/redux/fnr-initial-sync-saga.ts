@@ -17,6 +17,7 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
 
     const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
     const onsketFnr = MaybeCls.of(props.initialValue)
+        .map((fnr) => (fnr === RESET_VALUE ? '' : fnr))
         .map((fnr) => fnr.trim())
         .filter((fnr) => fnr.length > 0);
     const feilFnr = onsketFnr.flatMap(lagFnrFeilmelding);
