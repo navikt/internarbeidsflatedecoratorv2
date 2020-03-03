@@ -12,7 +12,6 @@ import { updateFnrValue } from './fnr-update-sagas';
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
         yield call(Api.nullstillAktivBruker);
-        return;
     }
 
     const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
