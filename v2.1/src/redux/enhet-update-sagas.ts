@@ -36,7 +36,7 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
         const onsket = onsketEnhet.withDefault('');
         const showModal = enhet !== onsket;
 
-        if (!data.showModalBeforeChange) {
+        if (data.skipModal) {
             yield* updateEnhetValue(onsketEnhet);
             yield spawn(data.onChange, onsketEnhet.withDefault(null));
             return;

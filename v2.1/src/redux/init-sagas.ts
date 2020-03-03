@@ -22,10 +22,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 onChange: config.onChange,
                 display: FnrDisplay.SOKEFELT,
                 showModal: false,
-                showModalBeforeChange:
-                    config.showModalBeforeChange === undefined
-                        ? true
-                        : config.showModalBeforeChange,
+                skipModal: config.skipModal === undefined ? false : config.skipModal,
                 ignoreWsEvents: config.ignoreWsEvents === undefined ? false : config.ignoreWsEvents
             };
         })
@@ -40,10 +37,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
                 onChange: config.onChange,
                 display: config.display,
                 showModal: false,
-                showModalBeforeChange:
-                    config.showModalBeforeChange === undefined
-                        ? true
-                        : config.showModalBeforeChange,
+                skipModal: config.skipModal === undefined ? false : config.skipModal,
                 ignoreWsEvents: config.ignoreWsEvents === undefined ? false : config.ignoreWsEvents
             };
         })

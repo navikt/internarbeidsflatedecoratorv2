@@ -10,7 +10,7 @@ export interface Contextvalue<T> {
     initialValue: string | null;
     display: T;
     onChange(value: string | null): void;
-    showModalBeforeChange?: boolean;
+    skipModal?: boolean;
     ignoreWsEvents?: boolean;
 }
 

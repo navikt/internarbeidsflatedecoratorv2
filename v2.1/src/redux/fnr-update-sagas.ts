@@ -69,7 +69,7 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
         const onsket = onsketFnr.withDefault('');
         const showModal = fnr !== onsket;
 
-        if (!data.showModalBeforeChange) {
+        if (data.skipModal) {
             yield* updateFnrValue(onsketFnr);
             yield spawn(data.onChange, onsketFnr.withDefault(null));
             return;

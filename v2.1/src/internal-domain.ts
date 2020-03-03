@@ -57,7 +57,7 @@ export interface ContextvalueStateEnabled<T> {
     display: T;
     showModal: boolean;
     onChange(value: string | null): void;
-    showModalBeforeChange: boolean;
+    skipModal: boolean;
     ignoreWsEvents: boolean;
 }
 
