@@ -11,13 +11,14 @@ import { updateFnr } from './fnr-update-sagas';
 import { updateEnhet } from './enhet-update-sagas';
 import { wsListener } from './wsSaga';
 import { InitializedState } from './reducer';
+import { RESET_VALUE } from './utils';
 
 function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler) {
     const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(config.initialValue),
+                value: MaybeCls.of(config.initialValue).filter((fnr) => fnr !== RESET_VALUE),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: FnrDisplay.SOKEFELT,
@@ -32,7 +33,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(config.initialValue),
+                value: MaybeCls.of(config.initialValue).filter((enhet) => enhet !== RESET_VALUE),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: config.display,
