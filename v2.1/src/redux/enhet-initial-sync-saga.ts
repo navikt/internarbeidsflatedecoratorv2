@@ -18,6 +18,7 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
     const gyldigeEnheter: Array<string> = state.saksbehandler.enheter.map((enhet) => enhet.enhetId);
 
     const onsketEnhet = MaybeCls.of(props.initialValue)
+        .map((enhet) => (enhet === RESET_VALUE ? '' : enhet))
         .map((enhet) => enhet.trim())
         .filter((enhet) => enhet.length > 0)
         .filter((enhet) => gyldigeEnheter.includes(enhet));

@@ -12,11 +12,11 @@ import { updateFnrValue } from './fnr-update-sagas';
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
         yield call(Api.nullstillAktivBruker);
-        return;
     }
 
     const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
     const onsketFnr = MaybeCls.of(props.initialValue)
+        .map((fnr) => (fnr === RESET_VALUE ? '' : fnr))
         .map((fnr) => fnr.trim())
         .filter((fnr) => fnr.length > 0);
     const feilFnr = onsketFnr.flatMap(lagFnrFeilmelding);
