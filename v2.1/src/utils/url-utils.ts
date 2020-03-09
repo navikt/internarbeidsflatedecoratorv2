@@ -4,56 +4,61 @@ declare global {
     }
 }
 
-function matchTest<T>(url: string, regex: RegExp, ifMatch: (match: RegExpExecArray) => T) {
-    const res = regex.exec(url);
-    if (res) {
-        return ifMatch(res);
-    }
-}
-
-export interface UrlEnvironment {
+interface UrlEnvironment {
     environment: string;
     envclass: string;
     isNaisUrl: boolean;
 }
 
+interface UrlRule {
+    regExp: RegExp;
+    ifMatch(match: RegExpExecArray): UrlEnvironment;
+}
+
+const urlRules: Array<UrlRule> = [
+    {
+        regExp: /localhost/,
+        ifMatch: () => ({ environment: 'local', isNaisUrl: false, envclass: 'local' })
+    },
+    {
+        regExp: /-([tq]\d+)\.nais\.preprod\.local/,
+        ifMatch: (match) => ({
+            environment: match[1],
+            isNaisUrl: true,
+            envclass: match[1].charAt(0)
+        })
+    },
+    {
+        regExp: /\.nais\.preprod\.local/,
+        ifMatch: (match) => ({ environment: 'q0', isNaisUrl: true, envclass: 'q' })
+    },
+    {
+        regExp: /\.nais\.adeo\.no/,
+        ifMatch: (match) => ({ environment: 'p', isNaisUrl: true, envclass: 'p' })
+    },
+    {
+        regExp: /-([tq]\d+)\.adeo\.no/,
+        ifMatch: (match) => ({
+            environment: match[1],
+            isNaisUrl: false,
+            envclass: match[1].charAt(0)
+        })
+    },
+    {
+        regExp: /\.adeo\.no/,
+        ifMatch: () => ({ environment: 'p', isNaisUrl: false, envclass: 'p' })
+    },
+    {
+        regExp: /.*/,
+        ifMatch: () => ({ environment: 'p', isNaisUrl: false, envclass: 'p' })
+    }
+];
+
 export function hentMiljoFraUrl(): UrlEnvironment {
     const url = window.location.host;
 
-    const matched: Omit<UrlEnvironment, 'envclass'> = matchTest(url, /localhost/, () => ({
-        environment: 'local',
-        isNaisUrl: false
-    })) ||
-        matchTest(url, /-([tq]\d+)\.nais\.preprod\.local/, (match) => ({
-            environment: match[1],
-            isNaisUrl: true
-        })) ||
-        matchTest(url, /\.nais\.preprod\.local/, () => ({ environment: 'q0', isNaisUrl: true })) ||
-        matchTest(url, /\.nais\.adeo\.no/, () => ({ environment: 'p', isNaisUrl: true })) ||
-        matchTest(url, /-([tq]\d+)\.adeo\.no/, (match) => ({
-            environment: match[1],
-            isNaisUrl: false
-        })) ||
-        matchTest(url, /\.adeo\.no/, () => ({ environment: 'p', isNaisUrl: false })) || {
-            environment: 'p',
-            isNaisUrl: false
-        }; // Hvis alt har feilet så antar vi produksjon, slik at ting fungerer der.
-
-    if (matched.environment === 'q') {
-        matched.environment = 'q0';
-    }
-
-    const envclass =
-        matchTest(matched.environment, /^local/, () => 'local') ||
-        matchTest(matched.environment, /^t/, () => 't') ||
-        matchTest(matched.environment, /^q/, () => 'q') ||
-        matchTest(matched.environment, /^p/, () => 'p') ||
-        'p';
-
-    return {
-        ...matched,
-        envclass
-    };
+    const rule: UrlRule = urlRules.find(({ regExp }) => regExp.exec(url))!;
+    return rule.ifMatch(rule.regExp.exec(url)!);
 }
 
 export function erLocalhost() {
