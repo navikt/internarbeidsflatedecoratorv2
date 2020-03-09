@@ -12,13 +12,13 @@ describe('api', () => {
         it('skal ha riktig nais-url ved kjøring på nais-preprod', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholderapp-q6.nais.preprod.local/modiacontextholder/api'
+                    'https://modiacontextholder-q6.nais.preprod.local/modiacontextholder/api'
                 );
             });
 
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholderapp-q0.nais.preprod.local/modiacontextholder/api'
+                    'https://modiacontextholder-q0.nais.preprod.local/modiacontextholder/api'
                 );
             });
         });
