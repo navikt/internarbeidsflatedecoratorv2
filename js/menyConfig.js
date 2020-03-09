@@ -94,7 +94,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 }),
             },
             {
-                tittel: 'Arbeidstrening',
+                tittel: 'Tiltaksgjennomføring - avtaler',
                 url: `${arbeidstreningDomain}tiltaksgjennomforing`,
                 target: '_blank',
             },

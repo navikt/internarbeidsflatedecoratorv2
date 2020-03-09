@@ -132,7 +132,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                                 Registrer arbeidssøker
                             </Lenke>
                             <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
-                                Arbeidstrening
+                                Tiltaksgjennomføring - avtaler
                             </Lenke>
                         </ul>
                     </section>
