@@ -1,5 +1,5 @@
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { erLocalhost, finnMiljoStreng, randomCallId } from '../utils/url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl, randomCallId } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 
 export enum ContextApiType {
@@ -7,12 +7,23 @@ export enum ContextApiType {
     NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
 }
 
-export const modiacontextholderUrl = (() => {
-    if (erLocalhost()) {
+export function lagModiacontextholderUrl(): string {
+    const urlEnv = hentMiljoFraUrl();
+
+    if (urlEnv.environment === 'local') {
         return '/modiacontextholder/api';
+    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
+        return `https://modiacontextholderapp-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
+    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'p') {
+        return `https://modiacontextholder.nais.adeo.no/modiacontextholder/api`;
+    } else if (!urlEnv.isNaisUrl && urlEnv.envclass !== 'p') {
+        return `https://app-${urlEnv.environment}.adeo.no/modiacontextholder/api`;
+    } else {
+        return `https://app.adeo.no/modiacontextholder/api`;
     }
-    return `https://app${finnMiljoStreng()}.adeo.no/modiacontextholder/api`;
-})();
+}
+
+export const modiacontextholderUrl = lagModiacontextholderUrl();
 export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
 export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
 export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
