@@ -13,7 +13,7 @@ export function lagModiacontextholderUrl(): string {
     if (urlEnv.environment === 'local') {
         return '/modiacontextholder/api';
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
-        return `https://modiacontextholderapp-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
+        return `https://modiacontextholder-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'p') {
         return `https://modiacontextholder.nais.adeo.no/modiacontextholder/api`;
     } else if (!urlEnv.isNaisUrl && urlEnv.envclass !== 'p') {
