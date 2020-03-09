@@ -4,37 +4,64 @@ declare global {
     }
 }
 
-function matchTest(url: string, regex: RegExp, ifMatch: (match: RegExpExecArray) => string) {
+function matchTest<T>(url: string, regex: RegExp, ifMatch: (match: RegExpExecArray) => T) {
     const res = regex.exec(url);
     if (res) {
         return ifMatch(res);
     }
 }
 
-export function hentMiljoFraUrl(): string {
+export interface UrlEnvironment {
+    environment: string;
+    envclass: string;
+    isNaisUrl: boolean;
+}
+
+export function hentMiljoFraUrl(): UrlEnvironment {
     const url = window.location.host;
 
-    const matched =
-        matchTest(url, /localhost/, () => 'local') ||
-        matchTest(url, /-([tq]\d+)\.nais\.preprod\.local/, (match) => match[1]) ||
-        matchTest(url, /\.nais\.preprod\.local/, () => 'q0') ||
-        matchTest(url, /\.nais\.adeo\.no/, () => 'p') ||
-        matchTest(url, /-([tq]\d+)\.adeo\.no/, (match) => match[1]) ||
-        matchTest(url, /\.adeo\.no/, () => 'p') ||
-        'p'; // Hvis alt har feilet så antar vi produksjon, slik at ting fungerer der.
+    const matched: Omit<UrlEnvironment, 'envclass'> = matchTest(url, /localhost/, () => ({
+        environment: 'local',
+        isNaisUrl: false
+    })) ||
+        matchTest(url, /-([tq]\d+)\.nais\.preprod\.local/, (match) => ({
+            environment: match[1],
+            isNaisUrl: true
+        })) ||
+        matchTest(url, /\.nais\.preprod\.local/, () => ({ environment: 'q0', isNaisUrl: true })) ||
+        matchTest(url, /\.nais\.adeo\.no/, () => ({ environment: 'p', isNaisUrl: true })) ||
+        matchTest(url, /-([tq]\d+)\.adeo\.no/, (match) => ({
+            environment: match[1],
+            isNaisUrl: false
+        })) ||
+        matchTest(url, /\.adeo\.no/, () => ({ environment: 'p', isNaisUrl: false })) || {
+            environment: 'p',
+            isNaisUrl: false
+        }; // Hvis alt har feilet så antar vi produksjon, slik at ting fungerer der.
 
-    if (matched === 'q') {
-        return 'q0';
+    if (matched.environment === 'q') {
+        matched.environment = 'q0';
     }
-    return matched;
+
+    const envclass =
+        matchTest(matched.environment, /^local/, () => 'local') ||
+        matchTest(matched.environment, /^t/, () => 't') ||
+        matchTest(matched.environment, /^q/, () => 'q') ||
+        matchTest(matched.environment, /^p/, () => 'p') ||
+        'p';
+
+    return {
+        ...matched,
+        envclass
+    };
 }
 
 export function erLocalhost() {
-    return hentMiljoFraUrl() === 'local';
+    return hentMiljoFraUrl().environment === 'local';
 }
 
 export function finnMiljoStreng() {
-    const miljo = hentMiljoFraUrl();
+    const miljo = hentMiljoFraUrl().environment;
     if (miljo === 'p') {
         return '';
     }
@@ -42,7 +69,7 @@ export function finnMiljoStreng() {
 }
 
 export function finnNaisMiljoStreng(envNamespace: boolean = false) {
-    const miljo = hentMiljoFraUrl();
+    const miljo = hentMiljoFraUrl().environment;
     const prefix = envNamespace && miljo !== 'p' ? `-${miljo}` : '';
     if (miljo === 'p') {
         return `${prefix}.nais.adeo.no`;
