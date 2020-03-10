@@ -43,8 +43,9 @@ async function doFetch(url: string, options?: RequestInit): Promise<Response> {
 
 export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise<FetchResponse<T>> {
     try {
-        const response = await fetch(info, init);
-        const data = await response.json();
+        const corsInit: RequestInit = { ...(init || {}), credentials: 'include' };
+        const response: Response = await fetch(info, corsInit);
+        const data: T = await response.json();
         return { data, error: undefined };
     } catch (error) {
         return { data: undefined, error };
