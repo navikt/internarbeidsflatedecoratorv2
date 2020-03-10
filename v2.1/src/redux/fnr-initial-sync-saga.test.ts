@@ -84,12 +84,14 @@ function gittInitialState(): Partial<InitializedState> {
     return {
         initialized: true,
         fnr: {
-            value: MaybeCls.nothing(),
-            display: FnrDisplay.SOKEFELT,
             enabled: true,
+            value: MaybeCls.nothing(),
+            wsRequestedValue: MaybeCls.nothing(),
+            display: FnrDisplay.SOKEFELT,
             showModal: false,
             onChange(): void {},
-            wsRequestedValue: MaybeCls.nothing()
+            skipModal: false,
+            ignoreWsEvents: false
         }
     };
 }

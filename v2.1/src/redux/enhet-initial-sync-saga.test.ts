@@ -27,12 +27,14 @@ function gittGyldigeEnheter(enheter: Array<Enhet>): Partial<InitializedState> {
     return {
         initialized: true,
         enhet: {
-            value: MaybeCls.nothing(),
-            display: EnhetDisplay.ENHET_VALG,
             enabled: true,
+            value: MaybeCls.nothing(),
+            wsRequestedValue: MaybeCls.nothing(),
+            display: EnhetDisplay.ENHET_VALG,
             showModal: false,
             onChange(): void {},
-            wsRequestedValue: MaybeCls.nothing()
+            skipModal: false,
+            ignoreWsEvents: false
         },
         data
     };
