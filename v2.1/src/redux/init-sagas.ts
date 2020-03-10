@@ -12,6 +12,7 @@ import { updateEnhet } from './enhet-update-sagas';
 import { wsListener } from './wsSaga';
 import { InitializedState } from './reducer';
 import { RESET_VALUE } from './utils';
+import log from './../utils/logging';
 
 function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler) {
     const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
@@ -82,15 +83,15 @@ function* initDekoratorData(props: ApplicationProps) {
 }
 
 export function* initSaga(): IterableIterator<any> {
-    console.time('initSaga');
+    log.time('initSaga');
     const action: { data: ApplicationProps } = yield take(SagaActionTypes.INIT);
     const props = action.data;
 
-    console.time('init');
+    log.time('init');
     yield call(initDekoratorData, props);
-    console.timeEnd('init');
+    log.timeEnd('init');
 
-    console.time('sync');
+    log.time('sync');
     const syncJobs = [];
     if (props.enhet) {
         syncJobs.push(call(initialSyncEnhet, props.enhet));
@@ -99,9 +100,9 @@ export function* initSaga(): IterableIterator<any> {
         syncJobs.push(call(initialSyncFnr, props.fnr));
     }
     yield all(syncJobs);
-    console.timeEnd('sync');
+    log.timeEnd('sync');
 
-    console.timeEnd('initSaga');
+    log.timeEnd('initSaga');
 
     yield takeLatest(SagaActionTypes.FNRSUBMIT, updateFnr);
     yield takeLatest(SagaActionTypes.FNRRESET, updateFnr);
