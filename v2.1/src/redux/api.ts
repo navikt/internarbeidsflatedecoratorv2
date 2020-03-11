@@ -1,5 +1,5 @@
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, hentMiljoFraUrl, randomCallId } from '../utils/url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl, randomGuid } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 
 export enum ContextApiType {
@@ -45,6 +45,11 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
     try {
         const corsInit: RequestInit = { ...(init || {}), credentials: 'include' };
         const response: Response = await fetch(info, corsInit);
+        if (response.status > 299) {
+            const content = await response.text();
+            return { data: undefined, error: content };
+        }
+
         const data: T = await response.json();
         return { data, error: undefined };
     } catch (error) {
@@ -77,7 +82,7 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
         credentials: 'include',
         headers: {
             'Nav-Consumer-Id': 'internarbeidsflatedecorator',
-            'Nav-Call-Id': randomCallId(),
+            'Nav-Call-Id': randomGuid(),
             'Nav-Personidenter': fnr
         }
     };

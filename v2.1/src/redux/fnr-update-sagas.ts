@@ -2,7 +2,12 @@ import { call, fork, put, spawn, take } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { InitializedState } from './reducer';
 import { selectFromInitializedState } from './utils';
-import { AktorIdResponse, FnrContextvalueState, isEnabled } from '../internal-domain';
+import {
+    AktorIdResponse,
+    FeilmeldingLevel,
+    FnrContextvalueState,
+    isEnabled
+} from '../internal-domain';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import * as Api from './api';
 import { FetchResponse, hasError } from './api';
@@ -26,7 +31,10 @@ export function* hentAktorId() {
             if (hasError(response)) {
                 yield put({
                     type: ReduxActionTypes.FEILMELDING,
-                    data: response.error,
+                    data: {
+                        level: FeilmeldingLevel.MINOR,
+                        message: 'Kunne ikke hente aktørId for bruker'
+                    },
                     scope: 'initAktorId'
                 });
             } else {

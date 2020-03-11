@@ -1,7 +1,12 @@
-import { all, call, fork, put, take, takeLatest } from 'redux-saga/effects';
+import { all, call, fork, put, select, take, takeLatest } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { ApplicationProps, FnrDisplay } from '../domain';
-import { EnhetContextvalueState, FnrContextvalueState, Saksbehandler } from '../internal-domain';
+import {
+    EnhetContextvalueState,
+    FeilmeldingLevel,
+    FnrContextvalueState,
+    Saksbehandler
+} from '../internal-domain';
 import { ReduxActionTypes, SagaActionTypes } from './actions';
 import * as Api from './api';
 import { FetchResponse, hasError } from './api';
@@ -10,11 +15,11 @@ import initialSyncFnr from './fnr-initial-sync-saga';
 import { updateFnr } from './fnr-update-sagas';
 import { updateEnhet } from './enhet-update-sagas';
 import { wsListener } from './wsSaga';
-import { InitializedState } from './reducer';
+import { InitializedState, State } from './reducer';
 import { RESET_VALUE } from './utils';
 import log from './../utils/logging';
 
-function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler) {
+function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksbehandler>) {
     const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
         .map((config) => {
             return {
@@ -49,6 +54,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         .flatMap((toggles) => MaybeCls.of(toggles.visVeileder))
         .withDefault(true);
 
+    const feilmeldinger = yield select((state: State) => state.feilmeldinger);
     const state: InitializedState = {
         initialized: true,
         appname: props.appname,
@@ -60,7 +66,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
             saksbehandler,
             aktorId: MaybeCls.nothing()
         },
-        feilmeldinger: []
+        feilmeldinger
     };
 
     yield put({ type: ReduxActionTypes.INITIALIZE, data: state });
@@ -68,15 +74,18 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
 
 function* initDekoratorData(props: ApplicationProps) {
     const response: FetchResponse<Saksbehandler> = yield call(Api.hentSaksbehandlerData);
-
     if (hasError(response)) {
         yield put({
             type: ReduxActionTypes.FEILMELDING,
-            data: response.error,
+            data: {
+                level: FeilmeldingLevel.FATAL,
+                message: 'Kunne ikke hente informasjon om innlogget saksbehandler.'
+            },
             scope: 'initDekoratorData'
         });
+        yield call(initializeStore, props, MaybeCls.nothing());
     } else {
-        yield call(initializeStore, props, response.data);
+        yield call(initializeStore, props, MaybeCls.just(response.data));
     }
 
     return response;

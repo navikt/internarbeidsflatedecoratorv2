@@ -1,16 +1,22 @@
 import React from 'react';
-import { useInitializedState } from '../hooks/use-initialized-state';
+import { useSelector } from 'react-redux';
+import { State } from '../redux/reducer';
 
 function Feilmelding() {
-    const feilmeldinger = useInitializedState((state) => state.feilmeldinger);
-
+    const feilmeldinger = useSelector((state: State) => state.feilmeldinger);
     if (feilmeldinger.length === 0) {
         return null;
     }
 
-    const elementer = feilmeldinger.map((feilmelding) => (
-        <span className="dekorator__feilmelding__tekst">{feilmelding}</span>
-    ));
+    const elementer = feilmeldinger
+        .sort((a, b) => b.level - a.level)
+        .map((feilmelding) => {
+            return (
+                <span className="dekorator__feilmelding__tekst" key={feilmelding.message}>
+                    {feilmelding.message}
+                </span>
+            );
+        });
 
     return (
         <div className="dekorator__feilmelding" aria-live="assertive" role="alert">

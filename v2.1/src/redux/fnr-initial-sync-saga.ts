@@ -27,6 +27,7 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
         .filter((fnr) => fnr.length > 0);
 
     if (hasError(response)) {
+        console.log('response', response);
         yield put({
             type: ReduxActionTypes.FEILMELDING,
             data: 'Kunne ikke hente ut person i kontekst'

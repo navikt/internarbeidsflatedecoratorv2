@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { InitializedState, State } from './reducer';
-import { AktorIdResponse } from '../internal-domain';
+import { AktorIdResponse, Feilmelding as FeilmeldingType } from '../internal-domain';
 import { ApplicationProps } from '../domain';
 
 interface DataAction<TYPE, DATA> extends Action<TYPE> {
@@ -28,7 +28,7 @@ export enum SagaActionTypes {
 
 export type InitStore = DataAction<ReduxActionTypes.INITIALIZE, InitializedState>;
 export type UpdateStore = DataAction<ReduxActionTypes.UPDATESTATE, Partial<State>>;
-export type Feilmelding = DataAction<ReduxActionTypes.FEILMELDING, string>;
+export type Feilmelding = DataAction<ReduxActionTypes.FEILMELDING, FeilmeldingType>;
 export type AktorIdData = DataAction<ReduxActionTypes.AKTORIDDATA, AktorIdResponse>;
 
 export type SagaInit = DataAction<SagaActionTypes.INIT, ApplicationProps>;

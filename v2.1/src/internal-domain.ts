@@ -38,12 +38,19 @@ export interface AktivBruker {
 }
 
 export interface Data {
-    saksbehandler: Saksbehandler;
+    saksbehandler: MaybeCls<Saksbehandler>;
     aktorId: MaybeCls<AktorIdResponse>;
 }
 
-export interface UninitializedState {
-    initialized: false;
+export enum FeilmeldingLevel {
+    MINOR,
+    MAJOR,
+    FATAL,
+    USER_FEEDBACK
+}
+export interface Feilmelding {
+    level: FeilmeldingLevel;
+    message: string;
 }
 
 export interface ContextvalueStateDisabled {

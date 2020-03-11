@@ -7,6 +7,7 @@ import { ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes } from '..
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import visibleIf from './visibleIf';
 import { useFnrContextvalueState } from '../hooks/use-contextvalue-state';
+import { Feilmelding, FeilmeldingLevel } from '../internal-domain';
 
 function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
     return [
@@ -36,8 +37,13 @@ function Sokefelt() {
         const value = sokefelt.input.value.trim();
         const feilmelding = lagFnrFeilmelding(value);
 
-        dispatch({ type: ReduxActionTypes.FEILMELDING, data: feilmelding.withDefault('') });
-        if (feilmelding.isNothing()) {
+        if (feilmelding.isJust()) {
+            const data: Feilmelding = {
+                level: FeilmeldingLevel.USER_FEEDBACK,
+                message: feilmelding.withDefault('')
+            };
+            dispatch({ type: ReduxActionTypes.FEILMELDING, data });
+        } else {
             dispatch({ type: SagaActionTypes.FNRSUBMIT, data: value });
         }
     };

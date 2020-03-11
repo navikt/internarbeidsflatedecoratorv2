@@ -2,9 +2,9 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import {
     Data,
     EnhetContextvalueState,
+    Feilmelding,
     FnrContextvalueState,
-    Toggles,
-    UninitializedState
+    Toggles
 } from '../internal-domain';
 import { Markup } from '../domain';
 import { ReduxActions, ReduxActionTypes, SagaActions } from './actions';
@@ -17,13 +17,19 @@ export interface InitializedState {
     toggles: Toggles;
     markup?: Markup;
     data: Data;
-    feilmeldinger: Array<string>;
+    feilmeldinger: Array<Feilmelding>;
+}
+
+export interface UninitializedState {
+    initialized: false;
+    feilmeldinger: Array<Feilmelding>;
 }
 
 export type State = UninitializedState | InitializedState;
 
 const initialState: State = {
-    initialized: false
+    initialized: false,
+    feilmeldinger: []
 };
 
 export function isInitialized(state: State): state is InitializedState {
@@ -31,7 +37,24 @@ export function isInitialized(state: State): state is InitializedState {
 }
 
 export function reducer(state: State = initialState, action: ReduxActions | SagaActions): State {
-    if (isInitialized(state)) {
+    if (action.type === ReduxActionTypes.FEILMELDING) {
+        const feilmeldingFinnes =
+            state.feilmeldinger.findIndex(
+                (feilmelding) => feilmelding.message === action.data.message
+            ) >= 0;
+        if (feilmeldingFinnes) {
+            return state;
+        }
+
+        return {
+            ...state,
+            feilmeldinger: state.feilmeldinger.concat(
+                MaybeCls.of(action.data)
+                    .filter((feilmelding) => feilmelding.message.length > 0)
+                    .withDefault([])
+            )
+        };
+    } else if (isInitialized(state)) {
         if (action.type === ReduxActionTypes.INITIALIZE) {
             throw new Error(`Got '${action.type}' while store has already been initialized`);
         }
@@ -39,14 +62,6 @@ export function reducer(state: State = initialState, action: ReduxActions | Saga
         switch (action.type) {
             case ReduxActionTypes.UPDATESTATE:
                 return { ...state, ...action.data };
-            case ReduxActionTypes.FEILMELDING:
-                return {
-                    ...state,
-                    feilmeldinger: MaybeCls.of(action.data)
-                        .filter((feilmelding) => feilmelding.length > 0)
-                        .map((feilmelding) => [feilmelding])
-                        .withDefault([])
-                };
             case ReduxActionTypes.AKTORIDDATA:
                 const aktorId = {
                     ...state.data,
