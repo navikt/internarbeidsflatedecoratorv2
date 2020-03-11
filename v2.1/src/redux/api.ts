@@ -107,11 +107,11 @@ export function oppdaterAktivEnhet(enhet: string | null | undefined) {
 }
 
 export function nullstillAktivBruker() {
-    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' });
+    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
 }
 
 export function nullstillAktivEnhet() {
-    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
+    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
 }
 
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {

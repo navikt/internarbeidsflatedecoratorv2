@@ -1,18 +1,23 @@
 import { eventChannel } from 'redux-saga';
-import { put, call, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import WebSocketImpl from '../utils/websocket-impl';
 import * as Api from './api';
 import { ContextApiType, FetchResponse, getWebSocketUrl } from './api';
-import {AktivBruker, AktivEnhet, FeilmeldingLevel} from '../internal-domain';
+import { AktivBruker, AktivEnhet } from '../internal-domain';
 import { selectFromInitializedState } from './utils';
 import { updateWSRequestedEnhet } from './enhet-update-sagas';
 import { updateWSRequestedFnr } from './fnr-update-sagas';
-import {ReduxActionTypes} from "./actions";
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { FeilmeldingKode } from './feilmeldinger/domain';
 
 enum WsChangeEventType {
-    MESSAGE, OPEN, ERROR, CLOSE
+    MESSAGE,
+    OPEN,
+    ERROR,
+    CLOSE
 }
+
 interface WsChangeEvent {
     type: WsChangeEventType;
     data: string;
@@ -28,11 +33,14 @@ function createWsChannel(url: string | null | undefined) {
     return eventChannel<WsChangeEvent>((emit) => {
         const ws = new WebSocketImpl(url, {
             onMessage(event: MessageEvent): void {
-                const data : string = event.data;
+                const data: string = event.data;
                 emit({ type: WsChangeEventType.MESSAGE, data });
             },
             onError(event: Event): void {
-                emit({ type: WsChangeEventType.ERROR, data: `Feil ved ws-tilkobling til contextholder`})
+                emit({
+                    type: WsChangeEventType.ERROR,
+                    data: `Feil ved ws-tilkobling til contextholder`
+                });
             }
         });
         ws.open();
@@ -55,7 +63,12 @@ function* wsChange(event: WsChangeEvent) {
         );
         yield* updateWSRequestedEnhet(onsketEnhet);
     } else if (type === WsChangeEventType.ERROR) {
-        yield put({ type: ReduxActionTypes.FEILMELDING, data: { level: FeilmeldingLevel.MAJOR, message: data }})
+        yield put(
+            leggTilFeilmelding({
+                kode: FeilmeldingKode.WS_FEILET,
+                melding: data
+            })
+        );
     }
 }
 

@@ -146,7 +146,8 @@ function addWSLogEntry() {
                     textarea.value = `${now} ${message.data}\n(${JSON.stringify(json)})\n${
                         textarea.value
                     }`;
-                });
+                })
+                .catch(() => {});
         }
     };
 }

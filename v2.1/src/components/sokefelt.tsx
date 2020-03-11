@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import useFieldState from '../hooks/use-field-state';
 import useHotkeys, { erAltOg } from '../hooks/use-hotkeys';
-import { ReduxActions, ReduxActionTypes, SagaActions, SagaActionTypes } from '../redux/actions';
+import { ReduxActions, SagaActions, SagaActionTypes } from '../redux/actions';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import visibleIf from './visibleIf';
 import { useFnrContextvalueState } from '../hooks/use-contextvalue-state';
-import { Feilmelding, FeilmeldingLevel } from '../internal-domain';
+import { fjernFeilmelding, leggTilFeilmelding } from '../redux/feilmeldinger/reducer';
+import { FeilmeldingerActions, FeilmeldingKode } from '../redux/feilmeldinger/domain';
 
 function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
     return [
@@ -27,7 +28,7 @@ function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
 }
 
 function Sokefelt() {
-    const dispatch = useDispatch<Dispatch<SagaActions | ReduxActions>>();
+    const dispatch = useDispatch<Dispatch<SagaActions | ReduxActions | FeilmeldingerActions>>();
     const fnr = useFnrContextvalueState().withDefault('');
     const sokefelt = useFieldState(fnr);
     const sokefeltRef = useRef<HTMLInputElement>(null);
@@ -38,12 +39,17 @@ function Sokefelt() {
         const feilmelding = lagFnrFeilmelding(value);
 
         if (feilmelding.isJust()) {
-            const data: Feilmelding = {
-                level: FeilmeldingLevel.USER_FEEDBACK,
-                message: feilmelding.withDefault('')
-            };
-            dispatch({ type: ReduxActionTypes.FEILMELDING, data });
+            dispatch(
+                leggTilFeilmelding({
+                    kode: feilmelding.isJust()
+                        ? FeilmeldingKode.VALIDERING_FNR
+                        : FeilmeldingKode.UKJENT_VALIDERING_FNR,
+                    melding: feilmelding.withDefault('Ukjent feil ved validering av fødselsnummer.')
+                })
+            );
         } else {
+            dispatch(fjernFeilmelding(FeilmeldingKode.VALIDERING_FNR));
+            dispatch(fjernFeilmelding(FeilmeldingKode.UKJENT_VALIDERING_FNR));
             dispatch({ type: SagaActionTypes.FNRSUBMIT, data: value });
         }
     };

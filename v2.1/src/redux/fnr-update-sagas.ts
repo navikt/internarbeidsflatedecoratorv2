@@ -2,16 +2,13 @@ import { call, fork, put, spawn, take } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { InitializedState } from './reducer';
 import { selectFromInitializedState } from './utils';
-import {
-    AktorIdResponse,
-    FeilmeldingLevel,
-    FnrContextvalueState,
-    isEnabled
-} from '../internal-domain';
+import { AktorIdResponse, FnrContextvalueState, isEnabled } from '../internal-domain';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import * as Api from './api';
 import { FetchResponse, hasError } from './api';
-import { EnhetChanged, ReduxActionTypes, SagaActionTypes } from './actions';
+import { FnrReset, FnrSubmit, ReduxActionTypes, SagaActionTypes } from './actions';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { FeilmeldingKode } from './feilmeldinger/domain';
 
 export function* hentAktorId() {
     const state: InitializedState = yield selectFromInitializedState((state) => state);
@@ -29,14 +26,12 @@ export function* hentAktorId() {
         if (feilFnr.isNothing()) {
             const response: FetchResponse<AktorIdResponse> = yield call(Api.hentAktorId, fnr);
             if (hasError(response)) {
-                yield put({
-                    type: ReduxActionTypes.FEILMELDING,
-                    data: {
-                        level: FeilmeldingLevel.MINOR,
-                        message: 'Kunne ikke hente aktør-identifikator for bruker'
-                    },
-                    scope: 'initAktorId'
-                });
+                yield put(
+                    leggTilFeilmelding({
+                        kode: FeilmeldingKode.HENT_AKTORID_FEILET,
+                        melding: 'Kunne ikke hente aktør-identifikator for bruker'
+                    })
+                );
             } else {
                 yield put({ type: ReduxActionTypes.AKTORIDDATA, data: response.data });
             }
@@ -107,17 +102,22 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
     }
 }
 
-export function* updateFnr(action: EnhetChanged) {
+export function* updateFnr(action: FnrSubmit | FnrReset) {
     const props = yield selectFromInitializedState((state) => state.fnr);
     if (isEnabled(props)) {
-        const fnr = MaybeCls.of(action.data).filter((v) => v.length > 0);
-        if (fnr.isNothing()) {
+        if (action.type === SagaActionTypes.FNRRESET) {
             yield fork(Api.nullstillAktivBruker);
+            yield spawn(props.onChange, null);
         } else {
-            yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
-        }
+            const fnr = MaybeCls.of(action.data).filter((v) => v.length > 0);
+            if (fnr.isNothing()) {
+                yield fork(Api.nullstillAktivBruker);
+            } else {
+                yield fork(Api.oppdaterAktivBruker, fnr.withDefault(''));
+            }
 
-        yield* updateFnrValue(fnr);
-        yield spawn(props.onChange, fnr.withDefault(''));
+            yield* updateFnrValue(fnr);
+            yield spawn(props.onChange, fnr.withDefault(''));
+        }
     }
 }

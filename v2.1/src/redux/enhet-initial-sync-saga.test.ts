@@ -22,7 +22,7 @@ const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
 function gittGyldigeEnheter(enheter: Array<Enhet>): Partial<InitializedState> {
     const data = {
         aktorId: MaybeCls.nothing<AktorIdResponse>(),
-        saksbehandler: { ...mockSaksbehandler, enheter }
+        saksbehandler: MaybeCls.just({ ...mockSaksbehandler, enheter })
     };
     return {
         initialized: true,

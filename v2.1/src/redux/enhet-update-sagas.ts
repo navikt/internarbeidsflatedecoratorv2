@@ -2,7 +2,7 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import { fork, put, spawn, take } from 'redux-saga/effects';
 import { EnhetContextvalueState, isEnabled } from '../internal-domain';
 import { selectFromInitializedState } from './utils';
-import { FnrReset, FnrSubmit, ReduxActionTypes, SagaActionTypes } from './actions';
+import { EnhetChanged, ReduxActionTypes, SagaActionTypes } from './actions';
 import * as Api from './api';
 
 export function* updateEnhetState(updated: Partial<EnhetContextvalueState>) {
@@ -66,17 +66,11 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
     }
 }
 
-export function* updateEnhet(action: FnrSubmit | FnrReset) {
+export function* updateEnhet(action: EnhetChanged) {
     const props = yield selectFromInitializedState((state) => state.enhet);
     if (isEnabled(props)) {
-        if (action.type === SagaActionTypes.FNRRESET) {
-            yield fork(Api.nullstillAktivBruker);
-            yield* updateEnhetValue(MaybeCls.nothing());
-            yield spawn(props.onChange, null);
-        } else {
-            yield fork(Api.oppdaterAktivEnhet, action.data);
-            yield* updateEnhetValue(MaybeCls.of(action.data));
-            yield spawn(props.onChange, action.data);
-        }
+        yield fork(Api.oppdaterAktivEnhet, action.data);
+        yield* updateEnhetValue(MaybeCls.of(action.data));
+        yield spawn(props.onChange, action.data);
     }
 }

@@ -4,10 +4,11 @@ import * as Api from './api';
 import { FetchResponse, hasError } from './api';
 import { AktivBruker } from '../internal-domain';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { ReduxActionTypes } from './actions';
 import { RESET_VALUE, spawnConditionally } from './utils';
 import { FnrContextvalue } from '../domain';
 import { updateFnrValue } from './fnr-update-sagas';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { FeilmeldingKode } from './feilmeldinger/domain';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -28,18 +29,23 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
 
     if (hasError(response)) {
         console.log('response', response);
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: 'Kunne ikke hente ut person i kontekst'
-        });
+        yield put(
+            leggTilFeilmelding({
+                kode: FeilmeldingKode.HENT_BRUKER_CONTEXT,
+                melding: 'Kunne ikke hente ut person i kontekst'
+            })
+        );
     }
 
     if (feilFnr.isJust()) {
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: feilFnr.withDefault('Ukjent feil ved validering av fødselsnummer.'),
-            scope: 'initSyncFnr - ugyldig fnr'
-        });
+        yield put(
+            leggTilFeilmelding({
+                kode: feilFnr.isJust()
+                    ? FeilmeldingKode.VALIDERING_FNR
+                    : FeilmeldingKode.UKJENT_VALIDERING_FNR,
+                melding: feilFnr.withDefault('Ukjent feil ved validering av fødselsnummer.')
+            })
+        );
     }
 
     if (onsketFnr.isJust() && feilFnr.isNothing()) {

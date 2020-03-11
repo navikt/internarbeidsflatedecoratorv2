@@ -2,11 +2,12 @@ import { call, fork, put } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse } from './api';
-import { AktivEnhet, Data, Enhet, FeilmeldingLevel } from '../internal-domain';
-import { ReduxActionTypes } from './actions';
+import { AktivEnhet, Data, Enhet } from '../internal-domain';
 import { RESET_VALUE, selectFromInitializedState, spawnConditionally } from './utils';
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { FeilmeldingKode } from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -51,12 +52,11 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield fork(Api.nullstillAktivBruker);
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: {
-                level: FeilmeldingLevel.FATAL,
-                message: 'Kunne ikke finne en passende enhet'
-            }
-        });
+        yield put(
+            leggTilFeilmelding({
+                kode: FeilmeldingKode.INGEN_GYLDIG_ENHET,
+                melding: 'Kunne ikke finne en passende enhet'
+            })
+        );
     }
 }

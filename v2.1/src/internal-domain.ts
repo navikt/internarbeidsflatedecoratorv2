@@ -42,17 +42,6 @@ export interface Data {
     aktorId: MaybeCls<AktorIdResponse>;
 }
 
-export enum FeilmeldingLevel {
-    MINOR,
-    MAJOR,
-    FATAL,
-    USER_FEEDBACK
-}
-export interface Feilmelding {
-    level: FeilmeldingLevel;
-    message: string;
-}
-
 export interface ContextvalueStateDisabled {
     enabled: false;
 }

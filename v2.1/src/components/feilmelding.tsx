@@ -1,28 +1,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { State } from '../redux/reducer';
+import { feilmeldingerSelector } from '../redux/feilmeldinger/reducer';
+import { Feilmelding } from '../redux/feilmeldinger/domain';
 
-function Feilmelding() {
-    const feilmeldinger = useSelector((state: State) => state.feilmeldinger);
+function FeilmeldingVisning() {
+    const feilmeldinger: Array<Feilmelding> = Object.values(useSelector(feilmeldingerSelector));
     if (feilmeldinger.length === 0) {
         return null;
-    }
-
-    const elementer = feilmeldinger
-        .sort((a, b) => b.level - a.level)
-        .map((feilmelding) => {
-            return (
-                <span className="dekorator__feilmelding__tekst" key={feilmelding.message}>
-                    {feilmelding.message}
+    } else if (feilmeldinger.length === 1) {
+        return (
+            <div className="dekorator__feilmelding">
+                <span className="dekorator__feilmelding__tekst">
+                    {feilmeldinger[0].melding} ({feilmeldinger[0].kode})
                 </span>
-            );
-        });
+            </div>
+        );
+    } else {
+        const feilkoder = feilmeldinger
+            .sort((a, b) => a.kode.localeCompare(b.kode))
+            .map((feilmelding) => (
+                <>
+                    <abbr title={feilmelding.melding}>{feilmelding.kode}</abbr>{' '}
+                </>
+            ));
 
-    return (
-        <div className="dekorator__feilmelding" aria-live="assertive" role="alert">
-            {elementer}
-        </div>
-    );
+        return (
+            <div className="dekorator__feilmelding" aria-live="assertive" role="alert">
+                <span className="dekorator__feilmelding__tekst">
+                    Det oppstod flere feil; {feilkoder}
+                </span>
+            </div>
+        );
+    }
 }
 
-export default Feilmelding;
+export default FeilmeldingVisning;
