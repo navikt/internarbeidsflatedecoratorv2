@@ -7,17 +7,12 @@ import FetchMock, {
 import { AktorIdResponse, Saksbehandler } from '../internal-domain';
 import { setupWsControlAndMock } from './context-mock';
 import { finnMiljoStreng } from '../utils/url-utils';
-import { getFailureConfig } from './errors';
+import failureConfig from './mock-error-config';
 
 console.log('============================');
 console.log('Using yet-another-fetch-mock');
 console.log('============================');
 
-const mockErrors = getFailureConfig({
-    meEndpoint: true,
-    aktorIdEndpoint: true,
-    websocketConnection: true
-});
 const originalLoggingMiddleware = MiddlewareUtils.loggingMiddleware();
 const loggingMiddleWare: Middleware = (request, response) => {
     if (request.url.endsWith('fromMock')) {
@@ -46,9 +41,9 @@ const me: Saksbehandler & JSONObject = {
 mock.get(
     '/modiacontextholder/api/decorator',
     ResponseUtils.combine(
-        ResponseUtils.statusCode(mockErrors.meEndpoint ? 500 : 200),
-        ResponseUtils.statusText(mockErrors.meEndpoint ? 'Internal Server Error' : 'Ok'),
-        ResponseUtils.json(mockErrors.meEndpoint ? null : me)
+        ResponseUtils.statusCode(failureConfig.meEndpoint ? 500 : 200),
+        ResponseUtils.statusText(failureConfig.meEndpoint ? 'Internal Server Error' : 'Ok'),
+        ResponseUtils.json(failureConfig.meEndpoint ? null : me)
     )
 );
 
@@ -62,13 +57,13 @@ mock.get(`https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer`
     };
 
     return new Promise((resolve, reject) => {
-        const callback = mockErrors.aktorIdEndpoint ? reject : resolve;
+        const callback = failureConfig.aktorIdEndpoint ? reject : resolve;
         callback({
-            status: mockErrors.aktorIdEndpoint ? 500 : 200,
-            statusText: mockErrors.aktorIdEndpoint ? 'Internal Server Error' : 'Ok',
-            body: mockErrors.aktorIdEndpoint ? null : data
+            status: failureConfig.aktorIdEndpoint ? 500 : 200,
+            statusText: failureConfig.aktorIdEndpoint ? 'Internal Server Error' : 'Ok',
+            body: JSON.stringify(failureConfig.aktorIdEndpoint ? null : data)
         });
     });
 });
 
-setupWsControlAndMock(mock, mockErrors);
+setupWsControlAndMock(mock, failureConfig);

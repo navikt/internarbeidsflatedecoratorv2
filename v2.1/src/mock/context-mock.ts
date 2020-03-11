@@ -1,5 +1,5 @@
 import FetchMock from 'yet-another-fetch-mock';
-import { FailureConfig } from './errors';
+import { FailureConfig } from './mock-error-config';
 
 function controlSignal(data: object | string) {
     return JSON.stringify({ type: 'control', data });
@@ -170,35 +170,46 @@ const context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
 export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfig) {
     if (window.location.hostname.includes('localhost')) {
         setupControls();
-        const ws = new WebSocket(
-            'ws://localhost:2999/hereIsWS' + `${errorConfig.websocketConnection ? '/not' : ''}`
-        );
+        const ws = new WebSocket('ws://localhost:2999/hereIsWS');
+
         ws.addEventListener('message', addWSLogEntry());
 
         mock.post('/modiacontextholder/api/context', ({ input, body }) => {
             if (body.eventType === 'NY_AKTIV_ENHET') {
+                if (errorConfig.contextholder.updateEnhet) {
+                    return Promise.reject({ status: 500 });
+                }
                 context.aktivEnhet = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_ENHET'));
                 addContextholderLogEntry(input, `POST NY_AKTIV_ENHET ${body.verdi}`);
                 return Promise.resolve({ status: 200 });
             } else if (body.eventType === 'NY_AKTIV_BRUKER') {
+                if (errorConfig.contextholder.updateBruker) {
+                    return Promise.reject({ status: 500 });
+                }
                 context.aktivBruker = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_BRUKER'));
                 addContextholderLogEntry(input, `POST NY_AKTIV_BRUKER ${body.verdi}`);
                 return Promise.resolve({ status: 200 });
             } else {
                 addContextholderLogEntry(input, `POST UKJENT_ENDEPUNKT`);
-                return Promise.resolve({ status: 500 });
+                return Promise.reject({ status: 500 });
             }
         });
 
         mock.delete('/modiacontextholder/api/context/aktivenhet', ({ input }) => {
+            if (errorConfig.contextholder.deleteEnhet) {
+                return Promise.reject({ status: 500 });
+            }
             context.aktivEnhet = null;
             ws.send(controlSignal('NY_AKTIV_ENHET'));
             addContextholderLogEntry(input, `DELETE NY_AKTIV_ENHET`);
             return {};
         });
         mock.delete('/modiacontextholder/api/context/aktivbruker', ({ input }) => {
+            if (errorConfig.contextholder.deleteBruker) {
+                return Promise.reject({ status: 500 });
+            }
             context.aktivBruker = null;
             ws.send(controlSignal('NY_AKTIV_BRUKER'));
             addContextholderLogEntry(input, `DELETE NY_AKTIV_BRUKER`);
@@ -207,25 +218,42 @@ export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfi
     }
 
     mock.get('/modiacontextholder/api/context/aktivenhet', ({ input }) => {
+        if (errorConfig.contextholder.getEnhet) {
+            return Promise.reject({ status: 500 });
+        }
         addContextholderLogEntry(input, `GET NY_AKTIV_ENHET ${context.aktivEnhet || '<null>'}`);
-        return {
-            aktivEnhet: context.aktivEnhet,
-            aktivBruker: null
-        };
+        return Promise.resolve({
+            status: 200,
+            body: JSON.stringify({
+                aktivEnhet: context.aktivEnhet,
+                aktivBruker: null
+            })
+        });
     });
     mock.get('/modiacontextholder/api/context/aktivbruker', ({ input }) => {
+        if (errorConfig.contextholder.getBruker) {
+            return Promise.reject({ status: 500 });
+        }
         addContextholderLogEntry(input, `GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`);
-        return {
-            aktivEnhet: null,
-            aktivBruker: context.aktivBruker
-        };
+        return Promise.resolve({
+            status: 200,
+            body: JSON.stringify({
+                aktivEnhet: null,
+                aktivBruker: context.aktivBruker
+            })
+        });
     });
     mock.get('/modiacontextholder/api/context', ({ input }) => {
+        if (errorConfig.contextholder.get) {
+            return Promise.reject({ status: 500 });
+        }
         addContextholderLogEntry(input, `GET BOTH\n${JSON.stringify(context)}`);
-
-        return {
-            aktivEnhet: context.aktivEnhet,
-            aktivBruker: context.aktivBruker
-        };
+        return Promise.resolve({
+            status: 200,
+            body: JSON.stringify({
+                aktivEnhet: context.aktivEnhet,
+                aktivBruker: context.aktivBruker
+            })
+        });
     });
 }

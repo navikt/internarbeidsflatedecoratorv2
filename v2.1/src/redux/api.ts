@@ -1,6 +1,7 @@
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import { finnMiljoStreng, hentMiljoFraUrl, randomGuid } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
+import failureConfig from './../mock/mock-error-config';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -49,10 +50,11 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
             const content = await response.text();
             return { data: undefined, error: content };
         }
-
+        console.log('getJson', response);
         const data: T = await response.json();
         return { data, error: undefined };
     } catch (error) {
+        console.log('getJson', error);
         return { data: undefined, error };
     }
 }
@@ -123,10 +125,14 @@ export function hentAktivEnhet(): Promise<FetchResponse<AktivEnhet>> {
 export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
     return getJson<Saksbehandler>(SAKSBEHANDLER_URL);
 }
+
 export function getWebSocketUrl(saksbehandler: Saksbehandler): string {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.REACT_APP_MOCK === 'true' && failureConfig.websocketConnection) {
+        return 'ws://localhost:2999/hereIsWS/failure-url';
+    } else if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
+    } else {
+        const ident = saksbehandler.ident;
+        return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
     }
-    const ident = saksbehandler.ident;
-    return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }

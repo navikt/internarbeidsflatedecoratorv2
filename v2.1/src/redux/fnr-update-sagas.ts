@@ -33,7 +33,7 @@ export function* hentAktorId() {
                     type: ReduxActionTypes.FEILMELDING,
                     data: {
                         level: FeilmeldingLevel.MINOR,
-                        message: 'Kunne ikke hente aktørId for bruker'
+                        message: 'Kunne ikke hente aktør-identifikator for bruker'
                     },
                     scope: 'initAktorId'
                 });
