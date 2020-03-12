@@ -175,9 +175,11 @@ export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfi
 
         ws.addEventListener('message', addWSLogEntry());
 
-        mock.post('/modiacontextholder/api/context', ({ input, body }) => {
+        mock.post('/modiacontextholder/api/context', ({ input, body, queryParams }) => {
+            const isRealCall = queryParams.fromMock === undefined;
+
             if (body.eventType === 'NY_AKTIV_ENHET') {
-                if (errorConfig.contextholder.updateEnhet) {
+                if (isRealCall && errorConfig.contextholder.updateEnhet) {
                     return Promise.reject({ status: 500 });
                 }
                 context.aktivEnhet = body.verdi;
@@ -185,7 +187,7 @@ export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfi
                 addContextholderLogEntry(input, `POST NY_AKTIV_ENHET ${body.verdi}`);
                 return Promise.resolve({ status: 200 });
             } else if (body.eventType === 'NY_AKTIV_BRUKER') {
-                if (errorConfig.contextholder.updateBruker) {
+                if (isRealCall && errorConfig.contextholder.updateBruker) {
                     return Promise.reject({ status: 500 });
                 }
                 context.aktivBruker = body.verdi;
@@ -244,8 +246,9 @@ export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfi
             })
         });
     });
-    mock.get('/modiacontextholder/api/context', ({ input }) => {
-        if (errorConfig.contextholder.get) {
+    mock.get('/modiacontextholder/api/context', ({ input, queryParams }) => {
+        const isRealCall = queryParams.fromMock === undefined;
+        if (isRealCall && errorConfig.contextholder.get) {
             return Promise.reject({ status: 500 });
         }
         addContextholderLogEntry(input, `GET BOTH\n${JSON.stringify(context)}`);
