@@ -14,17 +14,17 @@ export interface FailureConfig {
 }
 
 const config: FailureConfig = {
-    meEndpoint: true,
-    aktorIdEndpoint: true,
-    websocketConnection: true,
+    meEndpoint: false,
+    aktorIdEndpoint: false,
+    websocketConnection: false,
     contextholder: {
-        updateEnhet: true,
-        updateBruker: true,
-        deleteEnhet: true,
-        deleteBruker: true,
-        getEnhet: true,
-        getBruker: true,
-        get: true
+        updateEnhet: false,
+        updateBruker: false,
+        deleteEnhet: false,
+        deleteBruker: false,
+        getEnhet: false,
+        getBruker: false,
+        get: false
     }
 };
 
