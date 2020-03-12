@@ -6,14 +6,19 @@ import { EMDASH } from '../utils/string-utils';
 function Veileder() {
     const saksbehandler = useInitializedState((state) => state.data.saksbehandler);
 
-    const ident = saksbehandler.map((data) => data.ident).withDefault(EMDASH);
-    const navn = saksbehandler.map((data) => data.navn).withDefault(EMDASH);
+    const identElement = saksbehandler.map((data) => data.ident)
+        .map((ident) => <span className="dekorator__hode__veileder_id">{ident}</span>)
+        .withDefault(<span className="dekorator__hode__veileder_id">{EMDASH}</span>);
+
+    const navnElement = saksbehandler.map((data) => data.navn)
+        .map((navn) => <span className="dekorator__hode__veileder_navn">{navn}</span>)
+        .withDefault(null);
 
     return (
         <section className="dekorator__hode__veileder_container">
             <p className="typo-avsnitt dekorator__hode__veileder_header">
-                <span className="dekorator__hode__veileder_id">{ident}</span>
-                <span className="dekorator__hode__veileder_navn">{navn}</span>
+                {identElement}
+                {navnElement}
             </p>
         </section>
     );
