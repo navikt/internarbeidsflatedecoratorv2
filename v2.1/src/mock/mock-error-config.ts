@@ -1,7 +1,3 @@
-type RecursivePartial<T> = {
-    [P in keyof T]?: RecursivePartial<T[P]>;
-};
-
 export interface FailureConfig {
     meEndpoint: boolean;
     aktorIdEndpoint: boolean;

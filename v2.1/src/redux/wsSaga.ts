@@ -9,7 +9,7 @@ import { selectFromInitializedState } from './utils';
 import { updateWSRequestedEnhet } from './enhet-update-sagas';
 import { updateWSRequestedFnr } from './fnr-update-sagas';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { FeilmeldingKode } from './feilmeldinger/domain';
+import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 enum WsChangeEventType {
     MESSAGE,
@@ -63,12 +63,7 @@ function* wsChange(event: WsChangeEvent) {
         );
         yield* updateWSRequestedEnhet(onsketEnhet);
     } else if (type === WsChangeEventType.ERROR) {
-        yield put(
-            leggTilFeilmelding({
-                kode: FeilmeldingKode.WS_FEILET,
-                melding: data
-            })
-        );
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.WS_ERROR));
     }
 }
 

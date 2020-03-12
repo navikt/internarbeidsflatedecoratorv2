@@ -35,7 +35,7 @@ export type ResponseOk<T> = { data: T; error: undefined };
 export type FetchResponse<T> = ResponseOk<T> | ResponseError;
 
 export function hasError<T>(response: FetchResponse<T>): response is ResponseError {
-    return !!response.error;
+    return response.error !== undefined;
 }
 
 async function doFetch(url: string, options?: RequestInit): Promise<Response> {
@@ -50,11 +50,9 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
             const content = await response.text();
             return { data: undefined, error: content };
         }
-        console.log('getJson', response);
         const data: T = await response.json();
         return { data, error: undefined };
     } catch (error) {
-        console.log('getJson', error);
         return { data: undefined, error };
     }
 }

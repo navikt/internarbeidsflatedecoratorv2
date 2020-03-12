@@ -5,7 +5,7 @@ import {
     FeilmeldingerActions,
     FeilmeldingKode,
     FjernFeilmelding,
-    LeggTilFeilmelding
+    LeggTilFeilmelding, PredefiniertFeilmelding
 } from './domain';
 import { Required } from '../utils';
 
@@ -42,7 +42,7 @@ export function feilmeldingerSelector(state: State): Required<Feilmeldinger> {
     return state.feilmeldinger as Required<Feilmeldinger>;
 }
 
-export function leggTilFeilmelding(feilmelding: Feilmelding): LeggTilFeilmelding {
+export function leggTilFeilmelding(feilmelding: PredefiniertFeilmelding): LeggTilFeilmelding {
     return {
         type: FeilmeldingActionTypes.LEGG_TIL,
         data: feilmelding

@@ -20,7 +20,53 @@ export enum FeilmeldingActionTypes {
     FJERN = 'REDUX/FEILMELDING/FJERN'
 }
 
-export type LeggTilFeilmelding = DataAction<FeilmeldingActionTypes.LEGG_TIL, Feilmelding>;
+
+export type PredefiniertFeilmelding = Feilmelding & { __final__: true };
+function definer(kode: FeilmeldingKode, melding: string): PredefiniertFeilmelding {
+    return { kode, melding } as PredefiniertFeilmelding;
+}
+
+export const PredefiniertFeilmeldinger = {
+    HENT_SAKSBEHANDLER_DATA_FEILET: definer(
+        FeilmeldingKode.HENT_SAKSBEHANDLER_DATA_FEILET,
+        'Kunne ikke hente informasjon om innlogget saksbehandler.'
+    ),
+    HENT_BRUKER_CONTEXT_FEILET: definer(
+        FeilmeldingKode.HENT_BRUKER_CONTEXT,
+        'Kunne ikke hente ut person i kontekst'
+    ),
+    FNR_11_SIFFER: definer(
+        FeilmeldingKode.VALIDERING_FNR,
+        'Fødselsnummeret må inneholde 11 siffer'
+    ),
+    FNR_KUN_TALL: definer(
+        FeilmeldingKode.VALIDERING_FNR,
+        'Fødselsnummeret må kun inneholde tall'
+    ),
+    FNR_KONTROLL_SIFFER: definer(
+        FeilmeldingKode.VALIDERING_FNR,
+        'Fødselsnummeret er ikke gyldig'
+    ),
+    FNR_UKJENT_FEIL: definer(
+        FeilmeldingKode.UKJENT_VALIDERING_FNR,
+        'Ukjent feil ved validering av fødselsnummer.'
+    ),
+    WS_ERROR: definer(
+        FeilmeldingKode.WS_FEILET,
+        'Feil ved tilkobling mot ws-contextholder'
+    ),
+    HENT_AKTORID_FEILET: definer(
+        FeilmeldingKode.HENT_AKTORID_FEILET,
+        'Kunne ikke hente aktør-identifikator for bruker'
+    ),
+    INGEN_GYLDIG_ENHET: definer(
+        FeilmeldingKode.INGEN_GYLDIG_ENHET,
+        'Kunne ikke finne en passende enhet'
+    )
+};
+
+
+export type LeggTilFeilmelding = DataAction<FeilmeldingActionTypes.LEGG_TIL, PredefiniertFeilmelding>;
 export type FjernFeilmelding = DataAction<FeilmeldingActionTypes.FJERN, FeilmeldingKode>;
 
 export type FeilmeldingerActions = LeggTilFeilmelding | FjernFeilmelding;

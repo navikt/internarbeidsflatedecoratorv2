@@ -8,7 +8,7 @@ import * as Api from './api';
 import { FetchResponse, hasError } from './api';
 import { FnrReset, FnrSubmit, ReduxActionTypes, SagaActionTypes } from './actions';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { FeilmeldingKode } from './feilmeldinger/domain';
+import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 export function* hentAktorId() {
     const state: InitializedState = yield selectFromInitializedState((state) => state);
@@ -27,10 +27,7 @@ export function* hentAktorId() {
             const response: FetchResponse<AktorIdResponse> = yield call(Api.hentAktorId, fnr);
             if (hasError(response)) {
                 yield put(
-                    leggTilFeilmelding({
-                        kode: FeilmeldingKode.HENT_AKTORID_FEILET,
-                        melding: 'Kunne ikke hente aktør-identifikator for bruker'
-                    })
+                    leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_AKTORID_FEILET)
                 );
             } else {
                 yield put({ type: ReduxActionTypes.AKTORIDDATA, data: response.data });

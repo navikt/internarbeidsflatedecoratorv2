@@ -31,3 +31,7 @@ export interface DataAction<TYPE, DATA> extends Action<TYPE> {
 export type Required<T> = {
     [P in keyof T]-?: T[P];
 };
+
+export type RecursivePartial<T> = {
+    [P in keyof T]?: RecursivePartial<T[P]>;
+};

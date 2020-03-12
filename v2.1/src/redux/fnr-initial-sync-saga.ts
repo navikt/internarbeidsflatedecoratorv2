@@ -1,14 +1,14 @@
-import { call, fork, put } from 'redux-saga/effects';
-import { MaybeCls } from '@nutgaard/maybe-ts';
+import {call, fork, put} from 'redux-saga/effects';
+import {MaybeCls} from '@nutgaard/maybe-ts';
 import * as Api from './api';
-import { FetchResponse, hasError } from './api';
-import { AktivBruker } from '../internal-domain';
-import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { RESET_VALUE, spawnConditionally } from './utils';
-import { FnrContextvalue } from '../domain';
-import { updateFnrValue } from './fnr-update-sagas';
-import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { FeilmeldingKode } from './feilmeldinger/domain';
+import {FetchResponse, hasError} from './api';
+import {AktivBruker} from '../internal-domain';
+import {lagFnrFeilmelding} from '../utils/fnr-utils';
+import {RESET_VALUE, spawnConditionally} from './utils';
+import {FnrContextvalue} from '../domain';
+import {updateFnrValue} from './fnr-update-sagas';
+import {leggTilFeilmelding} from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -28,24 +28,14 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
         .filter((fnr) => fnr.length > 0);
 
     if (hasError(response)) {
-        console.log('response', response);
         yield put(
-            leggTilFeilmelding({
-                kode: FeilmeldingKode.HENT_BRUKER_CONTEXT,
-                melding: 'Kunne ikke hente ut person i kontekst'
-            })
+            leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
         );
     }
 
     if (feilFnr.isJust()) {
-        yield put(
-            leggTilFeilmelding({
-                kode: feilFnr.isJust()
-                    ? FeilmeldingKode.VALIDERING_FNR
-                    : FeilmeldingKode.UKJENT_VALIDERING_FNR,
-                melding: feilFnr.withDefault('Ukjent feil ved validering av fødselsnummer.')
-            })
-        );
+        const feilmelding = feilFnr.withDefault(PredefiniertFeilmeldinger.FNR_UKJENT_FEIL);
+        yield put(leggTilFeilmelding(feilmelding));
     }
 
     if (onsketFnr.isJust() && feilFnr.isNothing()) {

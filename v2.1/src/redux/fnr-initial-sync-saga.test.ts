@@ -11,7 +11,10 @@ import initialSyncFnr from './fnr-initial-sync-saga';
 import { AKTIV_BRUKER_URL, ContextApiType, modiacontextholderUrl } from './api';
 import { FnrContextvalue, FnrDisplay } from '../domain';
 import { AktivBruker, AktivEnhet } from '../internal-domain';
-import { InitializedState } from './reducer';
+import {State} from "./index";
+import {RecursivePartial} from "./utils";
+import {PredefiniertFeilmeldinger} from "./feilmeldinger/domain";
+import {leggTilFeilmelding} from "./feilmeldinger/reducer";
 
 function gittContextholder(
     context: Context,
@@ -80,18 +83,20 @@ function gittOnsketFnr(fnr: string | null): FnrContextvalue {
     };
 }
 
-function gittInitialState(): Partial<InitializedState> {
+function gittInitialState(): RecursivePartial<State> {
     return {
-        initialized: true,
-        fnr: {
-            enabled: true,
-            value: MaybeCls.nothing(),
-            wsRequestedValue: MaybeCls.nothing(),
-            display: FnrDisplay.SOKEFELT,
-            showModal: false,
-            onChange(): void {},
-            skipModal: false,
-            ignoreWsEvents: false
+        appdata: {
+            initialized: true,
+            fnr: {
+                enabled: true,
+                value: MaybeCls.nothing(),
+                wsRequestedValue: MaybeCls.nothing(),
+                display: FnrDisplay.SOKEFELT,
+                showModal: false,
+                onChange(): void {},
+                skipModal: false,
+                ignoreWsEvents: false
+            }
         }
     };
 }
@@ -120,10 +125,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Kunne ikke hente ut person i kontekst'
-        });
+        expect(dispatched[0]).toMatchObject(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET));
         expect(dispatched[1]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
             data: { fnr: { value: MaybeCls.nothing() } }
@@ -210,10 +212,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Fødselsnummeret er ikke gyldig'
-        });
+        expect(dispatched[0]).toMatchObject(leggTilFeilmelding(PredefiniertFeilmeldinger.FNR_KONTROLL_SIFFER));
         expect(dispatched[1]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
             data: { fnr: { value: MaybeCls.just('12345678910') } }
@@ -231,10 +230,7 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Kunne ikke hente ut person i kontekst'
-        });
+        expect(dispatched[0]).toMatchObject(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET));
         expect(dispatched[1]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
             data: { fnr: { value: MaybeCls.just(MOCK_FNR_1) } }

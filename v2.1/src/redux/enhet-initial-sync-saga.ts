@@ -7,7 +7,7 @@ import { RESET_VALUE, selectFromInitializedState, spawnConditionally } from './u
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { FeilmeldingKode } from './feilmeldinger/domain';
+import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -52,11 +52,6 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield fork(Api.nullstillAktivBruker);
-        yield put(
-            leggTilFeilmelding({
-                kode: FeilmeldingKode.INGEN_GYLDIG_ENHET,
-                melding: 'Kunne ikke finne en passende enhet'
-            })
-        );
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET));
     }
 }
