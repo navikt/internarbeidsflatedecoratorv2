@@ -142,7 +142,6 @@ p.typo-avsnitt {
     background-color: @navDekoratorSvart;
     border-radius: 2px;
     margin-right: 0.7em;
-    margin-left: 0.7em;
     padding: 0.5em 2em 0.5em 0.5em;
     width: 9.5em;
     top: -0.125em;
@@ -272,15 +271,17 @@ p.typo-avsnitt {
 .dekorator__hode__enhet {
     display: block;
     white-space: nowrap;
-    width: 11em;
+    max-width: 11em;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: 0.7rem;
 }
 
 .dekorator-select-container {
     position: relative;
     display: inline-block;
     top: -0.125em;
+    margin-right: 0.7em;
 
     select {
         color: @white;
