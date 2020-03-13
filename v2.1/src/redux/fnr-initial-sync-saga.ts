@@ -1,13 +1,14 @@
-import { call, fork, put } from 'redux-saga/effects';
-import { MaybeCls } from '@nutgaard/maybe-ts';
+import {call, fork, put} from 'redux-saga/effects';
+import {MaybeCls} from '@nutgaard/maybe-ts';
 import * as Api from './api';
-import { FetchResponse, hasError } from './api';
-import { AktivBruker } from '../internal-domain';
-import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { ReduxActionTypes } from './actions';
-import { RESET_VALUE, spawnConditionally } from './utils';
-import { FnrContextvalue } from '../domain';
-import { updateFnrValue } from './fnr-update-sagas';
+import {FetchResponse, hasError} from './api';
+import {AktivBruker} from '../internal-domain';
+import {lagFnrFeilmelding} from '../utils/fnr-utils';
+import {RESET_VALUE, spawnConditionally} from './utils';
+import {FnrContextvalue} from '../domain';
+import {updateFnrValue} from './fnr-update-sagas';
+import {leggTilFeilmelding} from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -27,18 +28,14 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
         .filter((fnr) => fnr.length > 0);
 
     if (hasError(response)) {
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: 'Kunne ikke hente ut person i kontekst'
-        });
+        yield put(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
+        );
     }
 
     if (feilFnr.isJust()) {
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: feilFnr.withDefault('Ukjent feil ved validering av fødselsnummer.'),
-            scope: 'initSyncFnr - ugyldig fnr'
-        });
+        const feilmelding = feilFnr.withDefault(PredefiniertFeilmeldinger.FNR_UKJENT_FEIL);
+        yield put(leggTilFeilmelding(feilmelding));
     }
 
     if (onsketFnr.isJust() && feilFnr.isNothing()) {

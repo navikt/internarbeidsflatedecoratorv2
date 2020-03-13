@@ -1,13 +1,12 @@
 import React from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import { Saksbehandler } from '../internal-domain';
 import { EMDASH } from '../utils/string-utils';
 import visibleIf from './visibleIf';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { useEnhetContextvalueState } from '../hooks/use-contextvalue-state';
+import { Enhet as EnhetType } from './../internal-domain';
 
-function lagEnhetvisning(maybeEnhet: MaybeCls<string>, saksbehandler: Saksbehandler): string {
-    const enheter = saksbehandler.enheter;
+function lagEnhetvisning(maybeEnhet: MaybeCls<string>, enheter: Array<EnhetType>): string {
     return maybeEnhet
         .filter((enhet) => enheter.find((e) => e.enhetId === enhet) !== undefined)
         .map((enhet) => enheter.find((e) => e.enhetId === enhet)!)
@@ -18,9 +17,11 @@ function lagEnhetvisning(maybeEnhet: MaybeCls<string>, saksbehandler: Saksbehand
 
 function Enhet() {
     const enhet = useEnhetContextvalueState();
-    const saksbehandler = useInitializedState((state) => state.data.saksbehandler);
+    const enheter = useInitializedState((state) => state.data.saksbehandler)
+        .map((saksbehandler) => saksbehandler.enheter)
+        .withDefault([]);
 
-    return <span className="dekorator__hode__enhet">{lagEnhetvisning(enhet, saksbehandler)}</span>;
+    return <span className="dekorator__hode__enhet">{lagEnhetvisning(enhet, enheter)}</span>;
 }
 
 export default visibleIf(Enhet);

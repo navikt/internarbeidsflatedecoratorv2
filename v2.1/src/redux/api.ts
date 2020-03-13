@@ -1,6 +1,7 @@
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, hentMiljoFraUrl, randomCallId } from '../utils/url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl, randomGuid } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
+import failureConfig from './../mock/mock-error-config';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -34,7 +35,7 @@ export type ResponseOk<T> = { data: T; error: undefined };
 export type FetchResponse<T> = ResponseOk<T> | ResponseError;
 
 export function hasError<T>(response: FetchResponse<T>): response is ResponseError {
-    return !!response.error;
+    return response.error !== undefined;
 }
 
 async function doFetch(url: string, options?: RequestInit): Promise<Response> {
@@ -45,6 +46,10 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
     try {
         const corsInit: RequestInit = { ...(init || {}), credentials: 'include' };
         const response: Response = await fetch(info, corsInit);
+        if (response.status > 299) {
+            const content = await response.text();
+            return { data: undefined, error: content };
+        }
         const data: T = await response.json();
         return { data, error: undefined };
     } catch (error) {
@@ -77,7 +82,7 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
         credentials: 'include',
         headers: {
             'Nav-Consumer-Id': 'internarbeidsflatedecorator',
-            'Nav-Call-Id': randomCallId(),
+            'Nav-Call-Id': randomGuid(),
             'Nav-Personidenter': fnr
         }
     };
@@ -100,11 +105,11 @@ export function oppdaterAktivEnhet(enhet: string | null | undefined) {
 }
 
 export function nullstillAktivBruker() {
-    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' });
+    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
 }
 
 export function nullstillAktivEnhet() {
-    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
+    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
 }
 
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {
@@ -118,10 +123,14 @@ export function hentAktivEnhet(): Promise<FetchResponse<AktivEnhet>> {
 export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
     return getJson<Saksbehandler>(SAKSBEHANDLER_URL);
 }
+
 export function getWebSocketUrl(saksbehandler: Saksbehandler): string {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.REACT_APP_MOCK === 'true' && failureConfig.websocketConnection) {
+        return 'ws://localhost:2999/hereIsWS/failure-url';
+    } else if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
+    } else {
+        const ident = saksbehandler.ident;
+        return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
     }
-    const ident = saksbehandler.ident;
-    return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }

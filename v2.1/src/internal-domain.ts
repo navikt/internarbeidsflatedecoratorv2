@@ -38,12 +38,8 @@ export interface AktivBruker {
 }
 
 export interface Data {
-    saksbehandler: Saksbehandler;
+    saksbehandler: MaybeCls<Saksbehandler>;
     aktorId: MaybeCls<AktorIdResponse>;
-}
-
-export interface UninitializedState {
-    initialized: false;
 }
 
 export interface ContextvalueStateDisabled {

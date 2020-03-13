@@ -1,8 +1,5 @@
-import { MaybeCls } from '@nutgaard/maybe-ts';
-
-const DEFAULT_FEILMELDING = 'Fødselsnummeret må inneholde 11 siffer';
-const IKKE_BARE_TALL_FEILMELDING = 'Fødselsnummeret må kun inneholde tall';
-const IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING = 'Fødselsnummeret er ikke gyldig';
+import {MaybeCls} from '@nutgaard/maybe-ts';
+import {PredefiniertFeilmelding, PredefiniertFeilmeldinger} from "../redux/feilmeldinger/domain";
 
 const kontrollRekke1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
 const kontrollRekke2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
@@ -58,13 +55,13 @@ export function erGyldigFodselsnummer(fnr: string): boolean {
     return fodselsnummerListe[9] === kontrollSiffer1 && fodselsnummerListe[10] === kontrollSiffer2;
 }
 
-export function lagFnrFeilmelding(fnr: string): MaybeCls<string> {
+export function lagFnrFeilmelding(fnr: string): MaybeCls<PredefiniertFeilmelding> {
     if (!fnr.match(/^\d+$/)) {
-        return MaybeCls.just(IKKE_BARE_TALL_FEILMELDING);
+        return MaybeCls.just(PredefiniertFeilmeldinger.FNR_KUN_TALL);
     } else if (fnr.length !== 11) {
-        return MaybeCls.just(DEFAULT_FEILMELDING);
+        return MaybeCls.just(PredefiniertFeilmeldinger.FNR_11_SIFFER);
     } else if (!erGyldigFodselsnummer(fnr)) {
-        return MaybeCls.just(IKKE_GYLDIG_KONTROLLSIFFER_FEILMELDING);
+        return MaybeCls.just(PredefiniertFeilmeldinger.FNR_KONTROLL_SIFFER);
     }
     return MaybeCls.nothing();
 }

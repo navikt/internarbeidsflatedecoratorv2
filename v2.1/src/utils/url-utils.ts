@@ -82,7 +82,7 @@ export function finnNaisMiljoStreng(envNamespace: boolean = false) {
     return `${prefix}.nais.preprod.local`;
 }
 
-export function randomCallId() {
+export function randomGuid() {
     let idx = 0;
     const c = window.crypto || window.msCrypto;
     const rnd = Array.from(c.getRandomValues(new Uint8Array(32))).map((value) =>

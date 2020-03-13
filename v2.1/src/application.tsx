@@ -12,14 +12,14 @@ import Feilmelding from './components/feilmelding';
 import { useWrappedState, WrappedState } from './hooks/use-wrapped-state';
 import useOnClickOutside from './hooks/use-on-click-outside';
 import { useOnMount } from './hooks/use-on-mount';
-import { State } from './redux/reducer';
+import { State } from './redux';
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
     useOnMount(() => {
         dispatch({ type: SagaActionTypes.INIT, data: props });
     });
-    const isInitialized = useSelector((state: State) => state.initialized);
+    const isInitialized = useSelector((state: State) => state.appdata.initialized);
 
     const apen: WrappedState<boolean> = useWrappedState(false);
 
@@ -31,7 +31,7 @@ function Application(props: ApplicationProps) {
         <div className="dekorator" ref={ref}>
             <Banner apen={apen} appname={props.appname} />
             {isInitialized && <Lenker apen={apen} />}
-            {isInitialized && <Feilmelding />}
+            <Feilmelding />
             {isInitialized && <NyEnhetContextModal />}
             {isInitialized && <NyBrukerContextModal />}
         </div>

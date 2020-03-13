@@ -2,11 +2,12 @@ import { call, fork, put } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse } from './api';
-import { AktivEnhet, Data } from '../internal-domain';
-import { ReduxActionTypes } from './actions';
+import { AktivEnhet, Data, Enhet } from '../internal-domain';
 import { RESET_VALUE, selectFromInitializedState, spawnConditionally } from './utils';
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (props.initialValue === RESET_VALUE) {
@@ -15,7 +16,10 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
     const response: FetchResponse<AktivEnhet> = yield call(Api.hentAktivEnhet);
 
     const state: Data = yield selectFromInitializedState((state) => state.data);
-    const gyldigeEnheter: Array<string> = state.saksbehandler.enheter.map((enhet) => enhet.enhetId);
+    const gyldigeEnheter: Array<string> = state.saksbehandler
+        .map((data) => data.enheter)
+        .withDefault<Array<Enhet>>([])
+        .map((enhet) => enhet.enhetId);
 
     const onsketEnhet = MaybeCls.of(props.initialValue)
         .map((enhet) => (enhet === RESET_VALUE ? '' : enhet))
@@ -48,9 +52,6 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield fork(Api.nullstillAktivBruker);
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: 'Kunne ikke finne en passende enhet'
-        });
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET));
     }
 }

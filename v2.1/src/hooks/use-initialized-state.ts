@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
-import { InitializedState, isInitialized, State } from '../redux/reducer';
+import { InitializedState, isInitialized } from '../redux/reducer';
+import { State } from '../redux';
 
 export function useInitializedState<T>(selector: (state: InitializedState) => T): T {
-    const state = useSelector((state: State) => state);
+    const state = useSelector((state: State) => state.appdata);
     if (isInitialized(state)) {
         return selector(state);
     }

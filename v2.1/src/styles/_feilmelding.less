@@ -12,8 +12,19 @@
     font-size: 1em;
     color: @white;
     font-style: italic;
+    animation-duration: 10s;
+    animation-name: dummy;
 }
 
 .dekorator__feilmelding__banner {
     display: block;
+}
+
+@keyframes dummy {
+    from {
+        color: currentColor;
+    }
+    to {
+        color: currentColor;
+    }
 }

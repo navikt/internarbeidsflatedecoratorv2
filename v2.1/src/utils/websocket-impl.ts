@@ -149,7 +149,7 @@ class WebSocketImpl {
 
     private static print(...args: any[]) {
         if (process.env.REACT_APP_MOCK === 'true') {
-            log.debug('WS:', ...args); // tslint:disable-line
+            log.info('WS:', ...args); // tslint:disable-line
         }
     }
 }
