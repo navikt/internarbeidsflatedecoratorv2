@@ -13,15 +13,20 @@ import {useWrappedState, WrappedState} from './hooks/use-wrapped-state';
 import useOnClickOutside from './hooks/use-on-click-outside';
 import {useOnMount} from './hooks/use-on-mount';
 import {useOnChanged} from "./hooks/use-on-changed";
-import {getContextvalueValue, RESET_VALUE} from "./redux/utils";
+import {getContextvalueValue, isContextvalueControlled, RESET_VALUE} from "./redux/utils";
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
+    const isFnrControlled = useRef(isContextvalueControlled(props.fnr));
+    const isEnhetControlled = useRef(isContextvalueControlled(props.enhet));
     useOnMount(() => {
         dispatch({ type: SagaActionTypes.INIT, data: props });
     });
 
     useOnChanged(() => getContextvalueValue(props.fnr), () => {
+        if (!isFnrControlled.current) {
+            return;
+        }
         const nyFnr = getContextvalueValue(props.fnr);
         if (nyFnr === null || nyFnr === RESET_VALUE || nyFnr.trim().length === 0) {
             dispatch({ type: SagaActionTypes.FNRRESET });
@@ -30,6 +35,9 @@ function Application(props: ApplicationProps) {
         }
     });
     useOnChanged(() => getContextvalueValue(props.enhet), () => {
+        if (!isEnhetControlled.current) {
+            return;
+        }
         const nyEnhet = getContextvalueValue(props.enhet);
         if (nyEnhet !== null) {
             dispatch({ type: SagaActionTypes.ENHETCHANGED, data: nyEnhet });

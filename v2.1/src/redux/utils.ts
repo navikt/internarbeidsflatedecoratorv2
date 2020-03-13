@@ -25,7 +25,10 @@ export function* selectFromInitializedState<T, Fn extends (state: InitializedSta
     throw new Error('Could not get data from state since it is not initialized yet.');
 }
 
-export function isContextvalueControlled<T>(contextValue: Contextvalue<T>): contextValue is ControlledContextvalue<T> {
+export function isContextvalueControlled<T>(contextValue?: Contextvalue<T>): contextValue is ControlledContextvalue<T> {
+    if (contextValue === undefined) {
+        return false
+    }
     return (contextValue as any).value !== undefined;
 }
 

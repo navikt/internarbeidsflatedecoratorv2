@@ -19,6 +19,7 @@
 <div id="root"></div>
 </body>
 <script>
+    let appstate = { fnr: '', enhet: null };
     const minimal = () => ({
         appname: 'Modia basic'
     });
@@ -97,11 +98,9 @@
         }
     });
 
-    let appstate = { fnr: '\u0000', enhet: '' };
     function renderDecorator(newConfig) {
         appstate = { ...appstate, ...newConfig };
-        const config = controlled(appstate.fnr, appstate.enhet);
-        console.log('Rendering', config.fnr.initialValue || config.fnr.value, config.enhet.initialValue || config.enhet.value);
+        const config = complete(appstate.fnr, appstate.enhet);
         NAVSPA.internarbeidsflatefs(document.getElementById('root'), config);
     }
 
