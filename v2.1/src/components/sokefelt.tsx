@@ -8,7 +8,11 @@ import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import visibleIf from './visibleIf';
 import { useFnrContextvalueState } from '../hooks/use-contextvalue-state';
 import { fjernFeilmelding, leggTilFeilmelding } from '../redux/feilmeldinger/reducer';
-import {FeilmeldingerActions, FeilmeldingKode, PredefiniertFeilmeldinger} from '../redux/feilmeldinger/domain';
+import {
+    FeilmeldingerActions,
+    FeilmeldingKode,
+    PredefiniertFeilmeldinger
+} from '../redux/feilmeldinger/domain';
 
 function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
     return [
@@ -39,7 +43,9 @@ function Sokefelt() {
         const feilmelding = lagFnrFeilmelding(value);
 
         if (feilmelding.isJust()) {
-            const feilmeldingData = feilmelding.withDefault(PredefiniertFeilmeldinger.FNR_UKJENT_FEIL);
+            const feilmeldingData = feilmelding.withDefault(
+                PredefiniertFeilmeldinger.FNR_UKJENT_FEIL
+            );
             dispatch(leggTilFeilmelding(feilmeldingData));
         } else {
             dispatch(fjernFeilmelding(FeilmeldingKode.VALIDERING_FNR));

@@ -2,7 +2,7 @@ import { select, spawn } from 'redux-saga/effects';
 import { InitializedState, isInitialized } from './reducer';
 import { State } from './index';
 import { Action } from 'redux';
-import {Contextvalue, ControlledContextvalue} from "../domain";
+import { Contextvalue, ControlledContextvalue } from '../domain';
 
 export const RESET_VALUE = '\u0000';
 
@@ -25,9 +25,11 @@ export function* selectFromInitializedState<T, Fn extends (state: InitializedSta
     throw new Error('Could not get data from state since it is not initialized yet.');
 }
 
-export function isContextvalueControlled<T>(contextValue?: Contextvalue<T>): contextValue is ControlledContextvalue<T> {
+export function isContextvalueControlled<T>(
+    contextValue?: Contextvalue<T>
+): contextValue is ControlledContextvalue<T> {
     if (contextValue === undefined) {
-        return false
+        return false;
     }
     return (contextValue as any).value !== undefined;
 }

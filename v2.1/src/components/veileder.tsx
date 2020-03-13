@@ -6,11 +6,13 @@ import { EMDASH } from '../utils/string-utils';
 function Veileder() {
     const saksbehandler = useInitializedState((state) => state.data.saksbehandler);
 
-    const identElement = saksbehandler.map((data) => data.ident)
+    const identElement = saksbehandler
+        .map((data) => data.ident)
         .map((ident) => <span className="dekorator__hode__veileder_id">{ident}</span>)
         .withDefault(<span className="dekorator__hode__veileder_id">{EMDASH}</span>);
 
-    const navnElement = saksbehandler.map((data) => data.navn)
+    const navnElement = saksbehandler
+        .map((data) => data.navn)
         .map((navn) => <span className="dekorator__hode__veileder_navn">{navn}</span>)
         .withDefault(null);
 

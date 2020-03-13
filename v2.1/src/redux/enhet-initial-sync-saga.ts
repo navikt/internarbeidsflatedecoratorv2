@@ -3,11 +3,16 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse } from './api';
 import { AktivEnhet, Data, Enhet } from '../internal-domain';
-import {getContextvalueValue, RESET_VALUE, selectFromInitializedState, spawnConditionally} from './utils';
+import {
+    getContextvalueValue,
+    RESET_VALUE,
+    selectFromInitializedState,
+    spawnConditionally
+} from './utils';
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (getContextvalueValue(props) === RESET_VALUE) {

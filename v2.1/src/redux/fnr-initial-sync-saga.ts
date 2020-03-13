@@ -1,14 +1,14 @@
-import {call, fork, put} from 'redux-saga/effects';
-import {MaybeCls} from '@nutgaard/maybe-ts';
+import { call, fork, put } from 'redux-saga/effects';
+import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
-import {FetchResponse, hasError} from './api';
-import {AktivBruker} from '../internal-domain';
-import {lagFnrFeilmelding} from '../utils/fnr-utils';
-import {getContextvalueValue, RESET_VALUE, spawnConditionally} from './utils';
-import {FnrContextvalue} from '../domain';
-import {updateFnrValue} from './fnr-update-sagas';
-import {leggTilFeilmelding} from './feilmeldinger/reducer';
-import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
+import { FetchResponse, hasError } from './api';
+import { AktivBruker } from '../internal-domain';
+import { lagFnrFeilmelding } from '../utils/fnr-utils';
+import { getContextvalueValue, RESET_VALUE, spawnConditionally } from './utils';
+import { FnrContextvalue } from '../domain';
+import { updateFnrValue } from './fnr-update-sagas';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (getContextvalueValue(props) === RESET_VALUE) {
@@ -28,9 +28,7 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
         .filter((fnr) => fnr.length > 0);
 
     if (hasError(response)) {
-        yield put(
-            leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
-        );
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET));
     }
 
     if (feilFnr.isJust()) {

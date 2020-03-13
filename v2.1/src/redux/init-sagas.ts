@@ -1,27 +1,29 @@
-import {all, call, fork, put, take, takeLatest} from 'redux-saga/effects';
-import {MaybeCls} from '@nutgaard/maybe-ts';
-import {ApplicationProps, FnrDisplay} from '../domain';
-import {EnhetContextvalueState, FnrContextvalueState, Saksbehandler} from '../internal-domain';
-import {ReduxActionTypes, SagaActionTypes} from './actions';
+import { all, call, fork, put, take, takeLatest } from 'redux-saga/effects';
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { ApplicationProps, FnrDisplay } from '../domain';
+import { EnhetContextvalueState, FnrContextvalueState, Saksbehandler } from '../internal-domain';
+import { ReduxActionTypes, SagaActionTypes } from './actions';
 import * as Api from './api';
-import {FetchResponse, hasError} from './api';
+import { FetchResponse, hasError } from './api';
 import initialSyncEnhet from './enhet-initial-sync-saga';
 import initialSyncFnr from './fnr-initial-sync-saga';
-import {updateFnr} from './fnr-update-sagas';
-import {updateEnhet} from './enhet-update-sagas';
-import {wsListener} from './wsSaga';
-import {InitializedState} from './reducer';
-import {getContextvalueValue, RESET_VALUE} from './utils';
+import { updateFnr } from './fnr-update-sagas';
+import { updateEnhet } from './enhet-update-sagas';
+import { wsListener } from './wsSaga';
+import { InitializedState } from './reducer';
+import { getContextvalueValue, RESET_VALUE } from './utils';
 import log from './../utils/logging';
-import {leggTilFeilmelding} from './feilmeldinger/reducer';
-import {PredefiniertFeilmeldinger} from './feilmeldinger/domain';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksbehandler>) {
     const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(getContextvalueValue(config)).filter((fnr) => fnr !== RESET_VALUE),
+                value: MaybeCls.of(getContextvalueValue(config)).filter(
+                    (fnr) => fnr !== RESET_VALUE
+                ),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: FnrDisplay.SOKEFELT,
@@ -30,13 +32,15 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
                 ignoreWsEvents: config.ignoreWsEvents === undefined ? false : config.ignoreWsEvents
             };
         })
-        .withDefault({enabled: false});
+        .withDefault({ enabled: false });
 
     const enhet: EnhetContextvalueState = MaybeCls.of(props.enhet)
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(getContextvalueValue(config)).filter((enhet) => enhet !== RESET_VALUE),
+                value: MaybeCls.of(getContextvalueValue(config)).filter(
+                    (enhet) => enhet !== RESET_VALUE
+                ),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: config.display,
@@ -45,7 +49,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
                 ignoreWsEvents: config.ignoreWsEvents === undefined ? false : config.ignoreWsEvents
             };
         })
-        .withDefault({enabled: false});
+        .withDefault({ enabled: false });
 
     const visVeileder: boolean = MaybeCls.of(props.toggles)
         .flatMap((toggles) => MaybeCls.of(toggles.visVeileder))
@@ -56,7 +60,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
         appname: props.appname,
         fnr,
         enhet,
-        toggles: {visVeileder},
+        toggles: { visVeileder },
         markup: props.markup,
         data: {
             saksbehandler,
@@ -64,15 +68,13 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
         }
     };
 
-    yield put({type: ReduxActionTypes.INITIALIZE, data: state});
+    yield put({ type: ReduxActionTypes.INITIALIZE, data: state });
 }
 
 function* initDekoratorData(props: ApplicationProps) {
     const response: FetchResponse<Saksbehandler> = yield call(Api.hentSaksbehandlerData);
     if (hasError(response)) {
-        yield put(
-            leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET)
-        );
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET));
         yield call(initializeStore, props, MaybeCls.nothing());
     } else {
         yield call(initializeStore, props, MaybeCls.just(response.data));
