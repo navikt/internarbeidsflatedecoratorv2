@@ -13,7 +13,6 @@ export enum ReduxActionTypes {
 export enum SagaActionTypes {
     INIT = 'SAGA/INIT',
     ENHETCHANGED = 'SAGA/ENHETCHANGED',
-    FNRCHANGED = 'SAGA/FNRCHANGED',
     FNRSUBMIT = 'SAGA/FNRSUBMIT',
     FNRRESET = 'SAGA/FNRRESET',
     WS_ENHET_DECLINE = 'SAGA/WS_ENHET_DECLINE',
@@ -28,9 +27,8 @@ export type AktorIdData = DataAction<ReduxActionTypes.AKTORIDDATA, AktorIdRespon
 
 export type SagaInit = DataAction<SagaActionTypes.INIT, ApplicationProps>;
 export type EnhetChanged = DataAction<SagaActionTypes.ENHETCHANGED, string>;
-export type FnrChanged = DataAction<SagaActionTypes.FNRCHANGED, string>;
 export type FnrSubmit = DataAction<SagaActionTypes.FNRSUBMIT, string>;
 export type FnrReset = Action<SagaActionTypes.FNRRESET>;
 
 export type ReduxActions = InitStore | UpdateStore | AktorIdData;
-export type SagaActions = SagaInit | EnhetChanged | FnrChanged | FnrSubmit | FnrReset;
+export type SagaActions = SagaInit | EnhetChanged | FnrSubmit | FnrReset;

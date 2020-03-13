@@ -6,13 +6,21 @@ export interface Markup {
     etterSokefelt?: string;
 }
 
-export interface Contextvalue<T> {
+export interface ControlledContextvalue<T> extends BaseContextvalue<T> {
+    value: string | null;
+}
+export interface UncontrolledContextvalue<T> extends BaseContextvalue<T> {
     initialValue: string | null;
+}
+
+export interface BaseContextvalue<T> {
     display: T;
     onChange(value: string | null): void;
     skipModal?: boolean;
     ignoreWsEvents?: boolean;
 }
+
+export type Contextvalue<T> = ControlledContextvalue<T> | UncontrolledContextvalue<T>;
 
 export enum EnhetDisplay {
     ENHET = 'ENHET',

@@ -4,19 +4,19 @@ import * as Api from './api';
 import {FetchResponse, hasError} from './api';
 import {AktivBruker} from '../internal-domain';
 import {lagFnrFeilmelding} from '../utils/fnr-utils';
-import {RESET_VALUE, spawnConditionally} from './utils';
+import {getContextvalueValue, RESET_VALUE, spawnConditionally} from './utils';
 import {FnrContextvalue} from '../domain';
 import {updateFnrValue} from './fnr-update-sagas';
 import {leggTilFeilmelding} from './feilmeldinger/reducer';
 import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
-    if (props.initialValue === RESET_VALUE) {
+    if (getContextvalueValue(props) === RESET_VALUE) {
         yield call(Api.nullstillAktivBruker);
     }
 
     const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
-    const onsketFnr = MaybeCls.of(props.initialValue)
+    const onsketFnr = MaybeCls.of(getContextvalueValue(props))
         .map((fnr) => (fnr === RESET_VALUE ? '' : fnr))
         .map((fnr) => fnr.trim())
         .filter((fnr) => fnr.length > 0);

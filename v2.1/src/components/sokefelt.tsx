@@ -39,7 +39,7 @@ function Sokefelt() {
         const feilmelding = lagFnrFeilmelding(value);
 
         if (feilmelding.isJust()) {
-            const feilmeldingData = feilmelding.withDefault(PredefiniertFeilmeldinger.FNR_UKJENT_FEIL)
+            const feilmeldingData = feilmelding.withDefault(PredefiniertFeilmeldinger.FNR_UKJENT_FEIL);
             dispatch(leggTilFeilmelding(feilmeldingData));
         } else {
             dispatch(fjernFeilmelding(FeilmeldingKode.VALIDERING_FNR));

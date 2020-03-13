@@ -11,7 +11,7 @@ import {updateFnr} from './fnr-update-sagas';
 import {updateEnhet} from './enhet-update-sagas';
 import {wsListener} from './wsSaga';
 import {InitializedState} from './reducer';
-import {RESET_VALUE} from './utils';
+import {getContextvalueValue, RESET_VALUE} from './utils';
 import log from './../utils/logging';
 import {leggTilFeilmelding} from './feilmeldinger/reducer';
 import {PredefiniertFeilmeldinger} from './feilmeldinger/domain';
@@ -21,7 +21,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(config.initialValue).filter((fnr) => fnr !== RESET_VALUE),
+                value: MaybeCls.of(getContextvalueValue(config)).filter((fnr) => fnr !== RESET_VALUE),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: FnrDisplay.SOKEFELT,
@@ -36,7 +36,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(config.initialValue).filter((enhet) => enhet !== RESET_VALUE),
+                value: MaybeCls.of(getContextvalueValue(config)).filter((enhet) => enhet !== RESET_VALUE),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: config.display,
