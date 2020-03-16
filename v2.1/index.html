@@ -1,7 +1,8 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="/internarbeidsflatedecorator/v2.1/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="/internarbeidsflatedecorator/v2.1/manifest.json"/><title>React App</title><style>body,html{margin:0;height:100vh}</style><link href="/internarbeidsflatedecorator/v2.1/static/css/main.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script src="/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"></script></body><script>const minimal = {
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="shortcut icon" href="/internarbeidsflatedecorator/v2.1/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><link rel="manifest" href="/internarbeidsflatedecorator/v2.1/manifest.json"/><title>React App</title><style>body,html{margin:0;height:100vh}</style><link href="/internarbeidsflatedecorator/v2.1/static/css/main.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script src="/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"></script></body><script>let appstate = { fnr: '', enhet: null };
+    const minimal = () => ({
         appname: 'Modia basic'
-    };
-    const enhetAware = {
+    });
+    const enhetAware = () => ({
         appname: 'Modia enhet',
         enhet: {
             initialValue: '0604',
@@ -13,8 +14,8 @@
         toggles: {
             visEnhetVelger: true
         }
-    };
-    const fnrAware = {
+    });
+    const fnrAware = () => ({
         appname: 'Modia enhet',
         fnr: {
             initialValue: '10108000398',
@@ -26,14 +27,39 @@
         toggles: {
             visSokefelt: true
         }
-    };
-    const complete = {
+    });
+    const controlled = (fnrValue, enhetValue) => ({
+        appname: 'Modia controlled',
+        fnr: {
+            value: fnrValue,
+            display: 'SOKEFELT',
+            onChange(fnr) {
+                console.warn("FNR onChange", fnr);
+                render(fnr, enhetValue);
+            }
+        },
+        enhet: {
+            value: enhetValue,
+            display: 'ENHET_VALG',
+            onChange(enhet) {
+                console.warn("ENHET onChange", enhet);
+                render(fnrValue, enhet);
+            }
+        },
+        toggles: {
+            visVeileder: true
+        },
+        markup: {
+            etterSokefelt: '<button>Min knapp</button>',
+        }
+    });
+    const complete = () => ({
         appname: 'Modia maximum',
         fnr: {
-            initialValue: null,
+            initialValue: '',
             display: 'SOKEFELT',
-            onChange(enhet) {
-                console.warn('FNR onChange', enhet);
+            onChange(fnr) {
+                console.warn('FNR onChange', fnr);
             }
         },
         enhet: {
@@ -48,11 +74,13 @@
         },
         markup: {
             etterSokefelt: '<button>Min knapp</button>',
-        },
-        contextholderConfig: {
-            enabled: true,
-            promptBeforeEnhetChange: true
         }
-    };
+    });
 
-    NAVSPA.internarbeidsflatefs(document.getElementById('root'), complete);</script></html>
+    function renderDecorator(newConfig) {
+        appstate = { ...appstate, ...newConfig };
+        const config = complete(appstate.fnr, appstate.enhet);
+        NAVSPA.internarbeidsflatefs(document.getElementById('root'), config);
+    }
+
+    renderDecorator();</script></html>
