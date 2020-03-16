@@ -9,7 +9,7 @@ import { selectFromInitializedState } from './utils';
 import { updateWSRequestedEnhet } from './enhet-update-sagas';
 import { updateWSRequestedFnr } from './fnr-update-sagas';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 enum WsChangeEventType {
     MESSAGE,

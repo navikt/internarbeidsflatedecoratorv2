@@ -11,10 +11,10 @@ import initialSyncFnr from './fnr-initial-sync-saga';
 import { AKTIV_BRUKER_URL, ContextApiType, modiacontextholderUrl } from './api';
 import { FnrContextvalue, FnrDisplay } from '../domain';
 import { AktivBruker, AktivEnhet } from '../internal-domain';
-import {State} from "./index";
-import {RecursivePartial} from "./utils";
-import {PredefiniertFeilmeldinger} from "./feilmeldinger/domain";
-import {leggTilFeilmelding} from "./feilmeldinger/reducer";
+import { State } from './index';
+import { RecursivePartial } from './utils';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
 
 function gittContextholder(
     context: Context,
@@ -125,7 +125,9 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched[0]).toMatchObject(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET));
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
+        );
         expect(dispatched[1]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
             data: { fnr: { value: MaybeCls.nothing() } }
@@ -212,7 +214,9 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched[0]).toMatchObject(leggTilFeilmelding(PredefiniertFeilmeldinger.FNR_KONTROLL_SIFFER));
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.FNR_KONTROLL_SIFFER)
+        );
         expect(dispatched[1]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
             data: { fnr: { value: MaybeCls.just('12345678910') } }
@@ -230,7 +234,9 @@ describe('saga - root', () => {
 
         const dispatched = await run(initialSyncFnr, state, props);
 
-        expect(dispatched[0]).toMatchObject(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET));
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
+        );
         expect(dispatched[1]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
             data: { fnr: { value: MaybeCls.just(MOCK_FNR_1) } }

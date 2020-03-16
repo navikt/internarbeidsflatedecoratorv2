@@ -56,6 +56,12 @@ function setupControls() {
         updateContext({ verdi: '0118', eventType: 'NY_AKTIV_ENHET' })
     );
 
+    const updateFnr = document.createElement('button');
+    updateFnr.innerText = 'App update Fnr 01011950120 (gutt)';
+    updateFnr.addEventListener('click', () =>
+        (window as any).renderDecorator({ fnr: '01011950120' })
+    );
+
     const clearBothLogs = document.createElement('button');
     clearBothLogs.innerText = 'Clear both logs';
     clearBothLogs.addEventListener('click', () => {
@@ -71,6 +77,7 @@ function setupControls() {
     buttonDiv.appendChild(jenteButton);
     buttonDiv.appendChild(barumEnhet);
     buttonDiv.appendChild(aremarkEnhet);
+    buttonDiv.appendChild(updateFnr);
     buttonDiv.appendChild(clearBothLogs);
 
     controlDiv.appendChild(buttonDiv);

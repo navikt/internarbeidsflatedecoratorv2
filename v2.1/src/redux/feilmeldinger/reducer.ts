@@ -5,7 +5,8 @@ import {
     FeilmeldingerActions,
     FeilmeldingKode,
     FjernFeilmelding,
-    LeggTilFeilmelding, PredefiniertFeilmelding
+    LeggTilFeilmelding,
+    PredefiniertFeilmelding
 } from './domain';
 import { Required } from '../utils';
 

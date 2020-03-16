@@ -3,14 +3,19 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse } from './api';
 import { AktivEnhet, Data, Enhet } from '../internal-domain';
-import { RESET_VALUE, selectFromInitializedState, spawnConditionally } from './utils';
+import {
+    getContextvalueValue,
+    RESET_VALUE,
+    selectFromInitializedState,
+    spawnConditionally
+} from './utils';
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import { PredefiniertFeilmeldinger} from './feilmeldinger/domain';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
-    if (props.initialValue === RESET_VALUE) {
+    if (getContextvalueValue(props) === RESET_VALUE) {
         yield call(Api.nullstillAktivEnhet);
     }
     const response: FetchResponse<AktivEnhet> = yield call(Api.hentAktivEnhet);
@@ -21,7 +26,7 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         .withDefault<Array<Enhet>>([])
         .map((enhet) => enhet.enhetId);
 
-    const onsketEnhet = MaybeCls.of(props.initialValue)
+    const onsketEnhet = MaybeCls.of(getContextvalueValue(props))
         .map((enhet) => (enhet === RESET_VALUE ? '' : enhet))
         .map((enhet) => enhet.trim())
         .filter((enhet) => enhet.length > 0)
