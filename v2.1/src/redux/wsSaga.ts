@@ -4,7 +4,7 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import WebSocketImpl from '../utils/websocket-impl';
 import * as Api from './api';
 import { ContextApiType, FetchResponse, getWebSocketUrl } from './api';
-import { AktivBruker, AktivEnhet } from '../internal-domain';
+import { AktivBruker, AktivEnhet, Saksbehandler } from '../internal-domain';
 import { selectFromInitializedState } from './utils';
 import { updateWSRequestedEnhet } from './enhet-update-sagas';
 import { updateWSRequestedFnr } from './fnr-update-sagas';
@@ -68,7 +68,7 @@ function* wsChange(event: WsChangeEvent) {
 }
 
 export function* wsListener() {
-    const saksbehandler = yield selectFromInitializedState((state) => state.data.saksbehandler);
+    const saksbehandler: MaybeCls<Saksbehandler> = yield selectFromInitializedState((state) => state.data.saksbehandler);
     const wsUrl = getWebSocketUrl(saksbehandler);
     const wsChannel = yield call(createWsChannel, wsUrl);
     yield takeLatest(wsChannel, wsChange);

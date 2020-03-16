@@ -1,3 +1,4 @@
+import {MaybeCls} from "@nutgaard/maybe-ts";
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import { finnMiljoStreng, hentMiljoFraUrl, randomGuid } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
@@ -124,13 +125,15 @@ export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
     return getJson<Saksbehandler>(SAKSBEHANDLER_URL);
 }
 
-export function getWebSocketUrl(saksbehandler: Saksbehandler): string {
+export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): string | null {
     if (process.env.REACT_APP_MOCK === 'true' && failureConfig.websocketConnection) {
         return 'ws://localhost:2999/hereIsWS/failure-url';
     } else if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
     } else {
-        const ident = saksbehandler.ident;
-        return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
+        return maybeSaksbehandler
+            .map((saksbehandler) => saksbehandler.ident)
+            .map((ident) => `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`)
+            .withDefault(null);
     }
 }
