@@ -11,14 +11,19 @@ import { updateFnr } from './fnr-update-sagas';
 import { updateEnhet } from './enhet-update-sagas';
 import { wsListener } from './wsSaga';
 import { InitializedState } from './reducer';
-import { RESET_VALUE } from './utils';
+import { getContextvalueValue, RESET_VALUE } from './utils';
+import log from './../utils/logging';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
-function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler) {
+function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksbehandler>) {
     const fnr: FnrContextvalueState = MaybeCls.of(props.fnr)
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(config.initialValue).filter((fnr) => fnr !== RESET_VALUE),
+                value: MaybeCls.of(getContextvalueValue(config)).filter(
+                    (fnr) => fnr !== RESET_VALUE
+                ),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: FnrDisplay.SOKEFELT,
@@ -33,7 +38,9 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         .map((config) => {
             return {
                 enabled: true,
-                value: MaybeCls.of(config.initialValue).filter((enhet) => enhet !== RESET_VALUE),
+                value: MaybeCls.of(getContextvalueValue(config)).filter(
+                    (enhet) => enhet !== RESET_VALUE
+                ),
                 wsRequestedValue: MaybeCls.nothing<string>(),
                 onChange: config.onChange,
                 display: config.display,
@@ -58,8 +65,7 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
         data: {
             saksbehandler,
             aktorId: MaybeCls.nothing()
-        },
-        feilmeldinger: []
+        }
     };
 
     yield put({ type: ReduxActionTypes.INITIALIZE, data: state });
@@ -67,30 +73,26 @@ function* initializeStore(props: ApplicationProps, saksbehandler: Saksbehandler)
 
 function* initDekoratorData(props: ApplicationProps) {
     const response: FetchResponse<Saksbehandler> = yield call(Api.hentSaksbehandlerData);
-
     if (hasError(response)) {
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: response.error,
-            scope: 'initDekoratorData'
-        });
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET));
+        yield call(initializeStore, props, MaybeCls.nothing());
     } else {
-        yield call(initializeStore, props, response.data);
+        yield call(initializeStore, props, MaybeCls.just(response.data));
     }
 
     return response;
 }
 
 export function* initSaga(): IterableIterator<any> {
-    console.time('initSaga');
+    log.time('initSaga');
     const action: { data: ApplicationProps } = yield take(SagaActionTypes.INIT);
     const props = action.data;
 
-    console.time('init');
+    log.time('init');
     yield call(initDekoratorData, props);
-    console.timeEnd('init');
+    log.timeEnd('init');
 
-    console.time('sync');
+    log.time('sync');
     const syncJobs = [];
     if (props.enhet) {
         syncJobs.push(call(initialSyncEnhet, props.enhet));
@@ -99,9 +101,9 @@ export function* initSaga(): IterableIterator<any> {
         syncJobs.push(call(initialSyncFnr, props.fnr));
     }
     yield all(syncJobs);
-    console.timeEnd('sync');
+    log.timeEnd('sync');
 
-    console.timeEnd('initSaga');
+    log.timeEnd('initSaga');
 
     yield takeLatest(SagaActionTypes.FNRSUBMIT, updateFnr);
     yield takeLatest(SagaActionTypes.FNRRESET, updateFnr);

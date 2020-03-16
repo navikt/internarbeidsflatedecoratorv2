@@ -10,7 +10,10 @@ import initialSyncEnhet from './enhet-initial-sync-saga';
 import { AKTIV_BRUKER_URL, AKTIV_ENHET_URL, ContextApiType, modiacontextholderUrl } from './api';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Enhet, Saksbehandler } from '../internal-domain';
 import { EnhetContextvalue, EnhetDisplay } from '../domain';
-import { InitializedState } from './reducer';
+import { RecursivePartial } from './utils';
+import { State } from './index';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -19,22 +22,26 @@ const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     etternavn: ''
 };
 
-function gittGyldigeEnheter(enheter: Array<Enhet>): Partial<InitializedState> {
+function gittGyldigeEnheter(enheter: Array<Enhet>): RecursivePartial<State> {
     const data = {
         aktorId: MaybeCls.nothing<AktorIdResponse>(),
-        saksbehandler: { ...mockSaksbehandler, enheter }
+        saksbehandler: MaybeCls.just({ ...mockSaksbehandler, enheter })
     };
     return {
-        initialized: true,
-        enhet: {
-            value: MaybeCls.nothing(),
-            display: EnhetDisplay.ENHET_VALG,
-            enabled: true,
-            showModal: false,
-            onChange(): void {},
-            wsRequestedValue: MaybeCls.nothing()
-        },
-        data
+        appdata: {
+            initialized: true,
+            enhet: {
+                enabled: true,
+                value: MaybeCls.nothing(),
+                wsRequestedValue: MaybeCls.nothing(),
+                display: EnhetDisplay.ENHET_VALG,
+                showModal: false,
+                onChange(): void {},
+                skipModal: false,
+                ignoreWsEvents: false
+            },
+            data
+        }
     };
 }
 
@@ -115,10 +122,9 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Kunne ikke finne en passende enhet'
-        });
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET)
+        );
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
@@ -135,10 +141,9 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Kunne ikke finne en passende enhet'
-        });
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET)
+        );
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
@@ -205,10 +210,9 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Kunne ikke finne en passende enhet'
-        });
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET)
+        );
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
@@ -224,10 +228,9 @@ describe('saga - root', () => {
         const dispatched = await run(initialSyncEnhet, state, props);
 
         expect(dispatched).toHaveLength(1);
-        expect(dispatched[0]).toMatchObject({
-            type: 'REDUX/FEILMELDING',
-            data: 'Kunne ikke finne en passende enhet'
-        });
+        expect(dispatched[0]).toMatchObject(
+            leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET)
+        );
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
         expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();

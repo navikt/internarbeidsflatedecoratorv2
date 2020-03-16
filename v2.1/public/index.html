@@ -19,10 +19,11 @@
 <div id="root"></div>
 </body>
 <script>
-    const minimal = {
+    let appstate = { fnr: '', enhet: null };
+    const minimal = () => ({
         appname: 'Modia basic'
-    };
-    const enhetAware = {
+    });
+    const enhetAware = () => ({
         appname: 'Modia enhet',
         enhet: {
             initialValue: '0604',
@@ -34,8 +35,8 @@
         toggles: {
             visEnhetVelger: true
         }
-    };
-    const fnrAware = {
+    });
+    const fnrAware = () => ({
         appname: 'Modia enhet',
         fnr: {
             initialValue: '10108000398',
@@ -47,14 +48,39 @@
         toggles: {
             visSokefelt: true
         }
-    };
-    const complete = {
+    });
+    const controlled = (fnrValue, enhetValue) => ({
+        appname: 'Modia controlled',
+        fnr: {
+            value: fnrValue,
+            display: 'SOKEFELT',
+            onChange(fnr) {
+                console.warn("FNR onChange", fnr);
+                render(fnr, enhetValue);
+            }
+        },
+        enhet: {
+            value: enhetValue,
+            display: 'ENHET_VALG',
+            onChange(enhet) {
+                console.warn("ENHET onChange", enhet);
+                render(fnrValue, enhet);
+            }
+        },
+        toggles: {
+            visVeileder: true
+        },
+        markup: {
+            etterSokefelt: '<button>Min knapp</button>',
+        }
+    });
+    const complete = () => ({
         appname: 'Modia maximum',
         fnr: {
-            initialValue: null,
+            initialValue: '',
             display: 'SOKEFELT',
-            onChange(enhet) {
-                console.warn('FNR onChange', enhet);
+            onChange(fnr) {
+                console.warn('FNR onChange', fnr);
             }
         },
         enhet: {
@@ -69,13 +95,15 @@
         },
         markup: {
             etterSokefelt: '<button>Min knapp</button>',
-        },
-        contextholderConfig: {
-            enabled: true,
-            promptBeforeEnhetChange: true
         }
-    };
+    });
 
-    NAVSPA.internarbeidsflatefs(document.getElementById('root'), complete);
+    function renderDecorator(newConfig) {
+        appstate = { ...appstate, ...newConfig };
+        const config = complete(appstate.fnr, appstate.enhet);
+        NAVSPA.internarbeidsflatefs(document.getElementById('root'), config);
+    }
+
+    renderDecorator();
 </script>
 </html>

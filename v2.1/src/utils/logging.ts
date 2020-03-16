@@ -3,9 +3,11 @@ interface LogLevel {
     console: keyof Console;
 }
 
-export const LogLevel: { [key: string]: LogLevel } = {
+const LogLevel: { [key: string]: LogLevel } = {
     TRACE: { level: 0, console: 'trace' },
     DEBUG: { level: 1, console: 'debug' },
+    TIME: { level: 1, console: 'time' },
+    TIME_END: { level: 1, console: 'timeEnd' },
     INFO: { level: 2, console: 'info' },
     WARN: { level: 3, console: 'warn' },
     ERROR: { level: 4, console: 'error' }
@@ -27,6 +29,12 @@ class Logging {
     }
     error(message?: any, ...optionalParams: any[]) {
         this.log(LogLevel.ERROR, message, ...optionalParams);
+    }
+    time(name: string) {
+        this.log(LogLevel.TIME, name);
+    }
+    timeEnd(name: string) {
+        this.log(LogLevel.TIME_END, name);
     }
 
     private log(method: LogLevel, message?: any, ...optionalParams: any[]): void {

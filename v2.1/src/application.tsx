@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { Dispatch } from 'redux';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import store from './redux';
+import store, { State } from './redux';
 import { SagaActions, SagaActionTypes } from './redux/actions';
 import { ApplicationProps } from './domain';
 import Banner from './components/banner';
@@ -12,14 +12,45 @@ import Feilmelding from './components/feilmelding';
 import { useWrappedState, WrappedState } from './hooks/use-wrapped-state';
 import useOnClickOutside from './hooks/use-on-click-outside';
 import { useOnMount } from './hooks/use-on-mount';
-import { State } from './redux/reducer';
+import { useOnChanged } from './hooks/use-on-changed';
+import { getContextvalueValue, isContextvalueControlled, RESET_VALUE } from './redux/utils';
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
+    const isFnrControlled = useRef(isContextvalueControlled(props.fnr));
+    const isEnhetControlled = useRef(isContextvalueControlled(props.enhet));
     useOnMount(() => {
         dispatch({ type: SagaActionTypes.INIT, data: props });
     });
-    const isInitialized = useSelector((state: State) => state.initialized);
+
+    useOnChanged(
+        () => getContextvalueValue(props.fnr),
+        () => {
+            if (!isFnrControlled.current) {
+                return;
+            }
+            const nyFnr = getContextvalueValue(props.fnr);
+            if (nyFnr === null || nyFnr === RESET_VALUE || nyFnr.trim().length === 0) {
+                dispatch({ type: SagaActionTypes.FNRRESET });
+            } else {
+                dispatch({ type: SagaActionTypes.FNRSUBMIT, data: nyFnr });
+            }
+        }
+    );
+    useOnChanged(
+        () => getContextvalueValue(props.enhet),
+        () => {
+            if (!isEnhetControlled.current) {
+                return;
+            }
+            const nyEnhet = getContextvalueValue(props.enhet);
+            if (nyEnhet !== null) {
+                dispatch({ type: SagaActionTypes.ENHETCHANGED, data: nyEnhet });
+            }
+        }
+    );
+
+    const isInitialized = useSelector((state: State) => state.appdata.initialized);
 
     const apen: WrappedState<boolean> = useWrappedState(false);
 
@@ -31,7 +62,7 @@ function Application(props: ApplicationProps) {
         <div className="dekorator" ref={ref}>
             <Banner apen={apen} appname={props.appname} />
             {isInitialized && <Lenker apen={apen} />}
-            {isInitialized && <Feilmelding />}
+            <Feilmelding />
             {isInitialized && <NyEnhetContextModal />}
             {isInitialized && <NyBrukerContextModal />}
         </div>

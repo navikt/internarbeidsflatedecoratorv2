@@ -1,40 +1,28 @@
-import FetchMock, { JSONObject, Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
+import FetchMock, {
+    JSONObject,
+    Middleware,
+    MiddlewareUtils,
+    ResponseUtils
+} from 'yet-another-fetch-mock';
 import { AktorIdResponse, Saksbehandler } from '../internal-domain';
 import { setupWsControlAndMock } from './context-mock';
 import { finnMiljoStreng } from '../utils/url-utils';
-
-const loggingMiddleware: Middleware = (request, response) => {
-    if (request.url.endsWith('fromMock')) {
-        return response;
-    }
-    // tslint:disable
-    console.groupCollapsed(`${request.method} ${request.url}`);
-    console.groupCollapsed('config');
-    console.log('queryParams', request.queryParams);
-    console.log('pathParams', request.pathParams);
-    console.log('body', request.body);
-    if (request.init) {
-        console.log('header', request.init.headers);
-    }
-    console.groupEnd();
-
-    try {
-        console.log('response', JSON.parse(response.body));
-    } catch (e) {
-        console.log('response', response);
-    }
-
-    console.groupEnd();
-    // tslint:enable
-    return response;
-};
+import failureConfig from './mock-error-config';
 
 console.log('============================');
 console.log('Using yet-another-fetch-mock');
 console.log('============================');
+
+const originalLoggingMiddleware = MiddlewareUtils.loggingMiddleware();
+const loggingMiddleWare: Middleware = (request, response) => {
+    if (request.url.endsWith('fromMock')) {
+        return response;
+    }
+    return originalLoggingMiddleware(request, response);
+};
 const mock = FetchMock.configure({
     enableFallback: false,
-    middleware: MiddlewareUtils.combine(MiddlewareUtils.delayMiddleware(200), loggingMiddleware)
+    middleware: MiddlewareUtils.combine(MiddlewareUtils.delayMiddleware(200), loggingMiddleWare)
 });
 
 const me: Saksbehandler & JSONObject = {
@@ -50,7 +38,15 @@ const me: Saksbehandler & JSONObject = {
     ]
 };
 
-mock.get('/modiacontextholder/api/decorator', me);
+mock.get(
+    '/modiacontextholder/api/decorator',
+    ResponseUtils.combine(
+        ResponseUtils.statusCode(failureConfig.meEndpoint ? 500 : 200),
+        ResponseUtils.statusText(failureConfig.meEndpoint ? 'Internal Server Error' : 'Ok'),
+        ResponseUtils.json(failureConfig.meEndpoint ? null : me)
+    )
+);
+
 mock.get(`https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer`, (args) => {
     const fnr = (args.init!.headers! as Record<string, string>)['Nav-Personidenter'];
     const data: AktorIdResponse = {
@@ -59,7 +55,15 @@ mock.get(`https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer`
             identer: [{ gjeldende: true, ident: `000${fnr}000`, identgruppe: 'AktoerId' }]
         }
     };
-    return data;
+
+    return new Promise((resolve, reject) => {
+        const callback = failureConfig.aktorIdEndpoint ? reject : resolve;
+        callback({
+            status: failureConfig.aktorIdEndpoint ? 500 : 200,
+            statusText: failureConfig.aktorIdEndpoint ? 'Internal Server Error' : 'Ok',
+            body: JSON.stringify(failureConfig.aktorIdEndpoint ? null : data)
+        });
+    });
 });
 
-setupWsControlAndMock(mock);
+setupWsControlAndMock(mock, failureConfig);

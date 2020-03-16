@@ -1,18 +1,31 @@
+import {MaybeCls} from "@nutgaard/maybe-ts";
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { erLocalhost, finnMiljoStreng, randomCallId } from '../utils/url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl, randomGuid } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
+import failureConfig from './../mock/mock-error-config';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
     NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
 }
 
-export const modiacontextholderUrl = (() => {
-    if (erLocalhost()) {
+export function lagModiacontextholderUrl(): string {
+    const urlEnv = hentMiljoFraUrl();
+
+    if (urlEnv.environment === 'local') {
         return '/modiacontextholder/api';
+    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
+        return `https://modiacontextholder-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
+    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'p') {
+        return `https://modiacontextholder.nais.adeo.no/modiacontextholder/api`;
+    } else if (!urlEnv.isNaisUrl && urlEnv.envclass !== 'p') {
+        return `https://app-${urlEnv.environment}.adeo.no/modiacontextholder/api`;
+    } else {
+        return `https://app.adeo.no/modiacontextholder/api`;
     }
-    return `https://app${finnMiljoStreng()}.adeo.no/modiacontextholder/api`;
-})();
+}
+
+export const modiacontextholderUrl = lagModiacontextholderUrl();
 export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
 export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
 export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
@@ -23,7 +36,7 @@ export type ResponseOk<T> = { data: T; error: undefined };
 export type FetchResponse<T> = ResponseOk<T> | ResponseError;
 
 export function hasError<T>(response: FetchResponse<T>): response is ResponseError {
-    return !!response.error;
+    return response.error !== undefined;
 }
 
 async function doFetch(url: string, options?: RequestInit): Promise<Response> {
@@ -32,8 +45,13 @@ async function doFetch(url: string, options?: RequestInit): Promise<Response> {
 
 export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise<FetchResponse<T>> {
     try {
-        const response = await fetch(info, init);
-        const data = await response.json();
+        const corsInit: RequestInit = { ...(init || {}), credentials: 'include' };
+        const response: Response = await fetch(info, corsInit);
+        if (response.status > 299) {
+            const content = await response.text();
+            return { data: undefined, error: content };
+        }
+        const data: T = await response.json();
         return { data, error: undefined };
     } catch (error) {
         return { data: undefined, error };
@@ -65,7 +83,7 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
         credentials: 'include',
         headers: {
             'Nav-Consumer-Id': 'internarbeidsflatedecorator',
-            'Nav-Call-Id': randomCallId(),
+            'Nav-Call-Id': randomGuid(),
             'Nav-Personidenter': fnr
         }
     };
@@ -88,11 +106,11 @@ export function oppdaterAktivEnhet(enhet: string | null | undefined) {
 }
 
 export function nullstillAktivBruker() {
-    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' });
+    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
 }
 
 export function nullstillAktivEnhet() {
-    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' });
+    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
 }
 
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {
@@ -106,10 +124,16 @@ export function hentAktivEnhet(): Promise<FetchResponse<AktivEnhet>> {
 export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
     return getJson<Saksbehandler>(SAKSBEHANDLER_URL);
 }
-export function getWebSocketUrl(saksbehandler: Saksbehandler): string {
-    if (process.env.NODE_ENV === 'development') {
+
+export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): string | null {
+    if (process.env.REACT_APP_MOCK === 'true' && failureConfig.websocketConnection) {
+        return 'ws://localhost:2999/hereIsWS/failure-url';
+    } else if (process.env.NODE_ENV === 'development') {
         return 'ws://localhost:2999/hereIsWS';
+    } else {
+        return maybeSaksbehandler
+            .map((saksbehandler) => saksbehandler.ident)
+            .map((ident) => `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`)
+            .withDefault(null);
     }
-    const ident = saksbehandler.ident;
-    return `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }

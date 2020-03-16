@@ -5,11 +5,14 @@ import visibleIf from './visibleIf';
 import { SagaActions, SagaActionTypes } from '../redux/actions';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { useEnhetContextvalueState } from '../hooks/use-contextvalue-state';
+import { Enhet } from '../internal-domain';
 
 function EnhetVelger() {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
     const valgtEnhet = useEnhetContextvalueState().withDefault(undefined);
-    const enheter = useInitializedState((state) => state.data.saksbehandler).enheter;
+    const enheter: Array<Enhet> = useInitializedState((state) => state.data.saksbehandler)
+        .map((saksbehandler) => saksbehandler.enheter)
+        .withDefault([]);
 
     if (enheter.length === 1) {
         const enhet = enheter[0];

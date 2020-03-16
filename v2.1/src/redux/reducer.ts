@@ -1,11 +1,5 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import {
-    Data,
-    EnhetContextvalueState,
-    FnrContextvalueState,
-    Toggles,
-    UninitializedState
-} from '../internal-domain';
+import { Data, EnhetContextvalueState, FnrContextvalueState, Toggles } from '../internal-domain';
 import { Markup } from '../domain';
 import { ReduxActions, ReduxActionTypes, SagaActions } from './actions';
 
@@ -17,7 +11,10 @@ export interface InitializedState {
     toggles: Toggles;
     markup?: Markup;
     data: Data;
-    feilmeldinger: Array<string>;
+}
+
+export interface UninitializedState {
+    initialized: false;
 }
 
 export type State = UninitializedState | InitializedState;
@@ -39,14 +36,6 @@ export function reducer(state: State = initialState, action: ReduxActions | Saga
         switch (action.type) {
             case ReduxActionTypes.UPDATESTATE:
                 return { ...state, ...action.data };
-            case ReduxActionTypes.FEILMELDING:
-                return {
-                    ...state,
-                    feilmeldinger: MaybeCls.of(action.data)
-                        .filter((feilmelding) => feilmelding.length > 0)
-                        .map((feilmelding) => [feilmelding])
-                        .withDefault([])
-                };
             case ReduxActionTypes.AKTORIDDATA:
                 const aktorId = {
                     ...state.data,
@@ -60,7 +49,7 @@ export function reducer(state: State = initialState, action: ReduxActions | Saga
                 return state;
         }
     } else {
-        const ignorePatterns = ['@@redux/INIT', '@@INIT', 'SAGA/'];
+        const ignorePatterns = ['@@redux/', '@@INIT', 'SAGA/', 'REDUX/FEILMELDING/'];
         if (ignorePatterns.some((pattern) => action.type.startsWith(pattern))) {
             return state;
         }

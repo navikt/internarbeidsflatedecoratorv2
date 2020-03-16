@@ -10,7 +10,7 @@ import Sokefelt from './sokefelt';
 import Markup from './markup';
 import { WrappedState } from '../hooks/use-wrapped-state';
 import { useInitializedState } from '../hooks/use-initialized-state';
-import { State } from '../redux/reducer';
+import { State } from '../redux';
 import { EnhetDisplay } from '../domain';
 import { isEnabled } from '../internal-domain';
 
@@ -46,7 +46,7 @@ function BannerContent() {
 
 function Banner(props: Props) {
     const { apen } = props;
-    const isInitialized = useSelector((state: State) => state.initialized);
+    const isInitialized = useSelector((state: State) => state.appdata.initialized);
     const btnCls = classNames('dekorator__hode__toggleMeny', {
         'dekorator__hode__toggleMeny--apen': apen.value
     });

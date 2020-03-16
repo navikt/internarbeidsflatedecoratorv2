@@ -26,8 +26,8 @@ function NyEnhetContextModal() {
 
     return (
         <Modal
-            className="dekorator"
-            contentLabel="Brukercontext"
+            portalClassName="dekorator"
+            contentLabel="Enhet i kontekst endret"
             isOpen={enhetState.showModal}
             closeButton={false}
             onRequestClose={() => true}

@@ -2,22 +2,31 @@ import { call, fork, put } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse } from './api';
-import { AktivEnhet, Data } from '../internal-domain';
-import { ReduxActionTypes } from './actions';
-import { RESET_VALUE, selectFromInitializedState, spawnConditionally } from './utils';
+import { AktivEnhet, Data, Enhet } from '../internal-domain';
+import {
+    getContextvalueValue,
+    RESET_VALUE,
+    selectFromInitializedState,
+    spawnConditionally
+} from './utils';
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
-    if (props.initialValue === RESET_VALUE) {
+    if (getContextvalueValue(props) === RESET_VALUE) {
         yield call(Api.nullstillAktivEnhet);
     }
     const response: FetchResponse<AktivEnhet> = yield call(Api.hentAktivEnhet);
 
     const state: Data = yield selectFromInitializedState((state) => state.data);
-    const gyldigeEnheter: Array<string> = state.saksbehandler.enheter.map((enhet) => enhet.enhetId);
+    const gyldigeEnheter: Array<string> = state.saksbehandler
+        .map((data) => data.enheter)
+        .withDefault<Array<Enhet>>([])
+        .map((enhet) => enhet.enhetId);
 
-    const onsketEnhet = MaybeCls.of(props.initialValue)
+    const onsketEnhet = MaybeCls.of(getContextvalueValue(props))
         .map((enhet) => (enhet === RESET_VALUE ? '' : enhet))
         .map((enhet) => enhet.trim())
         .filter((enhet) => enhet.length > 0)
@@ -48,9 +57,6 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield fork(Api.nullstillAktivBruker);
-        yield put({
-            type: ReduxActionTypes.FEILMELDING,
-            data: 'Kunne ikke finne en passende enhet'
-        });
+        yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET));
     }
 }
