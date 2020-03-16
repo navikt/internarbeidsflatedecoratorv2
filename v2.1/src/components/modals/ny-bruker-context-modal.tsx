@@ -25,7 +25,7 @@ function NyBrukerContextModal() {
 
     return (
         <Modal
-            className="dekorator"
+            portalClassName="dekorator"
             contentLabel="Brukercontext"
             isOpen={fnrState.showModal}
             closeButton={false}
