@@ -26,7 +26,7 @@ function NyBrukerContextModal() {
     return (
         <Modal
             portalClassName="dekorator"
-            contentLabel="Brukercontext"
+            contentLabel="Bruker i kontekst endret"
             isOpen={fnrState.showModal}
             closeButton={false}
             onRequestClose={() => true}
