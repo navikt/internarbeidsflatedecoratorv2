@@ -56,7 +56,7 @@
             display: 'SOKEFELT',
             onChange(fnr) {
                 console.warn("FNR onChange", fnr);
-                render(fnr, enhetValue);
+                renderDecorator(fnr, enhetValue);
             }
         },
         enhet: {
@@ -64,7 +64,7 @@
             display: 'ENHET_VALG',
             onChange(enhet) {
                 console.warn("ENHET onChange", enhet);
-                render(fnrValue, enhet);
+                renderDecorator(fnrValue, enhet);
             }
         },
         toggles: {
