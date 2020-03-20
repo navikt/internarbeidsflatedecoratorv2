@@ -62,6 +62,12 @@ function setupControls() {
         (window as any).renderDecorator({ fnr: '01011950120' })
     );
 
+    const updateFnrNull = document.createElement('button');
+    updateFnrNull.innerText = 'App update Fnr null';
+    updateFnrNull.addEventListener('click', () =>
+        (window as any).renderDecorator({ fnr: null })
+    );
+
     const clearBothLogs = document.createElement('button');
     clearBothLogs.innerText = 'Clear both logs';
     clearBothLogs.addEventListener('click', () => {
@@ -78,6 +84,7 @@ function setupControls() {
     buttonDiv.appendChild(barumEnhet);
     buttonDiv.appendChild(aremarkEnhet);
     buttonDiv.appendChild(updateFnr);
+    buttonDiv.appendChild(updateFnrNull);
     buttonDiv.appendChild(clearBothLogs);
 
     controlDiv.appendChild(buttonDiv);
@@ -138,7 +145,7 @@ function setupControls() {
     contextLog.appendChild(contextLogHeader);
     contextLog.appendChild(contextTextarea);
 
-    document.body.append(controlDiv);
+    document.body.appendChild(controlDiv);
 }
 
 function addWSLogEntry() {

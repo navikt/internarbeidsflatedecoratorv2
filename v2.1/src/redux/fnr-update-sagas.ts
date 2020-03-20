@@ -102,6 +102,7 @@ export function* updateFnr(action: FnrSubmit | FnrReset) {
     if (isEnabled(props)) {
         if (action.type === SagaActionTypes.FNRRESET) {
             yield fork(Api.nullstillAktivBruker);
+            yield* updateFnrValue(MaybeCls.nothing());
             yield spawn(props.onChange, null);
         } else {
             const fnr = MaybeCls.of(action.data).filter((v) => v.length > 0);
