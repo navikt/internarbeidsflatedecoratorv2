@@ -145,7 +145,7 @@ function setupControls() {
     contextLog.appendChild(contextLogHeader);
     contextLog.appendChild(contextTextarea);
 
-    document.body.append(controlDiv);
+    document.body.appendChild(controlDiv);
 }
 
 function addWSLogEntry() {

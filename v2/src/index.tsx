@@ -1,4 +1,5 @@
-import 'core-js/stable';
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 import Application, { Props } from './application';
 import NAVSPA from '@navikt/navspa';
 import './styles/main.less';
