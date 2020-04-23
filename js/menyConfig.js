@@ -209,7 +209,7 @@ export function sokEtterStillingLenke() {
     };
 }
 
-export function K9Lenke(aktorId) {
+export function k9Lenke(aktorId) {
     return {
         tittel: 'K9-sak',
         url: (aktorId && aktorId.data && aktorId.data.length > 0 ? `${appDomain}/k9/web/aktoer/${aktorId.data}` : `${appDomain}/k9/web/`),
@@ -226,6 +226,6 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         foreldrepengerLenke(aktorId),
         rekrutteringsBistandLenke(),
         sokEtterStillingLenke(),
-        K9Lenke(aktorId),
+        k9Lenke(aktorId),
     ],
 });
