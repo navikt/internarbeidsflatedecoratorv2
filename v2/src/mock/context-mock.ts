@@ -66,7 +66,7 @@ function setupControls() {
         textarea.style.height = '10rem';
         controlDiv.appendChild(textarea);
 
-        document.body.append(controlDiv);
+        document.body.appendChild(controlDiv);
     };
 }
 function showMessage() {
