@@ -97,23 +97,23 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                             <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}`)}>
                                 Oversikt
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!saksoversikt`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/saker`)}>
                                 Saksoversikt
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!meldinger`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/meldinger`)}>
                                 Meldinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!varsling`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/varsler`)}>
                                 Varslinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!utbetalinger`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/utbetaling`)}>
                                 Utbetalinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!kontrakter`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/oppfølging`)}>
                                 Oppfølging
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}#!brukerprofil`)}>
-                                Brukerprofil
+                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/ytelser`)}>
+                                Ytelser
                             </Lenke>
                         </ul>
                     </section>
