@@ -11,7 +11,9 @@
     "dev": "webpack --watch",
     "build": "npm run build-js",
     "lint": "eslint js/. --ext .js",
-    "lint:fix": "eslint js/. --ext .js --fix"
+    "lint:fix": "eslint js/. --ext .js --fix",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "DigiSyfo <digisyfo@nav.no>",
   "license": "ISC",
@@ -27,7 +29,8 @@
     "react-lite": "0.15.33",
     "react-redux": "4.4.5",
     "redux": "3.5.2",
-    "redux-saga": "0.12.0"
+    "redux-saga": "0.12.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "babel-core": "6.23.1",
@@ -68,5 +71,6 @@
     "url-loader": "^1.1.2",
     "webpack": "2.2.1",
     "whatwg-fetch": "2.0.2"
-  }
+  },
+  "snyk": true
 }
