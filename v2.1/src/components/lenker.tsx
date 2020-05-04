@@ -39,7 +39,7 @@ const gosysDomain = (path: string) => `https://gosys-nais${finnNaisMiljoStreng(t
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` : getArenaStartsideLink();
-const modiaUrl = (fnr: string, path: string) => fnr ? modappDomain(path) : modappDomain('/modiabrukerdialog');
+const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
 const pesysUrl = (fnr: string, path: string) => (fnr ? wasappDomain(path) : wasappDomain('/psak/'));
 const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
@@ -94,25 +94,25 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Personoversikt</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}`)}>
                                 Oversikt
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/saker`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/saker`)}>
                                 Saksoversikt
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/meldinger`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/meldinger`)}>
                                 Meldinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/varsler`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/varsler`)}>
                                 Varslinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/utbetaling`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/utbetaling`)}>
                                 Utbetalinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/oppfølging`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/oppfølging`)}>
                                 Oppfølging
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiabrukerdialog/person/${fnr}/ytelser`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/ytelser`)}>
                                 Ytelser
                             </Lenke>
                         </ul>

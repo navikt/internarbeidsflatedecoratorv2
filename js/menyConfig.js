@@ -33,31 +33,31 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         lenker: [
             {
                 tittel: 'Oversikt',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}` : ''}`,
             },
             {
                 tittel: 'Saksoversikt',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/saker` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/saker` : ''}`,
             },
             {
                 tittel: 'Meldinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/meldinger` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/meldinger` : ''}`,
             },
             {
                 tittel: 'Varslinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/varsler` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/varsler` : ''}`,
             },
             {
                 tittel: 'Utbetalinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/utbetaling` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/utbetaling` : ''}`,
             },
             {
                 tittel: 'Oppfølging',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/oppfølging` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/oppfølging` : ''}`,
             },
             {
                 tittel: 'Ytelser',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/ytelser` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/ytelser` : ''}`,
             },
         ],
     },
