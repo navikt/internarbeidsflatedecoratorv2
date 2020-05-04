@@ -91,6 +91,19 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
     return getJson<AktorIdResponse>(AKTORID_URL, request);
 }
 
+export function logError(message: string, extra: { [key: string ]: string }) {
+    const error = {
+        message: message,
+        url: document.URL,
+        ...extra
+    };
+
+    console.error(error);
+    if (window.frontendlogger) {
+        window.frontendlogger.error(error);
+    }
+}
+
 export function oppdaterAktivBruker(fnr: string | null | undefined) {
     return postJson(`${modiacontextholderUrl}/context`, {
         verdi: fnr,

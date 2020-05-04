@@ -37,27 +37,27 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Saksoversikt',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!saksoversikt` : ''}`,
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/saker` : ''}`,
             },
             {
                 tittel: 'Meldinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!meldinger` : ''}`,
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/meldinger` : ''}`,
             },
             {
                 tittel: 'Varslinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!varsling` : ''}`,
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/varsler` : ''}`,
             },
             {
                 tittel: 'Utbetalinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!utbetalinger` : ''}`,
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/utbetaling` : ''}`,
             },
             {
                 tittel: 'Oppfølging',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!kontrakter` : ''}`,
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/oppfølging` : ''}`,
             },
             {
-                tittel: 'Brukerprofil',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!brukerprofil` : ''}`,
+                tittel: 'Ytelser',
+                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}/ytelser` : ''}`,
             },
         ],
     },

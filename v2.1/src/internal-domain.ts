@@ -1,6 +1,20 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { EnhetDisplay, FnrDisplay } from './domain';
 
+export type LogAttrs = { [key: string]: any; }
+export interface FrontendLogger {
+    info(message: string | LogAttrs): void
+    warn(message: string | LogAttrs): void
+    error(message: string | LogAttrs): void
+    event(name: string, fields: LogAttrs, tags: LogAttrs): void
+}
+
+declare global {
+    interface Window {
+        frontendlogger?: FrontendLogger;
+    }
+}
+
 export interface Saksbehandler {
     readonly ident: string;
     readonly fornavn: string;

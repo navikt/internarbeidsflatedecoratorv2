@@ -26,6 +26,7 @@ export function* hentAktorId() {
         if (feilFnr.isNothing()) {
             const response: FetchResponse<AktorIdResponse> = yield call(Api.hentAktorId, fnr);
             if (hasError(response)) {
+                yield fork(Api.logError, response.error, { fnr });
                 yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_AKTORID_FEILET));
             } else {
                 yield put({ type: ReduxActionTypes.AKTORIDDATA, data: response.data });
