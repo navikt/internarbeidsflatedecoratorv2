@@ -39,7 +39,7 @@ const gosysDomain = (path: string) => `https://gosys-nais${finnNaisMiljoStreng(t
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` : getArenaStartsideLink();
-const modiaUrl = (fnr: string, path: string) => fnr ? modappDomain(path) : modappDomain('/modiapersonoversikt');
+const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
 const pesysUrl = (fnr: string, path: string) => (fnr ? wasappDomain(path) : wasappDomain('/psak/'));
 const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
