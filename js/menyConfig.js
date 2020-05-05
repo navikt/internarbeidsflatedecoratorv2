@@ -33,31 +33,31 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         lenker: [
             {
                 tittel: 'Oversikt',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}` : ''}`,
             },
             {
                 tittel: 'Saksoversikt',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!saksoversikt` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/saker` : ''}`,
             },
             {
                 tittel: 'Meldinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!meldinger` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/meldinger` : ''}`,
             },
             {
                 tittel: 'Varslinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!varsling` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/varsler` : ''}`,
             },
             {
                 tittel: 'Utbetalinger',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!utbetalinger` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/utbetaling` : ''}`,
             },
             {
                 tittel: 'Oppfølging',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!kontrakter` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/oppfølging` : ''}`,
             },
             {
-                tittel: 'Brukerprofil',
-                url: `${modappDomain}/modiabrukerdialog/${fnr ? `person/${fnr}#!brukerprofil` : ''}`,
+                tittel: 'Ytelser',
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/ytelser` : ''}`,
             },
         ],
     },
@@ -209,7 +209,7 @@ export function sokEtterStillingLenke() {
     };
 }
 
-export function nySaksbehandlingsLenke() {
+export function k9Lenke(aktorId) {
     return {
         tittel: 'K9-sak',
         url: (aktorId && aktorId.data && aktorId.data.length > 0 ? `${appDomain}/k9/web/aktoer/${aktorId.data}` : `${appDomain}/k9/web/`),
@@ -226,6 +226,6 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         foreldrepengerLenke(aktorId),
         rekrutteringsBistandLenke(),
         sokEtterStillingLenke(),
-        nySaksbehandlingsLenke(),
+        k9Lenke(aktorId),
     ],
 });
