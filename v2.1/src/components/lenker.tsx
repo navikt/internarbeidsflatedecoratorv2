@@ -166,6 +166,9 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
                             Foreldrepenger
                         </Lenke>
+                        <Lenke href={`/k9/web/aktoer/${aktorId}`} target="_blank">
+                            K9-sak
+                        </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
                             Rekrutteringsbistand
                         </Lenke>
