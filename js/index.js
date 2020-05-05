@@ -33,6 +33,7 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
+console.warn('Deprecation notice - internarbeidsflatedecorator V1\nAnbefaler oppgradering til V2.1\nhttps://github.com/navikt/internarbeidsflatedecorator/tree/dev/v2.1');
 window.renderDecoratorHead = ({ config }, id = 'header') => {
     if (config.initiellEnhet) {
         store.dispatch(settValgtEnhet(config.initiellEnhet));
