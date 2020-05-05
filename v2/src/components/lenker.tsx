@@ -42,7 +42,7 @@ const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysD
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
-const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}/${aktorId}` : appDomain('/k9/web/');
+const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}` : appDomain('/k9/web/');
 
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
