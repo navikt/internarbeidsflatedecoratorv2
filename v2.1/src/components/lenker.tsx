@@ -6,6 +6,7 @@ import {WrappedState} from "../hooks/use-wrapped-state";
 import {useInitializedState} from "../hooks/use-initialized-state";
 import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-contextvalue-state";
 
+
 function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
     const rel = props.target ? 'noopener noreferrer' : undefined;
@@ -143,7 +144,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                             <Lenke href={`https://syfooversikt${naisDomain}/minoversikt`}>Min oversikt</Lenke>
                             <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøteoversikt</Lenke>
                             <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
-                            <Lenke href={appDomain(`/sykefravaer/${fnr ? fnr : ''}`)}>
+                            <Lenke href={`https://syfomodiaperson${naisDomain}/sykefravaer/${fnr ? fnr : ''}`}>
                                 Sykmeldt enkeltperson
                             </Lenke>
                         </ul>
@@ -152,26 +153,30 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                 <section className="dekorator__rad">
                     <h2 className="dekorator__lenkeheader">Andre systemer</h2>
                     <ul className="dekorator__menyliste">
-                        <Lenke href={arenaUrl(fnr)}>
+                        <Lenke href={arenaUrl(fnr)} target="_blank">
                             Arena personmappen
                         </Lenke>
-                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}>
+                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)} target="_blank">
                             AA register
                         </Lenke>
-                        <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)}>Pesys</Lenke>
-                        <Lenke href={gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`)}>
+                        <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)} target="_blank">Pesys</Lenke>
+                        <Lenke href={gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`)} target="_blank">
                             Gosys
                         </Lenke>
-                        <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)}>
+                        <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
                             Foreldrepenger
                         </Lenke>
+<<<<<<< HEAD
                         <Lenke href={`/k9/web/aktoer/${aktorId}`} target="_blank">
                             K9-sak
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`}>
+=======
+                        <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
+>>>>>>> 0bdc1e1e0452020802d8cdfbf2800083c991bb0f
                             Rekrutteringsbistand
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`}>
+                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`} target="_blank">
                             Søk etter stilling
                         </Lenke>
                     </ul>
