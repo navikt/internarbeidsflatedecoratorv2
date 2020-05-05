@@ -1,4 +1,4 @@
-import React, {useCallback, useContext} from 'react';
+                                                                                                                                                                                                                                                                                                                                                                                           import React, {useCallback, useContext} from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import {finnMiljoStreng, finnNaisMiljoStreng} from '../utils/url-utils';
 import { AppContext } from '../application';
@@ -42,7 +42,7 @@ const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysD
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
-
+const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}` : appDomain('/k9/web/');
 
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
@@ -164,7 +164,7 @@ function Lenker() {
                         <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
                             Foreldrepenger
                         </Lenke>
-                        <Lenke href={`/k9/web/aktoer/${aktorId}`} target="_blank">
+                        <Lenke href={k9Url(aktorId,`/k9/web/aktoer/${aktorId}`)} target="_blank">
                             K9-sak
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
