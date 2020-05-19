@@ -136,6 +136,14 @@ function getGosysNaisUrl() {
     return 'https://gosys-nais.nais.adeo.no';
 }
 
+function getINST2NaisUrl() {
+    const naisMiljo = finnNaisMiljoStreng();
+    if (naisMiljo === NAIS_PREPROD_SUFFIX) {
+        return 'https://inst2-web.nais.preprod.local';
+    }
+    return 'https://inst2-web.nais.adeo.no/';
+}
+
 function getGosysUrl(fnr) {
     const domain = getGosysNaisUrl();
     if (fnr) {
@@ -215,6 +223,12 @@ export function k9Lenke(aktorId) {
         url: (aktorId && aktorId.data && aktorId.data.length > 0 ? `${appDomain}/k9/web/aktoer/${aktorId.data}` : `${appDomain}/k9/web/`),
     };
 }
+export function inst2() {
+    return {
+        tittel: 'INST2',
+        url: getINST2NaisUrl(),
+    };
+}
 
 export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
@@ -227,5 +241,6 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         rekrutteringsBistandLenke(),
         sokEtterStillingLenke(),
         k9Lenke(aktorId),
+        inst2(),
     ],
 });
