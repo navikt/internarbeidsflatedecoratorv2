@@ -125,6 +125,9 @@ function Lenker() {
                             <Lenke href={appDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
                                 Min oversikt
                             </Lenke>
+                            <Lenke href={appDomain(`/beslutteroversikt`)}>
+                                Beslutteroversikt
+                            </Lenke>
                             <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
                                 Aktivitetsplan
                             </Lenke>

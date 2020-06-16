@@ -73,6 +73,10 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
             },
             {
+                tittel: 'Beslutteroversikt',
+                url: `${appDomain}/beslutteroversikt`,
+            },
+            {
                 tittel: 'Aktivitetsplan',
                 // Feil i eslint, fnr kan være undefined og da havner det i urlen, og det vil vi ikke
                 // eslint-disable-next-line no-unneeded-ternary
