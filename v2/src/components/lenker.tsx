@@ -43,7 +43,6 @@ const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDoma
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}` : appDomain('/k9/web/');
-const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
@@ -173,9 +172,6 @@ function Lenker() {
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
                             Rekrutteringsbistand
-                        </Lenke>
-                        <Lenke href={inst2()} target="_blank">
-                            INST2
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`} target="_blank">
                             Søk etter stilling

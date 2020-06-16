@@ -45,7 +45,6 @@ const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysD
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
-const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 
 const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}` : appDomain('/k9/web/');
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
@@ -175,9 +174,6 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
                             Rekrutteringsbistand
-                        </Lenke>
-                        <Lenke href={inst2()} target="_blank">
-                            INST2
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`} target="_blank">
                             Søk etter stilling
