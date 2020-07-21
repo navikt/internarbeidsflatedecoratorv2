@@ -1,6 +1,6 @@
 import {MaybeCls} from "@nutgaard/maybe-ts";
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, hentMiljoFraUrl, randomGuid } from '../utils/url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
 
@@ -29,7 +29,7 @@ export const modiacontextholderUrl = lagModiacontextholderUrl();
 export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
 export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
 export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
-export const AKTORID_URL = `https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer?identgruppe=AktoerId`;
+export const AKTORID_URL = (fnr: string) => `${modiacontextholderUrl}/aktor/${fnr}`;
 
 export type ResponseError = { data: undefined; error: string };
 export type ResponseOk<T> = { data: T; error: undefined };
@@ -79,16 +79,7 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
         return Promise.reject('Ugyldig fødselsnummer, kan ikke hente aktørId');
     }
 
-    const request: RequestInit = {
-        credentials: 'include',
-        headers: {
-            'Nav-Consumer-Id': 'internarbeidsflatedecorator',
-            'Nav-Call-Id': randomGuid(),
-            'Nav-Personidenter': fnr
-        }
-    };
-
-    return getJson<AktorIdResponse>(AKTORID_URL, request);
+    return getJson<AktorIdResponse>(AKTORID_URL(fnr));
 }
 
 export function logError(message: string, extra: { [key: string ]: string }) {
