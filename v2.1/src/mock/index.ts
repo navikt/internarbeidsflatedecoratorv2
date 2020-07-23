@@ -46,7 +46,7 @@ mock.get(
     )
 );
 
-mock.get('/modiacontextholder/api/aktor/:fnr', (args) => {
+mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (args) => {
     const fnr = args.pathParams.fnr;
     const data: AktorIdResponse = {
         fnr,
