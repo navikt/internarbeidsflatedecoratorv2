@@ -6,7 +6,6 @@ import FetchMock, {
 } from 'yet-another-fetch-mock';
 import { AktorIdResponse, Saksbehandler } from '../internal-domain';
 import { setupWsControlAndMock } from './context-mock';
-import { finnMiljoStreng } from '../utils/url-utils';
 import failureConfig from './mock-error-config';
 
 console.log('============================');
@@ -47,13 +46,11 @@ mock.get(
     )
 );
 
-mock.get(`https://app${finnMiljoStreng()}.adeo.no/aktoerregister/api/v1/identer`, (args) => {
-    const fnr = (args.init!.headers! as Record<string, string>)['Nav-Personidenter'];
+mock.get('/modiacontextholder/api/aktor/:fnr', (args) => {
+    const fnr = args.pathParams.fnr;
     const data: AktorIdResponse = {
-        [fnr]: {
-            feilmelding: null,
-            identer: [{ gjeldende: true, ident: `000${fnr}000`, identgruppe: 'AktoerId' }]
-        }
+        fnr,
+        aktorId: `000${fnr}000`
     };
 
     return new Promise((resolve, reject) => {
