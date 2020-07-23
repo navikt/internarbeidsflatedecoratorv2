@@ -87,6 +87,6 @@
         "react-scripts": "^3.4.1",
         "typescript": "3.5.3",
         "ws": "^7.1.0",
-        "yet-another-fetch-mock": "^3.4.0"
+        "yet-another-fetch-mock": "^4.0.0"
     }
 }
