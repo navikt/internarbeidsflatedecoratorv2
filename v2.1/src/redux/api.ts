@@ -29,7 +29,7 @@ export const modiacontextholderUrl = lagModiacontextholderUrl();
 export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
 export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
 export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
-export const AKTORID_URL = (fnr: string) => `${modiacontextholderUrl}/aktor/${fnr}`;
+export const AKTORID_URL = (fnr: string) => `${modiacontextholderUrl}/decorator/aktor/${fnr}`;
 
 export type ResponseError = { data: undefined; error: string };
 export type ResponseOk<T> = { data: T; error: undefined };

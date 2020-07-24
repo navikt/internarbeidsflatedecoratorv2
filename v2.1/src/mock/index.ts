@@ -38,7 +38,7 @@ mock.get('/modiacontextholder/api/decorator', (req, res, ctx) => res(
     ctx.json(failureConfig.meEndpoint ? null : me)
 ));
 
-mock.get('/modiacontextholder/api/aktor/:fnr', (req, res, ctx) => {
+mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
     const fnr = req.pathParams.fnr;
     const data: AktorIdResponse = {
         fnr,
