@@ -1,9 +1,7 @@
 import { runSaga, Saga } from 'redux-saga';
 import FetchMock, {
-    JSONObject,
     MatcherUrl,
     MatcherUtils,
-    ResponseUtils,
     SpyMiddleware
 } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
@@ -18,7 +16,7 @@ import { leggTilFeilmelding } from './feilmeldinger/reducer';
 
 function gittContextholder(
     context: Context,
-    aktiveContext: AktivEnhet & AktivBruker & JSONObject,
+    aktiveContext: AktivEnhet & AktivBruker,
     error: boolean = false
 ) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
@@ -26,30 +24,30 @@ function gittContextholder(
     if (error) {
         context.mock.get(
             '/modiacontextholder/api/context/aktivenhet',
-            ResponseUtils.statusCode(500)
+            (_, res, ctx) => res(ctx.status(500))
         );
         context.mock.get(
             '/modiacontextholder/api/context/aktivbruker',
-            ResponseUtils.statusCode(500)
+            (_, res, ctx) => res(ctx.status(500))
         );
-        context.mock.post('/modiacontextholder/api/context', ResponseUtils.statusCode(500));
+        context.mock.post('/modiacontextholder/api/context', (_, res, ctx) => res(ctx.status(500)));
     } else {
-        context.mock.get('/modiacontextholder/api/context/aktivenhet', {
+        context.mock.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) => res(ctx.json({
             aktivEnhet: aktiveContext.aktivEnhet,
             aktivBruker: null
-        });
-        context.mock.get('/modiacontextholder/api/context/aktivbruker', {
+        })));
+        context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => res(ctx.json({
             aktivEnhet: null,
             aktivBruker: aktiveContext.aktivBruker
-        });
-        context.mock.post('/modiacontextholder/api/context', ({ body }) => {
+        })));
+        context.mock.post('/modiacontextholder/api/context', ({ body }, res, ctx) => {
             const { verdi, eventType } = body;
             if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
                 context.contextholder.aktivBruker = verdi;
             } else {
                 context.contextholder.aktivEnhet = verdi;
             }
-            return Promise.resolve({ status: 200 });
+            return res(ctx.status(200));
         });
     }
 }
@@ -67,7 +65,7 @@ async function run<S extends Saga>(saga: S, state: any, ...args: Parameters<S>) 
     return dispatched;
 }
 
-type ContextholderValue = AktivEnhet & AktivBruker & JSONObject;
+type ContextholderValue = AktivEnhet & AktivBruker;
 
 interface Context {
     mock: FetchMock;
