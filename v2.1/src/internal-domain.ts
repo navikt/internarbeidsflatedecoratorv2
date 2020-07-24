@@ -33,14 +33,8 @@ export interface Toggles {
 }
 
 export interface AktorIdResponse {
-    [fnr: string]: {
-        feilmelding: null | string;
-        identer: null | Array<{
-            gjeldende: boolean;
-            ident: string;
-            identgruppe: string;
-        }>;
-    };
+    fnr: string;
+    aktorId: string;
 }
 
 export interface AktivEnhet {
