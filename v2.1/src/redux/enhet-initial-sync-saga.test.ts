@@ -1,6 +1,5 @@
 import { runSaga, Saga } from 'redux-saga';
 import FetchMock, {
-    JSONObject,
     MatcherUrl,
     MatcherUtils,
     SpyMiddleware
@@ -56,26 +55,26 @@ function gittOnsketEnhet(enhet: string | null): EnhetContextvalue {
 function gittContextholder(context: Context, aktiveContext: ContextholderValue) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
-    context.mock.get('/modiacontextholder/api/context/aktivenhet', {
+    context.mock.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => res(ctx.json({
         aktivEnhet: aktiveContext.aktivEnhet,
         aktivBruker: null
-    });
-    context.mock.get('/modiacontextholder/api/context/aktivbruker', {
+    })));
+    context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => res(ctx.json({
         aktivEnhet: null,
         aktivBruker: aktiveContext.aktivBruker
-    });
-    context.mock.delete('/modiacontextholder/api/context/aktivbruker', () => {
+    })));
+    context.mock.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
         context.contextholder.aktivBruker = null;
-        return Promise.resolve({ status: 200 });
+        return res(ctx.status(200));
     });
-    context.mock.post('/modiacontextholder/api/context', ({ body }) => {
+    context.mock.post('/modiacontextholder/api/context', ({ body }, res, ctx) => {
         const { verdi, eventType } = body;
         if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
             context.contextholder.aktivBruker = verdi;
         } else {
             context.contextholder.aktivEnhet = verdi;
         }
-        return Promise.resolve({ status: 200 });
+        return res(ctx.status(200));
     });
 }
 
@@ -92,7 +91,7 @@ async function run<S extends Saga>(saga: S, state: any, ...args: Parameters<S>) 
     return dispatched;
 }
 
-type ContextholderValue = AktivEnhet & AktivBruker & JSONObject;
+type ContextholderValue = AktivEnhet & AktivBruker;
 
 interface Context {
     mock: FetchMock;

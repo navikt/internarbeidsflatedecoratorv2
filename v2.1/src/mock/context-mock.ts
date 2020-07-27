@@ -189,89 +189,90 @@ export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfi
 
         ws.addEventListener('message', addWSLogEntry());
 
-        mock.post('/modiacontextholder/api/context', ({ input, body, queryParams }) => {
+        mock.post('/modiacontextholder/api/context', (req, res, ctx) => {
+            const { input, body, queryParams } = req;
             const isRealCall = queryParams.fromMock === undefined;
 
             if (body.eventType === 'NY_AKTIV_ENHET') {
                 if (isRealCall && errorConfig.contextholder.updateEnhet) {
-                    return Promise.reject({ status: 500 });
+                    return res(ctx.status(500));
                 }
                 context.aktivEnhet = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_ENHET'));
                 addContextholderLogEntry(input, `POST NY_AKTIV_ENHET ${body.verdi}`);
-                return Promise.resolve({ status: 200 });
+                return res(ctx.status(200));
             } else if (body.eventType === 'NY_AKTIV_BRUKER') {
                 if (isRealCall && errorConfig.contextholder.updateBruker) {
-                    return Promise.reject({ status: 500 });
+                    return res(ctx.status(500));
                 }
                 context.aktivBruker = body.verdi;
                 ws.send(controlSignal('NY_AKTIV_BRUKER'));
                 addContextholderLogEntry(input, `POST NY_AKTIV_BRUKER ${body.verdi}`);
-                return Promise.resolve({ status: 200 });
+                return res(ctx.status(200));
             } else {
                 addContextholderLogEntry(input, `POST UKJENT_ENDEPUNKT`);
-                return Promise.reject({ status: 500 });
+                return res(ctx.status(500));
             }
         });
 
-        mock.delete('/modiacontextholder/api/context/aktivenhet', ({ input }) => {
+        mock.delete('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => {
             if (errorConfig.contextholder.deleteEnhet) {
-                return Promise.reject({ status: 500 });
+                return res(ctx.status(500));
             }
             context.aktivEnhet = null;
             ws.send(controlSignal('NY_AKTIV_ENHET'));
-            addContextholderLogEntry(input, `DELETE NY_AKTIV_ENHET`);
-            return {};
+            addContextholderLogEntry(req.input, `DELETE NY_AKTIV_ENHET`);
+            return res(ctx.status(200));
         });
-        mock.delete('/modiacontextholder/api/context/aktivbruker', ({ input }) => {
+        mock.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
             if (errorConfig.contextholder.deleteBruker) {
-                return Promise.reject({ status: 500 });
+                return res(ctx.status(500));
             }
             context.aktivBruker = null;
             ws.send(controlSignal('NY_AKTIV_BRUKER'));
-            addContextholderLogEntry(input, `DELETE NY_AKTIV_BRUKER`);
-            return {};
+            addContextholderLogEntry(req.input, `DELETE NY_AKTIV_BRUKER`);
+            return res(ctx.status(200));
         });
     }
 
-    mock.get('/modiacontextholder/api/context/aktivenhet', ({ input }) => {
+    mock.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => {
         if (errorConfig.contextholder.getEnhet) {
-            return Promise.reject({ status: 500 });
+            return res(ctx.status(500));
         }
-        addContextholderLogEntry(input, `GET NY_AKTIV_ENHET ${context.aktivEnhet || '<null>'}`);
-        return Promise.resolve({
-            status: 200,
-            body: JSON.stringify({
+        addContextholderLogEntry(req.input, `GET NY_AKTIV_ENHET ${context.aktivEnhet || '<null>'}`);
+        return res(
+            ctx.status(200),
+            ctx.json({
                 aktivEnhet: context.aktivEnhet,
                 aktivBruker: null
             })
-        });
+        );
     });
-    mock.get('/modiacontextholder/api/context/aktivbruker', ({ input }) => {
+    mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
         if (errorConfig.contextholder.getBruker) {
-            return Promise.reject({ status: 500 });
+            return res(ctx.status(500));
         }
-        addContextholderLogEntry(input, `GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`);
-        return Promise.resolve({
-            status: 200,
-            body: JSON.stringify({
+        addContextholderLogEntry(req.input, `GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`);
+        return res(
+            ctx.status(200),
+            ctx.json({
                 aktivEnhet: null,
                 aktivBruker: context.aktivBruker
             })
-        });
+        );
     });
-    mock.get('/modiacontextholder/api/context', ({ input, queryParams }) => {
-        const isRealCall = queryParams.fromMock === undefined;
+    mock.get('/modiacontextholder/api/context', (req, res, ctx) => {
+        const isRealCall = req.queryParams.fromMock === undefined;
         if (isRealCall && errorConfig.contextholder.get) {
-            return Promise.reject({ status: 500 });
+            return res(ctx.status(500));
         }
-        addContextholderLogEntry(input, `GET BOTH\n${JSON.stringify(context)}`);
-        return Promise.resolve({
-            status: 200,
-            body: JSON.stringify({
+        addContextholderLogEntry(req.input, `GET BOTH\n${JSON.stringify(context)}`);
+        return res(
+            ctx.status(200),
+            ctx.json({
                 aktivEnhet: context.aktivEnhet,
                 aktivBruker: context.aktivBruker
             })
-        });
+        );
     });
 }

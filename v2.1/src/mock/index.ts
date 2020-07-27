@@ -1,9 +1,4 @@
-import FetchMock, {
-    JSONObject,
-    Middleware,
-    MiddlewareUtils,
-    ResponseUtils
-} from 'yet-another-fetch-mock';
+import FetchMock, { Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
 import { AktorIdResponse, Saksbehandler } from '../internal-domain';
 import { setupWsControlAndMock } from './context-mock';
 import failureConfig from './mock-error-config';
@@ -24,7 +19,7 @@ const mock = FetchMock.configure({
     middleware: MiddlewareUtils.combine(MiddlewareUtils.delayMiddleware(200), loggingMiddleWare)
 });
 
-const me: Saksbehandler & JSONObject = {
+const me: Saksbehandler = {
     ident: 'Z999999',
     navn: 'Fornavn Ettersen',
     fornavn: 'Fornavn',
@@ -37,30 +32,24 @@ const me: Saksbehandler & JSONObject = {
     ]
 };
 
-mock.get(
-    '/modiacontextholder/api/decorator',
-    ResponseUtils.combine(
-        ResponseUtils.statusCode(failureConfig.meEndpoint ? 500 : 200),
-        ResponseUtils.statusText(failureConfig.meEndpoint ? 'Internal Server Error' : 'Ok'),
-        ResponseUtils.json(failureConfig.meEndpoint ? null : me)
-    )
-);
+mock.get('/modiacontextholder/api/decorator', (req, res, ctx) => res(
+    ctx.status(failureConfig.meEndpoint ? 500 : 200),
+    ctx.statusText(failureConfig.meEndpoint ? 'Internal Server Error' : 'Ok'),
+    ctx.json(failureConfig.meEndpoint ? null : me)
+));
 
-mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (args) => {
-    const fnr = args.pathParams.fnr;
+mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
+    const fnr = req.pathParams.fnr;
     const data: AktorIdResponse = {
         fnr,
         aktorId: `000${fnr}000`
     };
 
-    return new Promise((resolve, reject) => {
-        const callback = failureConfig.aktorIdEndpoint ? reject : resolve;
-        callback({
-            status: failureConfig.aktorIdEndpoint ? 500 : 200,
-            statusText: failureConfig.aktorIdEndpoint ? 'Internal Server Error' : 'Ok',
-            body: JSON.stringify(failureConfig.aktorIdEndpoint ? null : data)
-        });
-    });
+    return res(
+        ctx.status(failureConfig.aktorIdEndpoint ? 500 : 200),
+        ctx.statusText(failureConfig.aktorIdEndpoint ? 'Internal Server Error' : 'Ok'),
+        ctx.json(failureConfig.aktorIdEndpoint ? null : data)
+    );
 });
 
 setupWsControlAndMock(mock, failureConfig);
