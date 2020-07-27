@@ -4,15 +4,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/internarbeidsflatedecorator/v2.1/index.html"
   },
   {
-    "revision": "eaa8d17e8b25ddb5c159",
+    "revision": "66a95328506c115e1fda",
     "url": "/internarbeidsflatedecorator/v2.1/static/css/main.css"
   },
   {
-    "revision": "eaa8d17e8b25ddb5c159",
+    "revision": "66a95328506c115e1fda",
     "url": "/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"
   },
   {
-    "revision": "de452e7be9d154cea36878b799dcc651",
+    "revision": "795f594535671881ecc9e1fcd3d6beb3",
     "url": "/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js.LICENSE.txt"
   }
 ]);
