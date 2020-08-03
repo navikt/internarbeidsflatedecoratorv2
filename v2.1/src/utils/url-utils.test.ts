@@ -21,6 +21,16 @@ describe('url-utils', () => {
             });
         });
 
+        it('skal identifisere navikt.github.io som local', () => {
+            withLocation('https://navikt.github.io/modiapersonoversikt/', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'local',
+                    isNaisUrl: false,
+                    envclass: 'local'
+                });
+            });
+        });
+
         it('skal identifisere test og qa nais-miljøer', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
