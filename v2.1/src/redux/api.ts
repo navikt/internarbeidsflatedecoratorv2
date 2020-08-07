@@ -1,4 +1,4 @@
-import {MaybeCls} from "@nutgaard/maybe-ts";
+import { MaybeCls } from '@nutgaard/maybe-ts';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import { finnMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
@@ -35,18 +35,39 @@ export type ResponseError = { data: undefined; error: string };
 export type ResponseOk<T> = { data: T; error: undefined };
 export type FetchResponse<T> = ResponseOk<T> | ResponseError;
 
+let accessToken: MaybeCls<string> = MaybeCls.nothing();
+export function setAccessToken(token?: string) {
+    accessToken = MaybeCls.of(token);
+}
+
+function withAccessToken(request?: RequestInit): RequestInit | undefined {
+    if (accessToken.isNothing()) {
+        return request;
+    }
+    const authHeader = accessToken
+        .map((token) => ({ Authorization: `Bearer ${token}` }))
+        .getOrElse({});
+
+    const headers = request && request.headers;
+    const newHeaders = { ...(headers || {}), ...authHeader };
+    return {
+        ...(request || {}),
+        headers: newHeaders,
+        credentials: 'include'
+    };
+}
+
 export function hasError<T>(response: FetchResponse<T>): response is ResponseError {
     return response.error !== undefined;
 }
 
-async function doFetch(url: string, options?: RequestInit): Promise<Response> {
-    return await fetch(url, { ...options, credentials: 'include' });
+async function doFetch(url: RequestInfo, options?: RequestInit): Promise<Response> {
+    return await fetch(url, withAccessToken(options));
 }
 
 export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise<FetchResponse<T>> {
     try {
-        const corsInit: RequestInit = { ...(init || {}), credentials: 'include' };
-        const response: Response = await fetch(info, corsInit);
+        const response: Response = await doFetch(info, init);
         if (response.status > 299) {
             const content = await response.text();
             return { data: undefined, error: content };
@@ -82,7 +103,7 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
     return getJson<AktorIdResponse>(AKTORID_URL(fnr));
 }
 
-export function logError(message: string, extra: { [key: string ]: string }) {
+export function logError(message: string, extra: { [key: string]: string }) {
     const error = {
         message: message,
         url: document.URL,
@@ -110,11 +131,11 @@ export function oppdaterAktivEnhet(enhet: string | null | undefined) {
 }
 
 export function nullstillAktivBruker() {
-    return fetch(AKTIV_BRUKER_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
+    return doFetch(AKTIV_BRUKER_URL, { method: 'DELETE' }).catch(() => {});
 }
 
 export function nullstillAktivEnhet() {
-    return fetch(AKTIV_ENHET_URL, { method: 'DELETE', credentials: 'include' }).catch(() => {});
+    return doFetch(AKTIV_ENHET_URL, { method: 'DELETE' }).catch(() => {});
 }
 
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {
@@ -137,7 +158,10 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
     } else {
         return maybeSaksbehandler
             .map((saksbehandler) => saksbehandler.ident)
-            .map((ident) => `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`)
+            .map(
+                (ident) =>
+                    `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`
+            )
             .withDefault(null);
     }
 }
