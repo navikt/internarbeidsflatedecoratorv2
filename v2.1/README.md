@@ -1,19 +1,17 @@
-# Dekoratør for interne arbeidsflater
+# Dekoratør for interne arbeidsflater V2.1
 Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplikasjoner i NAV.
 
 ## Forsjell fra tidligere versjon
-Den mest markante endringer fra V1 til V2, er at V2 nå har ansvar for kommunikasjon med contextholderen (modia-contextholder og modia-eventdistribution).
-Dette betyr at hvis man sender inn `contextholder` i konfigurasjonen, så vil det bli satt opp en WebSocket-connection, 
+Den mest markante endringer fra V1 til V2.1, er at V2.1 nå har ansvar for kommunikasjon med contextholderen (modia-contextholder og modia-eventdistribution).
+Dette betyr at hvis man sender inn konfigurasjonen for `enhet` eller `fnr`gs, så vil det bli satt opp en WebSocket-connection, 
 og appen vil holde context i sync med hva som vises i decoratøren. 
-Ved eventuelle endringer i andre flater vil det vises en bekreftelse-modal, og hvis saksbehandler bekrefter endringen så vil `onEnhetChange` eller `onSok` bli kalt. 
-
+Ved eventuelle endringer i andre flater vil det vises en bekreftelse-modal, og hvis saksbehandler bekrefter endringen så vil `onChange` bli kalt. 
 
 ## Ta ibruk
-
 Legg til følgende i index.html
 ```html
-<script src="/internarbeidsflatedecorator/v2/static/js/head.v2.min.js"></script>
-<link rel="stylesheet" href="/internarbeidsflatedecorator/v2/static/css/main.css" />
+<script src="/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"></script>
+<link rel="stylesheet" href="/internarbeidsflatedecorator/v2.1/static/css/main.css" />
 ```
 
 ### React med navspa
@@ -41,50 +39,55 @@ Ett eksempel på hvordan dette kan gjøres kan ses i [index.html](public/index.h
 
 ## Konfigurasjon
 
+Eksempler på konfigurasjoner kan ses i [index.html](public/index.html).
 
 ```typescript jsx
-interface DecoratorProps {
-    appname: string;                        // Navn på applikasjon
-    fnr: string | undefined | null;         // Fødselsnummer på bruker i context. NB, endring av denne medfører oppdatering av context 
-    enhet: string | undefined | null;       // Enhetsnummer på enhet i context. NB, endring av denne medfører oppdatering av context
-    toggles: Toggles;                       // Konfigurasjon av hvile elementer som skal vises i dekoratøren
-    markup?: Markup;                        // Ekstra innhold i dekoratøren, kan brukes om man trenger å legge en knapp innenfor dekoratøren
-
-    onSok(fnr: string): void;               // Callback-funksjon for når man skal bytte bruker (blir kalt etter bekreftelse-modal, eller ved direkte søk i søkefeltet)
-
-    onEnhetChange(enhet: string): void;     // Callback-funksjon for når man skal bytte enhet (blir kalt etter beksreftelse-modal, eller ved direkte endring i enhets-dropdown)
-    contextholder?: true | Contextholder;   // Konfigurasjn av tilkobling til contextholder. true; use default. Om man sender inn objekt så kan man overstyre url og om enhet skal generere bekreftelsemodal. Om den ikke settes vil man ikke bruke contextholder.
-    urler?: {
-        aktoerregister?: string;            // Konfigurasjon av url til aktoerregisteret om man har behov for å sende via en proxy eller ligende. Default-verdien tar hensyn til miljø og kaller direkte mot app.adeo.no/aktoerregister
-    }
+export interface DecoratorProps {
+    appname: string;                // Navn på applikasjon
+    fnr?: FnrContextvalue;          // Konfigurasjon av fødselsnummer-kontekst
+    enhet?: EnhetContextvalue;      // Konfigurasjon av enhet-kontekst
+    toggles?: TogglesConfig;        // Konfigurasjon av hvilke elementer som skal vises i dekoratøren
+    markup?: Markup;                // Ekstra innhold i dekoratøren, kan brukes om man trenger å legge en knapp innenfor dekoratøren
+    accessToken?: string;           // Manuell innsending av JWT, settes som Authorization-header. Om null sendes cookies vha credentials: 'include' 
 }
 
-interface Toggles {
-    visVeilder: boolean;
-    visSokefelt: boolean;
-    visEnhetVelger: boolean;
-    visEnhet: boolean;
+export interface TogglesConfig {
+    visVeileder?: boolean;          // Styrer om man skal vise informasjon om innlogget veileder
 }
 
-interface Contextholder {
-    url?: string;
-    promptBeforeEnhetChange?: boolean;      // Kan settes om man ikke ønsker bekreftelse-modal ved enhets-endringer
+export interface Markup {
+    etterSokefelt?: string;         // Gir muligheten for sende inn egen html som blir en del av dekoratøren
 }
 
-interface Markup {
-    etterSokefelt?: string;
+
+// Fnr/Enhet-konfiguration støttet både `Controlled` og `Uncontrolled` operasjon.
+// Ved bruk av `Controlled` må konsument-applikasjonen selv ta ansvar for oppdatering av `value` etter enhver `onChange`
+// Dette er i motsetning til `Uncontrolled`, hvor dette håndteres av dekoratøren. Og alt konsument-applikasjonen trenger å gjøre er å følge med på `onChange`.
+export interface ControlledContextvalue<T> extends BaseContextvalue<T> {
+    value: string | null;
+}
+export interface UncontrolledContextvalue<T> extends BaseContextvalue<T> {
+    initialValue: string | null;
 }
 
-export interface Saksbehandler {
-    ident: string;
-    fornavn: string;
-    etternavn: string;
-    navn: string;
-    enheter: Array<Enhet>;
+export interface BaseContextvalue<T> {
+    display: T;
+    onChange(value: string | null): void;
+    skipModal?: boolean;
+    ignoreWsEvents?: boolean;
 }
 
-interface Enhet {
-    enhetId: string;
-    navn: string;
+export type Contextvalue<T> = ControlledContextvalue<T> | UncontrolledContextvalue<T>;
+
+export enum EnhetDisplay {
+    ENHET = 'ENHET',
+    ENHET_VALG = 'ENHET_VALG'
 }
+
+export enum FnrDisplay {
+    SOKEFELT = 'SOKEFELT'
+}
+
+export type EnhetContextvalue = Contextvalue<EnhetDisplay>;
+export type FnrContextvalue = Contextvalue<FnrDisplay>;
 ```
