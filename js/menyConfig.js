@@ -245,6 +245,6 @@ export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable
         rekrutteringsBistandLenke(),
         sokEtterStillingLenke(),
         k9Lenke(aktorId),
-        inst2()
+        inst2(),
     ],
 });
