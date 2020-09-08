@@ -1,12 +1,8 @@
 import { runSaga, Saga } from 'redux-saga';
-import FetchMock, {
-    MatcherUrl,
-    MatcherUtils,
-    SpyMiddleware
-} from 'yet-another-fetch-mock';
+import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncFnr from './fnr-initial-sync-saga';
-import { AKTIV_BRUKER_URL, ContextApiType, modiacontextholderUrl } from './api';
+import { urls, ContextApiType } from './api';
 import { FnrContextvalue, FnrDisplay } from '../domain';
 import { AktivBruker, AktivEnhet } from '../internal-domain';
 import { State } from './index';
@@ -22,24 +18,30 @@ function gittContextholder(
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
     if (error) {
-        context.mock.get(
-            '/modiacontextholder/api/context/aktivenhet',
-            (_, res, ctx) => res(ctx.status(500))
+        context.mock.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
+            res(ctx.status(500))
         );
-        context.mock.get(
-            '/modiacontextholder/api/context/aktivbruker',
-            (_, res, ctx) => res(ctx.status(500))
+        context.mock.get('/modiacontextholder/api/context/aktivbruker', (_, res, ctx) =>
+            res(ctx.status(500))
         );
         context.mock.post('/modiacontextholder/api/context', (_, res, ctx) => res(ctx.status(500)));
     } else {
-        context.mock.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) => res(ctx.json({
-            aktivEnhet: aktiveContext.aktivEnhet,
-            aktivBruker: null
-        })));
-        context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => res(ctx.json({
-            aktivEnhet: null,
-            aktivBruker: aktiveContext.aktivBruker
-        })));
+        context.mock.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
+            res(
+                ctx.json({
+                    aktivEnhet: aktiveContext.aktivEnhet,
+                    aktivBruker: null
+                })
+            )
+        );
+        context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
+            res(
+                ctx.json({
+                    aktivEnhet: null,
+                    aktivBruker: aktiveContext.aktivBruker
+                })
+            )
+        );
         context.mock.post('/modiacontextholder/api/context', ({ body }, res, ctx) => {
             const { verdi, eventType } = body;
             if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
@@ -133,7 +135,7 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
     });
 
     it('onsketFnr: null, aktivBruker: null => stateFnr: Nothing', async () => {
@@ -149,7 +151,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
     });
 
     it(`onsketFnr: null, aktivBruker: ${MOCK_FNR_1} => stateFnr: Just(${MOCK_FNR_1})`, async () => {
@@ -165,7 +167,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
     });
 
     it(`onsketFnr: ${MOCK_FNR_2}, aktivBruker: ${MOCK_FNR_1} => stateFnr: Just(${MOCK_FNR_2})`, async () => {
@@ -181,10 +183,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_2);
     });
 
@@ -201,7 +201,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 
@@ -221,7 +221,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 
@@ -241,10 +241,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 });

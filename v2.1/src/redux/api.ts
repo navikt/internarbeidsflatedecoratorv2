@@ -9,10 +9,18 @@ export enum ContextApiType {
     NY_AKTIV_BRUKER = 'NY_AKTIV_BRUKER'
 }
 
-export function lagModiacontextholderUrl(): string {
+let accessToken: MaybeCls<string> = MaybeCls.nothing();
+export function setAccessToken(token?: string) {
+    accessToken = MaybeCls.of(token);
+}
+export function setUseProxy() {
+    urls = lagUrls(true);
+}
+
+export function lagModiacontextholderUrl(useProxy: boolean = false): string {
     const urlEnv = hentMiljoFraUrl();
 
-    if (urlEnv.environment === 'local') {
+    if (useProxy || urlEnv.environment === 'local') {
         return '/modiacontextholder/api';
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
         return `https://modiacontextholder-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
@@ -24,21 +32,21 @@ export function lagModiacontextholderUrl(): string {
         return `https://app.adeo.no/modiacontextholder/api`;
     }
 }
-
-export const modiacontextholderUrl = lagModiacontextholderUrl();
-export const AKTIV_ENHET_URL = `${modiacontextholderUrl}/context/aktivenhet`;
-export const AKTIV_BRUKER_URL = `${modiacontextholderUrl}/context/aktivbruker`;
-export const SAKSBEHANDLER_URL = `${modiacontextholderUrl}/decorator`;
-export const AKTORID_URL = (fnr: string) => `${modiacontextholderUrl}/decorator/aktor/${fnr}`;
+function lagUrls(useProxy: boolean) {
+    const modiacontextholderUrl = lagModiacontextholderUrl(useProxy);
+    return {
+        aktivEnhetUrl: `${modiacontextholderUrl}/context/aktivenhet`,
+        aktivBrukerUrl: `${modiacontextholderUrl}/context/aktivbruker`,
+        contextUrl: `${modiacontextholderUrl}/context`,
+        saksbehandlerUrl: `${modiacontextholderUrl}/decorator`,
+        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/decorator/aktor/${fnr}`
+    };
+}
+export let urls = lagUrls(false);
 
 export type ResponseError = { data: undefined; error: string };
 export type ResponseOk<T> = { data: T; error: undefined };
 export type FetchResponse<T> = ResponseOk<T> | ResponseError;
-
-let accessToken: MaybeCls<string> = MaybeCls.nothing();
-export function setAccessToken(token?: string) {
-    accessToken = MaybeCls.of(token);
-}
 
 function withAccessToken(request?: RequestInit): RequestInit | undefined {
     if (accessToken.isNothing()) {
@@ -100,7 +108,7 @@ export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>
         return Promise.reject('Ugyldig fødselsnummer, kan ikke hente aktørId');
     }
 
-    return getJson<AktorIdResponse>(AKTORID_URL(fnr));
+    return getJson<AktorIdResponse>(urls.aktorIdUrl(fnr));
 }
 
 export function logError(message: string, extra: { [key: string]: string }) {
@@ -117,37 +125,37 @@ export function logError(message: string, extra: { [key: string]: string }) {
 }
 
 export function oppdaterAktivBruker(fnr: string | null | undefined) {
-    return postJson(`${modiacontextholderUrl}/context`, {
+    return postJson(urls.contextUrl, {
         verdi: fnr,
         eventType: ContextApiType.NY_AKTIV_BRUKER
     });
 }
 
 export function oppdaterAktivEnhet(enhet: string | null | undefined) {
-    return postJson(`${modiacontextholderUrl}/context`, {
+    return postJson(urls.contextUrl, {
         verdi: enhet,
         eventType: ContextApiType.NY_AKTIV_ENHET
     });
 }
 
 export function nullstillAktivBruker() {
-    return doFetch(AKTIV_BRUKER_URL, { method: 'DELETE' }).catch(() => {});
+    return doFetch(urls.aktivBrukerUrl, { method: 'DELETE' }).catch(() => {});
 }
 
 export function nullstillAktivEnhet() {
-    return doFetch(AKTIV_ENHET_URL, { method: 'DELETE' }).catch(() => {});
+    return doFetch(urls.aktivEnhetUrl, { method: 'DELETE' }).catch(() => {});
 }
 
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {
-    return getJson<AktivBruker>(AKTIV_BRUKER_URL);
+    return getJson<AktivBruker>(urls.aktivBrukerUrl);
 }
 
 export function hentAktivEnhet(): Promise<FetchResponse<AktivEnhet>> {
-    return getJson<AktivEnhet>(AKTIV_ENHET_URL);
+    return getJson<AktivEnhet>(urls.aktivEnhetUrl);
 }
 
 export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
-    return getJson<Saksbehandler>(SAKSBEHANDLER_URL);
+    return getJson<Saksbehandler>(urls.saksbehandlerUrl);
 }
 
 export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): string | null {

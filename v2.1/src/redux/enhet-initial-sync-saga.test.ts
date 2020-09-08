@@ -1,12 +1,8 @@
 import { runSaga, Saga } from 'redux-saga';
-import FetchMock, {
-    MatcherUrl,
-    MatcherUtils,
-    SpyMiddleware
-} from 'yet-another-fetch-mock';
+import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncEnhet from './enhet-initial-sync-saga';
-import { AKTIV_BRUKER_URL, AKTIV_ENHET_URL, ContextApiType, modiacontextholderUrl } from './api';
+import { urls, ContextApiType } from './api';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Enhet, Saksbehandler } from '../internal-domain';
 import { EnhetContextvalue, EnhetDisplay } from '../domain';
 import { RecursivePartial } from './utils';
@@ -55,14 +51,22 @@ function gittOnsketEnhet(enhet: string | null): EnhetContextvalue {
 function gittContextholder(context: Context, aktiveContext: ContextholderValue) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
-    context.mock.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => res(ctx.json({
-        aktivEnhet: aktiveContext.aktivEnhet,
-        aktivBruker: null
-    })));
-    context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => res(ctx.json({
-        aktivEnhet: null,
-        aktivBruker: aktiveContext.aktivBruker
-    })));
+    context.mock.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) =>
+        res(
+            ctx.json({
+                aktivEnhet: aktiveContext.aktivEnhet,
+                aktivBruker: null
+            })
+        )
+    );
+    context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
+        res(
+            ctx.json({
+                aktivEnhet: null,
+                aktivBruker: aktiveContext.aktivBruker
+            })
+        )
+    );
     context.mock.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
         context.contextholder.aktivBruker = null;
         return res(ctx.status(200));
@@ -127,8 +131,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -146,8 +150,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -169,10 +173,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledWith('1234');
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe('1234');
     });
 
@@ -194,10 +196,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledWith('1235');
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeFalsy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeFalsy();
         expect(context.contextholder.aktivEnhet).toBe('1235');
     });
 
@@ -214,8 +214,8 @@ describe('saga - root', () => {
         );
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -232,8 +232,8 @@ describe('saga - root', () => {
         );
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(AKTIV_BRUKER_URL as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -254,10 +254,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe('1235');
     });
 
@@ -278,10 +276,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeFalsy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeFalsy();
         expect(context.contextholder.aktivEnhet).toBe('1234');
     });
 
@@ -302,10 +298,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(AKTIV_ENHET_URL as MatcherUrl))).toBeTruthy();
-        expect(
-            spy.called(MatcherUtils.post(`${modiacontextholderUrl}/context` as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe('1235');
     });
 });

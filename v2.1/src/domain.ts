@@ -40,5 +40,6 @@ export interface ApplicationProps {
     enhet?: EnhetContextvalue;
     toggles?: TogglesConfig;
     markup?: Markup;
+    useProxy?: boolean;
     accessToken?: string;
 }
