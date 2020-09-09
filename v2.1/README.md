@@ -48,6 +48,8 @@ export interface DecoratorProps {
     enhet?: EnhetContextvalue;      // Konfigurasjon av enhet-kontekst
     toggles?: TogglesConfig;        // Konfigurasjon av hvilke elementer som skal vises i dekoratøren
     markup?: Markup;                // Ekstra innhold i dekoratøren, kan brukes om man trenger å legge en knapp innenfor dekoratøren
+    
+    useProxy?: boolean;             // Manuell overstyring av urlene til BFFs. Gjør alle kall til relativt path, og trenger derfor proxy oppsett. Default: false 
     accessToken?: string;           // Manuell innsending av JWT, settes som Authorization-header. Om null sendes cookies vha credentials: 'include' 
 }
 
