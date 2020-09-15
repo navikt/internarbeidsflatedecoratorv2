@@ -25,6 +25,10 @@ const urlRules: Array<UrlRule> = [
         ifMatch: () => ({ environment: 'local', isNaisUrl: false, envclass: 'local' })
     },
     {
+        regExp: /\.herokuapp\.com/,
+        ifMatch: () => ({ environment: 'local', isNaisUrl: false, envclass: 'local' })
+    },
+    {
         regExp: /-([tq]\d+)\.nais\.preprod\.local/,
         ifMatch: (match) => ({
             environment: match[1],

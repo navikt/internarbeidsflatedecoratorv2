@@ -72,6 +72,11 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
 }
 
 function* initDekoratorData(props: ApplicationProps) {
+    Api.setAccessToken(props.accessToken);
+    if (props.useProxy) {
+        Api.setUseProxy();
+    }
+
     const response: FetchResponse<Saksbehandler> = yield call(Api.hentSaksbehandlerData);
     if (hasError(response)) {
         yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET));
