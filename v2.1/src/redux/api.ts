@@ -49,9 +49,6 @@ export type ResponseOk<T> = { data: T; error: undefined };
 export type FetchResponse<T> = ResponseOk<T> | ResponseError;
 
 function withAccessToken(request?: RequestInit): RequestInit | undefined {
-    if (accessToken.isNothing()) {
-        return request;
-    }
     const authHeader = accessToken
         .map((token) => ({ Authorization: `Bearer ${token}` }))
         .getOrElse({});
