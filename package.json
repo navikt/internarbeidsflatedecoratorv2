@@ -16,7 +16,7 @@
   "author": "DigiSyfo <digisyfo@nav.no>",
   "license": "ISC",
   "dependencies": {
-    "async": "2.0.1",
+    "async": "2.6.3",
     "bluebird": "3.5.0",
     "classnames": "2.2.5",
     "nav-frontend-core": "4.0.5",
