@@ -19,7 +19,7 @@
     "async": "2.0.1",
     "bluebird": "3.5.0",
     "classnames": "2.2.5",
-    "nav-frontend-core": "4.0.5",
+    "nav-frontend-core": "4.0.13",
     "nav-frontend-typografi": "2.0.2",
     "nav-frontend-typografi-style": "1.0.7",
     "prop-types": "15.6.1",
