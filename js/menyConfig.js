@@ -163,12 +163,19 @@ export function gosysLenke(fnr) {
         url,
     };
 }
-
-function getPesysUrl(fnr) {
-    if (fnr) {
-        return `${wasappDomain}/psak/brukeroversikt/fnr=${fnr}`;
+function getPesysNaisUrl() {
+    const naisMiljo = finnNaisMiljoStreng();
+    if (naisMiljo === NAIS_PREPROD_SUFFIX) {
+        return 'https://pensjon-psak-q1.nais.preprod.local';
     }
-    return `${wasappDomain}/psak/`;
+    return 'https://pensjon-psak.nais.adeo.no';
+}
+function getPesysUrl(fnr) {
+    const domain = getPesysNaisUrl();
+    if (fnr) {
+        return `${domain}/psak/brukeroversikt/fnr=${fnr}`;
+    }
+    return `${domain}/psak/`;
 }
 
 export function pesysLenke(fnr) {
