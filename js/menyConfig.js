@@ -2,7 +2,6 @@ import { finnMiljoStreng, finnNaisMiljoStreng, NAIS_PREPROD_SUFFIX } from './sag
 import { post } from './sagas/api';
 
 const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
-const wasappDomain = `https://wasapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
 const frontendLoggerApiEvent = '/frontendlogger/api/event';

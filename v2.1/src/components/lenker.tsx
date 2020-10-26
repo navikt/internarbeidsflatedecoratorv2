@@ -33,7 +33,6 @@ function getArenaStartsideLink() {
 
 const naisDomain = finnNaisMiljoStreng();
 const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.no${path}`;
-const wasappDomain = (path: string) => `https://wasapp${finnMiljoStreng()}.adeo.no${path}`;
 const gosysDomain = (path: string) => `https://gosys-nais${finnNaisMiljoStreng(true)}${path}`;
 const pesysDomain = (path: string) => `https://pensjon-psak${finnNaisMiljoStreng(true)}${path}`;
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
