@@ -14,6 +14,11 @@ Legg til følgende i index.html
 <link rel="stylesheet" href="/internarbeidsflatedecorator/v2.1/static/css/main.css" />
 ```
 
+**NB!!**  
+Applikasjonen er tilgjengelig på `app.adeo.no`, `modapp.adeo.no` og `internarbeidsflatedecorator.nais.adeo.no` ([Se ingressene](../.nais/prod.yaml)).
+Om deres løsning kjører på ett annet domene må man huske å bruke en absolutt URL ved lasting av javascript/css.
+
+
 ### React med navspa
 Om man bruker react som frontendbibliotek kan man så ta ibruk `@navikt/navspa` (Eksemplet er med typescript, fjern `DecoratorProps` om det ikke brukes).
 ```typescript jsx
