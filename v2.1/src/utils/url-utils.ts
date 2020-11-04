@@ -29,6 +29,10 @@ const urlRules: Array<UrlRule> = [
         ifMatch: () => ({ environment: 'local', isNaisUrl: false, envclass: 'local' })
     },
     {
+        regExp: /\.labs\.nais\.io/,
+        ifMatch: () => ({ environment: 'local', isNaisUrl: true, envclass: 'local' })
+    },
+    {
         regExp: /-([tq]\d+)\.nais\.preprod\.local/,
         ifMatch: (match) => ({
             environment: match[1],
