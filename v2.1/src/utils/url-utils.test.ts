@@ -66,6 +66,16 @@ describe('url-utils', () => {
             });
         });
 
+        it('skal identifisere dev-adeo urler som dev. Bruk dekorator i q0', () => {
+            withLocation('https://navn.dev.adeo.no/contextpath/', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'q0',
+                    isNaisUrl: true,
+                    envclass: 'q'
+                });
+            });
+        });
+
         it('skal identifisere nais-prod urler', () => {
             withLocation('https://navn-q.nais.adeo.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
