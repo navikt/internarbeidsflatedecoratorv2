@@ -31,6 +31,26 @@ describe('url-utils', () => {
             });
         });
 
+        it('skal identifisere herokuapp.com som local', () => {
+            withLocation('https://navn.herokuapp.com/contextpath/', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'local',
+                    isNaisUrl: false,
+                    envclass: 'local'
+                });
+            });
+        });
+
+        it('skal identifisere labs.nais.io som local', () => {
+            withLocation('https://navn.labs.nais.io/contextpath/', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'local',
+                    isNaisUrl: true,
+                    envclass: 'local'
+                });
+            });
+        });
+
         it('skal identifisere test og qa nais-miljøer', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
@@ -71,7 +91,7 @@ describe('url-utils', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
                     isNaisUrl: true,
-                    envclass: 'q'
+                    envclass: 'dev'
                 });
             });
         });

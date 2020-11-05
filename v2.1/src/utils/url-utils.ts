@@ -29,6 +29,10 @@ const urlRules: Array<UrlRule> = [
         ifMatch: () => ({ environment: 'local', isNaisUrl: false, envclass: 'local' })
     },
     {
+        regExp: /\.labs\.nais\.io/,
+        ifMatch: () => ({ environment: 'local', isNaisUrl: true, envclass: 'local' })
+    },
+    {
         regExp: /-([tq]\d+)\.nais\.preprod\.local/,
         ifMatch: (match) => ({
             environment: match[1],
@@ -42,7 +46,7 @@ const urlRules: Array<UrlRule> = [
     },
     {
         regExp: /\.dev\.adeo\.no/,
-        ifMatch: (match) => ({ environment: 'q0', isNaisUrl: true, envclass: 'q' })
+        ifMatch: (match) => ({ environment: 'q0', isNaisUrl: true, envclass: 'dev' })
     },
     {
         regExp: /\.nais\.adeo\.no/,
