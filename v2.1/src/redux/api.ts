@@ -3,6 +3,7 @@ import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import { finnMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
+import { ProxyConfig } from '../domain';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -13,14 +14,15 @@ let accessToken: MaybeCls<string> = MaybeCls.nothing();
 export function setAccessToken(token?: string) {
     accessToken = MaybeCls.of(token);
 }
-export function setUseProxy() {
-    urls = lagUrls(true);
+export function setUseProxy(proxyConfig: ProxyConfig) {
+    urls = lagUrls(proxyConfig);
 }
 
-export function lagModiacontextholderUrl(useProxy: boolean = false): string {
+export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): string {
     const urlEnv = hentMiljoFraUrl();
-
-    if (useProxy || urlEnv.environment === 'local') {
+    if (typeof proxyConfig === 'string') {
+        return `${proxyConfig}/modiacontextholder/api`;
+    } else if (proxyConfig || urlEnv.environment === 'local') {
         return '/modiacontextholder/api';
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
         return `https://modiacontextholder-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
@@ -34,8 +36,8 @@ export function lagModiacontextholderUrl(useProxy: boolean = false): string {
         return `https://app.adeo.no/modiacontextholder/api`;
     }
 }
-function lagUrls(useProxy: boolean) {
-    const modiacontextholderUrl = lagModiacontextholderUrl(useProxy);
+function lagUrls(proxyConfig: ProxyConfig) {
+    const modiacontextholderUrl = lagModiacontextholderUrl(proxyConfig);
     return {
         aktivEnhetUrl: `${modiacontextholderUrl}/context/aktivenhet`,
         aktivBrukerUrl: `${modiacontextholderUrl}/context/aktivbruker`,
