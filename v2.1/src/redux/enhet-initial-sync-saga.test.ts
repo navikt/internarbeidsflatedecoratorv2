@@ -1,4 +1,3 @@
-import { runSaga, Saga } from 'redux-saga';
 import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncEnhet from './enhet-initial-sync-saga';
@@ -9,6 +8,7 @@ import { RecursivePartial } from './utils';
 import { State } from './index';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
+import { run } from './saga-test-utils';
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -80,19 +80,6 @@ function gittContextholder(context: Context, aktiveContext: ContextholderValue) 
         }
         return res(ctx.status(200));
     });
-}
-
-async function run<S extends Saga>(saga: S, state: any, ...args: Parameters<S>) {
-    const dispatched: Array<any> = [];
-    await runSaga(
-        {
-            dispatch: (action) => dispatched.push(action),
-            getState: () => state
-        },
-        saga,
-        ...args
-    ).toPromise();
-    return dispatched;
 }
 
 type ContextholderValue = AktivEnhet & AktivBruker;

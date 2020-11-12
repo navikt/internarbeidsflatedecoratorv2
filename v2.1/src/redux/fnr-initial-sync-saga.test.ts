@@ -1,4 +1,3 @@
-import { runSaga, Saga } from 'redux-saga';
 import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncFnr from './fnr-initial-sync-saga';
@@ -9,6 +8,7 @@ import { State } from './index';
 import { RecursivePartial } from './utils';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
+import { run } from './saga-test-utils';
 
 function gittContextholder(
     context: Context,
@@ -52,19 +52,6 @@ function gittContextholder(
             return res(ctx.status(200));
         });
     }
-}
-
-async function run<S extends Saga>(saga: S, state: any, ...args: Parameters<S>) {
-    const dispatched: Array<any> = [];
-    await runSaga(
-        {
-            dispatch: (action) => dispatched.push(action),
-            getState: () => state
-        },
-        saga,
-        ...args
-    ).toPromise();
-    return dispatched;
 }
 
 type ContextholderValue = AktivEnhet & AktivBruker;
