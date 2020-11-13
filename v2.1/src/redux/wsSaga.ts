@@ -4,7 +4,7 @@ import { MaybeCls } from '@nutgaard/maybe-ts';
 import WebSocketImpl from '../utils/websocket-impl';
 import * as Api from './api';
 import { ContextApiType, FetchResponse, getWebSocketUrl } from './api';
-import { AktivBruker, AktivEnhet, Saksbehandler } from '../internal-domain';
+import { AktivBruker, AktivEnhet, ContextvalueState, Saksbehandler } from '../internal-domain';
 import { selectFromInitializedState } from './utils';
 import { updateWSRequestedEnhet } from './enhet-update-sagas';
 import { updateWSRequestedFnr } from './fnr-update-sagas';
@@ -23,7 +23,15 @@ interface WsChangeEvent {
     data: string;
 }
 
-function createWsChannel(url: string | null | undefined) {
+export function requiresWebsocket(contextvalue: ContextvalueState<any>): boolean {
+    if (contextvalue.enabled) {
+        return !contextvalue.ignoreWsEvents;
+    } else {
+        return false;
+    }
+}
+
+export function createWsChannel(url: string | null | undefined) {
     if (!url) {
         return eventChannel(() => {
             return () => {};
@@ -48,7 +56,7 @@ function createWsChannel(url: string | null | undefined) {
     });
 }
 
-function* wsChange(event: WsChangeEvent) {
+export function* wsChange(event: WsChangeEvent) {
     const { type, data } = event;
     if (type === WsChangeEventType.MESSAGE && data === ContextApiType.NY_AKTIV_BRUKER) {
         const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
@@ -68,8 +76,19 @@ function* wsChange(event: WsChangeEvent) {
 }
 
 export function* wsListener() {
-    const saksbehandler: MaybeCls<Saksbehandler> = yield selectFromInitializedState((state) => state.data.saksbehandler);
-    const wsUrl = getWebSocketUrl(saksbehandler);
-    const wsChannel = yield call(createWsChannel, wsUrl);
-    yield takeLatest(wsChannel, wsChange);
+    const saksbehandler: MaybeCls<Saksbehandler> = yield selectFromInitializedState(
+        (state) => state.data.saksbehandler
+    );
+    const fnrConfigRequiresWebsocket = yield selectFromInitializedState((state) =>
+        requiresWebsocket(state.fnr)
+    );
+    const enhetConfigRequiresWebsocket = yield selectFromInitializedState((state) =>
+        requiresWebsocket(state.enhet)
+    );
+
+    if (fnrConfigRequiresWebsocket || enhetConfigRequiresWebsocket) {
+        const wsUrl = getWebSocketUrl(saksbehandler);
+        const wsChannel = yield call(createWsChannel, wsUrl);
+        yield takeLatest(wsChannel, wsChange);
+    }
 }
