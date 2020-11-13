@@ -173,6 +173,6 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 }
 
 export function getVeilederflatehendelserUrl(ident: string) {
-    let subdomain = hentMiljoFraUrl().envclass == 'dev' ? '.dev' : '';
+    let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
     return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }
