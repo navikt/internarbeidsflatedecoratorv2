@@ -167,10 +167,12 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
     } else {
         return maybeSaksbehandler
             .map((saksbehandler) => saksbehandler.ident)
-            .map(
-                (ident) =>
-                    `wss://veilederflatehendelser${finnMiljoStreng()}.adeo.no/modiaeventdistribution/ws/${ident}`
-            )
+            .map((ident) => getVeilederflatehendelserUrl(ident))
             .withDefault(null);
     }
+}
+
+export function getVeilederflatehendelserUrl(ident: string) {
+    let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
+    return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }
