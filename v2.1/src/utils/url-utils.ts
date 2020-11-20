@@ -45,8 +45,12 @@ const urlRules: Array<UrlRule> = [
         ifMatch: (match) => ({ environment: 'q0', isNaisUrl: true, envclass: 'q' })
     },
     {
+        regExp: /-([tq]\d+)\.dev\.adeo\.no/,
+        ifMatch: (match) => ({ environment: match[1], isNaisUrl: false, envclass: 'dev' })
+    },
+    {
         regExp: /\.dev\.adeo\.no/,
-        ifMatch: (match) => ({ environment: 'q0', isNaisUrl: true, envclass: 'dev' })
+        ifMatch: (match) => ({ environment: 'q0', isNaisUrl: false, envclass: 'dev' })
     },
     {
         regExp: /\.nais\.adeo\.no/,
