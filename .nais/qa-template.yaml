@@ -12,6 +12,7 @@ spec:
   ingresses:
   - https://internarbeidsflatedecorator-{{ namespace }}.nais.preprod.local
   - https://internarbeidsflatedecorator-{{ namespace }}.dev.adeo.no
+  - https://app-{{ namespace }}.dev.adeo.no/internarbeidsflatedecorator
   - https://app-{{ namespace }}.adeo.no/internarbeidsflatedecorator
   - https://modapp-{{ namespace }}.adeo.no/internarbeidsflatedecorator
   liveness:

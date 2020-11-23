@@ -90,7 +90,7 @@ describe('url-utils', () => {
             withLocation('https://navn.dev.adeo.no/contextpath/', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
-                    isNaisUrl: true,
+                    isNaisUrl: false,
                     envclass: 'dev'
                 });
             });
