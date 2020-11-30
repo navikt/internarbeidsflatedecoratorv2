@@ -1,12 +1,12 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { EnhetDisplay, FnrDisplay } from './domain';
 
-export type LogAttrs = { [key: string]: any; }
+export type LogAttrs = { [key: string]: any };
 export interface FrontendLogger {
-    info(message: string | LogAttrs): void
-    warn(message: string | LogAttrs): void
-    error(message: string | LogAttrs): void
-    event(name: string, fields: LogAttrs, tags: LogAttrs): void
+    info(message: string | LogAttrs): void;
+    warn(message: string | LogAttrs): void;
+    error(message: string | LogAttrs): void;
+    event(name: string, fields: LogAttrs, tags: LogAttrs): void;
 }
 
 declare global {
