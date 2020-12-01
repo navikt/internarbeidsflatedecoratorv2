@@ -52,9 +52,9 @@ function Banner(props: Props) {
     });
 
     return (
-        <div className="dekorator__hode" role="banner">
+        <div className="dekorator__hode">
             <div className="dekorator__container">
-                <header className="dekorator__banner">
+                <div className="dekorator__banner">
                     <Overskrift appname={props.appname} />
                     <div className="flex-center">{isInitialized && <BannerContent />}</div>
                     <section className="dekorator__hode__toggleMeny_wrapper">
@@ -66,7 +66,7 @@ function Banner(props: Props) {
                             Meny
                         </button>
                     </section>
-                </header>
+                </div>
             </div>
         </div>
     );

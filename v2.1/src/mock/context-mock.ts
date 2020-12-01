@@ -19,7 +19,7 @@ function updateContext(body: object) {
 }
 
 function setupControls() {
-    const controlDiv = document.createElement('div');
+    const controlDiv = document.createElement('footer');
     controlDiv.id = 'mock-control';
     controlDiv.style.position = 'absolute';
     controlDiv.style.bottom = '0px';
@@ -64,9 +64,7 @@ function setupControls() {
 
     const updateFnrNull = document.createElement('button');
     updateFnrNull.innerText = 'App update Fnr null';
-    updateFnrNull.addEventListener('click', () =>
-        (window as any).renderDecorator({ fnr: null })
-    );
+    updateFnrNull.addEventListener('click', () => (window as any).renderDecorator({ fnr: null }));
 
     const clearBothLogs = document.createElement('button');
     clearBothLogs.innerText = 'Clear both logs';
@@ -100,6 +98,7 @@ function setupControls() {
     logs.appendChild(wsLog);
 
     const wsLogHeader = document.createElement('h2');
+    wsLogHeader.id = 'mock-control_ws-log-header';
     wsLogHeader.innerText = 'WS log';
 
     const wsLogClear = document.createElement('button');
@@ -115,6 +114,7 @@ function setupControls() {
     WStextarea.id = 'mock-control__ws-log';
     WStextarea.style.width = '100%';
     WStextarea.style.height = '10rem';
+    WStextarea.setAttribute('aria-labelledby', 'mock-control_ws-log-header');
     wsLog.appendChild(wsLogHeader);
     wsLog.appendChild(WStextarea);
 
@@ -124,6 +124,7 @@ function setupControls() {
     logs.appendChild(contextLog);
 
     const contextLogHeader = document.createElement('h2');
+    contextLogHeader.id = 'mock-control_context-log-header';
     contextLogHeader.innerText = 'Contextholder log';
 
     const contextLogClear = document.createElement('button');
@@ -141,6 +142,7 @@ function setupControls() {
     contextTextarea.id = 'mock-control__context-log';
     contextTextarea.style.width = '100%';
     contextTextarea.style.height = '10rem';
+    contextTextarea.setAttribute('aria-labelledby', 'mock-control_context-log-header');
 
     contextLog.appendChild(contextLogHeader);
     contextLog.appendChild(contextTextarea);
@@ -252,7 +254,10 @@ export function setupWsControlAndMock(mock: FetchMock, errorConfig: FailureConfi
         if (errorConfig.contextholder.getBruker) {
             return res(ctx.status(500));
         }
-        addContextholderLogEntry(req.input, `GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`);
+        addContextholderLogEntry(
+            req.input,
+            `GET NY_AKTIV_BRUKER ${context.aktivBruker || '<null>'}`
+        );
         return res(
             ctx.status(200),
             ctx.json({
