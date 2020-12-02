@@ -1,6 +1,7 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEventHandler, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { guid } from 'nav-frontend-js-utils';
 import visibleIf from './visibleIf';
 import { SagaActions, SagaActionTypes } from '../redux/actions';
 import { useInitializedState } from '../hooks/use-initialized-state';
@@ -9,6 +10,7 @@ import { Enhet } from '../internal-domain';
 
 function EnhetVelger() {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
+    const id = useRef(guid());
     const valgtEnhet = useEnhetContextvalueState().withDefault(undefined);
     const enheter: Array<Enhet> = useInitializedState((state) => state.data.saksbehandler)
         .map((saksbehandler) => saksbehandler.enheter)
@@ -35,7 +37,10 @@ function EnhetVelger() {
 
     return (
         <div className="dekorator-select-container">
-            <select value={valgtEnhet} onChange={onChange}>
+            <label htmlFor={id.current} className="visuallyhidden">
+                Velg enhet
+            </label>
+            <select id={id.current} value={valgtEnhet} onChange={onChange}>
                 {options}
             </select>
         </div>

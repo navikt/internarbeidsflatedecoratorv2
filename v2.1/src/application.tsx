@@ -59,13 +59,13 @@ function Application(props: ApplicationProps) {
     useOnClickOutside(ref, outsideHandler);
 
     return (
-        <div className="dekorator" ref={ref}>
+        <header className="dekorator" ref={ref}>
             <Banner apen={apen} appname={props.appname} />
             {isInitialized && <Lenker apen={apen} />}
             <Feilmelding />
             {isInitialized && <NyEnhetContextModal />}
             {isInitialized && <NyBrukerContextModal />}
-        </div>
+        </header>
     );
 }
 

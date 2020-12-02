@@ -18,7 +18,9 @@ export function* hentAktorId() {
             throw new Error(`'state.fnr' was NOTHING while expecting JUST`);
         });
 
-        const hasLoadedAktorIdForFnr = state.data.aktorId.filter((data) => data.fnr === fnr).isJust();
+        const hasLoadedAktorIdForFnr = state.data.aktorId
+            .filter((data) => data.fnr === fnr)
+            .isJust();
         if (hasLoadedAktorIdForFnr) {
             return;
         }

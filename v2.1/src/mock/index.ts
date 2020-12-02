@@ -32,11 +32,13 @@ const me: Saksbehandler = {
     ]
 };
 
-mock.get('/modiacontextholder/api/decorator', (req, res, ctx) => res(
-    ctx.status(failureConfig.meEndpoint ? 500 : 200),
-    ctx.statusText(failureConfig.meEndpoint ? 'Internal Server Error' : 'Ok'),
-    ctx.json(failureConfig.meEndpoint ? null : me)
-));
+mock.get('/modiacontextholder/api/decorator', (req, res, ctx) =>
+    res(
+        ctx.status(failureConfig.meEndpoint ? 500 : 200),
+        ctx.statusText(failureConfig.meEndpoint ? 'Internal Server Error' : 'Ok'),
+        ctx.json(failureConfig.meEndpoint ? null : me)
+    )
+);
 
 mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
     const fnr = req.pathParams.fnr;
