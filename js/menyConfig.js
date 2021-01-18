@@ -228,9 +228,10 @@ export function sokEtterStillingLenke() {
 }
 
 export function k9Lenke(aktorId) {
+    const domain = finnMiljoStreng() === '' ? 'https://k9-los-web.nais.adeo.no/' : 'https://k9-los-web.dev.adeo.no/';
     return {
         tittel: 'K9-sak',
-        url: (aktorId && aktorId.data && aktorId.data.length > 0 ? `${appDomain}/k9/web/aktoer/${aktorId.data}` : `${appDomain}/k9/web/`),
+        url: (aktorId && aktorId.data && aktorId.data.length > 0 ? `${domain}aktoer/${aktorId.data}` : domain),
     };
 }
 export function inst2() {

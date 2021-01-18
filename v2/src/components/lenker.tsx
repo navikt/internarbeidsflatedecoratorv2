@@ -1,6 +1,6 @@
                                                                                                                                                                                                                                                                                                                                                                                            import React, {useCallback, useContext} from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import {finnMiljoStreng, finnNaisMiljoStreng} from '../utils/url-utils';
+import {finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
 import { AppContext } from '../application';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 
@@ -43,7 +43,14 @@ const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDoma
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
-const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}` : appDomain('/k9/web/');
+function k9Url(aktorId: string): string {
+    const domain = hentMiljoFraUrl() === 'p' ? 'https://k9-los-web.nais.adeo.no/' : 'https://k9-los-web.dev.adeo.no/';
+    if (aktorId) {
+        return `${domain}aktoer/${aktorId}`
+    } else {
+        return domain
+    }
+}
 
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
@@ -168,7 +175,7 @@ function Lenker() {
                         <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
                             Foreldrepenger
                         </Lenke>
-                        <Lenke href={k9Url(aktorId,`/k9/web/aktoer/${aktorId}`)} target="_blank">
+                        <Lenke href={k9Url(aktorId)} target="_blank">
                             K9-sak
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
