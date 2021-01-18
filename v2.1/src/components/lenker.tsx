@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {finnMiljoStreng, finnNaisMiljoStreng} from '../utils/url-utils';
+import {finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 import {WrappedState} from "../hooks/use-wrapped-state";
 import {useInitializedState} from "../hooks/use-initialized-state";
@@ -45,8 +45,16 @@ const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDoma
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
+function k9Url(aktorId: string): string {
+    const miljo = hentMiljoFraUrl();
+    const domain = miljo.environment === 'p' ? 'https://k9-los-web.nais.adeo.no/' : 'https://k9-los-web.dev.adeo.no/';
+    if (aktorId) {
+        return `${domain}aktoer/${aktorId}`
+    } else {
+        return domain
+    }
+}
 
-const k9Url = (aktorId: string, path: string ) => aktorId ? `${appDomain(path)}` : appDomain('/k9/web/');
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
         {
@@ -165,7 +173,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
                             Foreldrepenger
                         </Lenke>
-                        <Lenke href={k9Url(aktorId,`/k9/web/aktoer/${aktorId}`)} target="_blank">
+                        <Lenke href={k9Url(aktorId)} target="_blank">
                             K9-sak
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
