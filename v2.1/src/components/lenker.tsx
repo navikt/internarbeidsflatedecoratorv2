@@ -36,6 +36,7 @@ const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.
 const gosysDomain = (path: string) => `https://gosys-nais${finnNaisMiljoStreng(true)}${path}`;
 const pesysDomain = (path: string) => `https://pensjon-psak${finnNaisMiljoStreng(true)}${path}`;
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
+const appDevDomain = (path: string) => `https://app${finnMiljoStreng(true)}.adeo.no${path}`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` : getArenaStartsideLink();
 const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
@@ -124,10 +125,10 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Arbeidsrettet oppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={appDomain(`/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`)}>
+                            <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`)}>
                                 Enhetens oversikt
                             </Lenke>
-                            <Lenke href={appDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
+                            <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
                                 Min oversikt
                             </Lenke>
                             <Lenke href={appDomain(`/beslutteroversikt`)}>
