@@ -85,12 +85,14 @@ export function erLocalhost() {
     return hentMiljoFraUrl().environment === 'local';
 }
 
-export function finnMiljoStreng() {
+export function finnMiljoStreng(useDevDomain: boolean = false) {
     const miljo = hentMiljoFraUrl().environment;
     if (miljo === 'p') {
         return '';
     }
-    return miljo === 'local' ? '-q0' : `-${miljo}`;
+    const miljoMedLocalFallback = miljo === 'local' ? 'q0' : miljo;
+    const devSuffix = useDevDomain ? '.dev' : '';
+    return `-${miljoMedLocalFallback}${devSuffix}`;
 }
 
 export function finnNaisMiljoStreng(envNamespace: boolean = false) {

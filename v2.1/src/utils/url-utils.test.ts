@@ -1,7 +1,18 @@
-import { hentMiljoFraUrl } from './url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl } from './url-utils';
 import { withLocation } from './test.utils';
 
 describe('url-utils', () => {
+    describe('finnMiljoStreng', () => {
+        withLocation('localhost', () => {
+            expect(finnMiljoStreng()).toBe('-q0');
+            expect(finnMiljoStreng(true)).toBe('-q0.dev');
+        });
+        withLocation('https://app.adeo.no/contextpath', () => {
+            expect(finnMiljoStreng()).toBe('');
+            expect(finnMiljoStreng(true)).toBe('');
+        });
+    });
+
     describe('hentMiljoFraUrl', () => {
         it('skal identifisere localhost', () => {
             withLocation('localhost', () => {
