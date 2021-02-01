@@ -72,7 +72,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
                 url: `${appDomain}/veilarbportefoljeflatefs/portefolje?enhet=${enhet}&clean`,
             },
             {
-                tittel: 'Beslutteroversikt',
+                tittel: 'Kvalitetssikring 14a',
                 url: `${appDomain}/beslutteroversikt`,
             },
             {

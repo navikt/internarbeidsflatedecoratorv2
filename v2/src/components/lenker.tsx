@@ -133,7 +133,7 @@ function Lenker() {
                                 Min oversikt
                             </Lenke>
                             <Lenke href={appDomain(`/beslutteroversikt`)}>
-                                Beslutteroversikt
+                                Kvalitetssikring 14a
                             </Lenke>
                             <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
                                 Aktivitetsplan
