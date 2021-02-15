@@ -183,7 +183,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <Lenke href={inst2()} target="_blank">
                             INST2
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillinger`} target="_blank">
+                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillingssok?statuser=publisert&publisert=intern`} target="_blank">
                             Søk etter stilling
                         </Lenke>
                     </ul>
