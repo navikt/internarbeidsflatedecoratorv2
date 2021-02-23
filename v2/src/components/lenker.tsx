@@ -200,7 +200,7 @@ function Lenker() {
                             Søk etter stilling
                         </Lenke>
                         <Lenke href={salesforceUrl()} target="_blank">
-                            Arbeidsgiver dialog
+                            Salesforce
                         </Lenke>
                     </ul>
                 </section>
