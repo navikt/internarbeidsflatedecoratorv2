@@ -240,6 +240,13 @@ export function inst2() {
         url: getINST2NaisUrl(),
     };
 }
+export function salesforce() {
+    const url = finnMiljoStreng() === '' ? 'https://navdialog.lightning.force.com' : 'https://navdialog--preprod.lightning.force.com';
+    return {
+        tittel: 'Salesforce',
+        url,
+    };
+}
 
 export const andreSystemerLenker = (fnr, aktorId, enhet) => ({ // eslint-disable-line no-unused-vars
     tittel: 'Andre systemer',
