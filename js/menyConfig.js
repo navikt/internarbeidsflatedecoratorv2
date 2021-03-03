@@ -223,7 +223,7 @@ export function rekrutteringsBistandLenke() {
 export function sokEtterStillingLenke() {
     return {
         tittel: 'Søk etter stilling',
-        url: `https://rekrutteringsbistand${naisDomain}stillingssok?statuser=publisert&publisert=intern`,
+        url: `https://rekrutteringsbistand${naisDomain}stillingssok?standardsok`,
     };
 }
 
