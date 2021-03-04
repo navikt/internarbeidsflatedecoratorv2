@@ -1,7 +1,7 @@
 import React, {useCallback, useContext} from 'react';
-import {MaybeCls} from '@nutgaard/maybe-ts';
-import {finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
-import {AppContext} from '../application';
+import { MaybeCls } from '@nutgaard/maybe-ts';
+import { finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
+import { AppContext } from '../application';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
@@ -9,7 +9,7 @@ function Lenke(props: { href: string; children: string; target?: string; }) {
     const rel = props.target ? 'noopener noreferrer' : undefined;
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" rel={rel}/>
+            <a {...props} className="typo-normal dekorator__menylenke" rel={rel} />
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
@@ -174,8 +174,10 @@ function Lenker() {
                         <Lenke href={arenaUrl(fnr)} target="_blank">
                             Arena personmappen
                         </Lenke>
-                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}
-                               target="_blank">
+                        <Lenke
+                            href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}
+                            target="_blank"
+                        >
                             AA register
                         </Lenke>
                         <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)} target="_blank">Pesys</Lenke>
@@ -195,7 +197,7 @@ function Lenker() {
                             INST2
                         </Lenke>
                         <Lenke
-                            href={`https://rekrutteringsbistand${naisDomain}/stillingssok?statuser=publisert&publisert=intern`}
+                            href={`https://rekrutteringsbistand${naisDomain}/stillingssok?standardsok`}
                             target="_blank">
                             Søk etter stilling
                         </Lenke>
