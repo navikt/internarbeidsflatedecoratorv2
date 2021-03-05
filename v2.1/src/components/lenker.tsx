@@ -55,6 +55,13 @@ function k9Url(aktorId: string): string {
         return domain
     }
 }
+function salesforceUrl() {
+    if (hentMiljoFraUrl().environment === 'p') {
+        return "https://navdialog.lightning.force.com/";
+    } else {
+        return "https://navdialog--preprod.lightning.force.com/";
+    }
+}
 
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
@@ -183,8 +190,11 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <Lenke href={inst2()} target="_blank">
                             INST2
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillingssok?statuser=publisert&publisert=intern`} target="_blank">
+                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillingssok?standardsok`} target="_blank">
                             Søk etter stilling
+                        </Lenke>
+                        <Lenke href={salesforceUrl()} target="_blank">
+                            Salesforce
                         </Lenke>
                     </ul>
                 </section>

@@ -223,7 +223,7 @@ export function rekrutteringsBistandLenke() {
 export function sokEtterStillingLenke() {
     return {
         tittel: 'Søk etter stilling',
-        url: `https://rekrutteringsbistand${naisDomain}stillingssok?statuser=publisert&publisert=intern`,
+        url: `https://rekrutteringsbistand${naisDomain}stillingssok?standardsok`,
     };
 }
 
@@ -238,6 +238,13 @@ export function inst2() {
     return {
         tittel: 'INST2',
         url: getINST2NaisUrl(),
+    };
+}
+export function salesforce() {
+    const url = finnMiljoStreng() === '' ? 'https://navdialog.lightning.force.com' : 'https://navdialog--preprod.lightning.force.com';
+    return {
+        tittel: 'Salesforce',
+        url,
     };
 }
 

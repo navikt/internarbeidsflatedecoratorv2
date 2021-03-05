@@ -1,6 +1,6 @@
-                                                                                                                                                                                                                                                                                                                                                                                           import React, {useCallback, useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import {finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
+import { finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
 import { AppContext } from '../application';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 
@@ -43,12 +43,21 @@ const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDoma
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
+
 function k9Url(aktorId: string): string {
     const domain = hentMiljoFraUrl() === 'p' ? 'https://k9-los-web.nais.adeo.no/' : 'https://k9-los-web.dev.adeo.no/';
     if (aktorId) {
         return `${domain}aktoer/${aktorId}`
     } else {
         return domain
+    }
+}
+
+function salesforceUrl() {
+    if (hentMiljoFraUrl() === 'p') {
+        return "https://navdialog.lightning.force.com/";
+    } else {
+        return "https://navdialog--preprod.lightning.force.com/";
     }
 }
 
@@ -83,10 +92,10 @@ function Lenker() {
         .flatMap((resp) => MaybeCls.of(resp.identer))
         .filter((identer) => identer.some((ident) => ident.gjeldende))
         .map((identer) => identer.find((ident) => ident.gjeldende)!)
-        .map(({ ident }) => ident)
+        .map(({ident}) => ident)
         .withDefault('');
 
-    const hotkeys = useCallback(lagHotkeys, [fnr, aktorId])(fnr,  aktorId);
+    const hotkeys = useCallback(lagHotkeys, [fnr, aktorId])(fnr, aktorId);
     useHotkeys(hotkeys);
 
     if (!context.apen.value) {
@@ -165,7 +174,10 @@ function Lenker() {
                         <Lenke href={arenaUrl(fnr)} target="_blank">
                             Arena personmappen
                         </Lenke>
-                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)} target="_blank">
+                        <Lenke
+                            href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}
+                            target="_blank"
+                        >
                             AA register
                         </Lenke>
                         <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)} target="_blank">Pesys</Lenke>
@@ -184,8 +196,13 @@ function Lenker() {
                         <Lenke href={inst2()} target="_blank">
                             INST2
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillingssok?statuser=publisert&publisert=intern`} target="_blank">
+                        <Lenke
+                            href={`https://rekrutteringsbistand${naisDomain}/stillingssok?standardsok`}
+                            target="_blank">
                             Søk etter stilling
+                        </Lenke>
+                        <Lenke href={salesforceUrl()} target="_blank">
+                            Salesforce
                         </Lenke>
                     </ul>
                 </section>
