@@ -15,7 +15,6 @@ spec:
   - https://app-{{ namespace }}.dev.adeo.no/internarbeidsflatedecorator
   - https://app-{{ namespace }}.adeo.no/internarbeidsflatedecorator
   - https://modapp-{{ namespace }}.adeo.no/internarbeidsflatedecorator
-  - https://modia-{{ namespace }}.dev.adeo.no/internarbeidsflatedecorator
   liveness:
     path: isAlive
     initialDelay: 10
