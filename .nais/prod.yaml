@@ -13,7 +13,6 @@ spec:
   - https://internarbeidsflatedecorator.nais.adeo.no
   - https://modapp.adeo.no/internarbeidsflatedecorator
   - https://app.adeo.no/internarbeidsflatedecorator
-  - https://modia.adeo.no/internarbeidsflatedecorator
   liveness:
     path: isAlive
     initialDelay: 10
