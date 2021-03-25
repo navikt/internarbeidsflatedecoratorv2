@@ -52,7 +52,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Oppfølging',
-                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/oppfølging` : ''}`,
+                url: `${appDomain}/modiapersonoversikt/${fnr ? `person/${fnr}/oppfolging` : ''}`,
             },
             {
                 tittel: 'Ytelser',
