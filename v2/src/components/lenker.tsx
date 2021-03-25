@@ -124,7 +124,7 @@ function Lenker() {
                             <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/utbetaling`)}>
                                 Utbetalinger
                             </Lenke>
-                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/oppfølging`)}>
+                            <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/oppfolging`)}>
                                 Oppfølging
                             </Lenke>
                             <Lenke href={modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}/ytelser`)}>
