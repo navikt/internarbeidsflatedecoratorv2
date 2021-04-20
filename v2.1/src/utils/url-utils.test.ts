@@ -145,6 +145,26 @@ describe('url-utils', () => {
             });
         });
 
+        it('skal identifisere dev.intern.nav.no-urler som dev. Bruk dekorator i q0', () => {
+            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'q0',
+                    isNaisUrl: true,
+                    envclass: 'dev'
+                });
+            });
+        });
+
+        it('skal identifisere intern.nav.no-urler som prod', () => {
+            withLocation('https://navn.intern.nav.no/contextpath', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'p',
+                    isNaisUrl: true,
+                    envclass: 'p'
+                });
+            });
+        });
+
         it('skal ha fallback til prod om alt feiler', () => {
             withLocation('https://vg.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
