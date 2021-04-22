@@ -1,6 +1,6 @@
 import React, {useCallback, useContext} from 'react';
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import { finnMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
+import {finnMiljoStreng, finnNaisInternNavMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
 import { AppContext } from '../application';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 
@@ -30,6 +30,7 @@ function getArenaStartsideLink() {
 }
 
 const naisDomain = finnNaisMiljoStreng();
+const naisInternNavDomain = finnNaisInternNavMiljoStreng();
 const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.no${path}`;
 const gosysDomain = (path: string) => `https://gosys-nais${finnNaisMiljoStreng(true)}${path}`;
 const pesysDomain = (path: string) => `https://pensjon-psak${finnNaisMiljoStreng(true)}${path}`;
@@ -161,7 +162,7 @@ function Lenker() {
                             <Lenke href={`https://syfooversikt${naisDomain}/enhet`}>Enhetens oversikt</Lenke>
                             <Lenke href={`https://syfooversikt${naisDomain}/minoversikt`}>Min oversikt</Lenke>
                             <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøteoversikt</Lenke>
-                            <Lenke href={`https://finnfastlege${naisDomain}/fastlege/`}>Finn fastlege</Lenke>
+                            <Lenke href={`https://finnfastlege${naisInternNavDomain}/fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={`https://syfomodiaperson${naisDomain}/sykefravaer/${fnr ? fnr : ''}`}>
                                 Sykmeldt enkeltperson
                             </Lenke>
