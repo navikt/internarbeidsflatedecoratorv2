@@ -50,6 +50,15 @@ export function finnNaisMiljoStreng(envNamespace: boolean = false) {
     return `${prefix}.nais.preprod.local`;
 }
 
+export function finnNaisInternNavMiljoStreng(envNamespace: boolean = false) {
+    const miljo = hentMiljoFraUrl();
+    const prefix = envNamespace && miljo !== 'p' ? (`-${miljo}`) : '';
+    if (miljo !== 'p') {
+        return `${prefix}.dev.intern.nav.no`;
+    }
+    return `${prefix}.intern.nav.no`;
+}
+
 export function randomCallId() {
     let idx = 0;
     const c = window.crypto || window.msCrypto;
