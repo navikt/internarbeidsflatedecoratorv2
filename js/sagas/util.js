@@ -1,5 +1,6 @@
 export const NAIS_PREPROD_SUFFIX = 'preprod.local/';
 export const NAIS_PROD_SUFFIX = 'adeo.no/';
+export const NAIS_DEV_INTERN_NAV_PREFIX = '.dev';
 
 export const finnMiljoStreng = () => {
     const host = window.location.host;
@@ -20,3 +21,12 @@ export const finnNaisMiljoStreng = () => {
     return NAIS_PREPROD_SUFFIX;
 };
 
+export const finnNaisInternNavMiljoStreng = () => {
+    const host = window.location.host;
+    const isDev = host.includes('.dev.intern.nav.no');
+
+    if (isDev) {
+        return NAIS_DEV_INTERN_NAV_PREFIX;
+    }
+    return '';
+};

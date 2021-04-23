@@ -111,3 +111,12 @@ export function finnNaisMiljoStreng(envNamespace: boolean = false) {
     }
     return `${prefix}.nais.preprod.local`;
 }
+
+export function finnNaisInternNavMiljoStreng(envNamespace: boolean = false) {
+    const miljo = hentMiljoFraUrl().environment;
+    const prefix = envNamespace && miljo !== 'p' ? `-${miljo}` : '';
+    if (miljo !== 'p') {
+        return `${prefix}.dev.intern.nav.no`;
+    }
+    return `${prefix}.intern.nav.no`;
+}
