@@ -86,7 +86,7 @@
         "react-app-polyfill": "^1.0.6",
         "react-scripts": "^3.4.1",
         "typescript": "3.5.3",
-        "ws": "^7.1.0",
+        "ws": "^7.4.6",
         "yet-another-fetch-mock": "^4.0.0"
     }
 }
