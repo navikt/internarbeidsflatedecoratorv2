@@ -109,11 +109,11 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         lenker: [
             {
                 tittel: 'Enhetens oversikt',
-                url: `https://syfooversikt${naisDomain}enhet`,
+                url: `https://syfooversikt${naisInternNavDomain}enhet`,
             },
             {
                 tittel: 'Min oversikt ',
-                url: `https://syfooversikt${naisDomain}minoversikt`,
+                url: `https://syfooversikt${naisInternNavDomain}minoversikt`,
             },
             {
                 tittel: 'Dialogmøteoversikt',
