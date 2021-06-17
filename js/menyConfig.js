@@ -117,7 +117,7 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Dialogmøteoversikt',
-                url: `https://syfomoteoversikt${naisDomain}`,
+                url: `https://syfomoteoversikt${naisInternNavDomain}`,
             },
             {
                 tittel: 'Finn fastlege',
