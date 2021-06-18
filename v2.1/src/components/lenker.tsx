@@ -158,7 +158,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <ul className="dekorator__menyliste">
                             <Lenke href={`https://syfooversikt${naisInternNavDomain}/enhet`}>Enhetens oversikt</Lenke>
                             <Lenke href={`https://syfooversikt${naisInternNavDomain}/minoversikt`}>Min oversikt</Lenke>
-                            <Lenke href={`https://syfomoteoversikt${naisDomain}/`}>Dialogmøteoversikt</Lenke>
+                            <Lenke href={`https://syfomoteoversikt${naisInternNavDomain}/`}>Dialogmøteoversikt</Lenke>
                             <Lenke href={`https://finnfastlege${naisInternNavDomain}/fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={`https://syfomodiaperson${naisDomain}/sykefravaer/${fnr ? fnr : ''}`}>
                                 Sykmeldt enkeltperson
