@@ -45,7 +45,15 @@ const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesys
 const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
 const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-const arbeidssokerregistreringLoginUrl = (fnr: string, enhet: string) => appDomain(`/veilarblogin/api/start?url=${encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet))}`)
+function arbeidssokerregistreringLoginUrl(fnr: string, enhet: string): string {
+    const miljo = hentMiljoFraUrl();
+    const redirectUrl = encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet));
+    if (miljo.environment === 'p') {
+        return appDomain(`/veilarblogin/api/start?url=${redirectUrl}`)
+    } else {
+        return `https://veilarblogin${finnMiljoStreng()}${naisDomain}/veilarblogin/api/start?url=${redirectUrl}`;
+    }
+}
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
