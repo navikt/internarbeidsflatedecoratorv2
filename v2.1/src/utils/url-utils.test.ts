@@ -150,7 +150,7 @@ describe('url-utils', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
                     isNaisUrl: true,
-                    envclass: 'q'
+                    envclass: 'dev'
                 });
             });
         });
