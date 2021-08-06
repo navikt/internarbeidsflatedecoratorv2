@@ -9,16 +9,30 @@ describe('api', () => {
             });
         });
 
+        it('skal ha riktig nais-url ved kjøring på nais-dev.intern', () => {
+            withLocation('https://navn-q6.dev.intern.nav.no/contextpath', () => {
+                expect(lagModiacontextholderUrl()).toBe(
+                    'https://modiacontextholder-q0.dev.intern.nav.no/modiacontextholder/api'
+                );
+            });
+
+            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+                expect(lagModiacontextholderUrl()).toBe(
+                    'https://modiacontextholder-q0.dev.intern.nav.no/modiacontextholder/api'
+                );
+            });
+        });
+
         it('skal ha riktig nais-url ved kjøring på nais-preprod', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholder-q6.nais.preprod.local/modiacontextholder/api'
+                    'https://modiacontextholder-q6.dev.intern.nav.no/modiacontextholder/api'
                 );
             });
 
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholder-q0.nais.preprod.local/modiacontextholder/api'
+                    'https://modiacontextholder-q0.dev.intern.nav.no/modiacontextholder/api'
                 );
             });
         });
