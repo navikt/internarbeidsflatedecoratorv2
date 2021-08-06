@@ -24,6 +24,8 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
         return `${proxyConfig}/modiacontextholder/api`;
     } else if (proxyConfig || urlEnv.environment === 'local') {
         return '/modiacontextholder/api';
+    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'dev') {
+        return `https://modiacontextholder-${urlEnv.environment}.dev.intern.nav.no/modiacontextholder/api`;
     } else if (urlEnv.envclass === 'dev') {
         return `https://app-${urlEnv.environment}.dev.adeo.no/modiacontextholder/api`;
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
