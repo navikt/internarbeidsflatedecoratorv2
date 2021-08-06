@@ -27,7 +27,7 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
     } else if (urlEnv.envclass === 'dev') {
         return `https://app-${urlEnv.environment}.dev.adeo.no/modiacontextholder/api`;
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
-        return `https://modiacontextholder-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
+        return `https://modiacontextholder-${urlEnv.environment}.dev.intern.nav.no/modiacontextholder/api`;
     } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'p') {
         return `https://modiacontextholder.nais.adeo.no/modiacontextholder/api`;
     } else if (!urlEnv.isNaisUrl && urlEnv.envclass !== 'p') {
