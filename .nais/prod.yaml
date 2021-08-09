@@ -10,6 +10,7 @@ spec:
   image: "{{ image }}"
   port: 80
   ingresses:
+  - https://internarbeidsflatedecorator.intern.nav.no
   - https://internarbeidsflatedecorator.nais.adeo.no
   - https://modapp.adeo.no/internarbeidsflatedecorator
   - https://app.adeo.no/internarbeidsflatedecorator
