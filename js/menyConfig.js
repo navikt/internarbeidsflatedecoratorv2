@@ -109,11 +109,11 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
         lenker: [
             {
                 tittel: 'Enhetens oversikt',
-                url: `https://syfooversikt${naisInternNavDomain}enhet`,
+                url: `https://syfooversikt${naisInternNavDomain}/enhet`,
             },
             {
                 tittel: 'Min oversikt ',
-                url: `https://syfooversikt${naisInternNavDomain}minoversikt`,
+                url: `https://syfooversikt${naisInternNavDomain}/minoversikt`,
             },
             {
                 tittel: 'Dialogmøteoversikt',
@@ -121,12 +121,12 @@ export const funksjonsomradeLenker = (fnr, enhet) => [
             },
             {
                 tittel: 'Finn fastlege',
-                url: `https://finnfastlege${naisInternNavDomain}fastlege/`,
+                url: `https://finnfastlege${naisInternNavDomain}/fastlege/`,
             },
             {
                 tittel: 'Sykmeldt enkeltperson',
                 // eslint-disable-next-line no-unneeded-ternary
-                url: `https://syfomodiaperson${naisDomain}sykefravaer/${fnr ? fnr : ''}`,
+                url: `https://syfomodiaperson${naisInternNavDomain}/sykefravaer/${fnr ? fnr : ''}`,
             },
         ],
     },

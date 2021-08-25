@@ -169,7 +169,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                             <Lenke href={`https://syfooversikt${naisInternNavDomain}/minoversikt`}>Min oversikt</Lenke>
                             <Lenke href={`https://syfomoteoversikt${naisInternNavDomain}/`}>Dialogmøteoversikt</Lenke>
                             <Lenke href={`https://finnfastlege${naisInternNavDomain}/fastlege/`}>Finn fastlege</Lenke>
-                            <Lenke href={`https://syfomodiaperson${naisDomain}/sykefravaer/${fnr ? fnr : ''}`}>
+                            <Lenke href={`https://syfomodiaperson${naisInternNavDomain}/sykefravaer/${fnr ? fnr : ''}`}>
                                 Sykmeldt enkeltperson
                             </Lenke>
                         </ul>
