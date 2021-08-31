@@ -143,9 +143,9 @@ function getINST2NaisUrl() {
 function getGosysNaisUrl() {
     const naisMiljo = finnNaisMiljoStreng();
     if (naisMiljo === NAIS_PREPROD_SUFFIX) {
-        return 'https://gosys-nais-q1.nais.preprod.local';
+        return 'https://gosys-q1.dev.intern.nav.no/';
     }
-    return 'https://gosys-nais.nais.adeo.no';
+    return 'https://gosys.intern.nav.no';
 }
 
 function getGosysUrl(fnr) {
