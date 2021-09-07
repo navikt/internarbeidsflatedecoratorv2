@@ -33,7 +33,6 @@ function getArenaStartsideLink() {
 
 const naisDomain = finnNaisMiljoStreng();
 const naisInternNavDomain = finnNaisInternNavMiljoStreng();
-const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.no${path}`;
 const gosysDomain = (path: string) => {
     const miljo = hentMiljoFraUrl();
     if (miljo.environment === 'p') {
