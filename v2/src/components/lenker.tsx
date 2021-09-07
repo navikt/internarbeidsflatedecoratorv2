@@ -183,7 +183,7 @@ function Lenker() {
                             Arena personmappen
                         </Lenke>
                         <Lenke
-                            href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)}
+                            href={appDomain('/modiacontextholder/redirect/aaregisteret')}
                             target="_blank"
                         >
                             AA register
