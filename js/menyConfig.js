@@ -203,7 +203,7 @@ export function arenaLenke(fnr) {
 function aaRegister(fnr) {
     return {
         tittel: 'AA register',
-        url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`,
+        url: `${appDomain}/modiacontextholder/redirect/aaregisteret`,
     };
 }
 
