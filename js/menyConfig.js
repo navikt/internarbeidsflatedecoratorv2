@@ -1,7 +1,6 @@
 import { finnMiljoStreng, finnNaisInternNavMiljoStreng, finnNaisMiljoStreng, NAIS_PREPROD_SUFFIX } from './sagas/util';
 import { post } from './sagas/api';
 
-const modappDomain = `https://modapp${finnMiljoStreng()}.adeo.no`;
 const appDomain = `https://app${finnMiljoStreng()}.adeo.no`;
 const naisDomain = `.nais.${finnNaisMiljoStreng()}`;
 const naisInternNavDomain = `${finnNaisInternNavMiljoStreng()}.intern.nav.no`;
@@ -203,7 +202,7 @@ export function arenaLenke(fnr) {
 function aaRegister(fnr) {
     return {
         tittel: 'AA register',
-        url: `${modappDomain}/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`,
+        url: `${appDomain}/modiacontextholder/redirect/aaregisteret`,
     };
 }
 

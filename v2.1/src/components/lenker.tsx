@@ -33,7 +33,6 @@ function getArenaStartsideLink() {
 
 const naisDomain = finnNaisMiljoStreng();
 const naisInternNavDomain = finnNaisInternNavMiljoStreng();
-const modappDomain = (path: string) => `https://modapp${finnMiljoStreng()}.adeo.no${path}`;
 const gosysDomain = (path: string) => {
     const miljo = hentMiljoFraUrl();
     if (miljo.environment === 'p') {
@@ -188,7 +187,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <Lenke href={arenaUrl(fnr)} target="_blank">
                             Arena personmappen
                         </Lenke>
-                        <Lenke href={modappDomain(`/aareg-web/?rolle=arbeidstaker&${fnr ? `ident=${fnr}` : ''}`)} target="_blank">
+                        <Lenke href={appDomain('/modiacontextholder/redirect/aaregisteret')} target="_blank">
                             AA register
                         </Lenke>
                         <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)} target="_blank">Pesys</Lenke>
