@@ -6,6 +6,8 @@ metadata:
   namespace: {{ namespace }}
   labels:
     team: personoversikt
+  annotations:
+    nais.io/security-does-not-matter: "true"
 spec:
   image: "{{ image }}"
   port: 80
