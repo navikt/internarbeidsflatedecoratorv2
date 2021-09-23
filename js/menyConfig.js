@@ -199,7 +199,7 @@ export function arenaLenke(fnr) {
     };
 }
 
-function aaRegister(fnr) {
+function aaRegister() {
     return {
         tittel: 'AA register',
         url: `${appDomain}/modiacontextholder/redirect/aaregisteret`,
