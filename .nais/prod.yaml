@@ -6,11 +6,9 @@ metadata:
   namespace: default
   labels:
     team: personoversikt
-  annotations:
-    nais.io/security-does-not-matter: "true"
 spec:
   image: "{{ image }}"
-  port: 80
+  port: 8080
   ingresses:
   - https://internarbeidsflatedecorator.intern.nav.no
   - https://internarbeidsflatedecorator.nais.adeo.no
@@ -34,7 +32,5 @@ spec:
       cpu: 200m
       memory: 192Mi
   env:
-    - name: CONTEXT_PATH
-      value: "internarbeidsflatedecorator"
     - name: AKTOERREGISTER_API_V1_URL
       value: "https://app.adeo.no/aktoerregister/api/v1"
