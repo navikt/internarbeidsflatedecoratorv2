@@ -5,11 +5,9 @@ import { AppContext } from '../application';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
-    /* eslint-disable jsx-a11y/anchor-has-content */
-    const rel = props.target ? 'noopener noreferrer' : undefined;
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" rel={rel} />
+            <a {...props} className="typo-normal dekorator__menylenke" rel="noopener noreferrer" />
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
