@@ -7,6 +7,7 @@ import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-c
 
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
+    /* eslint-disable jsx-a11y/anchor-has-content */
     return (
         <li>
             <a {...props} className="typo-normal dekorator__menylenke" rel="noopener noreferrer" />
