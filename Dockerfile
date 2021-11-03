@@ -1,4 +1,4 @@
-FROM node as builder
+FROM node:16 as builder
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
 RUN npm install -g npm@latest
