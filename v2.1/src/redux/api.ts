@@ -92,12 +92,16 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
 
 async function postJson<T>(url: string, body: T, options?: RequestInit): Promise<FetchResponse<T>> {
     try {
-        await doFetch(url, {
+        const response: Response = await doFetch(url, {
             ...options,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
+        if (response.status > 299) {
+            const content = await response.text();
+            return { data: undefined, error: content };
+        }
         return { data: body, error: undefined };
     } catch (error) {
         return { data: undefined, error };
