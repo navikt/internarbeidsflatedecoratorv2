@@ -70,7 +70,7 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield* forkApiWithErrorhandling(
-            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
+            PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
             Api.nullstillAktivBruker
         );
         yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET));

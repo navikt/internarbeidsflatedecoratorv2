@@ -93,7 +93,7 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
 async function postJson<T>(url: string, body: T, options?: RequestInit): Promise<FetchResponse<T>> {
     try {
         const response: Response = await doFetch(url, {
-            ...options,
+            ...(options || {}),
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -103,6 +103,22 @@ async function postJson<T>(url: string, body: T, options?: RequestInit): Promise
             return { data: undefined, error: content };
         }
         return { data: body, error: undefined };
+    } catch (error) {
+        return { data: undefined, error };
+    }
+}
+
+async function deleteJson(url: string, options?: RequestInit): Promise<FetchResponse<undefined>> {
+    try {
+        const response: Response = await doFetch(url, {
+            ...(options || {}),
+            method: 'DELETE'
+        });
+        if (response.status > 299) {
+            const content = await response.text();
+            return { data: undefined, error: content };
+        }
+        return { data: undefined, error: undefined };
     } catch (error) {
         return { data: undefined, error };
     }
@@ -146,11 +162,11 @@ export function oppdaterAktivEnhet(enhet: string | null | undefined) {
 }
 
 export function nullstillAktivBruker() {
-    return doFetch(urls.aktivBrukerUrl, { method: 'DELETE' }).catch(() => {});
+    return deleteJson(urls.aktivBrukerUrl).catch(() => {});
 }
 
 export function nullstillAktivEnhet() {
-    return doFetch(urls.aktivEnhetUrl, { method: 'DELETE' }).catch(() => {});
+    return deleteJson(urls.aktivEnhetUrl).catch(() => {});
 }
 
 export function hentAktivBruker(): Promise<FetchResponse<AktivBruker>> {

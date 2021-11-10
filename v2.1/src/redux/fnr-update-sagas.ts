@@ -108,14 +108,21 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
 export function* updateFnr(action: FnrSubmit | FnrReset) {
     const props = yield selectFromInitializedState((state) => state.fnr);
     if (isEnabled(props)) {
+        console.log('updateFnr', action);
         if (action.type === SagaActionTypes.FNRRESET) {
-            yield fork(Api.nullstillAktivBruker);
+            yield forkApiWithErrorhandling(
+                PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
+                Api.nullstillAktivBruker
+            );
             yield* updateFnrValue(MaybeCls.nothing());
             yield spawn(props.onChange, null);
         } else {
             const fnr = MaybeCls.of(action.data).filter((v) => v.length > 0);
             if (fnr.isNothing()) {
-                yield fork(Api.nullstillAktivBruker);
+                yield forkApiWithErrorhandling(
+                    PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
+                    Api.nullstillAktivBruker
+                );
             } else {
                 yield forkApiWithErrorhandling(
                     PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,

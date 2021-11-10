@@ -8,7 +8,8 @@ import {
     getContextvalueValue,
     RESET_VALUE,
     spawnConditionally,
-    forkApiWithErrorhandling
+    forkApiWithErrorhandling,
+    callApiWithErrorhandling
 } from './utils';
 import { FnrContextvalue } from '../domain';
 import { updateFnrValue } from './fnr-update-sagas';
@@ -17,7 +18,10 @@ import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export default function* initialSyncFnr(props: FnrContextvalue) {
     if (getContextvalueValue(props) === RESET_VALUE) {
-        yield call(Api.nullstillAktivBruker);
+        yield callApiWithErrorhandling(
+            PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
+            Api.nullstillAktivBruker
+        );
     }
 
     const response: FetchResponse<AktivBruker> = yield call(Api.hentAktivBruker);
