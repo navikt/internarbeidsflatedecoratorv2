@@ -1,10 +1,15 @@
-import { call, fork, put } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse, hasError } from './api';
 import { AktivBruker } from '../internal-domain';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { getContextvalueValue, RESET_VALUE, spawnConditionally } from './utils';
+import {
+    getContextvalueValue,
+    RESET_VALUE,
+    spawnConditionally,
+    forkApiWithErrorhandling
+} from './utils';
 import { FnrContextvalue } from '../domain';
 import { updateFnrValue } from './fnr-update-sagas';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
@@ -41,7 +46,11 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
         const erUlikContextholderFnr =
             onsketFnr.withDefault('') !== contextholderFnr.withDefault('');
         if (erUlikContextholderFnr) {
-            yield fork(Api.oppdaterAktivBruker, onsketFnr.withDefault(''));
+            yield* forkApiWithErrorhandling(
+                PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT,
+                Api.oppdaterAktivBruker,
+                onsketFnr.withDefault('')
+            );
         }
         yield* updateFnrValue(onsketFnr);
         yield spawnConditionally(props.onChange, onsketFnr.withDefault(''));
