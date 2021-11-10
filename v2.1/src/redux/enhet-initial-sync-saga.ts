@@ -19,7 +19,7 @@ import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (getContextvalueValue(props) === RESET_VALUE) {
         yield* callApiWithErrorhandling(
-            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT,
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
             Api.nullstillAktivEnhet
         );
     }
@@ -48,7 +48,7 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
             onsketEnhet.withDefault('') !== contextholderEnhet.withDefault('');
         if (erUlikContextholderEnhet) {
             yield* forkApiWithErrorhandling(
-                PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT,
+                PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
                 Api.oppdaterAktivEnhet,
                 onsketEnhet.withDefault('')
             );
@@ -62,7 +62,7 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
     } else if (gyldigeEnheter.length > 0) {
         const fallbackEnhet = gyldigeEnheter[0];
         yield* forkApiWithErrorhandling(
-            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT,
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
             Api.oppdaterAktivEnhet,
             fallbackEnhet
         );
@@ -70,7 +70,7 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
         yield* forkApiWithErrorhandling(
-            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT,
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
             Api.nullstillAktivBruker
         );
         yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET));

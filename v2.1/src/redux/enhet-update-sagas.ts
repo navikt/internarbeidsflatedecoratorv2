@@ -60,7 +60,7 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
             yield spawn(data.onChange, onsketEnhet.withDefault(null));
         } else {
             yield* forkApiWithErrorhandling(
-                PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT,
+                PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
                 Api.oppdaterAktivEnhet,
                 enhet
             );
@@ -75,7 +75,7 @@ export function* updateEnhet(action: EnhetChanged) {
     const props = yield selectFromInitializedState((state) => state.enhet);
     if (isEnabled(props)) {
         yield* forkApiWithErrorhandling(
-            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT,
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
             Api.oppdaterAktivEnhet,
             action.data
         );

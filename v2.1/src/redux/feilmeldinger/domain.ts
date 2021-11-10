@@ -6,8 +6,8 @@ export enum FeilmeldingKode {
     INGEN_GYLDIG_ENHET = 'A100',
     HENT_SAKSBEHANDLER_DATA_FEILET = 'A200',
     HENT_BRUKER_CONTEXT = 'A300',
-    OPPDATER_BRUKER_CONTEXT = 'A301',
-    OPPDATER_ENHET_CONTEXT = 'A302',
+    OPPDATER_BRUKER_CONTEXT_FEILET = 'A301',
+    OPPDATER_ENHET_CONTEXT_FEILET = 'A302',
     HENT_AKTORID_FEILET = 'A400',
     WS_FEILET = 'A500'
 }
@@ -36,12 +36,12 @@ export const PredefiniertFeilmeldinger = {
         FeilmeldingKode.HENT_BRUKER_CONTEXT,
         'Kunne ikke hente ut person i kontekst'
     ),
-    OPPDATER_BRUKER_CONTEXT: definer(
-        FeilmeldingKode.OPPDATER_BRUKER_CONTEXT,
+    OPPDATER_BRUKER_CONTEXT_FEILET: definer(
+        FeilmeldingKode.OPPDATER_BRUKER_CONTEXT_FEILET,
         'Kunne ikke oppdatere person i kontekst'
     ),
-    OPPDATER_ENHET_CONTEXT: definer(
-        FeilmeldingKode.OPPDATER_ENHET_CONTEXT,
+    OPPDATER_ENHET_CONTEXT_FEILET: definer(
+        FeilmeldingKode.OPPDATER_ENHET_CONTEXT_FEILET,
         'Kunne ikke oppdatere enhet i kontekst'
     ),
     FNR_11_SIFFER: definer(

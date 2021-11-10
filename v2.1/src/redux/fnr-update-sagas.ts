@@ -94,7 +94,7 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
             yield spawn(data.onChange, onsketFnr.withDefault(null));
         } else {
             yield forkApiWithErrorhandling(
-                PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT,
+                PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
                 Api.oppdaterAktivBruker,
                 fnr
             );
@@ -118,7 +118,7 @@ export function* updateFnr(action: FnrSubmit | FnrReset) {
                 yield fork(Api.nullstillAktivBruker);
             } else {
                 yield forkApiWithErrorhandling(
-                    PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT,
+                    PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
                     Api.oppdaterAktivBruker,
                     fnr.withDefault('')
                 );

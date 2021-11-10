@@ -47,7 +47,7 @@ export default function* initialSyncFnr(props: FnrContextvalue) {
             onsketFnr.withDefault('') !== contextholderFnr.withDefault('');
         if (erUlikContextholderFnr) {
             yield* forkApiWithErrorhandling(
-                PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT,
+                PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
                 Api.oppdaterAktivBruker,
                 onsketFnr.withDefault('')
             );
