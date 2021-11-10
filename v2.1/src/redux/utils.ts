@@ -1,10 +1,35 @@
-import { select, spawn } from 'redux-saga/effects';
+import { Action } from 'redux';
+import { fork, call, select, spawn, put } from 'redux-saga/effects';
 import { InitializedState, isInitialized } from './reducer';
 import { State } from './index';
-import { Action } from 'redux';
 import { Contextvalue, ControlledContextvalue } from '../domain';
+import { PredefiniertFeilmelding } from './feilmeldinger/domain';
+import { hasError } from './api';
+import { leggTilFeilmelding } from './feilmeldinger/reducer';
 
 export const RESET_VALUE = '\u0000';
+
+export function* forkApiWithErrorhandling<Fn extends (...args: any[]) => any>(
+    error: PredefiniertFeilmelding,
+    fn: Fn,
+    ...args: Parameters<Fn>
+) {
+    yield fork(function*() {
+        yield callApiWithErrorhandling(error, fn, ...args);
+    });
+}
+
+export function* callApiWithErrorhandling<Fn extends (...args: any[]) => any>(
+    error: PredefiniertFeilmelding,
+    fn: Fn,
+    ...args: Parameters<Fn>
+) {
+    const result = yield call(fn, ...args);
+    if (hasError(result)) {
+        yield put(leggTilFeilmelding(error));
+    }
+    return result;
+}
 
 export function* spawnConditionally<Fn extends (...args: any[]) => any>(
     callback?: Fn,
