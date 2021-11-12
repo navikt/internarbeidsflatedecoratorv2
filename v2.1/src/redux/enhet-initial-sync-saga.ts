@@ -1,4 +1,4 @@
-import { call, fork, put } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import * as Api from './api';
 import { FetchResponse } from './api';
@@ -7,7 +7,9 @@ import {
     getContextvalueValue,
     RESET_VALUE,
     selectFromInitializedState,
-    spawnConditionally
+    spawnConditionally,
+    forkApiWithErrorhandling,
+    callApiWithErrorhandling
 } from './utils';
 import { EnhetContextvalue } from '../domain';
 import { updateEnhetValue } from './enhet-update-sagas';
@@ -16,7 +18,10 @@ import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export default function* initialSyncEnhet(props: EnhetContextvalue) {
     if (getContextvalueValue(props) === RESET_VALUE) {
-        yield call(Api.nullstillAktivEnhet);
+        yield* callApiWithErrorhandling(
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
+            Api.nullstillAktivEnhet
+        );
     }
     const response: FetchResponse<AktivEnhet> = yield call(Api.hentAktivEnhet);
 
@@ -42,7 +47,11 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         const erUlikContextholderEnhet =
             onsketEnhet.withDefault('') !== contextholderEnhet.withDefault('');
         if (erUlikContextholderEnhet) {
-            yield fork(Api.oppdaterAktivEnhet, onsketEnhet.withDefault(''));
+            yield* forkApiWithErrorhandling(
+                PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
+                Api.oppdaterAktivEnhet,
+                onsketEnhet.withDefault('')
+            );
         }
 
         yield* updateEnhetValue(onsketEnhet);
@@ -52,11 +61,18 @@ export default function* initialSyncEnhet(props: EnhetContextvalue) {
         yield spawnConditionally(props.onChange, contextholderEnhet.withDefault(''));
     } else if (gyldigeEnheter.length > 0) {
         const fallbackEnhet = gyldigeEnheter[0];
-        yield fork(Api.oppdaterAktivEnhet, fallbackEnhet);
+        yield* forkApiWithErrorhandling(
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
+            Api.oppdaterAktivEnhet,
+            fallbackEnhet
+        );
         yield* updateEnhetValue(MaybeCls.of(fallbackEnhet));
         yield spawnConditionally(props.onChange, fallbackEnhet);
     } else {
-        yield fork(Api.nullstillAktivBruker);
+        yield* forkApiWithErrorhandling(
+            PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
+            Api.nullstillAktivBruker
+        );
         yield put(leggTilFeilmelding(PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET));
     }
 }
