@@ -1,9 +1,10 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
-import { fork, put, spawn, take } from 'redux-saga/effects';
+import { put, spawn, take } from 'redux-saga/effects';
 import { EnhetContextvalueState, isEnabled } from '../internal-domain';
-import { selectFromInitializedState } from './utils';
+import { forkApiWithErrorhandling, selectFromInitializedState } from './utils';
 import { EnhetChanged, ReduxActionTypes, SagaActionTypes } from './actions';
 import * as Api from './api';
+import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 
 export function* updateEnhetState(updated: Partial<EnhetContextvalueState>) {
     const data: EnhetContextvalueState = yield selectFromInitializedState((state) => state.enhet);
@@ -58,7 +59,11 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
             });
             yield spawn(data.onChange, onsketEnhet.withDefault(null));
         } else {
-            yield fork(Api.oppdaterAktivEnhet, enhet);
+            yield* forkApiWithErrorhandling(
+                PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
+                Api.oppdaterAktivEnhet,
+                enhet
+            );
             yield* updateEnhetState({
                 showModal: false
             });
@@ -69,7 +74,11 @@ export function* updateWSRequestedEnhet(onsketEnhet: MaybeCls<string>) {
 export function* updateEnhet(action: EnhetChanged) {
     const props = yield selectFromInitializedState((state) => state.enhet);
     if (isEnabled(props)) {
-        yield fork(Api.oppdaterAktivEnhet, action.data);
+        yield* forkApiWithErrorhandling(
+            PredefiniertFeilmeldinger.OPPDATER_ENHET_CONTEXT_FEILET,
+            Api.oppdaterAktivEnhet,
+            action.data
+        );
         yield* updateEnhetValue(MaybeCls.of(action.data));
         yield spawn(props.onChange, action.data);
     }
