@@ -108,7 +108,6 @@ export function* updateWSRequestedFnr(onsketFnr: MaybeCls<string>) {
 export function* updateFnr(action: FnrSubmit | FnrReset) {
     const props = yield selectFromInitializedState((state) => state.fnr);
     if (isEnabled(props)) {
-        console.log('updateFnr', action);
         if (action.type === SagaActionTypes.FNRRESET) {
             yield forkApiWithErrorhandling(
                 PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
