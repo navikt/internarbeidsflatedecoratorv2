@@ -196,5 +196,9 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 
 export function getVeilederflatehendelserUrl(ident: string) {
     let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
+    const isNaisInternIngress = window.location.host.indexOf("intern.nav.no") > -1.
+    if (isNaisInternIngress) {
+        return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.intern.nav.no/modiaeventdistribution/ws/${ident}`;
+    }
     return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
 }

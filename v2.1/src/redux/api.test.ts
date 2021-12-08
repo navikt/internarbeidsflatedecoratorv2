@@ -140,5 +140,27 @@ describe('api', () => {
                 );
             });
         });
+
+        it('skal ha riktig nais-url ved kjøring på nais-dev.intern.nav.no', () => {
+            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+                expect(getVeilederflatehendelserUrl('navident')).toBe(
+                    'wss://veilederflatehendelser-q0.dev.intern.nav.no/modiaeventdistribution/ws/navident'
+                );
+            });
+
+            withLocation('https://navn-q6.dev.intern.nav.no/contextpath', () => {
+                expect(getVeilederflatehendelserUrl('navident')).toBe(
+                    'wss://veilederflatehendelser-q6.dev.intern.nav.no/modiaeventdistribution/ws/navident'
+                );
+            });
+        });
+
+        it('skal ha riktig nais-url ved kjøring på nais-intern.nav.no', () => {
+            withLocation('https://navn.intern.nav.no/contextpath', () => {
+                expect(getVeilederflatehendelserUrl('navident')).toBe(
+                    'wss://veilederflatehendelser.intern.nav.no/modiaeventdistribution/ws/navident'
+                );
+            });
+        });
     });
 });
