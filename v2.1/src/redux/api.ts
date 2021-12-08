@@ -1,9 +1,10 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
+import { hentMiljoFraUrl } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
+import { finnMiljoStreng, finnVeilederflatehendelserUrl } from "../../../v2/src/utils/url-utils";
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -196,5 +197,5 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 
 export function getVeilederflatehendelserUrl(ident: string) {
     let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
-    return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
+    return finnVeilederflatehendelserUrl(finnMiljoStreng(), ident, subdomain)
 }

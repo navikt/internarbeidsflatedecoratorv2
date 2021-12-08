@@ -59,6 +59,14 @@ export function finnNaisInternNavMiljoStreng(envNamespace: boolean = false) {
     return `${prefix}.intern.nav.no`;
 }
 
+export function finnVeilederflatehendelserUrl(miljoStreng: string, ident: string, subdomain?: string) {
+    const isNaisInternIngress = window.location.host.indexOf("intern.nav.no") > -1.
+    if (isNaisInternIngress) {
+        return `wss://veilederflatehendelser${miljoStreng}${subdomain}.intern.nav.no/modiaeventdistribution/ws/${ident}`;
+    }
+    return `wss://veilederflatehendelser${miljoStreng}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
+}
+
 export function randomCallId() {
     let idx = 0;
     const c = window.crypto || window.msCrypto;
