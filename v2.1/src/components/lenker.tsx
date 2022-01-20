@@ -74,7 +74,7 @@ function salesforceUrl() {
     if (hentMiljoFraUrl().environment === 'p') {
         return "https://navdialog.lightning.force.com/";
     } else {
-        return "https://navdialog--sit.lightning.force.com/";
+        return "https://navdialog--sit2.lightning.force.com/";
     }
 }
 
