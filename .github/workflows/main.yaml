@@ -21,28 +21,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install dependencies
-        run: |
-          npm ci
-          cd v2
-          npm ci
-          cd ../v2.1
-          npm ci
+        run: npm ci
       - name: Lint and Test
-        run: |
-          npm run lint
-          npm run test
-          cd v2.1
-          npm run test
-#          Den dagen vi lager tester for V2
-#          cd v2
-#          npm run test
+        run: npm run test
       - name: Build
-        run: |
-          npm run build
-          cd v2
-          npm run build
-          cd ../v2.1
-          npm run build
+        run: npm run build
 
   build-and-push:
     name: Build and push Docker container
@@ -110,24 +93,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - name: Install dependencies
-        run: |
-          npm ci
-          cd v2
-          npm ci
-          cd ../v2.1
-          npm ci
+        run: npm ci
       - name: Build
-        run: |
-          npm run build
-          cd v2
-          npm run build
-          cd ../v2.1
-          npm run build
-      - name: Bundle
-        run: |
-          cp -r v2/build build/v2
-          cp -r v2.1/build build/v2.1
-          ls build
+        run: npm run build
       - name: Deploy gh-pages
         uses: peaceiris/actions-gh-pages@v2.9.0
         env:
