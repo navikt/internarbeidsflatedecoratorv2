@@ -1,72 +1,92 @@
 {
-  "name": "internarbeidsflatedecorator",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Dekoratør for interne arbeidsflater i NAV",
-  "scripts": {
-    "test:watch": "cross-env NODE_ENV=test nyc mocha --watch",
-    "test": "cross-env NODE_ENV=test nyc mocha",
-    "test:coverage": "npm test",
-    "build-js": "cross-env NODE_ENV=production webpack --optimize-minimize",
-    "dev": "webpack --watch",
-    "build": "npm run build-js",
-    "lint": "eslint js/. --ext .js",
-    "lint:fix": "eslint js/. --ext .js --fix"
-  },
-  "author": "DigiSyfo <digisyfo@nav.no>",
-  "license": "ISC",
-  "dependencies": {
-    "async": "2.0.1",
-    "bluebird": "3.5.0",
-    "classnames": "2.2.5",
-    "nav-frontend-core": "4.0.5",
-    "nav-frontend-typografi": "2.0.2",
-    "nav-frontend-typografi-style": "1.0.7",
-    "prop-types": "15.6.1",
-    "query-string": "4.3.2",
-    "react-lite": "0.15.33",
-    "react-redux": "4.4.5",
-    "redux": "3.5.2",
-    "redux-saga": "0.12.0"
-  },
-  "devDependencies": {
-    "babel-core": "6.23.1",
-    "babel-eslint": "6.0.0",
-    "babel-loader": "6.3.2",
-    "babel-polyfill": "6.6.1",
-    "babel-preset-es2015": "6.22.0",
-    "babel-preset-react": "6.23.0",
-    "babel-preset-stage-0": "6.22.0",
-    "babel-preset-stage-2": "6.22.0",
-    "chai": "3.5.0",
-    "chai-enzyme": "0.8.0",
-    "cheerio": "0.22.0",
-    "cross-env": "3.2.4",
-    "css-loader": "0.26.2",
-    "deep-freeze": "0.0.1",
-    "enzyme": "2.3.0",
-    "eslint": "2.5.3",
-    "eslint-config-airbnb": "6.2.0",
-    "eslint-plugin-react": "4.2.3",
-    "fetch-mock": "5.5.0",
-    "file-loader": "1.1.5",
-    "fs": "0.0.2",
-    "jsdom": "9.12.0",
-    "jsx-loader": "0.13.2",
-    "less": "2.7.2",
-    "less-loader": "2.2.2",
-    "less-plugin-autoprefix": "1.5.1",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.18.6",
-    "nyc": "^13.1.0",
-    "parallelshell": "2.0.0",
-    "react": "15.4.2",
-    "react-addons-test-utils": "15.6.2",
-    "react-dom": "15.4.2",
-    "sinon": "2.1.0",
-    "style-loader": "0.13.2",
-    "url-loader": "^1.1.2",
-    "webpack": "2.2.1",
-    "whatwg-fetch": "2.0.2"
-  }
+    "name": "v3",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "/internarbeidsflatedecorator/v2.1",
+    "dependencies": {
+        "@navikt/navspa": "^1.1.1",
+        "@nutgaard/maybe-ts": "^1.4.0",
+        "babel-polyfill": "^6.26.0",
+        "classnames": "^2.2.6",
+        "lodash.throttle": "^4.1.1",
+        "nav-frontend-alertstriper": "^3.0.3",
+        "nav-frontend-alertstriper-style": "^2.0.2",
+        "nav-frontend-core": "^4.0.9",
+        "nav-frontend-ikoner-assets": "^1.0.1",
+        "nav-frontend-js-utils": "^1.0.7",
+        "nav-frontend-knapper": "^1.0.30",
+        "nav-frontend-knapper-style": "^0.3.26",
+        "nav-frontend-lukknapp": "^1.0.21",
+        "nav-frontend-lukknapp-style": "^0.2.19",
+        "nav-frontend-modal": "^1.0.28",
+        "nav-frontend-modal-style": "^0.3.29",
+        "nav-frontend-paneler-style": "^0.3.15",
+        "nav-frontend-typografi": "^2.0.12",
+        "nav-frontend-typografi-style": "^1.0.13",
+        "prop-types": "^15.7.2",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-modal": "^3.9.1",
+        "react-redux": "^7.1.3",
+        "redux": "^4.0.5",
+        "redux-saga": "^1.1.3"
+    },
+    "scripts": {
+        "start": "craco start",
+        "start:mock": "cross-env REACT_APP_MOCK=true concurrently \"craco start\" \"node dev-server.js\"",
+        "build": "craco build",
+        "test": "craco test",
+        "prettier": "prettier --write \"src/**/*.{js,ts,tsx,json,less,css}\""
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,tsx,json,less,css}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version",
+            "ie 11"
+        ]
+    },
+    "devDependencies": {
+        "@craco/craco": "^5.2.3",
+        "@types/classnames": "^2.2.9",
+        "@types/jest": "24.9.1",
+        "@types/node": "12.6.1",
+        "@types/react": "16.8.23",
+        "@types/react-dom": "16.8.4",
+        "@types/react-modal": "^3.10.5",
+        "@types/react-redux": "^7.1.5",
+        "concurrently": "^5.2.0",
+        "craco-base64-inline-loader": "^1.0.0",
+        "craco-less": "^1.15.0",
+        "cross-env": "^5.2.0",
+        "express": "^4.17.1",
+        "husky": "^3.0.0",
+        "lint-staged": "^9.2.0",
+        "postcss-prefix-selector": "^1.7.2",
+        "prettier": "^1.18.2",
+        "react-app-polyfill": "^1.0.6",
+        "react-scripts": "^3.4.1",
+        "typescript": "3.5.3",
+        "ws": "^7.4.6",
+        "yet-another-fetch-mock": "^4.0.0"
+    }
 }
