@@ -1,2 +1,4 @@
+node_modules/
+.github/
+.idea/
 .git/
-web/src/frontend/node_modules
