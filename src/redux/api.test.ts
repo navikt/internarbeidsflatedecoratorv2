@@ -23,6 +23,14 @@ describe('api', () => {
             });
         });
 
+        it('skal ha riktig nais-url ved kjøring på nais.intern', () => {
+            withLocation('https://navn.intern.nav.no/contextpath', () => {
+                expect(lagModiacontextholderUrl()).toBe(
+                    'https://modiacontextholder.intern.nav.no/modiacontextholder/api'
+                );
+            });
+        });
+
         it('skal ha riktig nais-url ved kjøring på nais-preprod', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
@@ -65,6 +73,22 @@ describe('api', () => {
             withLocation('https://app.adeo.no/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
                     'https://app.adeo.no/modiacontextholder/api'
+                );
+            });
+        });
+
+        it('skal bruke domene fra proxy config', () => {
+            withLocation('https://app.adeo.no/contextpath', () => {
+                expect(lagModiacontextholderUrl('https://vg.no')).toBe(
+                    'https://vg.no/modiacontextholder/api'
+                );
+            });
+        });
+
+        it('skal bruke relativ path om proxyconfig er true', () => {
+            withLocation('https://app.adeo.no/contextpath', () => {
+                expect(lagModiacontextholderUrl(true)).toBe(
+                    '/modiacontextholder/api'
                 );
             });
         });

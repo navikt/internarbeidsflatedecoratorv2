@@ -1,4 +1,4 @@
-import { finnMiljoStreng, hentMiljoFraUrl } from './url-utils';
+import {finnMiljoStreng, hentMiljoFraUrl, UrlFormat} from './url-utils';
 import { withLocation } from './test.utils';
 
 describe('url-utils', () => {
@@ -18,16 +18,16 @@ describe('url-utils', () => {
             withLocation('localhost', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'local',
-                    isNaisUrl: false,
-                    envclass: 'local'
+                    envclass: 'local',
+                    urlformat: UrlFormat.LOCAL
                 });
             });
 
             withLocation('http://localhost:8080/modia', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'local',
-                    isNaisUrl: false,
-                    envclass: 'local'
+                    envclass: 'local',
+                    urlformat: UrlFormat.LOCAL
                 });
             });
         });
@@ -36,8 +36,8 @@ describe('url-utils', () => {
             withLocation('https://navikt.github.io/modiapersonoversikt/', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'local',
-                    isNaisUrl: false,
-                    envclass: 'local'
+                    envclass: 'local',
+                    urlformat: UrlFormat.LOCAL
                 });
             });
         });
@@ -46,8 +46,8 @@ describe('url-utils', () => {
             withLocation('https://navn.herokuapp.com/contextpath/', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'local',
-                    isNaisUrl: false,
-                    envclass: 'local'
+                    envclass: 'local',
+                    urlformat: UrlFormat.LOCAL
                 });
             });
         });
@@ -56,8 +56,8 @@ describe('url-utils', () => {
             withLocation('https://navn.labs.nais.io/contextpath/', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'local',
-                    isNaisUrl: true,
-                    envclass: 'local'
+                    envclass: 'local',
+                    urlformat: UrlFormat.LOCAL
                 });
             });
         });
@@ -66,16 +66,16 @@ describe('url-utils', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q6',
-                    isNaisUrl: true,
-                    envclass: 'q'
+                    envclass: 'q',
+                    urlformat: UrlFormat.NAIS
                 });
             });
 
             withLocation('https://navn-t6.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 't6',
-                    isNaisUrl: true,
-                    envclass: 't'
+                    envclass: 't',
+                    urlformat: UrlFormat.NAIS
                 });
             });
         });
@@ -84,15 +84,15 @@ describe('url-utils', () => {
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
-                    isNaisUrl: true,
-                    envclass: 'q'
+                    envclass: 'q',
+                    urlformat: UrlFormat.NAIS
                 });
             });
             withLocation('https://navn-q.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
-                    isNaisUrl: true,
-                    envclass: 'q'
+                    envclass: 'q',
+                    urlformat: UrlFormat.NAIS
                 });
             });
         });
@@ -101,8 +101,8 @@ describe('url-utils', () => {
             withLocation('https://navn.dev.adeo.no/contextpath/', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
-                    isNaisUrl: false,
-                    envclass: 'dev'
+                    envclass: 'dev',
+                    urlformat: UrlFormat.DEV_ADEO
                 });
             });
         });
@@ -111,8 +111,8 @@ describe('url-utils', () => {
             withLocation('https://navn-q.nais.adeo.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'p',
-                    isNaisUrl: true,
-                    envclass: 'p'
+                    envclass: 'p',
+                    urlformat: UrlFormat.NAIS
                 });
             });
         });
@@ -121,16 +121,16 @@ describe('url-utils', () => {
             withLocation('https://app-q6.adeo.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q6',
-                    isNaisUrl: false,
-                    envclass: 'q'
+                    envclass: 'q',
+                    urlformat: UrlFormat.ADEO
                 });
             });
 
             withLocation('https://app-t6.adeo.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 't6',
-                    isNaisUrl: false,
-                    envclass: 't'
+                    envclass: 't',
+                    urlformat: UrlFormat.ADEO
                 });
             });
         });
@@ -139,8 +139,8 @@ describe('url-utils', () => {
             withLocation('https://app.adeo.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'p',
-                    isNaisUrl: false,
-                    envclass: 'p'
+                    envclass: 'p',
+                    urlformat: UrlFormat.ADEO
                 });
             });
         });
@@ -149,8 +149,8 @@ describe('url-utils', () => {
             withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q0',
-                    isNaisUrl: true,
-                    envclass: 'dev'
+                    envclass: 'dev',
+                    urlformat: UrlFormat.NAV_NO
                 });
             });
         });
@@ -159,8 +159,8 @@ describe('url-utils', () => {
             withLocation('https://navn.intern.nav.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'p',
-                    isNaisUrl: true,
-                    envclass: 'p'
+                    envclass: 'p',
+                    urlformat: UrlFormat.NAV_NO
                 });
             });
         });
@@ -169,8 +169,8 @@ describe('url-utils', () => {
             withLocation('https://vg.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'p',
-                    isNaisUrl: false,
-                    envclass: 'p'
+                    envclass: 'p',
+                    urlformat: UrlFormat.ADEO
                 });
             });
         });
