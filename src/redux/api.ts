@@ -1,6 +1,6 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, hentMiljoFraUrl } from '../utils/url-utils';
+import { finnMiljoStreng, hentMiljoFraUrl, UrlFormat } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
@@ -20,22 +20,33 @@ export function setUseProxy(proxyConfig: ProxyConfig) {
 
 export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): string {
     const urlEnv = hentMiljoFraUrl();
+    const envString = urlEnv.envclass === 'p' ? '' : `-${urlEnv.environment}`;
+
     if (typeof proxyConfig === 'string') {
         return `${proxyConfig}/modiacontextholder/api`;
-    } else if (proxyConfig || urlEnv.environment === 'local') {
+    } else if (proxyConfig) {
         return '/modiacontextholder/api';
-    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'dev') {
-        return `https://modiacontextholder-${urlEnv.environment}.dev.intern.nav.no/modiacontextholder/api`;
-    } else if (urlEnv.envclass === 'dev') {
-        return `https://app-${urlEnv.environment}.dev.adeo.no/modiacontextholder/api`;
-    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'q') {
-        return `https://modiacontextholder-${urlEnv.environment}.nais.preprod.local/modiacontextholder/api`;
-    } else if (urlEnv.isNaisUrl && urlEnv.envclass === 'p') {
-        return `https://modiacontextholder.nais.adeo.no/modiacontextholder/api`;
-    } else if (!urlEnv.isNaisUrl && urlEnv.envclass !== 'p') {
-        return `https://app-${urlEnv.environment}.adeo.no/modiacontextholder/api`;
-    } else {
-        return `https://app.adeo.no/modiacontextholder/api`;
+    }
+
+    switch (urlEnv.urlformat) {
+        case UrlFormat.ADEO:
+            return `https://app${envString}.adeo.no/modiacontextholder/api`;
+        case UrlFormat.NAIS:
+            if (urlEnv.envclass === 'p') {
+                return 'https://modiacontextholder.nais.adeo.no/modiacontextholder/api';
+            } else {
+                return `https://modiacontextholder${envString}.nais.preprod.local/modiacontextholder/api`
+            }
+        case UrlFormat.DEV_ADEO:
+            return `https://app${envString}.dev.adeo.no/modiacontextholder/api`;
+        case UrlFormat.NAV_NO:
+            if (urlEnv.envclass === 'p') {
+                return 'https://modiacontextholder.intern.nav.no/modiacontextholder/api';
+            } else {
+                return `https://modiacontextholder${envString}.dev.intern.nav.no/modiacontextholder/api`;
+            }
+        case UrlFormat.LOCAL:
+            return '/modiacontextholder/api';
     }
 }
 function lagUrls(proxyConfig: ProxyConfig) {
