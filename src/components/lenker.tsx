@@ -4,6 +4,8 @@ import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 import {WrappedState} from "../hooks/use-wrapped-state";
 import {useInitializedState} from "../hooks/use-initialized-state";
 import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-contextvalue-state";
+import {ProxyConfig} from "../domain";
+import {lagModiacontextholderUrl} from "../redux/api";
 
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
@@ -99,8 +101,12 @@ function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     ];
 }
 
+interface Props {
+    apen: WrappedState<boolean>;
+    proxyConfig: ProxyConfig;
+}
 
-function Lenker({apen}: { apen: WrappedState<boolean> }) {
+function Lenker(props: Props) {
     const fnr = useFnrContextvalueState().withDefault('');
     const enhet = useEnhetContextvalueState().withDefault('');
     const aktorId: string = useInitializedState((state) => state.data.aktorId)
@@ -110,9 +116,10 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
     const hotkeys = useCallback(lagHotkeys, [fnr, aktorId])(fnr, aktorId);
     useHotkeys(hotkeys);
 
-    if (!apen.value) {
+    if (!props.apen.value) {
         return null;
     }
+    const modiacontextholderUrl = lagModiacontextholderUrl(props.proxyConfig);
 
     return (
         <div className="dekorator__nav dekorator__nav--apen">
@@ -186,7 +193,7 @@ function Lenker({apen}: { apen: WrappedState<boolean> }) {
                         <Lenke href={arenaUrl(fnr)} target="_blank">
                             Arena personmappen
                         </Lenke>
-                        <Lenke href={appDomain('/modiacontextholder/redirect/aaregisteret')} target="_blank">
+                        <Lenke href={`${modiacontextholderUrl}/redirect/aaregisteret`} target="_blank">
                             AA register
                         </Lenke>
                         <Lenke href={pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)} target="_blank">Pesys</Lenke>

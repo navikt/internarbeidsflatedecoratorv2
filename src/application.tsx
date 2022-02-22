@@ -61,7 +61,7 @@ function Application(props: ApplicationProps) {
     return (
         <header className="dekorator" ref={ref}>
             <Banner apen={apen} appname={props.appname} />
-            {isInitialized && <Lenker apen={apen} />}
+            {isInitialized && <Lenker apen={apen} proxyConfig={props.useProxy || false}/>}
             <Feilmelding />
             {isInitialized && <NyEnhetContextModal />}
             {isInitialized && <NyBrukerContextModal />}

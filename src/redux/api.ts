@@ -23,40 +23,40 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
     const envString = urlEnv.envclass === 'p' ? '' : `-${urlEnv.environment}`;
 
     if (typeof proxyConfig === 'string') {
-        return `${proxyConfig}/modiacontextholder/api`;
+        return `${proxyConfig}/modiacontextholder`;
     } else if (proxyConfig) {
-        return '/modiacontextholder/api';
+        return '/modiacontextholder';
     }
 
     switch (urlEnv.urlformat) {
         case UrlFormat.ADEO:
-            return `https://app${envString}.adeo.no/modiacontextholder/api`;
+            return `https://app${envString}.adeo.no/modiacontextholder`;
         case UrlFormat.NAIS:
             if (urlEnv.envclass === 'p') {
-                return 'https://modiacontextholder.nais.adeo.no/modiacontextholder/api';
+                return 'https://modiacontextholder.nais.adeo.no/modiacontextholder';
             } else {
-                return `https://modiacontextholder${envString}.nais.preprod.local/modiacontextholder/api`
+                return `https://modiacontextholder${envString}.nais.preprod.local/modiacontextholder`
             }
         case UrlFormat.DEV_ADEO:
-            return `https://app${envString}.dev.adeo.no/modiacontextholder/api`;
+            return `https://app${envString}.dev.adeo.no/modiacontextholder`;
         case UrlFormat.NAV_NO:
             if (urlEnv.envclass === 'p') {
-                return 'https://modiacontextholder.intern.nav.no/modiacontextholder/api';
+                return 'https://modiacontextholder.intern.nav.no/modiacontextholder';
             } else {
-                return `https://modiacontextholder${envString}.dev.intern.nav.no/modiacontextholder/api`;
+                return `https://modiacontextholder${envString}.dev.intern.nav.no/modiacontextholder`;
             }
         case UrlFormat.LOCAL:
-            return '/modiacontextholder/api';
+            return '/modiacontextholder';
     }
 }
 function lagUrls(proxyConfig: ProxyConfig) {
     const modiacontextholderUrl = lagModiacontextholderUrl(proxyConfig);
     return {
-        aktivEnhetUrl: `${modiacontextholderUrl}/context/aktivenhet`,
-        aktivBrukerUrl: `${modiacontextholderUrl}/context/aktivbruker`,
-        contextUrl: `${modiacontextholderUrl}/context`,
-        saksbehandlerUrl: `${modiacontextholderUrl}/decorator`,
-        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/decorator/aktor/${fnr}`
+        aktivEnhetUrl: `${modiacontextholderUrl}/api/context/aktivenhet`,
+        aktivBrukerUrl: `${modiacontextholderUrl}/api/context/aktivbruker`,
+        contextUrl: `${modiacontextholderUrl}/api/context`,
+        saksbehandlerUrl: `${modiacontextholderUrl}/api/decorator`,
+        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`
     };
 }
 export let urls = lagUrls(false);
