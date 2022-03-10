@@ -206,13 +206,13 @@ function Lenker(props: Props) {
                         <Lenke href={k9Url(aktorId)} target="_blank">
                             K9-sak
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}`} target="_blank">
+                        <Lenke href={`https://rekrutteringsbistand${naisInternNavDomain}`} target="_blank">
                             Rekrutteringsbistand
                         </Lenke>
                         <Lenke href={inst2()} target="_blank">
                             INST2
                         </Lenke>
-                        <Lenke href={`https://rekrutteringsbistand${naisDomain}/stillingssok?standardsok`} target="_blank">
+                        <Lenke href={`https://rekrutteringsbistand${naisInternNavDomain}/stillingssok?standardsok`} target="_blank">
                             Søk etter stilling
                         </Lenke>
                         <Lenke href={salesforceUrl()} target="_blank">
