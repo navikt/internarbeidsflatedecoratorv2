@@ -51,10 +51,17 @@ const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomai
 const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesysDomain('/psak/'));
 export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
-const byggArbeidssokerregistreringsURL = (fnr: string, enhet: string) => `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
+function arbeidssokerregistreringURL(fnr: string, enhet: string) {
+    const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
+    const miljo = hentMiljoFraUrl();
+    if (miljo.environment === 'p') {
+        return `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}${queryParams}`;
+    }
+    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
+}
 function arbeidssokerregistreringLoginUrl(fnr: string, enhet: string): string {
     const miljo = hentMiljoFraUrl();
-    const redirectUrl = encodeURIComponent(byggArbeidssokerregistreringsURL(fnr, enhet));
+    const redirectUrl = encodeURIComponent(arbeidssokerregistreringURL(fnr, enhet));
     if (miljo.environment === 'p') {
         return appDomain(`/veilarblogin/api/start?url=${redirectUrl}`)
     } else {
