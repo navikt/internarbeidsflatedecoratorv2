@@ -22,15 +22,28 @@ function erGyldigBNummer(dag: number, maaned: number) {
     return dag > 0 && dag < 32 && maaned > 20 && maaned < 33;
 }
 
-function erGyldigFodselsdato(fnr: string) {
-    const dag = parseInt(fnr.substring(0, 2), decimalRadix);
-    const maaned = parseInt(fnr.substring(2, 4), decimalRadix);
+function erGyldigSyntetiskNummer(dag: number, maaned: number) {
+    if (maaned <= 80) {
+        return false;
+    }
+    return erGyldigVariant(dag, maaned - 80);
+}
+
+function erGyldigVariant(dag: number, maaned: number): boolean {
     return (
         erGyldigPnummer(dag, maaned) ||
         erGyldigDNummer(dag, maaned) ||
         erGyldigHNummer(dag, maaned) ||
-        erGyldigBNummer(dag, maaned)
+        erGyldigBNummer(dag, maaned) ||
+        erGyldigSyntetiskNummer(dag, maaned)
     );
+}
+
+function erGyldigFodselsdato(fnr: string) {
+    const dag = parseInt(fnr.substring(0, 2), decimalRadix);
+    let maaned = parseInt(fnr.substring(2, 4), decimalRadix);
+
+    return erGyldigVariant(dag, maaned);
 }
 
 function hentKontrollSiffer(fnr: number[], kontrollrekke: number[]) {
