@@ -1,7 +1,7 @@
-FROM node:16 as builder
+FROM node:16.13.1 as builder
 
 RUN ln -fs /usr/share/zoneinfo/Europe/Oslo /etc/localtime
-RUN npm install -g npm@latest
+RUN npm install -g npm@8.3.1
 ENV CI=true
 
 COPY / /source
