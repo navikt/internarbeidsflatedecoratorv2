@@ -2,20 +2,20 @@
 kind: Application
 apiVersion: nais.io/v1alpha1
 metadata:
-  name: internarbeidsflatedecorator
-  namespace: {{ namespace }}
+  name: internarbeidsflatedecorator-{{ q_env }}
+  namespace: personoversikt
   labels:
     team: personoversikt
 spec:
   image: "{{ image }}"
   port: 8080
   ingresses:
-  - https://internarbeidsflatedecorator-{{ namespace }}.dev.intern.nav.no
-  - https://internarbeidsflatedecorator-{{ namespace }}.nais.preprod.local
-  - https://internarbeidsflatedecorator-{{ namespace }}.dev.adeo.no
-  - https://app-{{ namespace }}.dev.adeo.no/internarbeidsflatedecorator
-  - https://app-{{ namespace }}.adeo.no/internarbeidsflatedecorator
-  - https://modapp-{{ namespace }}.adeo.no/internarbeidsflatedecorator
+  - https://internarbeidsflatedecorator-{{ q_env }}.dev.intern.nav.no
+  - https://internarbeidsflatedecorator-{{ q_env }}.nais.preprod.local
+  - https://internarbeidsflatedecorator-{{ q_env }}.dev.adeo.no
+  - https://app-{{ q_env }}.dev.adeo.no/internarbeidsflatedecorator
+  - https://app-{{ q_env }}.adeo.no/internarbeidsflatedecorator
+  - https://modapp-{{ q_env }}.adeo.no/internarbeidsflatedecorator
   liveness:
     path: isAlive
     initialDelay: 10
@@ -35,4 +35,4 @@ spec:
       memory: 192Mi
   env:
     - name: AKTOERREGISTER_API_V1_URL
-      value: "https://app-{{ namespace }}.adeo.no/aktoerregister/api/v1"
+      value: "https://app-{{ q_env }}.adeo.no/aktoerregister/api/v1"
