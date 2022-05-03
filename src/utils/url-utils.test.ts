@@ -1,4 +1,9 @@
-import {finnMiljoStreng, hentMiljoFraUrl, UrlFormat} from './url-utils';
+import {
+    finnMiljoStreng,
+    finnNaisInternNavMiljoStreng,
+    hentMiljoFraUrl,
+    UrlFormat
+} from './url-utils';
 import { withLocation } from './test.utils';
 
 describe('url-utils', () => {
@@ -172,6 +177,27 @@ describe('url-utils', () => {
                     envclass: 'p',
                     urlformat: UrlFormat.ADEO
                 });
+            });
+        });
+    });
+
+    describe('finnNaisInternNavMiljoStreng', () => {
+        it('skal legg ikke legge til miljøprefix for produksjon', () => {
+            withLocation('https://navn.intern.nav.no/contextpath', () => {
+                expect(finnNaisInternNavMiljoStreng(false)).toBe('.intern.nav.no');
+                expect(finnNaisInternNavMiljoStreng(true)).toBe('.intern.nav.no');
+            });
+        });
+
+        it('skal legg ikke legge til miljøprefix som default', () => {
+            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+                expect(finnNaisInternNavMiljoStreng()).toBe('.dev.intern.nav.no');
+            });
+        });
+
+        it('skal legg legge til miljøprefix for preprod om ønskelig', () => {
+            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+                expect(finnNaisInternNavMiljoStreng(true)).toBe('-q0.dev.intern.nav.no');
             });
         });
     });
