@@ -32,7 +32,6 @@ function getArenaStartsideLink() {
     return `http://arena${finnMiljoStreng()}.adeo.no/forms/frmservlet?config=${getArenaConfigParameter(miljo)}`;
 }
 
-const naisDomain = finnNaisMiljoStreng();
 const naisInternNavDomain = finnNaisInternNavMiljoStreng();
 const gosysDomain = (path: string) => {
     const miljo = hentMiljoFraUrl();
@@ -53,20 +52,7 @@ export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) :
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-    const miljo = hentMiljoFraUrl();
-    if (miljo.environment === 'p') {
-        return `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}${queryParams}`;
-    }
     return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
-}
-function arbeidssokerregistreringLoginUrl(fnr: string, enhet: string): string {
-    const miljo = hentMiljoFraUrl();
-    const redirectUrl = encodeURIComponent(arbeidssokerregistreringURL(fnr, enhet));
-    if (miljo.environment === 'p') {
-        return appDomain(`/veilarblogin/api/start?url=${redirectUrl}`)
-    } else {
-        return `https://veilarblogin${finnMiljoStreng()}${naisDomain}/veilarblogin/api/start?url=${redirectUrl}`;
-    }
 }
 const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
@@ -173,7 +159,7 @@ function Lenker(props: Props) {
                             <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
                                 Aktivitetsplan
                             </Lenke>
-                            <Lenke href={arbeidssokerregistreringLoginUrl(fnr, enhet)}>
+                            <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
                                 Registrer arbeidssøker
                             </Lenke>
                             <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
