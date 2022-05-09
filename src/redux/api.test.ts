@@ -18,7 +18,7 @@ describe('api', () => {
 
             withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholder-q0.dev.intern.nav.no/modiacontextholder'
+                    'https://modiacontextholder-q1.dev.intern.nav.no/modiacontextholder'
                 );
             });
         });
@@ -40,7 +40,7 @@ describe('api', () => {
 
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholder-q0.nais.preprod.local/modiacontextholder'
+                    'https://modiacontextholder-q1.nais.preprod.local/modiacontextholder'
                 );
             });
         });
@@ -71,9 +71,7 @@ describe('api', () => {
 
         it('skal ha riktig url ved kjøring på app.adeo.no', () => {
             withLocation('https://app.adeo.no/contextpath', () => {
-                expect(lagModiacontextholderUrl()).toBe(
-                    'https://app.adeo.no/modiacontextholder'
-                );
+                expect(lagModiacontextholderUrl()).toBe('https://app.adeo.no/modiacontextholder');
             });
         });
 
@@ -87,17 +85,13 @@ describe('api', () => {
 
         it('skal bruke relativ path om proxyconfig er true', () => {
             withLocation('https://app.adeo.no/contextpath', () => {
-                expect(lagModiacontextholderUrl(true)).toBe(
-                    '/modiacontextholder'
-                );
+                expect(lagModiacontextholderUrl(true)).toBe('/modiacontextholder');
             });
         });
 
         it('skal ha fallback til prod om alt feiler', () => {
             withLocation('https://vg.no/contextpath', () => {
-                expect(lagModiacontextholderUrl()).toBe(
-                    'https://app.adeo.no/modiacontextholder'
-                );
+                expect(lagModiacontextholderUrl()).toBe('https://app.adeo.no/modiacontextholder');
             });
         });
     });
@@ -106,7 +100,7 @@ describe('api', () => {
         it('skal ha riktig wss-url i dev.adeo.no', () => {
             withLocation('https://navn.dev.adeo.no/contextpath/', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q0.dev.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://veilederflatehendelser-q1.dev.adeo.no/modiaeventdistribution/ws/navident'
                 );
             });
         });
@@ -128,7 +122,7 @@ describe('api', () => {
 
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q0.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://veilederflatehendelser-q1.adeo.no/modiaeventdistribution/ws/navident'
                 );
             });
         });

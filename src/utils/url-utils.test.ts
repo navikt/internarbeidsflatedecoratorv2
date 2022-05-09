@@ -9,8 +9,8 @@ import { withLocation } from './test.utils';
 describe('url-utils', () => {
     describe('finnMiljoStreng', () => {
         withLocation('localhost', () => {
-            expect(finnMiljoStreng()).toBe('-q0');
-            expect(finnMiljoStreng(true)).toBe('-q0.dev');
+            expect(finnMiljoStreng()).toBe('-q1');
+            expect(finnMiljoStreng(true)).toBe('-q1.dev');
         });
         withLocation('https://app.adeo.no/contextpath', () => {
             expect(finnMiljoStreng()).toBe('');
@@ -85,27 +85,27 @@ describe('url-utils', () => {
             });
         });
 
-        it('skal ha fallback til q0 for uspesifiserte qa-miljø', () => {
+        it('skal ha fallback til q1 for uspesifiserte qa-miljø', () => {
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
-                    environment: 'q0',
+                    environment: 'q1',
                     envclass: 'q',
                     urlformat: UrlFormat.NAIS
                 });
             });
             withLocation('https://navn-q.nais.preprod.local/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
-                    environment: 'q0',
+                    environment: 'q1',
                     envclass: 'q',
                     urlformat: UrlFormat.NAIS
                 });
             });
         });
 
-        it('skal identifisere dev-adeo urler som dev. Bruk dekorator i q0', () => {
+        it('skal identifisere dev-adeo urler som dev. Bruk dekorator i q1', () => {
             withLocation('https://navn.dev.adeo.no/contextpath/', () => {
                 expect(hentMiljoFraUrl()).toEqual({
-                    environment: 'q0',
+                    environment: 'q1',
                     envclass: 'dev',
                     urlformat: UrlFormat.DEV_ADEO
                 });
@@ -150,10 +150,10 @@ describe('url-utils', () => {
             });
         });
 
-        it('skal identifisere dev.intern.nav.no-urler som dev. Bruk dekorator i q0', () => {
+        it('skal identifisere dev.intern.nav.no-urler som dev. Bruk dekorator i q1', () => {
             withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
-                    environment: 'q0',
+                    environment: 'q1',
                     envclass: 'dev',
                     urlformat: UrlFormat.NAV_NO
                 });
@@ -197,7 +197,7 @@ describe('url-utils', () => {
 
         it('skal legg legge til miljøprefix for preprod om ønskelig', () => {
             withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
-                expect(finnNaisInternNavMiljoStreng(true)).toBe('-q0.dev.intern.nav.no');
+                expect(finnNaisInternNavMiljoStreng(true)).toBe('-q1.dev.intern.nav.no');
             });
         });
     });
