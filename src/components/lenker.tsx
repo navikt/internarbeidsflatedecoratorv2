@@ -53,10 +53,6 @@ export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) :
 const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-    const miljo = hentMiljoFraUrl();
-    if (miljo.environment === 'p') {
-        return `https://arbeidssokerregistrering${finnMiljoStreng()}${naisDomain}${queryParams}`;
-    }
     return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
 }
 function arbeidssokerregistreringLoginUrl(fnr: string, enhet: string): string {
