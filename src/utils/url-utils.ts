@@ -5,11 +5,11 @@ declare global {
 }
 
 export enum UrlFormat {
-    LOCAL,      // localhost, github pages etc
-    ADEO,       // app.adeo.no / modapp.adeo.no
-    NAIS,       // nais.preprod.local / nais.adeo.no
-    DEV_ADEO,   // dev.adeo.no
-    NAV_NO      // dev.intern.nav.no / intern.av.no
+    LOCAL, // localhost, github pages etc
+    ADEO, // app.adeo.no / modapp.adeo.no
+    NAIS, // nais.preprod.local / nais.adeo.no
+    DEV_ADEO, // dev.adeo.no
+    NAV_NO // dev.intern.nav.no / intern.av.no
 }
 
 interface UrlEnvironment {
@@ -27,19 +27,19 @@ interface UrlRule {
 const urlRules: Array<UrlRule> = [
     {
         regExp: /localhost/,
-        ifMatch: () => ({environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL})
+        ifMatch: () => ({ environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL })
     },
     {
         regExp: /navikt\.github\.io/,
-        ifMatch: () => ({environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL})
+        ifMatch: () => ({ environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL })
     },
     {
         regExp: /\.herokuapp\.com/,
-        ifMatch: () => ({environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL})
+        ifMatch: () => ({ environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL })
     },
     {
         regExp: /\.labs\.nais\.io/,
-        ifMatch: () => ({environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL})
+        ifMatch: () => ({ environment: 'local', envclass: 'local', urlformat: UrlFormat.LOCAL })
     },
     {
         regExp: /-([tq]\d+)\.nais\.preprod\.local/,
@@ -51,19 +51,23 @@ const urlRules: Array<UrlRule> = [
     },
     {
         regExp: /\.nais\.preprod\.local/,
-        ifMatch: (match) => ({environment: 'q0', envclass: 'q', urlformat: UrlFormat.NAIS})
+        ifMatch: (match) => ({ environment: 'q1', envclass: 'q', urlformat: UrlFormat.NAIS })
     },
     {
         regExp: /-([tq]\d+)\.dev\.adeo\.no/,
-        ifMatch: (match) => ({environment: match[1], envclass: 'dev', urlformat: UrlFormat.DEV_ADEO})
+        ifMatch: (match) => ({
+            environment: match[1],
+            envclass: 'dev',
+            urlformat: UrlFormat.DEV_ADEO
+        })
     },
     {
         regExp: /\.dev\.adeo\.no/,
-        ifMatch: (match) => ({environment: 'q0', envclass: 'dev', urlformat: UrlFormat.DEV_ADEO})
+        ifMatch: (match) => ({ environment: 'q1', envclass: 'dev', urlformat: UrlFormat.DEV_ADEO })
     },
     {
         regExp: /\.nais\.adeo\.no/,
-        ifMatch: (match) => ({environment: 'p', envclass: 'p', urlformat: UrlFormat.NAIS})
+        ifMatch: (match) => ({ environment: 'p', envclass: 'p', urlformat: UrlFormat.NAIS })
     },
     {
         regExp: /-([tq]\d+)\.adeo\.no/,
@@ -75,12 +79,12 @@ const urlRules: Array<UrlRule> = [
     },
     {
         regExp: /\.adeo\.no/,
-        ifMatch: () => ({environment: 'p', envclass: 'p', urlformat: UrlFormat.ADEO})
+        ifMatch: () => ({ environment: 'p', envclass: 'p', urlformat: UrlFormat.ADEO })
     },
     {
         regExp: /(?:-([tq]\d+))?\.dev\.intern\.nav\.no/,
         ifMatch: (match) => {
-            const environment = match[1] || 'q0';
+            const environment = match[1] || 'q1';
             return {
                 environment,
                 envclass: 'dev',
@@ -90,18 +94,18 @@ const urlRules: Array<UrlRule> = [
     },
     {
         regExp: /\.intern\.nav\.no/,
-        ifMatch: (match) => ({environment: 'p', envclass: 'p', urlformat: UrlFormat.NAV_NO})
+        ifMatch: (match) => ({ environment: 'p', envclass: 'p', urlformat: UrlFormat.NAV_NO })
     },
     {
         regExp: /.*/,
-        ifMatch: () => ({environment: 'p', envclass: 'p', urlformat: UrlFormat.ADEO})
+        ifMatch: () => ({ environment: 'p', envclass: 'p', urlformat: UrlFormat.ADEO })
     }
 ];
 
 export function hentMiljoFraUrl(): UrlEnvironment {
     const url = window.location.host;
 
-    const rule: UrlRule = urlRules.find(({regExp}) => regExp.exec(url))!;
+    const rule: UrlRule = urlRules.find(({ regExp }) => regExp.exec(url))!;
     return rule.ifMatch(rule.regExp.exec(url)!);
 }
 
@@ -114,7 +118,7 @@ export function finnMiljoStreng(useDevDomain: boolean = false) {
     if (miljo === 'p') {
         return '';
     }
-    const miljoMedLocalFallback = miljo === 'local' ? 'q0' : miljo;
+    const miljoMedLocalFallback = miljo === 'local' ? 'q1' : miljo;
     const devSuffix = useDevDomain ? '.dev' : '';
     return `-${miljoMedLocalFallback}${devSuffix}`;
 }
