@@ -211,6 +211,9 @@ function Lenker(props: Props) {
                         <Lenke href={`https://sosialhjelp-modia${naisInternNavDomain}/sosialhjelp/modia/`} target="_blank">
                             Modia Sosialhjelp
                         </Lenke>
+                        <Lenke href={`https://tiltak-refusjon${naisInternNavDomain}/`} target="_blank">
+                            Refusjon tilskudd
+                        </Lenke>
                         <Lenke href={salesforceUrl()} target="_blank">
                             Salesforce
                         </Lenke>
