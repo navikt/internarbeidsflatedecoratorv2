@@ -65,13 +65,6 @@ function k9Url(aktorId: string): string {
         return domain
     }
 }
-function salesforceUrl() {
-    if (hentMiljoFraUrl().environment === 'p') {
-        return "https://navdialog.lightning.force.com/";
-    } else {
-        return "https://navdialog--sit2.lightning.force.com/";
-    }
-}
 
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
@@ -214,7 +207,7 @@ function Lenker(props: Props) {
                         <Lenke href={`https://tiltak-refusjon${naisInternNavDomain}/`} target="_blank">
                             Refusjon tilskudd
                         </Lenke>
-                        <Lenke href={salesforceUrl()} target="_blank">
+                        <Lenke href={`${modiacontextholderUrl}/redirect/salesforce`} target="_blank">
                             Salesforce
                         </Lenke>
                     </ul>
