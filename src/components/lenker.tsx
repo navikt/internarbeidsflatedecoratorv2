@@ -1,5 +1,11 @@
 import React, {useCallback} from 'react';
-import {finnMiljoStreng, finnNaisInternNavMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
+import {
+    erInternUrl,
+    finnMiljoStreng,
+    finnNaisInternNavMiljoStreng,
+    finnNaisMiljoStreng,
+    hentMiljoFraUrl
+} from '../utils/url-utils';
 import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 import {WrappedState} from "../hooks/use-wrapped-state";
 import {useInitializedState} from "../hooks/use-initialized-state";
@@ -43,6 +49,7 @@ const gosysDomain = (path: string) => {
 };
 const pesysDomain = (path: string) => `https://pensjon-psak${finnNaisMiljoStreng(true)}${path}`;
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
+const internOrAdeo = (appName: string, path: string) => erInternUrl() ? `https://${appName}${finnNaisInternNavMiljoStreng()}${path}` : appDevDomain(`/${appName}${path}`);
 const appDevDomain = (path: string) => `https://app${finnMiljoStreng(true)}.adeo.no${path}`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` : getArenaStartsideLink();
@@ -140,16 +147,16 @@ function Lenker(props: Props) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Arbeidsrettet oppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`)}>
+                            <Lenke href={internOrAdeo('veilarbportefoljeflatefs', `/enhet?clean&enhet=${enhet}`)}>
                                 Enhetens oversikt
                             </Lenke>
-                            <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
+                            <Lenke href={internOrAdeo('veilarbportefoljeflatefs', `/portefolje?clean&enhet=${enhet}`)}>
                                 Min oversikt
                             </Lenke>
-                            <Lenke href={appDomain(`/beslutteroversikt`)}>
+                            <Lenke href={internOrAdeo(`beslutteroversikt`, '')}>
                                 Kvalitetssikring 14a
                             </Lenke>
-                            <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
+                            <Lenke href={internOrAdeo('veilarbpersonflatefs', `/${fnr ? fnr : ''}${enhet ? `?enhet=${enhet}` : ''}`)}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
