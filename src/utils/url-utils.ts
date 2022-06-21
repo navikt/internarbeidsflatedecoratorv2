@@ -113,6 +113,14 @@ export function erLocalhost() {
     return hentMiljoFraUrl().environment === 'local';
 }
 
+export function erProd(): boolean {
+    return hentMiljoFraUrl().environment === 'p';
+}
+
+export function erInternGCP(): boolean {
+    return window.location.hostname.endsWith('intern.nav.no');
+}
+
 export function finnMiljoStreng(useDevDomain: boolean = false) {
     const miljo = hentMiljoFraUrl().environment;
     if (miljo === 'p') {
