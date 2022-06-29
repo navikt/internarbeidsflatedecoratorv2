@@ -146,7 +146,7 @@ function Lenker(props: Props) {
                             <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
                                 Min oversikt
                             </Lenke>
-                            <Lenke href={appDomain(`/beslutteroversikt`)}>
+                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
                             <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
