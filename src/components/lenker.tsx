@@ -140,16 +140,16 @@ function Lenker(props: Props) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Arbeidsrettet oppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/enhet?clean&enhet=${enhet}`)}>
+                            <Lenke href={`https://veilarbportefoljeflatefs${finnNaisInternNavMiljoStreng()}/enhet?clean&enhet=${enhet}`}>
                                 Enhetens oversikt
                             </Lenke>
-                            <Lenke href={appDevDomain(`/veilarbportefoljeflatefs/portefolje?clean&enhet=${enhet}`)}>
+                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStreng()}/portefolje?clean&enhet=${enhet}`}>
                                 Min oversikt
                             </Lenke>
                             <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
-                            <Lenke href={appDomain(`/veilarbpersonflatefs/${fnr ? fnr : ''}?enhet=${enhet}`)}>
+                            <Lenke href={`https://veilarbpersonflatefs${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`)}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
