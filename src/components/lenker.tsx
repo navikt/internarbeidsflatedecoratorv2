@@ -43,7 +43,6 @@ const gosysDomain = (path: string) => {
 };
 const pesysDomain = (path: string) => `https://pensjon-psak${finnNaisMiljoStreng(true)}${path}`;
 const appDomain = (path: string) => `https://app${finnMiljoStreng()}.adeo.no${path}`;
-const appDevDomain = (path: string) => `https://app${finnMiljoStreng(true)}.adeo.no${path}`;
 const arenaLink = `http://arena${finnMiljoStreng()}.adeo.no/forms/arenaMod${finnMiljoStreng().replace('-', '_')}.html`;
 const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${fnr}` : getArenaStartsideLink();
 const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
