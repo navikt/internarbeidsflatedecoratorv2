@@ -149,7 +149,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
-                            <Lenke href={`https://veilarbpersonflatefs${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`)}>
+                            <Lenke href={`https://veilarbpersonflatefs${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
