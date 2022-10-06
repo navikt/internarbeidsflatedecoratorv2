@@ -53,7 +53,6 @@ function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
     return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
 }
-const arbeidstreningDomain = `https://arbeidsgiver${finnNaisMiljoStreng()}`;
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
     const miljo = hentMiljoFraUrl();
@@ -154,7 +153,7 @@ function Lenker(props: Props) {
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
                                 Registrer arbeidssøker
                             </Lenke>
-                            <Lenke href={`${arbeidstreningDomain}/tiltaksgjennomforing`}>
+                            <Lenke href={`https://tiltaksgjennomforing${naisInternNavDomain}/tiltaksgjennomforing`} target="_blank">
                                 Tiltaksgjennomføring - avtaler
                             </Lenke>
                         </ul>
