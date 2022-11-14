@@ -30,6 +30,7 @@ export interface Enhet {
 
 export interface Toggles {
     visVeileder: boolean;
+    visHotkeys: boolean;
 }
 
 export interface AktorIdResponse {

@@ -1,8 +1,7 @@
-import React, { RefObject, useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import useFieldState from '../hooks/use-field-state';
-import useHotkeys, { erAltOg } from '../hooks/use-hotkeys';
 import { ReduxActions, SagaActions, SagaActionTypes } from '../redux/actions';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import visibleIf from './visibleIf';
@@ -13,23 +12,7 @@ import {
     FeilmeldingKode,
     PredefiniertFeilmeldinger
 } from '../redux/feilmeldinger/domain';
-
-function lagHotkeys(ref: RefObject<HTMLInputElement>, reset: () => void) {
-    return [
-        {
-            matches: erAltOg('f3'),
-            execute: () => {
-                if (ref.current) {
-                    ref.current.focus();
-                }
-            }
-        },
-        {
-            matches: erAltOg('f5'),
-            execute: reset
-        }
-    ];
-}
+import { useDecoratorHotkeys } from './hurtigtaster/hurtigtaster';
 
 function Sokefelt() {
     const dispatch = useDispatch<Dispatch<SagaActions | ReduxActions | FeilmeldingerActions>>();
@@ -58,15 +41,32 @@ function Sokefelt() {
         submit();
     };
 
-    const reset = () => {
+    const reset = useCallback(() => {
         dispatch({ type: SagaActionTypes.FNRRESET });
-    };
+    }, [dispatch]);
     const onReset = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         reset();
     };
 
-    useHotkeys(useCallback(lagHotkeys, [sokefeltRef, reset])(sokefeltRef, reset));
+    const { register } = useDecoratorHotkeys();
+    useEffect(() => {
+        const fokusSokefelt = () => {
+            if (sokefeltRef.current) {
+                sokefeltRef.current.focus();
+            }
+        };
+        register({
+            key: { char: 'F3', altKey: true },
+            action: fokusSokefelt,
+            description: 'Sett fokus til søkefeltet'
+        });
+        register({
+            key: { char: 'F5', altKey: true },
+            action: reset,
+            description: 'Fjern bruker'
+        });
+    }, [sokefeltRef, reset, register]);
 
     return (
         <section>

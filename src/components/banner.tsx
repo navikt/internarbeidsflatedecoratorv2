@@ -13,6 +13,7 @@ import { useInitializedState } from '../hooks/use-initialized-state';
 import { State } from '../redux';
 import { EnhetDisplay } from '../domain';
 import { isEnabled } from '../internal-domain';
+import HurtigtastMenyElement from './hurtigtaster/hurtigtast-meny-element';
 
 interface Props {
     appname: string;
@@ -21,6 +22,7 @@ interface Props {
 
 function BannerContent() {
     const maybeMarkup = useInitializedState((state) => MaybeCls.of(state.markup));
+    const maybeHotkeys = useInitializedState((state) => MaybeCls.of(state.hotkeys));
     const ettersokefeltet = maybeMarkup
         .flatMap((markup) => MaybeCls.of(markup.etterSokefelt))
         .withDefault(undefined);
@@ -38,6 +40,10 @@ function BannerContent() {
             <Enhet visible={visEnhet} />
             <EnhetVelger visible={visEnhetVelger} />
             <Sokefelt visible={visSokefelt} />
+            <HurtigtastMenyElement
+                visible={toggles.visHotkeys}
+                hurtigtaster={maybeHotkeys.withDefault([])}
+            />
             <Markup markup={ettersokefeltet} />
             <Veileder visible={toggles.visVeileder} />
         </>

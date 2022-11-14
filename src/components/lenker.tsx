@@ -1,12 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useEffect} from 'react';
 import {finnMiljoStreng, finnNaisInternNavMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
-import useHotkeys, {erAltOg, Hotkey, openUrl} from "../hooks/use-hotkeys";
 import {WrappedState} from "../hooks/use-wrapped-state";
 import {useInitializedState} from "../hooks/use-initialized-state";
 import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-contextvalue-state";
-import {ProxyConfig} from "../domain";
+import {Hotkey, ProxyConfig} from "../domain";
 import {lagModiacontextholderUrl} from "../redux/api";
-
+import {useDecoratorHotkeys} from "./hurtigtaster/hurtigtaster";
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
@@ -64,23 +63,31 @@ function k9Url(aktorId: string): string {
     }
 }
 
+function openUrl(url: string): () => void {
+    return () => { window.open(url, '_blank'); };
+}
+
 function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
     return [
         {
-            matches: erAltOg('g'),
-            execute: openUrl(gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`))
+            key: { char: 'G', altKey: true },
+            action: openUrl(gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`)),
+            description: 'Gå til gosys'
         },
         {
-            matches: erAltOg('i'),
-            execute: openUrl(pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`))
+            key: { char: 'I', altKey: true },
+            action: openUrl(pesysUrl(fnr, `/psak/brukeroversikt/fnr=${fnr}`)),
+            description: 'Gå til pesys'
         },
         {
-            matches: erAltOg('p'),
-            execute: openUrl(arenaUrl(fnr))
+            key: { char: 'P', altKey: true },
+            action: openUrl(arenaUrl(fnr)),
+            description: 'Gå til arena'
         },
         {
-            matches: erAltOg('k'),
-            execute: openUrl(foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`))
+            key: { char: 'K', altKey: true },
+            action: openUrl(foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)),
+            description: 'Gå til fpsak'
         }
     ];
 }
@@ -97,8 +104,10 @@ function Lenker(props: Props) {
         .map((resp) => resp.aktorId)
         .withDefault('');
 
-    const hotkeys = useCallback(lagHotkeys, [fnr, aktorId])(fnr, aktorId);
-    useHotkeys(hotkeys);
+    const {register} = useDecoratorHotkeys();
+    useEffect(() => {
+        lagHotkeys(fnr, aktorId).forEach(register);
+    }, [register, fnr, aktorId])
 
     if (!props.apen.value) {
         return null;
