@@ -45,11 +45,17 @@ export type KeyDescriptionObject = {
 };
 export type KeyDescription = string | KeyDescriptionObject;
 
-export interface Hotkey {
+export interface BaseHotkey {
     key: KeyDescription;
     description: string;
+}
+export interface ActionHotkey extends BaseHotkey {
     action(event: KeyboardEvent): void;
 }
+export interface DocumentingHotkey extends BaseHotkey {
+    documentationOnly: boolean;
+}
+export type Hotkey = ActionHotkey | DocumentingHotkey;
 
 export interface ApplicationProps {
     appname: string;

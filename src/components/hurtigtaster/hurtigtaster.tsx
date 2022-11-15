@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useCallback, useEffect, useState, useContext } from 'react';
-import { Hotkey, KeyDescription, KeyDescriptionObject } from '../../domain';
+import { ActionHotkey, Hotkey, KeyDescription, KeyDescriptionObject } from '../../domain';
 
 interface DecoratorHotkeys {
     decoratorHotkeys: Hotkey[];
@@ -89,9 +89,10 @@ export function matches(key: KeyDescriptionObject, event: KeyboardEvent): boolea
 }
 
 export function useHurtigtastListener(hotkeys: Hotkey[]) {
+    const actionHotkeys: ActionHotkey[] = useMemo(() => hotkeys.filter(isActionHotkey), [hotkeys]);
     const listener = useCallback(
         (event: KeyboardEvent) => {
-            hotkeys
+            actionHotkeys
                 .map(({ key, action }) => ({ key: toKeyDescriptionObject(key), action }))
                 .filter(({ key }) => matches(key, event))
                 .forEach(({ action }) => {
@@ -99,11 +100,15 @@ export function useHurtigtastListener(hotkeys: Hotkey[]) {
                     action(event);
                 });
         },
-        [hotkeys]
+        [actionHotkeys]
     );
 
     useEffect(() => {
         document.body.addEventListener('keyup', listener);
         return () => document.body.removeEventListener('keyup', listener);
     }, [listener]);
+}
+
+export function isActionHotkey(hotkey: Hotkey): hotkey is ActionHotkey {
+    return hotkey.hasOwnProperty('action');
 }

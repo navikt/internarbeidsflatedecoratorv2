@@ -107,9 +107,9 @@
                 etterSokefelt: '<button>Min knapp</button>',
             },
             hotkeys: [
-                { key: { char: 'A', altKey: true }, action() { alert('ALT+A pressed')}, description: 'Test description' },
-                { key: { char: 'B', altKey: true }, action() { alert('ALT+B pressed')}, description: 'Test description' },
-                { key: { char: 'C', altKey: true }, action() { alert('ALT+C pressed')}, description: 'Test description' },
+                { key: { char: 'A', altKey: true }, description: 'Test description', action() { alert('ALT+A pressed')} },
+                { key: { char: 'B', altKey: true }, description: 'Test description', action() { alert('ALT+B pressed')} },
+                { key: { char: 'C', altKey: true }, description: 'Test description', documentationOnly: true },
             ]
         });
     };
