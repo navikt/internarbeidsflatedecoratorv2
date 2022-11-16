@@ -35,7 +35,7 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
             if (urlEnv.envclass === 'p') {
                 return 'https://modiacontextholder.nais.adeo.no/modiacontextholder';
             } else {
-                return `https://modiacontextholder${envString}.nais.preprod.local/modiacontextholder`
+                return `https://modiacontextholder${envString}.nais.preprod.local/modiacontextholder`;
             }
         case UrlFormat.DEV_ADEO:
             return `https://app${envString}.dev.adeo.no/modiacontextholder`;

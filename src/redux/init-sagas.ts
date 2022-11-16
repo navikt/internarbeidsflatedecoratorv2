@@ -55,13 +55,18 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
         .flatMap((toggles) => MaybeCls.of(toggles.visVeileder))
         .withDefault(true);
 
+    const visHotkeys: boolean = MaybeCls.of(props.toggles)
+        .flatMap((toggles) => MaybeCls.of(toggles.visHotkeys))
+        .withDefault(false);
+
     const state: InitializedState = {
         initialized: true,
         appname: props.appname,
         fnr,
         enhet,
-        toggles: { visVeileder },
+        toggles: { visVeileder, visHotkeys },
         markup: props.markup,
+        hotkeys: props.hotkeys,
         data: {
             saksbehandler,
             aktorId: MaybeCls.nothing()

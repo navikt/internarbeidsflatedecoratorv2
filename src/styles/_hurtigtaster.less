@@ -1,0 +1,57 @@
+.hurtigtaster {
+    &-meny-button {
+        background: none;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        height: 2.5em;
+        width: 2.5em;
+        margin-right: 0.75em;
+        padding: 0;
+
+        &:hover {
+            background-color: white;
+            color: black;
+        }
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px @orangeFocus;
+        }
+    }
+
+    &-ikon {
+        font-size: 1.4em;
+        pointer-events: none;
+    }
+
+    &-modal {
+        color: @navMorkGra;
+        min-width: 23em;
+    }
+
+    &-tabell-outline {
+        border: 1px solid @navGra40;
+        border-radius: 4px;
+    }
+    &-tabell {
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        border-spacing: 0;
+
+        thead {
+            border-bottom: 3px solid @navGra40;
+            font-weight: 600;
+        }
+
+        th,
+        td {
+            padding: 0.7em;
+        }
+
+        tr:nth-child(2n) {
+            background-color: @navLysGra;
+        }
+    }
+}

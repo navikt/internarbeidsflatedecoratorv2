@@ -1,5 +1,6 @@
 export interface TogglesConfig {
     visVeileder?: boolean;
+    visHotkeys?: boolean;
 }
 
 export interface Markup {
@@ -35,12 +36,34 @@ export type EnhetContextvalue = Contextvalue<EnhetDisplay>;
 export type FnrContextvalue = Contextvalue<FnrDisplay>;
 export type ProxyConfig = boolean | string;
 
+export type KeyDescriptionObject = {
+    char: string;
+    altKey?: boolean;
+    ctrlKey?: boolean;
+    metaKey?: boolean;
+    shiftKey?: boolean;
+};
+export type KeyDescription = string | KeyDescriptionObject;
+
+export interface BaseHotkey {
+    key: KeyDescription;
+    description: string;
+}
+export interface ActionHotkey extends BaseHotkey {
+    action(event: KeyboardEvent): void;
+}
+export interface DocumentingHotkey extends BaseHotkey {
+    documentationOnly: boolean;
+}
+export type Hotkey = ActionHotkey | DocumentingHotkey;
+
 export interface ApplicationProps {
     appname: string;
     fnr?: FnrContextvalue;
     enhet?: EnhetContextvalue;
     toggles?: TogglesConfig;
     markup?: Markup;
+    hotkeys?: Hotkey[];
     useProxy?: ProxyConfig;
     accessToken?: string;
 }

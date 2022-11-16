@@ -100,11 +100,17 @@
                 }
             },
             toggles: {
-                visVeileder: true
+                visVeileder: true,
+                visHotkeys: true,
             },
             markup: {
                 etterSokefelt: '<button>Min knapp</button>',
-            }
+            },
+            hotkeys: [
+                { key: { char: 'A', altKey: true }, description: 'Test description', action() { alert('ALT+A pressed')} },
+                { key: { char: 'B', altKey: true }, description: 'Test description', action() { alert('ALT+B pressed')} },
+                { key: { char: 'C', altKey: true }, description: 'Test description', documentationOnly: true },
+            ]
         });
     };
 
