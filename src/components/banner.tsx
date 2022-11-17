@@ -41,11 +41,11 @@ function BannerContent(props: Pick<Props, 'hotkeys'>) {
             <Enhet visible={visEnhet} />
             <EnhetVelger visible={visEnhetVelger} />
             <Sokefelt visible={visSokefelt} />
+            <Markup markup={ettersokefeltet} />
             <HurtigtastMenyElement
                 visible={toggles.visHotkeys}
                 hurtigtaster={maybeHotkeys.withDefault([])}
             />
-            <Markup markup={ettersokefeltet} />
             <Veileder visible={toggles.visVeileder} />
         </>
     );
