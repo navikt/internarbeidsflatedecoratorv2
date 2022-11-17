@@ -104,8 +104,8 @@ export function useHurtigtastListener(hotkeys: Hotkey[]) {
     );
 
     useEffect(() => {
-        document.body.addEventListener('keyup', listener);
-        return () => document.body.removeEventListener('keyup', listener);
+        document.body.addEventListener('keydown', listener);
+        return () => document.body.removeEventListener('keydown', listener);
     }, [listener]);
 }
 
