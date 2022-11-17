@@ -66,7 +66,6 @@ function* initializeStore(props: ApplicationProps, saksbehandler: MaybeCls<Saksb
         enhet,
         toggles: { visVeileder, visHotkeys },
         markup: props.markup,
-        hotkeys: props.hotkeys,
         data: {
             saksbehandler,
             aktorId: MaybeCls.nothing()

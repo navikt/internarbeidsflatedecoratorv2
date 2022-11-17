@@ -11,18 +11,19 @@ import Markup from './markup';
 import { WrappedState } from '../hooks/use-wrapped-state';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { State } from '../redux';
-import { EnhetDisplay } from '../domain';
+import { EnhetDisplay, Hotkey } from '../domain';
 import { isEnabled } from '../internal-domain';
 import HurtigtastMenyElement from './hurtigtaster/hurtigtast-meny-element';
 
 interface Props {
     appname: string;
     apen: WrappedState<boolean>;
+    hotkeys?: Hotkey[];
 }
 
-function BannerContent() {
+function BannerContent(props: Pick<Props, 'hotkeys'>) {
     const maybeMarkup = useInitializedState((state) => MaybeCls.of(state.markup));
-    const maybeHotkeys = useInitializedState((state) => MaybeCls.of(state.hotkeys));
+    const maybeHotkeys = MaybeCls.of(props.hotkeys);
     const ettersokefeltet = maybeMarkup
         .flatMap((markup) => MaybeCls.of(markup.etterSokefelt))
         .withDefault(undefined);
@@ -62,7 +63,9 @@ function Banner(props: Props) {
             <div className="dekorator__container">
                 <div className="dekorator__banner">
                     <Overskrift appname={props.appname} />
-                    <div className="flex-center">{isInitialized && <BannerContent />}</div>
+                    <div className="flex-center">
+                        {isInitialized && <BannerContent hotkeys={props.hotkeys} />}
+                    </div>
                     <section className="dekorator__hode__toggleMeny_wrapper">
                         <button
                             className={btnCls}

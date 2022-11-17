@@ -62,7 +62,7 @@ function Application(props: ApplicationProps) {
     return (
         <DecoratorHotkeysProvider>
             <header className="dekorator" ref={ref}>
-                <Banner apen={apen} appname={props.appname} />
+                <Banner apen={apen} appname={props.appname} hotkeys={props.hotkeys} />
                 {isInitialized && <Lenker apen={apen} proxyConfig={props.useProxy || false} />}
                 <Feilmelding />
                 {isInitialized && <NyEnhetContextModal />}

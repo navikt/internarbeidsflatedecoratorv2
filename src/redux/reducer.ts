@@ -1,6 +1,6 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { Data, EnhetContextvalueState, FnrContextvalueState, Toggles } from '../internal-domain';
-import { Hotkey, Markup } from '../domain';
+import { Markup } from '../domain';
 import { ReduxActions, ReduxActionTypes, SagaActions } from './actions';
 
 export interface InitializedState {
@@ -10,7 +10,6 @@ export interface InitializedState {
     enhet: EnhetContextvalueState;
     toggles: Toggles;
     markup?: Markup;
-    hotkeys?: Hotkey[];
     data: Data;
 }
 
