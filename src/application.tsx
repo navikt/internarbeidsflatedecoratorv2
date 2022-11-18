@@ -14,6 +14,7 @@ import useOnClickOutside from './hooks/use-on-click-outside';
 import { useOnMount } from './hooks/use-on-mount';
 import { useOnChanged } from './hooks/use-on-changed';
 import { getContextvalueValue, isContextvalueControlled, RESET_VALUE } from './redux/utils';
+import { DecoratorHotkeysProvider } from './components/hurtigtaster/hurtigtaster';
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
@@ -59,13 +60,15 @@ function Application(props: ApplicationProps) {
     useOnClickOutside(ref, outsideHandler);
 
     return (
-        <header className="dekorator" ref={ref}>
-            <Banner apen={apen} appname={props.appname} />
-            {isInitialized && <Lenker apen={apen} proxyConfig={props.useProxy || false}/>}
-            <Feilmelding />
-            {isInitialized && <NyEnhetContextModal />}
-            {isInitialized && <NyBrukerContextModal />}
-        </header>
+        <DecoratorHotkeysProvider>
+            <header className="dekorator" ref={ref}>
+                <Banner apen={apen} appname={props.appname} hotkeys={props.hotkeys} />
+                {isInitialized && <Lenker apen={apen} proxyConfig={props.useProxy || false} />}
+                <Feilmelding />
+                {isInitialized && <NyEnhetContextModal />}
+                {isInitialized && <NyBrukerContextModal />}
+            </header>
+        </DecoratorHotkeysProvider>
     );
 }
 
