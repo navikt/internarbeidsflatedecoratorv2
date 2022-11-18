@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {
     finnMiljoStreng,
     finnNaisInternNavMiljoStreng,
-    finnInternNavMiljoStreng,
     finnNaisMiljoStreng,
     hentMiljoFraUrl
 } from '../utils/url-utils';
@@ -17,7 +16,7 @@ function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
     return (
         <li>
-            <a {...props} className="typo-normal dekorator__menylenke" rel="noopener noreferrer"/>
+            <a {...props} className="typo-normal dekorator__menylenke" rel="noopener noreferrer" />
         </li>
     );
     /* eslint-enable jsx-a11y/anchor-has-content */
@@ -53,7 +52,8 @@ const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONA
 const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
 const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesysDomain('/psak/'));
 export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
-const foreldrePengerUrl = (aktoerId: string) => `https://${finnInternNavMiljoStreng("fpsak")}/aktoer/${aktoerId}`;
+const fpsakUrl = `"https://fpsak"${finnNaisInternNavMiljoStreng()}`
+const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
     return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;

@@ -140,11 +140,3 @@ export function finnNaisInternNavMiljoStreng(envNamespace: boolean = false) {
     }
     return `${prefix}.intern.nav.no`;
 }
-
-export function finnInternNavMiljoStreng(path: string) {
-    const miljo = hentMiljoFraUrl().environment;
-    if (miljo !== 'p') {
-        return `${path}.dev.intern.nav.no`;
-    }
-    return `${path}.intern.nav.no`;
-}
