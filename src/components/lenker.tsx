@@ -52,7 +52,7 @@ const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONA
 const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
 const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesysDomain('/psak/'));
 export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
-const fpsakUrl = `"https://fpsak"${finnNaisInternNavMiljoStreng()}`
+const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
 const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
