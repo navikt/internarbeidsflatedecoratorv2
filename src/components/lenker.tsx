@@ -1,5 +1,10 @@
 import React, {useEffect} from 'react';
-import {finnMiljoStreng, finnNaisInternNavMiljoStreng, finnNaisMiljoStreng, hentMiljoFraUrl} from '../utils/url-utils';
+import {
+    finnMiljoStreng,
+    finnNaisInternNavMiljoStreng,
+    finnNaisMiljoStreng,
+    hentMiljoFraUrl
+} from '../utils/url-utils';
 import {WrappedState} from "../hooks/use-wrapped-state";
 import {useInitializedState} from "../hooks/use-initialized-state";
 import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-contextvalue-state";
@@ -47,7 +52,8 @@ const arenaUrl = (fnr: string) => fnr ? `${arenaLink}?oppstart_skj=AS_REGPERSONA
 const modiaUrl = (fnr: string, path: string) => fnr ? appDomain(path) : appDomain('/modiapersonoversikt');
 const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesysDomain('/psak/'));
 export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
-const foreldrePengerUrl = (aktoerId: string, path: string) => aktoerId ? appDomain(path) : appDomain('/fpsak/');
+const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
+const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
     return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
@@ -86,7 +92,7 @@ function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
         },
         {
             key: { char: 'K', altKey: true },
-            action: openUrl(foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)),
+            action: openUrl(foreldrePengerUrl(aktorId)),
             description: 'Gå til fpsak'
         }
     ];
@@ -193,7 +199,7 @@ function Lenker(props: Props) {
                         <Lenke href={gosysUrl(fnr, `/gosys/personoversikt/fnr=${fnr}`)} target="_blank">
                             Gosys
                         </Lenke>
-                        <Lenke href={foreldrePengerUrl(aktorId, `/fpsak/aktoer/${aktorId}`)} target="_blank">
+                        <Lenke href={foreldrePengerUrl(aktorId)} target="_blank">
                             Foreldrepenger
                         </Lenke>
                         <Lenke href={k9Url(aktorId)} target="_blank">
