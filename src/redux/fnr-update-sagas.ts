@@ -2,7 +2,7 @@ import { call, fork, put, spawn, take } from 'redux-saga/effects';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { InitializedState } from './reducer';
 import { forkApiWithErrorhandling, selectFromInitializedState } from './utils';
-import { AktorIdResponse, FnrContextvalueState, isEnabled } from '../internal-domain';
+import { AktorIdResponse, FnrContextvalueState, isDisabled, isEnabled } from '../internal-domain';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
 import * as Api from './api';
 import { FetchResponse, hasError } from './api';
@@ -13,7 +13,11 @@ import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 export function* hentAktorId() {
     const state: InitializedState = yield selectFromInitializedState((state) => state);
 
-    if (isEnabled(state.fnr) && state.fnr.value.isJust()) {
+    if (isDisabled(state.fnr)) {
+        return;
+    }
+
+    if (state.fnr.value.isJust()) {
         const fnr = state.fnr.value.withDefaultLazy(() => {
             throw new Error(`'state.fnr' was NOTHING while expecting JUST`);
         });
@@ -35,6 +39,8 @@ export function* hentAktorId() {
                 yield put({ type: ReduxActionTypes.AKTORIDDATA, data: response.data });
             }
         }
+    } else {
+        yield put({ type: ReduxActionTypes.AKTORIDDATA, data: null });
     }
 }
 

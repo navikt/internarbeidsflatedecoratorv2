@@ -73,3 +73,7 @@ export type FnrContextvalueState = ContextvalueState<FnrDisplay>;
 export function isEnabled<T>(value: ContextvalueState<T>): value is ContextvalueStateEnabled<T> {
     return value.enabled;
 }
+
+export function isDisabled<T>(value: ContextvalueState<T>): value is ContextvalueStateDisabled {
+    return !value.enabled;
+}
