@@ -1,0 +1,10 @@
+@import url('src/styles/nav-frontend.css');
+
+.dekorator__hode__enhet {
+    display: block;
+    white-space: nowrap;
+    max-width: 11em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 0.7rem;
+}
