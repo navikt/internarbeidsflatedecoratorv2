@@ -1,0 +1,66 @@
+@import url('src/styles/nav-frontend.css');
+
+.dekorator__nav {
+    background-color: #3e3832;
+}
+.dekorator__nav--apen {
+    overflow-y: hidden;
+}
+.dekorator__meny {
+    padding: 1em;
+    line-height: 1.5;
+}
+.dekorator__meny .dekorator__kolonner {
+    display: flex;
+    margin-bottom: 2em;
+}
+.dekorator__meny .dekorator__kolonne {
+    min-width: 25%;
+    padding: 0 3em 0 0;
+}
+.dekorator__meny .dekorator__menyliste {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.dekorator__meny .dekorator__rad .dekorator__menyliste {
+    display: flex;
+    flex-wrap: wrap;
+}
+.dekorator__meny .dekorator__lenkeheader {
+    border-bottom: 1px solid white;
+    margin: 0 auto 0.5em;
+    font-size: 1em;
+}
+.dekorator__meny .dekorator__menylenke {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+.dekorator__meny .dekorator__menylenke:hover {
+    color: #66cbec;
+}
+.dekorator__meny .dekorator__menylenke:hover:before {
+    width: 7px;
+    height: 7px;
+    margin-right: -7px;
+    background: #66cbec;
+    border-radius: 100%;
+    display: inline-block;
+    content: '';
+    left: -15px;
+    position: relative;
+    margin-bottom: 2px;
+}
+.dekorator__meny .dekorator__menylenke:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px #ffbd66;
+}
+.dekorator__meny .dekorator__rad .dekorator__menylenke {
+    margin-right: 2em;
+}
+.dekorator__hode--apen {
+    border-bottom: 1px solid #7f756c;
+}

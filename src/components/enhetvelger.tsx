@@ -7,6 +7,7 @@ import { SagaActions, SagaActionTypes } from '../redux/actions';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { useEnhetContextvalueState } from '../hooks/use-contextvalue-state';
 import { Enhet } from '../internal-domain';
+import './enhetvelger.css';
 
 function EnhetVelger() {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
