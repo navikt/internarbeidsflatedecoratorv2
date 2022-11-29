@@ -1,4 +1,4 @@
-@import url('src/styles/nav-frontend.css');
+@import url('../styles/nav-frontend.css');
 
 p.typo-avsnitt {
     font-family: Arial, sans-serif;

@@ -1,4 +1,4 @@
-@import url('src/styles/nav-frontend.css');
+@import url('../styles/nav-frontend.css');
 
 .dekorator__sokefelt {
     position: relative;
@@ -61,44 +61,44 @@
     background-color: #fff;
 }
 .dekorator__kryss--hvit {
-    background-image: url('src/img/kryss-hvit.svg');
+    background-image: url('../img/kryss-hvit.svg');
 }
 .dekorator__kryss--hvit:hover,
 .dekorator__kryss--hvit:focus {
-    background-image: url('src/img/kryss-blaa.svg');
+    background-image: url('../img/kryss-blaa.svg');
 }
 .dekorator__kryss--svart {
-    background-image: url('src/img/kryss-svart.svg');
+    background-image: url('../img/kryss-svart.svg');
 }
 .dekorator__kryss--svart:hover,
 .dekorator__kryss--svart:focus {
-    background-image: url('src/img/kryss-blaa.svg');
+    background-image: url('../img/kryss-blaa.svg');
 }
 .dekorator__forstorrelsesglass--hvit {
-    background-image: url('src/img/forstorrelsesglass-hvit.svg');
+    background-image: url('../img/forstorrelsesglass-hvit.svg');
 }
 .dekorator__forstorrelsesglass--hvit:hover,
 .dekorator__forstorrelsesglass--hvit:focus {
-    background-image: url('src/img/forstorrelsesglass-blaa.svg');
+    background-image: url('../img/forstorrelsesglass-blaa.svg');
 }
 .dekorator__forstorrelsesglass--svart {
-    background-image: url('src/img/forstorrelsesglass-svart.svg');
+    background-image: url('../img/forstorrelsesglass-svart.svg');
 }
 .dekorator__forstorrelsesglass--svart:hover,
 .dekorator__forstorrelsesglass--svart:focus {
-    background-image: url('src/img/forstorrelsesglass-blaa.svg');
+    background-image: url('../img/forstorrelsesglass-blaa.svg');
 }
 .dekorator__sokefelt__input:hover + .dekorator__forstorrelsesglass--hvit,
 .dekorator__sokefelt__input:hover + .dekorator__forstorrelsesglass--svart,
 .dekorator__sokefelt__input:focus + .dekorator__forstorrelsesglass--hvit,
 .dekorator__sokefelt__input:focus + .dekorator__forstorrelsesglass--svart {
-    background-image: url('src/img/forstorrelsesglass-blaa.svg');
+    background-image: url('../img/forstorrelsesglass-blaa.svg');
 }
 .dekorator__sokefelt__input:hover + .dekorator__kryss--hvit,
 .dekorator__sokefelt__input:hover + .dekorator__kryss--svart,
 .dekorator__sokefelt__input:focus + .dekorator__kryss--hvit,
 .dekorator__sokefelt__input:focus + .dekorator__kryss--svart {
-    background-image: url('src/img/kryss-blaa.svg');
+    background-image: url('../img/kryss-blaa.svg');
 }
 .dekorator__sokefelt__valideringsfeil {
     border: 1px solid #ba3a26;
