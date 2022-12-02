@@ -3,7 +3,6 @@ import Modal from 'nav-frontend-modal';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { describe } from './hurtigtaster';
 import { Hotkey } from '../../domain';
-import './hurtigtaster.css';
 
 Modal.setAppElement(document.getElementById('root'));
 
