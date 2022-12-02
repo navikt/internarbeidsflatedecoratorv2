@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import HurtigtastModal from './hurtigtast-modal';
 import { useDecoratorHotkeys, useHurtigtastListener } from './hurtigtaster';
 import { Hotkey } from '../../domain';
+import './hurtigtaster.css';
 
 interface Props {
     visible: boolean;

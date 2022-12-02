@@ -1,0 +1,20 @@
+@import url('../styles/nav-frontend.css');
+
+p.typo-avsnitt {
+    font-family: Arial, sans-serif;
+    font-size: 0.875em;
+    font-weight: normal;
+}
+.dekorator__hode__veileder_header {
+    width: 6.5em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.dekorator__hode__veileder_id {
+    display: block;
+    padding-right: 0.7em;
+}
+.dekorator__hode__veileder_container {
+    white-space: nowrap;
+    padding-right: 0.2em;
+}

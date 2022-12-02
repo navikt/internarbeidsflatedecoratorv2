@@ -1,0 +1,23 @@
+@import url('../styles/nav-frontend.css');
+
+.dekorator__hode__logo {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border: 0;
+}
+.dekorator__hode__logo svg {
+    height: 30px;
+    width: 75px;
+    border-right: 1px solid #b7b1a9;
+}
+.dekorator__hode__logo:focus {
+    background-color: transparent;
+    box-shadow: 0 0 0 2px #ffbd66;
+    color: #fff;
+}
+.dekorator__tittel {
+    min-width: 7.75em;
+    max-width: 16em;
+}

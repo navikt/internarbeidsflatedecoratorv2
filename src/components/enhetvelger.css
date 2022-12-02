@@ -1,0 +1,51 @@
+@import url('../styles/nav-frontend.css');
+
+.dekorator-select-container {
+    position: relative;
+    display: inline-block;
+    top: -0.125em;
+    margin-right: 0.7em;
+}
+.dekorator-select-container select {
+    color: #fff;
+    background-color: #1d1d1d;
+    border-radius: 1px;
+    margin-right: 3px;
+    margin-top: 1px;
+    padding: 8px 2rem 7px 10px;
+    width: 210px;
+    height: 34px;
+    border: 1px solid #7f756c;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+}
+.dekorator-select-container select:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px #ffbd66;
+    border-color: #7f756c;
+    transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+}
+.dekorator-select-container select:hover {
+    outline: 0;
+    box-shadow: 0 0 0 2px #66cbec;
+    border-color: #0067c5;
+    transition: border-color 200ms cubic-bezier(0.465, 0.183, 0.153, 0.946);
+}
+.dekorator-select-container select::-ms-expand {
+    display: none;
+}
+.dekorator-select-container:after {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    border-left: 1.5px solid #fff;
+    border-top: 1.5px solid #fff;
+    border-right: none;
+    top: 10px;
+    right: 15px;
+    width: 10px;
+    height: 10px;
+    transform: rotate(-135deg);
+}

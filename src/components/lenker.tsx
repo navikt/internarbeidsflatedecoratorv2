@@ -11,6 +11,7 @@ import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-c
 import {Hotkey, ProxyConfig} from "../domain";
 import {lagModiacontextholderUrl} from "../redux/api";
 import {useDecoratorHotkeys} from "./hurtigtaster/hurtigtaster";
+import './lenker.css';
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */

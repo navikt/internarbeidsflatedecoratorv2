@@ -14,6 +14,7 @@ import { State } from '../redux';
 import { EnhetDisplay, Hotkey } from '../domain';
 import { isEnabled } from '../internal-domain';
 import HurtigtastMenyElement from './hurtigtaster/hurtigtast-meny-element';
+import './banner.css';
 
 interface Props {
     appname: string;

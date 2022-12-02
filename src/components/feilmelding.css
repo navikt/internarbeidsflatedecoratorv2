@@ -1,0 +1,15 @@
+@import url('../styles/nav-frontend.css');
+
+.dekorator__feilmelding {
+    padding: 1em;
+    background-color: #ba3a26;
+}
+.dekorator__feilmelding__tekst {
+    text-align: center;
+    display: block;
+    font-size: 1em;
+    color: #fff;
+    font-style: italic;
+    animation-duration: 10s;
+    animation-name: dummy;
+}
