@@ -5,7 +5,6 @@ import visibleIf from './visibleIf';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { useEnhetContextvalueState } from '../hooks/use-contextvalue-state';
 import { Enhet as EnhetType } from './../internal-domain';
-import './enhet.css';
 
 function lagEnhetvisning(maybeEnhet: MaybeCls<string>, enheter: Array<EnhetType>): string {
     return maybeEnhet

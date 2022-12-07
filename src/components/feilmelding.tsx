@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { feilmeldingerSelector } from '../redux/feilmeldinger/reducer';
 import { Feilmelding } from '../redux/feilmeldinger/domain';
-import './feilmelding.css';
 
 function FeilmeldingVisning() {
     const feilmeldinger: Array<Feilmelding> = Object.values(useSelector(feilmeldingerSelector));

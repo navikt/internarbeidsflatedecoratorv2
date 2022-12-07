@@ -13,7 +13,6 @@ import {
     PredefiniertFeilmeldinger
 } from '../redux/feilmeldinger/domain';
 import { useDecoratorHotkeys } from './hurtigtaster/hurtigtaster';
-import './sokefelt.css';
 
 function Sokefelt() {
     const dispatch = useDispatch<Dispatch<SagaActions | ReduxActions | FeilmeldingerActions>>();

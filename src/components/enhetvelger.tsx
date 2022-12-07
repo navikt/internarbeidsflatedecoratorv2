@@ -6,8 +6,6 @@ import visibleIf from './visibleIf';
 import { SagaActions, SagaActionTypes } from '../redux/actions';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { useEnhetContextvalueState } from '../hooks/use-contextvalue-state';
-import EnhetVisning from './enhet';
-import './enhetvelger.css';
 import { Enhet } from '../internal-domain';
 
 function EnhetVelger() {
@@ -19,7 +17,12 @@ function EnhetVelger() {
         .withDefault([]);
 
     if (enheter.length === 1) {
-        return <EnhetVisning visible={true} />;
+        const enhet = enheter[0];
+        return (
+            <section className="dekorator-enhet">
+                <h2 className="typo-avsnitt">{`${enhet.enhetId} ${enhet.navn}`}</h2>
+            </section>
+        );
     }
 
     const onChange: ChangeEventHandler<HTMLSelectElement> = (event) => {

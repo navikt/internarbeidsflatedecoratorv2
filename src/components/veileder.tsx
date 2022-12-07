@@ -2,7 +2,6 @@ import React from 'react';
 import visibleIf from './visibleIf';
 import { useInitializedState } from '../hooks/use-initialized-state';
 import { EMDASH } from '../utils/string-utils';
-import './veileder.css';
 
 function Veileder() {
     const saksbehandler = useInitializedState((state) => state.data.saksbehandler);

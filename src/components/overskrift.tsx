@@ -1,6 +1,5 @@
 import React from 'react';
 import NAVLogo from './logo';
-import './overskrift.css';
 
 interface Props {
     appname: string;
