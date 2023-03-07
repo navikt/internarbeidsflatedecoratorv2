@@ -140,3 +140,12 @@ export function finnNaisInternNavMiljoStreng(envNamespace: boolean = false) {
     }
     return `${prefix}.intern.nav.no`;
 }
+
+export function finnNaisInternNavMiljoStrengNyIngress(envNamespace: boolean = false) {
+    const miljo = hentMiljoFraUrl().environment;
+    const prefix = envNamespace && miljo !== 'p' ? `-${miljo}` : '';
+    if (miljo !== 'p') {
+        return `${prefix}.intern.dev.nav.no`;
+    }
+    return finnNaisInternNavMiljoStreng(envNamespace);
+}
