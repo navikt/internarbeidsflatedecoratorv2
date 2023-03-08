@@ -9,7 +9,7 @@ export enum UrlFormat {
     ADEO, // app.adeo.no / modapp.adeo.no
     NAIS, // nais.preprod.local / nais.adeo.no
     DEV_ADEO, // dev.adeo.no
-    NAV_NO // dev.intern.nav.no / intern.av.no
+    NAV_NO // dev.intern.nav.no / intern.av.no / intern.dev.nav.no
 }
 
 interface UrlEnvironment {
@@ -82,7 +82,7 @@ const urlRules: Array<UrlRule> = [
         ifMatch: () => ({ environment: 'p', envclass: 'p', urlformat: UrlFormat.ADEO })
     },
     {
-        regExp: /(?:-([tq]\d+))?\.dev\.intern\.nav\.no/,
+        regExp: /(?:-([tq]\d+))?((\.dev\.intern)|(\.intern\.dev))\.nav\.no/,
         ifMatch: (match) => {
             const environment = match[1] || 'q1';
             return {
