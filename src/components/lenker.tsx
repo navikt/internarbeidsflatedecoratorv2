@@ -160,7 +160,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStrengNyIngress()}/portefolje?clean&enhet=${enhet}`}>
                                 Min oversikt
                             </Lenke>
-                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
+                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStrengNyIngress()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
                             <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStrengNyIngress()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
