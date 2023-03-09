@@ -57,7 +57,7 @@ const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
 const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
+    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStrengNyIngress()}${queryParams}`;
 }
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
