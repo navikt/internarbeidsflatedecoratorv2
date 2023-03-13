@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {
     finnMiljoStreng,
-    finnNaisInternNavMiljoStreng,
+    finnNaisInternNavMiljoStreng, finnNaisInternNavMiljoStrengNyIngress,
     finnNaisMiljoStreng,
     hentMiljoFraUrl
 } from '../utils/url-utils';
@@ -57,7 +57,7 @@ const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
 const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
+    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStrengNyIngress()}${queryParams}`;
 }
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
@@ -154,16 +154,16 @@ function Lenker(props: Props) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Arbeidsrettet oppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStreng()}/enhet?clean&enhet=${enhet}`}>
+                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStrengNyIngress()}/enhet?clean&enhet=${enhet}`}>
                                 Enhetens oversikt
                             </Lenke>
-                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStreng()}/portefolje?clean&enhet=${enhet}`}>
+                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStrengNyIngress()}/portefolje?clean&enhet=${enhet}`}>
                                 Min oversikt
                             </Lenke>
-                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
+                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStrengNyIngress()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
-                            <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
+                            <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStrengNyIngress()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>

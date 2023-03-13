@@ -160,6 +160,16 @@ describe('url-utils', () => {
             });
         });
 
+        it('skal identifisere intern.dev.nav.no-urler som dev. Bruk dekorator i q1', () => {
+            withLocation('https://navn.intern.dev.nav.no/contextpath', () => {
+                expect(hentMiljoFraUrl()).toEqual({
+                    environment: 'q1',
+                    envclass: 'dev',
+                    urlformat: UrlFormat.NAV_NO
+                });
+            });
+        });
+
         it('skal identifisere intern.nav.no-urler som prod', () => {
             withLocation('https://navn.intern.nav.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
