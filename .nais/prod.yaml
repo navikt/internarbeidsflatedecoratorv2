@@ -10,6 +10,7 @@ spec:
   image: "{{ image }}"
   port: 8080
   ingresses:
+  - https://internarbeidsflatedecorator.prod-fss-pub.nais.io
   - https://internarbeidsflatedecorator.intern.nav.no
   - https://internarbeidsflatedecorator.nais.adeo.no
   - https://modapp.adeo.no/internarbeidsflatedecorator
