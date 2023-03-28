@@ -169,7 +169,7 @@ function Lenker(props: Props) {
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
                                 Registrer arbeidssøker
                             </Lenke>
-                            <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStreng()}/tiltaksgjennomforing`}>
+                            <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStrengNyIngress()}/tiltaksgjennomforing`}>
                                 Tiltaksgjennomføring - avtaler
                             </Lenke>
                         </ul>
