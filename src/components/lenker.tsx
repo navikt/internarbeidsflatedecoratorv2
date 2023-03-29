@@ -177,9 +177,9 @@ function Lenker(props: Props) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Sykefraværsoppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={`https://syfooversikt${naisInternNavDomain}/enhet`}>Enhetens oversikt</Lenke>
-                            <Lenke href={`https://syfooversikt${naisInternNavDomain}/minoversikt`}>Min oversikt</Lenke>
-                            <Lenke href={`https://syfomoteoversikt${naisInternNavDomain}/`}>Dialogmøteoversikt</Lenke>
+                            <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStrengNyIngress()}/enhet`}>Enhetens oversikt</Lenke>
+                            <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStrengNyIngress()}/minoversikt`}>Min oversikt</Lenke>
+                            <Lenke href={`https://syfomoteoversikt${finnNaisInternNavMiljoStrengNyIngress()}/`}>Dialogmøteoversikt</Lenke>
                             <Lenke href={`https://finnfastlege${finnNaisInternNavMiljoStrengNyIngress()}/fastlege/`}>Finn fastlege</Lenke>
                             <Lenke href={`https://syfomodiaperson${naisInternNavDomain}/sykefravaer`}>
                                 Sykmeldt enkeltperson
