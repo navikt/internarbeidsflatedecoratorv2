@@ -181,7 +181,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStrengNyIngress()}/minoversikt`}>Min oversikt</Lenke>
                             <Lenke href={`https://syfomoteoversikt${finnNaisInternNavMiljoStrengNyIngress()}/`}>Dialogmøteoversikt</Lenke>
                             <Lenke href={`https://finnfastlege${finnNaisInternNavMiljoStrengNyIngress()}/fastlege/`}>Finn fastlege</Lenke>
-                            <Lenke href={`https://syfomodiaperson${naisInternNavDomain}/sykefravaer`}>
+                            <Lenke href={`https://syfomodiaperson${finnNaisInternNavMiljoStrengNyIngress()}/sykefravaer`}>
                                 Sykmeldt enkeltperson
                             </Lenke>
                         </ul>
