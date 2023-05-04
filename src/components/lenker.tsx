@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {
     finnMiljoStreng,
-    finnNaisInternNavMiljoStreng, finnNaisInternNavMiljoStrengNyIngress,
+    finnNaisInternNavMiljoStreng,
     finnNaisMiljoStreng,
     hentMiljoFraUrl
 } from '../utils/url-utils';
@@ -43,7 +43,7 @@ const gosysDomain = (path: string) => {
     if (miljo.environment === 'p') {
         return `https://gosys.intern.nav.no${path}`;
     } else {
-        return `https://gosys${finnMiljoStreng()}.dev.intern.nav.no${path}`;
+        return `https://gosys${finnMiljoStreng()}.intern.dev.nav.no${path}`;
     }
 };
 const pesysDomain = (path: string) => `https://pensjon-psak${finnNaisMiljoStreng(true)}${path}`;
@@ -57,7 +57,7 @@ const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
 const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
 function arbeidssokerregistreringURL(fnr: string, enhet: string) {
     const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStrengNyIngress()}${queryParams}`;
+    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
 }
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
@@ -154,22 +154,22 @@ function Lenker(props: Props) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Arbeidsrettet oppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStrengNyIngress()}/enhet?clean&enhet=${enhet}`}>
+                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStreng()}/enhet?clean&enhet=${enhet}`}>
                                 Enhetens oversikt
                             </Lenke>
-                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStrengNyIngress()}/portefolje?clean&enhet=${enhet}`}>
+                            <Lenke href={`https://veilarbportefoljeflate${finnNaisInternNavMiljoStreng()}/portefolje?clean&enhet=${enhet}`}>
                                 Min oversikt
                             </Lenke>
-                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStrengNyIngress()}`}>
+                            <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
-                            <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStrengNyIngress()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
+                            <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
                                 Registrer arbeidssøker
                             </Lenke>
-                            <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStrengNyIngress()}/tiltaksgjennomforing`}>
+                            <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStreng()}/tiltaksgjennomforing`}>
                                 Tiltaksgjennomføring - avtaler
                             </Lenke>
                         </ul>
@@ -177,11 +177,11 @@ function Lenker(props: Props) {
                     <section className="dekorator__kolonne">
                         <h2 className="dekorator__lenkeheader">Sykefraværsoppfølging</h2>
                         <ul className="dekorator__menyliste">
-                            <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStrengNyIngress()}/enhet`}>Enhetens oversikt</Lenke>
-                            <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStrengNyIngress()}/minoversikt`}>Min oversikt</Lenke>
-                            <Lenke href={`https://syfomoteoversikt${finnNaisInternNavMiljoStrengNyIngress()}/`}>Dialogmøteoversikt</Lenke>
-                            <Lenke href={`https://finnfastlege${finnNaisInternNavMiljoStrengNyIngress()}/fastlege/`}>Finn fastlege</Lenke>
-                            <Lenke href={`https://syfomodiaperson${finnNaisInternNavMiljoStrengNyIngress()}/sykefravaer`}>
+                            <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStreng()}/enhet`}>Enhetens oversikt</Lenke>
+                            <Lenke href={`https://syfooversikt${finnNaisInternNavMiljoStreng()}/minoversikt`}>Min oversikt</Lenke>
+                            <Lenke href={`https://syfomoteoversikt${finnNaisInternNavMiljoStreng()}/`}>Dialogmøteoversikt</Lenke>
+                            <Lenke href={`https://finnfastlege${finnNaisInternNavMiljoStreng()}/fastlege/`}>Finn fastlege</Lenke>
+                            <Lenke href={`https://syfomodiaperson${finnNaisInternNavMiljoStreng()}/sykefravaer`}>
                                 Sykmeldt enkeltperson
                             </Lenke>
                         </ul>
