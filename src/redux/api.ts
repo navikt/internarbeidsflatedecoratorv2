@@ -43,7 +43,7 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
             if (urlEnv.envclass === 'p') {
                 return 'https://modiacontextholder.intern.nav.no/modiacontextholder';
             } else {
-                return `https://modiacontextholder${envString}.dev.intern.nav.no/modiacontextholder`;
+                return `https://modiacontextholder${envString}.intern.dev.nav.no/modiacontextholder`;
             }
         case UrlFormat.LOCAL:
             return '/modiacontextholder';

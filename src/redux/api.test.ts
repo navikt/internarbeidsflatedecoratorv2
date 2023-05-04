@@ -10,15 +10,15 @@ describe('api', () => {
         });
 
         it('skal ha riktig nais-url ved kjøring på nais-dev.intern', () => {
-            withLocation('https://navn-q6.dev.intern.nav.no/contextpath', () => {
+            withLocation('https://navn-q6.intern.dev.nav.no/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholder-q6.dev.intern.nav.no/modiacontextholder'
+                    'https://modiacontextholder-q6.intern.dev.nav.no/modiacontextholder'
                 );
             });
 
-            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+            withLocation('https://navn.intern.dev.nav.no/contextpath', () => {
                 expect(lagModiacontextholderUrl()).toBe(
-                    'https://modiacontextholder-q1.dev.intern.nav.no/modiacontextholder'
+                    'https://modiacontextholder-q1.intern.dev.nav.no/modiacontextholder'
                 );
             });
         });
