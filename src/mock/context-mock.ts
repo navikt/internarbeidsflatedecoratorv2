@@ -1,5 +1,6 @@
 import FetchMock from 'yet-another-fetch-mock';
 import { FailureConfig } from './mock-error-config';
+import './mock.css';
 
 function controlSignal(data: object | string) {
     return JSON.stringify({ type: 'control', data });
@@ -113,7 +114,7 @@ function setupControls() {
     const WStextarea = document.createElement('textarea');
     WStextarea.id = 'mock-control__ws-log';
     WStextarea.style.width = '100%';
-    WStextarea.style.height = '10rem';
+    WStextarea.style.height = '20rem';
     WStextarea.setAttribute('aria-labelledby', 'mock-control_ws-log-header');
     wsLog.appendChild(wsLogHeader);
     wsLog.appendChild(WStextarea);
@@ -141,7 +142,7 @@ function setupControls() {
     const contextTextarea = document.createElement('textarea');
     contextTextarea.id = 'mock-control__context-log';
     contextTextarea.style.width = '100%';
-    contextTextarea.style.height = '10rem';
+    contextTextarea.style.height = '20rem';
     contextTextarea.setAttribute('aria-labelledby', 'mock-control_context-log-header');
 
     contextLog.appendChild(contextLogHeader);

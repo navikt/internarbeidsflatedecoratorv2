@@ -4,9 +4,12 @@ import NAVSPA from '@navikt/navspa';
 import Application from './application';
 import './styles/nav-frontend.css';
 import { ApplicationProps } from './domain';
+import { isMock } from './utils/test.utils';
+import './styles/tailwind.css';
+import '@navikt/ds-css';
 
-if (process.env.REACT_APP_MOCK === 'true') {
-    require('./mock');
+if (isMock) {
+    import('./mock');
 }
 
 NAVSPA.eksporter<ApplicationProps>('internarbeidsflatefs', Application);

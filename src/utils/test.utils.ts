@@ -5,3 +5,5 @@ export function withLocation(host: string, assertion: () => void) {
     assertion();
     window.location = original;
 }
+
+export const isMock: boolean = import.meta.env.MODE === 'development' || !!import.meta.env.MOCK;

@@ -193,9 +193,9 @@ export function hentSaksbehandlerData(): Promise<FetchResponse<Saksbehandler>> {
 }
 
 export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): string | null {
-    if (process.env.REACT_APP_MOCK === 'true' && failureConfig.websocketConnection) {
+    if (import.meta.env.MOCK === 'true' && failureConfig.websocketConnection) {
         return 'ws://localhost:2999/hereIsWS/failure-url';
-    } else if (process.env.NODE_ENV === 'development') {
+    } else if (import.meta.env.MODE === 'development') {
         return 'ws://localhost:2999/hereIsWS';
     } else {
         return maybeSaksbehandler
