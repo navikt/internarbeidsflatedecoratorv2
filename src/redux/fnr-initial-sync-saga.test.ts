@@ -1,4 +1,3 @@
-import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncFnr from './fnr-initial-sync-saga';
 import { urls, ContextApiType } from './api';
@@ -9,6 +8,11 @@ import { RecursivePartial } from './utils';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
 import { run } from './saga-test-utils';
+import { rest, setupWorker } from 'msw';
+import { handlers } from '../mock';
+import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
+import { isMock } from '../utils/test.utils';
+import { setupServer } from 'msw/node';
 
 function gittContextholder(
     context: Context,
@@ -18,47 +22,51 @@ function gittContextholder(
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
     if (error) {
-        context.mock.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
-            res(ctx.status(500))
-        );
-        context.mock.get('/modiacontextholder/api/context/aktivbruker', (_, res, ctx) =>
-            res(ctx.status(500))
-        );
-        context.mock.post('/modiacontextholder/api/context', (_, res, ctx) => res(ctx.status(500)));
+        const handlers = [
+            rest.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
+                res(ctx.status(500))
+            ),
+            rest.get('/modiacontextholder/api/context/aktivbruker', (_, res, ctx) =>
+                res(ctx.status(500))
+            ),
+            rest.post('/modiacontextholder/api/context', (_, res, ctx) => res(ctx.status(500)))
+        ];
+        worker.use(...handlers);
     } else {
-        context.mock.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
-            res(
-                ctx.json({
-                    aktivEnhet: aktiveContext.aktivEnhet,
-                    aktivBruker: null
-                })
-            )
-        );
-        context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
-            res(
-                ctx.json({
-                    aktivEnhet: null,
-                    aktivBruker: aktiveContext.aktivBruker
-                })
-            )
-        );
-        context.mock.post('/modiacontextholder/api/context', ({ body }, res, ctx) => {
-            const { verdi, eventType } = body;
-            if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
-                context.contextholder.aktivBruker = verdi;
-            } else {
-                context.contextholder.aktivEnhet = verdi;
-            }
-            return res(ctx.status(200));
-        });
+        const handlers = [
+            rest.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
+                res(
+                    ctx.json({
+                        aktivEnhet: aktiveContext.aktivEnhet,
+                        aktivBruker: null
+                    })
+                )
+            ),
+            rest.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
+                res(
+                    ctx.json({
+                        aktivEnhet: null,
+                        aktivBruker: aktiveContext.aktivBruker
+                    })
+                )
+            ),
+            rest.post('/modiacontextholder/api/context', async (req, res, ctx) => {
+                const { verdi, eventType } = await req.json();
+                if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
+                    context.contextholder.aktivBruker = verdi;
+                } else {
+                    context.contextholder.aktivEnhet = verdi;
+                }
+                return res(ctx.status(200));
+            })
+        ];
+        worker.use(...handlers);
     }
 }
 
 type ContextholderValue = AktivEnhet & AktivBruker;
 
 interface Context {
-    mock: FetchMock;
-    spy: SpyMiddleware;
     contextholder: ContextholderValue;
 }
 
@@ -91,16 +99,16 @@ function gittInitialState(): RecursivePartial<State> {
 const MOCK_FNR_1 = '16012050147';
 const MOCK_FNR_2 = '19012050073';
 
+const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
+
 describe('saga - root', () => {
-    const spy = new SpyMiddleware();
-    const mock = FetchMock.configure({
-        middleware: spy.middleware
-    });
-    const context: Context = { mock, spy, contextholder: { aktivBruker: null, aktivEnhet: null } };
+    const spy = spyMiddleware();
+    setSpy(worker, spy);
+    const context: Context = { contextholder: { aktivBruker: null, aktivEnhet: null } };
 
     beforeEach(() => {
-        mock.reset();
-        spy.reset();
+        const spy = spyMiddleware();
+        const mock = setSpy(worker, spy);
         context.contextholder.aktivEnhet = null;
         context.contextholder.aktivBruker = null;
     });
@@ -110,7 +118,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr(null);
         gittContextholder(context, { aktivBruker: null, aktivEnhet: null }, true);
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject(
             leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
@@ -122,7 +130,7 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
     });
 
     it('onsketFnr: null, aktivBruker: null => stateFnr: Nothing', async () => {
@@ -130,7 +138,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr(null);
         gittContextholder(context, { aktivBruker: null, aktivEnhet: null });
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
@@ -138,7 +146,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
     });
 
     it(`onsketFnr: null, aktivBruker: ${MOCK_FNR_1} => stateFnr: Just(${MOCK_FNR_1})`, async () => {
@@ -146,7 +154,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr('');
         gittContextholder(context, { aktivBruker: MOCK_FNR_1, aktivEnhet: null });
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
@@ -154,7 +162,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
     });
 
     it(`onsketFnr: ${MOCK_FNR_2}, aktivBruker: ${MOCK_FNR_1} => stateFnr: Just(${MOCK_FNR_2})`, async () => {
@@ -162,7 +170,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr(MOCK_FNR_2);
         gittContextholder(context, { aktivBruker: MOCK_FNR_1, aktivEnhet: null });
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
@@ -170,8 +178,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_2);
     });
 
@@ -180,7 +188,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr(MOCK_FNR_1);
         gittContextholder(context, { aktivBruker: MOCK_FNR_1, aktivEnhet: null });
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/UPDATESTATE',
@@ -188,7 +196,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 
@@ -197,7 +205,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr('12345678910');
         gittContextholder(context, { aktivBruker: MOCK_FNR_1, aktivEnhet: null });
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject(
             leggTilFeilmelding(PredefiniertFeilmeldinger.FNR_KONTROLL_SIFFER)
@@ -208,7 +216,7 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 
@@ -217,7 +225,7 @@ describe('saga - root', () => {
         const props = gittOnsketFnr(MOCK_FNR_1);
         gittContextholder(context, { aktivBruker: MOCK_FNR_1, aktivEnhet: null }, true);
 
-        const dispatched = await run(initialSyncFnr, state, props);
+        const dispatched = await run(initialSyncFnr as any, state, props);
 
         expect(dispatched[0]).toMatchObject(
             leggTilFeilmelding(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
@@ -228,8 +236,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivBrukerUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeTruthy();
         expect(context.contextholder.aktivBruker).toBe(MOCK_FNR_1);
     });
 });

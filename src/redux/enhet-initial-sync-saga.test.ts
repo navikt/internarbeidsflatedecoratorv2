@@ -1,4 +1,4 @@
-import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
+import { rest, setupWorker } from 'msw';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncEnhet from './enhet-initial-sync-saga';
 import { urls, ContextApiType } from './api';
@@ -9,6 +9,10 @@ import { State } from './index';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 import { run } from './saga-test-utils';
+import { handlers } from '../mock';
+import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
+import { isMock } from '../utils/test.utils';
+import { setupServer } from 'msw/node';
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -51,55 +55,55 @@ function gittOnsketEnhet(enhet: string | null): EnhetContextvalue {
 function gittContextholder(context: Context, aktiveContext: ContextholderValue) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
-    context.mock.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) =>
-        res(
-            ctx.json({
-                aktivEnhet: aktiveContext.aktivEnhet,
-                aktivBruker: null
-            })
-        )
-    );
-    context.mock.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
-        res(
-            ctx.json({
-                aktivEnhet: null,
-                aktivBruker: aktiveContext.aktivBruker
-            })
-        )
-    );
-    context.mock.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
-        context.contextholder.aktivBruker = null;
-        return res(ctx.status(200));
-    });
-    context.mock.post('/modiacontextholder/api/context', ({ body }, res, ctx) => {
-        const { verdi, eventType } = body;
-        if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
-            context.contextholder.aktivBruker = verdi;
-        } else {
-            context.contextholder.aktivEnhet = verdi;
-        }
-        return res(ctx.status(200));
-    });
+    const handlers = [
+        rest.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) =>
+            res(
+                ctx.json({
+                    aktivEnhet: aktiveContext.aktivEnhet,
+                    aktivBruker: null
+                })
+            )
+        ),
+        rest.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
+            res(
+                ctx.json({
+                    aktivEnhet: null,
+                    aktivBruker: aktiveContext.aktivBruker
+                })
+            )
+        ),
+        rest.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
+            context.contextholder.aktivBruker = null;
+            return res(ctx.status(200));
+        }),
+        rest.post('/modiacontextholder/api/context', async (req, res, ctx) => {
+            const { verdi, eventType } = await req.json();
+            if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
+                context.contextholder.aktivBruker = verdi;
+            } else {
+                context.contextholder.aktivEnhet = verdi;
+            }
+            return res(ctx.status(200));
+        })
+    ];
+    worker.use(...handlers);
 }
 
 type ContextholderValue = AktivEnhet & AktivBruker;
 
 interface Context {
-    mock: FetchMock;
-    spy: SpyMiddleware;
     contextholder: ContextholderValue;
 }
 
+const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
 describe('saga - root', () => {
-    const spy = new SpyMiddleware();
-    const mock = FetchMock.configure({
-        middleware: spy.middleware
-    });
-    const context: Context = { mock, spy, contextholder: { aktivBruker: null, aktivEnhet: null } };
+    let spy = spyMiddleware();
+    setSpy(worker, spy);
+    const context: Context = { contextholder: { aktivBruker: null, aktivEnhet: null } };
 
     beforeEach(() => {
-        mock.reset();
-        spy.reset();
+        spy = spyMiddleware();
+        setSpy(worker, spy);
         context.contextholder.aktivEnhet = null;
         context.contextholder.aktivBruker = null;
     });
@@ -109,7 +113,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet(null);
         gittContextholder(context, { aktivEnhet: null, aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject(
@@ -118,8 +122,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -128,7 +132,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet(null);
         gittContextholder(context, { aktivEnhet: null, aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject(
@@ -137,8 +141,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -150,7 +154,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet(null);
         gittContextholder(context, { aktivEnhet: null, aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject({
@@ -160,8 +164,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledWith('1234');
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe('1234');
     });
 
@@ -173,7 +177,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet(null);
         gittContextholder(context, { aktivEnhet: '1235', aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject({
@@ -183,8 +187,8 @@ describe('saga - root', () => {
 
         expect(props.onChange).toBeCalledWith('1235');
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeFalsy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeFalsy();
         expect(context.contextholder.aktivEnhet).toBe('1235');
     });
 
@@ -193,7 +197,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet('1234');
         gittContextholder(context, { aktivEnhet: null, aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject(
@@ -201,8 +205,8 @@ describe('saga - root', () => {
         );
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -211,7 +215,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet('1234');
         gittContextholder(context, { aktivEnhet: null, aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject(
@@ -219,8 +223,8 @@ describe('saga - root', () => {
         );
         expect(props.onChange).toBeCalledTimes(0);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.del(urls.aktivBrukerUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe(null);
     });
 
@@ -232,7 +236,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet('1235');
         gittContextholder(context, { aktivEnhet: null, aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject({
@@ -241,8 +245,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe('1235');
     });
 
@@ -254,7 +258,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet('1234');
         gittContextholder(context, { aktivEnhet: '1234', aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject({
@@ -263,8 +267,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(1);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeFalsy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeFalsy();
         expect(context.contextholder.aktivEnhet).toBe('1234');
     });
 
@@ -276,7 +280,7 @@ describe('saga - root', () => {
         const props = gittOnsketEnhet('1235');
         gittContextholder(context, { aktivEnhet: '1234', aktivBruker: null });
 
-        const dispatched = await run(initialSyncEnhet, state, props);
+        const dispatched = await run(initialSyncEnhet as any, state, props);
 
         expect(dispatched).toHaveLength(1);
         expect(dispatched[0]).toMatchObject({
@@ -285,8 +289,8 @@ describe('saga - root', () => {
         });
         expect(props.onChange).toBeCalledTimes(1);
         expect(spy.size()).toBe(2);
-        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl as MatcherUrl))).toBeTruthy();
-        expect(spy.called(MatcherUtils.post(urls.contextUrl as MatcherUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktivEnhetUrl))).toBeTruthy();
+        expect(spy.called(MatcherUtils.post(urls.contextUrl))).toBeTruthy();
         expect(context.contextholder.aktivEnhet).toBe('1235');
     });
 });

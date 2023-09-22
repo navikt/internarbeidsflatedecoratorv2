@@ -1,4 +1,3 @@
-import FetchMock, { MatcherUrl, MatcherUtils, SpyMiddleware } from 'yet-another-fetch-mock';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { urls } from './api';
 import { AktivBruker } from '../internal-domain';
@@ -6,6 +5,11 @@ import { State } from './index';
 import { RecursivePartial } from './utils';
 import { run } from './saga-test-utils';
 import { hentAktorId } from './fnr-update-sagas';
+import { rest, setupWorker } from 'msw';
+import { handlers } from '../mock';
+import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
+import { isMock } from '../utils/test.utils';
+import { setupServer } from 'msw/node';
 
 const MOCK_FNR_1 = '16012050147';
 const MOCK_AKTOR_ID = '00016012050147000';
@@ -13,15 +17,19 @@ const MOCK_AKTOR_ID = '00016012050147000';
 function gittContextholder(context: Context, aktiveContext: AktivBruker, error: boolean = false) {
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     if (error) {
-        context.mock.get(`/modiacontextholder/api/decorator/aktor/${MOCK_FNR_1}`, (_, res, ctx) =>
-            res(ctx.status(500))
+        worker.use(
+            rest.get(`/modiacontextholder/api/decorator/aktor/${MOCK_FNR_1}`, (_, res, ctx) =>
+                res(ctx.status(500))
+            )
         );
     } else {
-        context.mock.get(`/modiacontextholder/api/decorator/aktor/${MOCK_FNR_1}`, (_, res, ctx) =>
-            res(
-                ctx.json({
-                    aktorId: MOCK_AKTOR_ID
-                })
+        worker.use(
+            rest.get(`/modiacontextholder/api/decorator/aktor/${MOCK_FNR_1}`, (_, res, ctx) =>
+                res(
+                    ctx.json({
+                        aktorId: MOCK_AKTOR_ID
+                    })
+                )
             )
         );
     }
@@ -30,8 +38,6 @@ function gittContextholder(context: Context, aktiveContext: AktivBruker, error: 
 type ContextholderValue = AktivBruker;
 
 interface Context {
-    mock: FetchMock;
-    spy: SpyMiddleware;
     contextholder: ContextholderValue;
 }
 
@@ -50,16 +56,16 @@ function gittInitialState(fnr?: string | null): RecursivePartial<State> {
     };
 }
 
+const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
+
 describe('Saga: hentAktorId', () => {
-    const spy = new SpyMiddleware();
-    const mock = FetchMock.configure({
-        middleware: spy.middleware
-    });
-    const context: Context = { mock, spy, contextholder: { aktivBruker: null } };
+    const spy = spyMiddleware();
+    setSpy(worker, spy);
+    const context: Context = { contextholder: { aktivBruker: null } };
 
     beforeEach(() => {
-        mock.reset();
-        spy.reset();
+        const spy = spyMiddleware();
+        setSpy(worker, spy);
         context.contextholder.aktivBruker = null;
     });
 
@@ -67,7 +73,7 @@ describe('Saga: hentAktorId', () => {
         const state = gittInitialState(MOCK_FNR_1);
         gittContextholder(context, { aktivBruker: MOCK_FNR_1 });
 
-        const dispatched = await run(hentAktorId, state);
+        const dispatched = await run(hentAktorId as any, state);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/AKTORIDDATA',
@@ -77,16 +83,14 @@ describe('Saga: hentAktorId', () => {
         });
 
         expect(spy.size()).toBe(1);
-        expect(
-            spy.called(MatcherUtils.get(urls.aktorIdUrl(MOCK_FNR_1) as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktorIdUrl(MOCK_FNR_1)))).toBeTruthy();
     });
 
     it('klarer ikke å hente aktorId, viser feilmelding', async () => {
         const state = gittInitialState(MOCK_FNR_1);
         gittContextholder(context, { aktivBruker: MOCK_FNR_1 }, true);
 
-        const dispatched = await run(hentAktorId, state);
+        const dispatched = await run(hentAktorId as any, state);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/FEILMELDING/LEGG_TIL',
@@ -97,16 +101,14 @@ describe('Saga: hentAktorId', () => {
         });
 
         expect(spy.size()).toBe(1);
-        expect(
-            spy.called(MatcherUtils.get(urls.aktorIdUrl(MOCK_FNR_1) as MatcherUrl))
-        ).toBeTruthy();
+        expect(spy.called(MatcherUtils.get(urls.aktorIdUrl(MOCK_FNR_1)))).toBeTruthy();
     });
 
     it('nullstiller aktorId når fnr er null', async () => {
         const state = gittInitialState();
         gittContextholder(context, { aktivBruker: null });
 
-        const dispatched = await run(hentAktorId, state);
+        const dispatched = await run(hentAktorId as any, state);
 
         expect(dispatched[0]).toMatchObject({
             type: 'REDUX/AKTORIDDATA',

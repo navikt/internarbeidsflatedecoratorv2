@@ -96,8 +96,8 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
         }
         const data: T = await response.json();
         return { data, error: undefined };
-    } catch (error) {
-        return { data: undefined, error };
+    } catch (error: unknown) {
+        return { data: undefined, error: error?.toString() || 'Unknown error' };
     }
 }
 
@@ -114,8 +114,8 @@ async function postJson<T>(url: string, body: T, options?: RequestInit): Promise
             return { data: undefined, error: content };
         }
         return { data: body, error: undefined };
-    } catch (error) {
-        return { data: undefined, error };
+    } catch (error: unknown) {
+        return { data: undefined, error: error?.toString() || 'Unknown error' };
     }
 }
 
@@ -130,8 +130,8 @@ async function deleteJson(url: string, options?: RequestInit): Promise<FetchResp
             return { data: undefined, error: content };
         }
         return { data: undefined, error: undefined };
-    } catch (error) {
-        return { data: undefined, error };
+    } catch (error: unknown) {
+        return { data: undefined, error: error?.toString() || 'Unknown error' };
     }
 }
 
