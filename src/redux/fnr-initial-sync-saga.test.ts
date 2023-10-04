@@ -13,6 +13,7 @@ import { handlers } from '../mock';
 import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
 import { isMock } from '../utils/test.utils';
 import { setupServer } from 'msw/node';
+import { jest } from '@jest/globals';
 
 function gittContextholder(
     context: Context,
@@ -102,13 +103,13 @@ const MOCK_FNR_2 = '19012050073';
 const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
 
 describe('saga - root', () => {
-    const spy = spyMiddleware();
+    let spy = spyMiddleware();
     setSpy(worker, spy);
     const context: Context = { contextholder: { aktivBruker: null, aktivEnhet: null } };
 
     beforeEach(() => {
-        const spy = spyMiddleware();
-        const mock = setSpy(worker, spy);
+        spy = spyMiddleware();
+        setSpy(worker, spy);
         context.contextholder.aktivEnhet = null;
         context.contextholder.aktivBruker = null;
     });

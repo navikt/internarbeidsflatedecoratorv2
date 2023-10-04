@@ -6,6 +6,7 @@ describe('lenker', () => {
 
     describe('gosys', () => {
         it('preprod uten bruker i kontekst', () => {
+            throw Error('adsas');
             withLocation('https://app-q0.adeo.no/modia', () => {
                 expect(gosysUrl('', '/gosys/personoversikt/fnr=')).toBe(
                     'https://gosys-q0.intern.dev.nav.no/gosys/'

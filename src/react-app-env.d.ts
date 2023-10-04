@@ -7,6 +7,7 @@ interface ImportMetaEnv {
     readonly PROD: boolean;
     readonly SSR: boolean;
     readonly MOCK: string;
+    readonly NODE_ENV: string;
 }
 
 interface ImportMeta {

@@ -1,22 +1,22 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-    // preset: 'ts-jest',
+const config = {
     testEnvironment: 'jsdom',
     extensionsToTreatAsEsm: ['.ts', '.tsx'],
+    setupFiles: ['./setupTests.js'],
+    globals: {
+        fetch: global.fetch
+    },
     transform: {
         '^.+\\.tsx?$': [
             'ts-jest',
             {
                 useESM: true,
-                // tsconfig: 'tsconfig.test.json',
-                // isolatedModules: false,
+                tsconfig: 'tsconfig.test.json',
                 babelConfig: {
-                    plugins: [
-                        "babel-preset-vite",
-                        // 'babel-plugin-transform-import-meta'
-                    ]
+                    plugins: ['babel-plugin-transform-vite-meta-env']
                 }
             }
         ]
     }
 };
+export default config;

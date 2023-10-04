@@ -3,7 +3,6 @@ import { run } from './saga-test-utils';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 import { put } from 'redux-saga/effects';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
-import Any = jasmine.Any;
 import { Saga } from 'redux-saga';
 
 const dummyAsyncCall = (config: { ms: number; error: boolean }) =>

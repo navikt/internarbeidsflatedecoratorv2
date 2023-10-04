@@ -13,6 +13,7 @@ import { handlers } from '../mock';
 import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
 import { isMock } from '../utils/test.utils';
 import { setupServer } from 'msw/node';
+import { jest } from '@jest/globals';
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -97,8 +98,8 @@ interface Context {
 
 const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
 describe('saga - root', () => {
-    let spy = spyMiddleware();
-    setSpy(worker, spy);
+    let spy: ReturnType<typeof spyMiddleware>; // = spyMiddleware();
+    // setSpy(worker, spy);
     const context: Context = { contextholder: { aktivBruker: null, aktivEnhet: null } };
 
     beforeEach(() => {
