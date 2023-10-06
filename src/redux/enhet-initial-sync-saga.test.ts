@@ -1,4 +1,4 @@
-import { rest, setupWorker } from 'msw';
+import { rest } from 'msw';
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import initialSyncEnhet from './enhet-initial-sync-saga';
 import { urls, ContextApiType } from './api';
@@ -9,11 +9,9 @@ import { State } from './index';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 import { run } from './saga-test-utils';
-import { handlers } from '../mock';
+import { handlers, urlPrefix } from '../mock';
 import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
-import { isMock } from '../utils/test.utils';
 import { setupServer } from 'msw/node';
-import { jest } from '@jest/globals';
 
 const mockSaksbehandler: Omit<Saksbehandler, 'enheter'> = {
     ident: '',
@@ -57,7 +55,7 @@ function gittContextholder(context: Context, aktiveContext: ContextholderValue) 
     context.contextholder.aktivBruker = aktiveContext.aktivBruker;
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
     const handlers = [
-        rest.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) =>
+        rest.get(urlPrefix + '/modiacontextholder/api/context/aktivenhet', (req, res, ctx) =>
             res(
                 ctx.json({
                     aktivEnhet: aktiveContext.aktivEnhet,
@@ -65,7 +63,7 @@ function gittContextholder(context: Context, aktiveContext: ContextholderValue) 
                 })
             )
         ),
-        rest.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
+        rest.get(urlPrefix + '/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
             res(
                 ctx.json({
                     aktivEnhet: null,
@@ -73,11 +71,11 @@ function gittContextholder(context: Context, aktiveContext: ContextholderValue) 
                 })
             )
         ),
-        rest.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
+        rest.delete(urlPrefix + '/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
             context.contextholder.aktivBruker = null;
             return res(ctx.status(200));
         }),
-        rest.post('/modiacontextholder/api/context', async (req, res, ctx) => {
+        rest.post(urlPrefix + '/modiacontextholder/api/context', async (req, res, ctx) => {
             const { verdi, eventType } = await req.json();
             if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
                 context.contextholder.aktivBruker = verdi;
@@ -96,11 +94,15 @@ interface Context {
     contextholder: ContextholderValue;
 }
 
-const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
+const worker = setupServer(...handlers);
 describe('saga - root', () => {
     let spy: ReturnType<typeof spyMiddleware>; // = spyMiddleware();
     // setSpy(worker, spy);
     const context: Context = { contextholder: { aktivBruker: null, aktivEnhet: null } };
+
+    beforeAll(() => {
+        worker.listen();
+    });
 
     beforeEach(() => {
         spy = spyMiddleware();

@@ -8,12 +8,10 @@ import { RecursivePartial } from './utils';
 import { PredefiniertFeilmeldinger } from './feilmeldinger/domain';
 import { leggTilFeilmelding } from './feilmeldinger/reducer';
 import { run } from './saga-test-utils';
-import { rest, setupWorker } from 'msw';
-import { handlers } from '../mock';
+import { rest } from 'msw';
+import { handlers, urlPrefix } from '../mock';
 import { MatcherUtils, setSpy, spyMiddleware } from '../mock/mockUtils';
-import { isMock } from '../utils/test.utils';
 import { setupServer } from 'msw/node';
-import { jest } from '@jest/globals';
 
 function gittContextholder(
     context: Context,
@@ -24,18 +22,20 @@ function gittContextholder(
     context.contextholder.aktivEnhet = aktiveContext.aktivEnhet;
     if (error) {
         const handlers = [
-            rest.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
+            rest.get(urlPrefix + '/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
                 res(ctx.status(500))
             ),
-            rest.get('/modiacontextholder/api/context/aktivbruker', (_, res, ctx) =>
+            rest.get(urlPrefix + '/modiacontextholder/api/context/aktivbruker', (_, res, ctx) =>
                 res(ctx.status(500))
             ),
-            rest.post('/modiacontextholder/api/context', (_, res, ctx) => res(ctx.status(500)))
+            rest.post(urlPrefix + '/modiacontextholder/api/context', (_, res, ctx) =>
+                res(ctx.status(500))
+            )
         ];
         worker.use(...handlers);
     } else {
         const handlers = [
-            rest.get('/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
+            rest.get(urlPrefix + '/modiacontextholder/api/context/aktivenhet', (_, res, ctx) =>
                 res(
                     ctx.json({
                         aktivEnhet: aktiveContext.aktivEnhet,
@@ -43,7 +43,7 @@ function gittContextholder(
                     })
                 )
             ),
-            rest.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
+            rest.get(urlPrefix + '/modiacontextholder/api/context/aktivbruker', (req, res, ctx) =>
                 res(
                     ctx.json({
                         aktivEnhet: null,
@@ -51,7 +51,7 @@ function gittContextholder(
                     })
                 )
             ),
-            rest.post('/modiacontextholder/api/context', async (req, res, ctx) => {
+            rest.post(urlPrefix + '/modiacontextholder/api/context', async (req, res, ctx) => {
                 const { verdi, eventType } = await req.json();
                 if (eventType === ContextApiType.NY_AKTIV_BRUKER) {
                     context.contextholder.aktivBruker = verdi;
@@ -100,12 +100,16 @@ function gittInitialState(): RecursivePartial<State> {
 const MOCK_FNR_1 = '16012050147';
 const MOCK_FNR_2 = '19012050073';
 
-const worker = isMock ? setupServer(...handlers) : setupWorker(...handlers);
+const worker = setupServer(...handlers);
 
 describe('saga - root', () => {
     let spy = spyMiddleware();
     setSpy(worker, spy);
     const context: Context = { contextholder: { aktivBruker: null, aktivEnhet: null } };
+
+    beforeAll(() => {
+        worker.listen();
+    });
 
     beforeEach(() => {
         spy = spyMiddleware();

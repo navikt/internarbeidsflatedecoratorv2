@@ -17,13 +17,16 @@ export const setSpy = (worker: SetupServer | SetupWorker, spy: { requests: Mocke
 };
 
 export const MatcherUtils = {
-    del: (url: string) => (req: MockedRequest) => {
-        return req.method === 'DELETE' && req.url.pathname === url;
+    del: (urlString: string) => (req: MockedRequest) => {
+        const url = new URL(urlString);
+        return req.method === 'DELETE' && req.url.pathname === url.pathname;
     },
-    get: (url: string) => (req: MockedRequest) => {
-        return req.method === 'GET' && req.url.pathname === url;
+    get: (urlString: string) => (req: MockedRequest) => {
+        const url = new URL(urlString);
+        return req.method === 'GET' && req.url.pathname === url.pathname;
     },
-    post: (url: string) => (req: MockedRequest) => {
-        return req.method === 'POST' && req.url.pathname === url;
+    post: (urlString: string) => (req: MockedRequest) => {
+        const url = new URL(urlString);
+        return req.method === 'POST' && req.url.pathname === url.pathname;
     }
 };

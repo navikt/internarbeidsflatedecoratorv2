@@ -29,8 +29,9 @@ const me: Saksbehandler = {
     ]
 };
 
+export const urlPrefix = 'http://localhost:8080';
 const defaultHandlers = [
-    rest.get('/modiacontextholder/api/decorator', (req, res, ctx) =>
+    rest.get(urlPrefix + '/modiacontextholder/api/decorator', (req, res, ctx) =>
         res(
             ctx.status(
                 failureConfig.meEndpoint ? 500 : 200,
@@ -39,7 +40,7 @@ const defaultHandlers = [
             ctx.json(failureConfig.meEndpoint ? null : me)
         )
     ),
-    rest.get('/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
+    rest.get(urlPrefix + '/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
         const fnr = req.url.searchParams.get('fnr')!!;
         const data: AktorIdResponse = {
             fnr,

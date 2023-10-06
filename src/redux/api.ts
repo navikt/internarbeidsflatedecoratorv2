@@ -46,7 +46,7 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
                 return `https://modiacontextholder${envString}.intern.dev.nav.no/modiacontextholder`;
             }
         case UrlFormat.LOCAL:
-            return '/modiacontextholder';
+            return 'http://localhost:8080/modiacontextholder';
     }
 }
 function lagUrls(proxyConfig: ProxyConfig) {

@@ -1,4 +1,3 @@
-import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import NAVSPA from '@navikt/navspa';
 import Application from './application';

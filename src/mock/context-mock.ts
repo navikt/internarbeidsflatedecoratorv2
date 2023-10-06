@@ -1,5 +1,6 @@
 import { rest, RestHandler, RestRequest } from 'msw';
 import { FailureConfig } from './mock-error-config';
+import { urlPrefix } from './index';
 // import './mock.css';
 
 function controlSignal(data: object | string) {
@@ -7,7 +8,7 @@ function controlSignal(data: object | string) {
 }
 
 function updateContext(body: object) {
-    fetch('/modiacontextholder/api/context?fromMock', {
+    fetch(urlPrefix + '/modiacontextholder/api/context?fromMock', {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -157,7 +158,7 @@ function addWSLogEntry() {
         const now = new Date().toLocaleTimeString('en-GB');
 
         if (['NY_AKTIV_ENHET', 'NY_AKTIV_BRUKER'].includes(message.data)) {
-            fetch('/modiacontextholder/api/context?fromMock')
+            fetch(urlPrefix + '/modiacontextholder/api/context?fromMock')
                 .then((resp) => resp.json())
                 .then((json) => {
                     textarea.value = `${now} ${message.data}\n(${JSON.stringify(json)})\n${
@@ -188,13 +189,13 @@ const context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
 export function setupWsControlAndMock(errorConfig: FailureConfig): RestHandler[] {
     let handlers: RestHandler[] = [];
     if (window.location.hostname.includes('localhost')) {
-        setupControls();
+        // setupControls();
         const ws = new WebSocket('ws://localhost:2999/hereIsWS');
 
         ws.addEventListener('message', addWSLogEntry());
 
         handlers = [
-            rest.post('/modiacontextholder/api/context', async (req, res, ctx) => {
+            rest.post(urlPrefix + '/modiacontextholder/api/context', async (req, res, ctx) => {
                 const queryParams = req.url.searchParams;
                 const body = await req.json();
                 const isRealCall = queryParams.get('fromMock') === undefined;
@@ -220,30 +221,36 @@ export function setupWsControlAndMock(errorConfig: FailureConfig): RestHandler[]
                     return res(ctx.status(500));
                 }
             }),
-            rest.delete('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => {
-                if (errorConfig.contextholder.deleteEnhet) {
-                    return res(ctx.status(500));
+            rest.delete(
+                urlPrefix + '/modiacontextholder/api/context/aktivenhet',
+                (req, res, ctx) => {
+                    if (errorConfig.contextholder.deleteEnhet) {
+                        return res(ctx.status(500));
+                    }
+                    context.aktivEnhet = null;
+                    ws.send(controlSignal('NY_AKTIV_ENHET'));
+                    addContextholderLogEntry(req, `DELETE NY_AKTIV_ENHET`);
+                    return res(ctx.status(200));
                 }
-                context.aktivEnhet = null;
-                ws.send(controlSignal('NY_AKTIV_ENHET'));
-                addContextholderLogEntry(req, `DELETE NY_AKTIV_ENHET`);
-                return res(ctx.status(200));
-            }),
-            rest.delete('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
-                if (errorConfig.contextholder.deleteBruker) {
-                    return res(ctx.status(500));
+            ),
+            rest.delete(
+                urlPrefix + '/modiacontextholder/api/context/aktivbruker',
+                (req, res, ctx) => {
+                    if (errorConfig.contextholder.deleteBruker) {
+                        return res(ctx.status(500));
+                    }
+                    context.aktivBruker = null;
+                    ws.send(controlSignal('NY_AKTIV_BRUKER'));
+                    addContextholderLogEntry(req, `DELETE NY_AKTIV_BRUKER`);
+                    return res(ctx.status(200));
                 }
-                context.aktivBruker = null;
-                ws.send(controlSignal('NY_AKTIV_BRUKER'));
-                addContextholderLogEntry(req, `DELETE NY_AKTIV_BRUKER`);
-                return res(ctx.status(200));
-            })
+            )
         ];
     }
 
     handlers = [
         ...handlers,
-        rest.get('/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => {
+        rest.get(urlPrefix + '/modiacontextholder/api/context/aktivenhet', (req, res, ctx) => {
             if (errorConfig.contextholder.getEnhet) {
                 return res(ctx.status(500));
             }
@@ -256,7 +263,7 @@ export function setupWsControlAndMock(errorConfig: FailureConfig): RestHandler[]
                 })
             );
         }),
-        rest.get('/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
+        rest.get(urlPrefix + '/modiacontextholder/api/context/aktivbruker', (req, res, ctx) => {
             if (errorConfig.contextholder.getBruker) {
                 return res(ctx.status(500));
             }
@@ -269,7 +276,7 @@ export function setupWsControlAndMock(errorConfig: FailureConfig): RestHandler[]
                 })
             );
         }),
-        rest.get('/modiacontextholder/api/context', (req, res, ctx) => {
+        rest.get(urlPrefix + '/modiacontextholder/api/context', (req, res, ctx) => {
             const isRealCall = req.url.searchParams.get('fromMock') === undefined;
             if (isRealCall && errorConfig.contextholder.get) {
                 return res(ctx.status(500));
