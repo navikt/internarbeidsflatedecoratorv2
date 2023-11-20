@@ -12,6 +12,8 @@ import {Hotkey, ProxyConfig} from "../domain";
 import {lagModiacontextholderUrl} from "../redux/api";
 import {useDecoratorHotkeys} from "./hurtigtaster/hurtigtaster";
 import './lenker.css';
+import { FeatureToggles } from '../featureToggle/FeatureToggles';
+import { useFeatureToggle } from '../featureToggle/FeatureToggleProvider';
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
@@ -104,6 +106,14 @@ interface Props {
     proxyConfig: ProxyConfig;
 }
 
+const useArbeidssokerRegistreringUrl = (fnr: string, enhet: string) => {
+    const isOn = useFeatureToggle(FeatureToggles.NY_ARBEIDSSOKER_REGISTRERING_URL)
+    if (isOn) {
+        return `https://arbeidssokerregistrering-for-veileder${finnNaisInternNavMiljoStreng()}/`
+    }
+    return arbeidssokerregistreringURL(fnr, enhet)
+}
+
 function Lenker(props: Props) {
     const fnr = useFnrContextvalueState().withDefault('');
     const enhet = useEnhetContextvalueState().withDefault('');
@@ -115,6 +125,8 @@ function Lenker(props: Props) {
     useEffect(() => {
         lagHotkeys(fnr, aktorId).forEach(register);
     }, [register, fnr, aktorId])
+
+    const arbeidssokerregistreringURL = useArbeidssokerRegistreringUrl(fnr, enhet)
 
     if (!props.apen.value) {
         return null;
@@ -166,7 +178,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
                                 Aktivitetsplan
                             </Lenke>
-                            <Lenke href={arbeidssokerregistreringURL(fnr, enhet)}>
+                            <Lenke href={arbeidssokerregistreringURL}>
                                 Registrer arbeidssøker
                             </Lenke>
                             <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStreng()}/tiltaksgjennomforing`}>
