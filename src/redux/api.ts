@@ -57,6 +57,7 @@ function lagUrls(proxyConfig: ProxyConfig) {
         aktivBrukerUrl: `${modiacontextholderUrl}/api/context/aktivbruker`,
         contextUrl: `${modiacontextholderUrl}/api/context`,
         saksbehandlerUrl: `${modiacontextholderUrl}/api/decorator`,
+        featureTogglesUrl: `${modiacontextholderUrl}/api/featuretoggle`,
         aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`
     };
 }
@@ -220,7 +221,7 @@ export function hentFeatureToggles(): Promise<FetchResponse<FeatureTogglesRespon
             .map((it) => `id=${it}`)
             .join('&');
 
-        return `${lagModiacontextholderUrl()}/api/featuretoggle/?${queryParams}`;
+        return `${urls.featureTogglesUrl}?${queryParams}`;
     };
-    return getJson<FeatureTogglesResponse>(url());
+    return getJson<FeatureTogglesResponse>(url(), withAccessToken());
 }
