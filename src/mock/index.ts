@@ -2,6 +2,7 @@ import FetchMock, { Middleware, MiddlewareUtils } from 'yet-another-fetch-mock';
 import { AktorIdResponse, Saksbehandler } from '../internal-domain';
 import { setupWsControlAndMock } from './context-mock';
 import failureConfig from './mock-error-config';
+import { FeatureTogglesResponse } from '../redux/api';
 
 console.log('============================');
 console.log('Using yet-another-fetch-mock');
@@ -52,6 +53,13 @@ mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
         ctx.statusText(failureConfig.aktorIdEndpoint ? 'Internal Server Error' : 'Ok'),
         ctx.json(failureConfig.aktorIdEndpoint ? null : data)
     );
+});
+
+mock.get('/modiacontextholder/api/featuretoggle', (req, res, ctx) => {
+    const response: FeatureTogglesResponse = {
+        'modiacontextholder.ny-arbeidssoker-registrering-url': true
+    };
+    return res(ctx.status(200), ctx.statusText('Ok'), ctx.json(response));
 });
 
 setupWsControlAndMock(mock, failureConfig);

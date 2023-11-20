@@ -4,6 +4,7 @@ import { finnMiljoStreng, hentMiljoFraUrl, UrlFormat } from '../utils/url-utils'
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
+import { FeatureToggles } from '../featureToggle/FeatureToggles';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -208,4 +209,18 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 export function getVeilederflatehendelserUrl(ident: string) {
     let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
     return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
+}
+
+export type FeatureTogglesResponse = {
+    [key in FeatureToggles]: boolean;
+};
+export function hentFeatureToggles(): Promise<FetchResponse<FeatureTogglesResponse>> {
+    const url = () => {
+        const queryParams = Object.values(FeatureToggles)
+            .map((it) => `id=${it}`)
+            .join('&');
+
+        return `${lagModiacontextholderUrl()}/api/featuretoggle/?${queryParams}`;
+    };
+    return getJson<FeatureTogglesResponse>(url());
 }
