@@ -4,6 +4,7 @@ import { finnMiljoStreng, hentMiljoFraUrl, UrlFormat } from '../utils/url-utils'
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
+import { FeatureToggles } from '../featureToggle/FeatureToggles';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -43,7 +44,7 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
             if (urlEnv.envclass === 'p') {
                 return 'https://modiacontextholder.intern.nav.no/modiacontextholder';
             } else {
-                return `https://modiacontextholder${envString}.dev.intern.nav.no/modiacontextholder`;
+                return `https://modiacontextholder${envString}.intern.dev.nav.no/modiacontextholder`;
             }
         case UrlFormat.LOCAL:
             return '/modiacontextholder';
@@ -56,6 +57,7 @@ function lagUrls(proxyConfig: ProxyConfig) {
         aktivBrukerUrl: `${modiacontextholderUrl}/api/context/aktivbruker`,
         contextUrl: `${modiacontextholderUrl}/api/context`,
         saksbehandlerUrl: `${modiacontextholderUrl}/api/decorator`,
+        featureTogglesUrl: `${modiacontextholderUrl}/api/featuretoggle`,
         aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`
     };
 }
@@ -208,4 +210,18 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 export function getVeilederflatehendelserUrl(ident: string) {
     let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
     return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
+}
+
+export type FeatureTogglesResponse = {
+    [key in FeatureToggles]: boolean;
+};
+export function hentFeatureToggles(): Promise<FetchResponse<FeatureTogglesResponse>> {
+    const url = () => {
+        const queryParams = Object.values(FeatureToggles)
+            .map((it) => `id=${it}`)
+            .join('&');
+
+        return `${urls.featureTogglesUrl}?${queryParams}`;
+    };
+    return getJson<FeatureTogglesResponse>(url(), withAccessToken());
 }

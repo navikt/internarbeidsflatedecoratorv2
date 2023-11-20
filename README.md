@@ -97,3 +97,7 @@ export enum FnrDisplay {
 export type EnhetContextvalue = Contextvalue<EnhetDisplay>;
 export type FnrContextvalue = Contextvalue<FnrDisplay>;
 ```
+# Henvendelser
+Spørsmål knyttet til koden eller prosjektet kan rettes mot:
+
+[Team Personoversikt](https://github.com/navikt/info-team-personoversikt)

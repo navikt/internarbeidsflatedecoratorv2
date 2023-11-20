@@ -9,7 +9,7 @@ export enum UrlFormat {
     ADEO, // app.adeo.no / modapp.adeo.no
     NAIS, // nais.preprod.local / nais.adeo.no
     DEV_ADEO, // dev.adeo.no
-    NAV_NO // dev.intern.nav.no / intern.av.no / intern.dev.nav.no
+    NAV_NO // intern.av.no / intern.dev.nav.no
 }
 
 interface UrlEnvironment {
@@ -136,16 +136,7 @@ export function finnNaisInternNavMiljoStreng(envNamespace: boolean = false) {
     const miljo = hentMiljoFraUrl().environment;
     const prefix = envNamespace && miljo !== 'p' ? `-${miljo}` : '';
     if (miljo !== 'p') {
-        return `${prefix}.dev.intern.nav.no`;
-    }
-    return `${prefix}.intern.nav.no`;
-}
-
-export function finnNaisInternNavMiljoStrengNyIngress(envNamespace: boolean = false) {
-    const miljo = hentMiljoFraUrl().environment;
-    const prefix = envNamespace && miljo !== 'p' ? `-${miljo}` : '';
-    if (miljo !== 'p') {
         return `${prefix}.intern.dev.nav.no`;
     }
-    return finnNaisInternNavMiljoStreng(envNamespace);
+    return `${prefix}.intern.nav.no`;
 }

@@ -15,6 +15,7 @@ import { useOnMount } from './hooks/use-on-mount';
 import { useOnChanged } from './hooks/use-on-changed';
 import { getContextvalueValue, isContextvalueControlled, RESET_VALUE } from './redux/utils';
 import { DecoratorHotkeysProvider } from './components/hurtigtaster/hurtigtaster';
+import FeatureToggleProvider from './featureToggle/FeatureToggleProvider';
 
 function Application(props: ApplicationProps) {
     const dispatch = useDispatch<Dispatch<SagaActions>>();
@@ -80,7 +81,9 @@ class ErrorHandler extends React.Component<ApplicationProps> {
     render() {
         return (
             <Provider store={store}>
-                <Application {...this.props} />
+                <FeatureToggleProvider key={this.props.accessToken}>
+                    <Application {...this.props} />
+                </FeatureToggleProvider>
             </Provider>
         );
     }

@@ -150,8 +150,8 @@ describe('url-utils', () => {
             });
         });
 
-        it('skal identifisere dev.intern.nav.no-urler som dev. Bruk dekorator i q1', () => {
-            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
+        it('skal identifisere intern.dev.nav.no-urler som dev. Bruk dekorator i q1', () => {
+            withLocation('https://navn.intern.dev.nav.no/contextpath', () => {
                 expect(hentMiljoFraUrl()).toEqual({
                     environment: 'q1',
                     envclass: 'dev',
@@ -200,14 +200,14 @@ describe('url-utils', () => {
         });
 
         it('skal legg ikke legge til miljøprefix som default', () => {
-            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
-                expect(finnNaisInternNavMiljoStreng()).toBe('.dev.intern.nav.no');
+            withLocation('https://navn.intern.dev.nav.no/contextpath', () => {
+                expect(finnNaisInternNavMiljoStreng()).toBe('.intern.dev.nav.no');
             });
         });
 
         it('skal legg legge til miljøprefix for preprod om ønskelig', () => {
-            withLocation('https://navn.dev.intern.nav.no/contextpath', () => {
-                expect(finnNaisInternNavMiljoStreng(true)).toBe('-q1.dev.intern.nav.no');
+            withLocation('https://navn.intern.dev.nav.no/contextpath', () => {
+                expect(finnNaisInternNavMiljoStreng(true)).toBe('-q1.intern.dev.nav.no');
             });
         });
     });
