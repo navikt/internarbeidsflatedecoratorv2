@@ -4,11 +4,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/internarbeidsflatedecorator/v2.1/index.html"
   },
   {
-    "revision": "b1a8c36fb748308a5189",
+    "revision": "ead17cfa87dcc64894c8",
     "url": "/internarbeidsflatedecorator/v2.1/static/css/main.css"
   },
   {
-    "revision": "b1a8c36fb748308a5189",
+    "revision": "ead17cfa87dcc64894c8",
     "url": "/internarbeidsflatedecorator/v2.1/static/js/head.v2.min.js"
   },
   {
