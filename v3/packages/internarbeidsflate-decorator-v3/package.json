@@ -1,0 +1,60 @@
+{
+  "name": "internarbeidsflate-decorator-v3",
+  "private": true,
+  "version": "0.0.0",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/internarbeidsflate-decorator-v3.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/internarbeidsflate-decorator-v3.umd.js"
+      }
+    }
+  },
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
+    "build:watch": "bunx --bun vite build --watch",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "build-and-preview": "bunx --bun vite build && bunx --bun vite preview",
+    "preview": "bunx --bun vite preview",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.30",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.6"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@navikt/aksel-icons": "^5.12.0",
+    "@navikt/ds-css": "^5.12.0",
+    "@navikt/ds-react": "^5.12.0",
+    "@navikt/ds-tailwind": "^5.12.0",
+    "@navikt/ds-tokens": "^5.12.0",
+    "use-sync-external-store": "^1.2.0",
+    "zustand": "^4.4.1"
+  }
+}

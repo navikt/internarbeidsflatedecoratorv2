@@ -1,0 +1,33 @@
+@import "tailwindcss/base";
+@import "@navikt/ds-css";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.dekorator .navds-form-field {
+  display: block !important;
+}
+
+.dekorator .navds-text-field__input:focus-visible {
+  outline: 2px solid var(--a-orange-500);
+}
+
+.dekorator .navds-text-field__input:hover {
+  outline: 2px solid var(--a-orange-500);
+  border: 1px solid transparent; 
+}
+
+.dekorator .navds-select__input:focus-visible {
+  outline: 2px solid var(--a-orange-500);
+}
+.dekorator .navds-select__input:hover {
+  outline: 2px solid var(--a-orange-500);
+  border: 1px solid transparent; 
+}
+
+[data-theme="internarbeidsflatedecorator-theme"]{
+  --ac-textfield-bg: var(--a-gray-900);
+  --ac-select-bg: var(--a-gray-900);
+  --ac-textfield-text: #fff;
+  --ac-select-text: #fff;
+  --ac-textfield-placeholder:	var(--a-gray-500);
+}
