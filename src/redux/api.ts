@@ -5,7 +5,7 @@ import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../inte
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
 import { FeatureToggles } from '../featureToggle/FeatureToggles';
-import { useFeatureToggle } from '../featureToggle/FeatureToggleProvider';
+import FeatureToggleManager from '../featureToggle/FeatureToggleManager';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -52,7 +52,6 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
     }
 }
 function lagUrls(proxyConfig: ProxyConfig) {
-    const { isOn } = useFeatureToggle(FeatureToggles.IKKE_FNR_I_PATH)
     const modiacontextholderUrl = lagModiacontextholderUrl(proxyConfig);
     const config = {
         aktivEnhetUrl: `${modiacontextholderUrl}/api/context/aktivenhet`,
@@ -60,13 +59,12 @@ function lagUrls(proxyConfig: ProxyConfig) {
         contextUrl: `${modiacontextholderUrl}/api/context`,
         saksbehandlerUrl: `${modiacontextholderUrl}/api/decorator`,
         featureTogglesUrl: `${modiacontextholderUrl}/api/featuretoggle`,
-        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`
+        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`,
+        modiacontextholderUrl
     };
-    if (isOn) {
-        config.aktorIdUrl = () => `${modiacontextholderUrl}/api/v2/decorator/aktor/hent-fnr`
-    }
-    return config
+    return config;
 }
+
 export let urls = lagUrls(false);
 
 export type ResponseError = { data: undefined; error: string };
@@ -109,7 +107,11 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
     }
 }
 
-async function postJson<RESPONSE, REQUEST = any>(url: string, body: REQUEST, options?: RequestInit): Promise<FetchResponse<RESPONSE>> {
+async function postJson<RESPONSE, REQUEST = any>(
+    url: string,
+    body: REQUEST,
+    options?: RequestInit
+): Promise<FetchResponse<RESPONSE>> {
     try {
         const response: Response = await doFetch(url, {
             ...(options || {}),
@@ -121,7 +123,7 @@ async function postJson<RESPONSE, REQUEST = any>(url: string, body: REQUEST, opt
             const content = await response.text();
             return { data: undefined, error: content };
         }
-        return { data: response.json() as RESPONSE, error: undefined };
+        return { data: (await response.json()) as RESPONSE, error: undefined };
     } catch (error) {
         return { data: undefined, error };
     }
@@ -143,17 +145,20 @@ async function deleteJson(url: string, options?: RequestInit): Promise<FetchResp
     }
 }
 
-export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>> {
+export async function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>> {
     const feilmelding = lagFnrFeilmelding(fnr);
 
     if (feilmelding.isJust()) {
         return Promise.reject('Ugyldig fødselsnummer, kan ikke hente aktørId');
     }
 
-    const { isOn } = useFeatureToggle(FeatureToggles.IKKE_FNR_I_PATH)
+    const isOn = await FeatureToggleManager.getToggle(FeatureToggles.IKKE_FNR_I_PATH);
 
     if (isOn) {
-        return postJson<AktorIdResponse, String>(urls.aktorIdUrl(fnr), fnr)
+        return postJson<AktorIdResponse, String>(
+            `${urls.modiacontextholderUrl}/api/v2/decorator/aktor/hent-fnr`,
+            fnr
+        );
     }
 
     return getJson<AktorIdResponse>(urls.aktorIdUrl(fnr));
