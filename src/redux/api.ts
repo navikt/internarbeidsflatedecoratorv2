@@ -5,6 +5,7 @@ import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../inte
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
 import { FeatureToggles } from '../featureToggle/FeatureToggles';
+import FeatureToggleManager from '../featureToggle/FeatureToggleManager';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -52,15 +53,18 @@ export function lagModiacontextholderUrl(proxyConfig: ProxyConfig = false): stri
 }
 function lagUrls(proxyConfig: ProxyConfig) {
     const modiacontextholderUrl = lagModiacontextholderUrl(proxyConfig);
-    return {
+    const config = {
         aktivEnhetUrl: `${modiacontextholderUrl}/api/context/aktivenhet`,
         aktivBrukerUrl: `${modiacontextholderUrl}/api/context/aktivbruker`,
         contextUrl: `${modiacontextholderUrl}/api/context`,
         saksbehandlerUrl: `${modiacontextholderUrl}/api/decorator`,
         featureTogglesUrl: `${modiacontextholderUrl}/api/featuretoggle`,
-        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`
+        aktorIdUrl: (fnr: string) => `${modiacontextholderUrl}/api/decorator/aktor/${fnr}`,
+        modiacontextholderUrl
     };
+    return config;
 }
+
 export let urls = lagUrls(false);
 
 export type ResponseError = { data: undefined; error: string };
@@ -103,7 +107,11 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
     }
 }
 
-async function postJson<T>(url: string, body: T, options?: RequestInit): Promise<FetchResponse<T>> {
+async function postJson<RESPONSE, REQUEST = any>(
+    url: string,
+    body: REQUEST,
+    options?: RequestInit
+): Promise<FetchResponse<RESPONSE>> {
     try {
         const response: Response = await doFetch(url, {
             ...(options || {}),
@@ -115,7 +123,7 @@ async function postJson<T>(url: string, body: T, options?: RequestInit): Promise
             const content = await response.text();
             return { data: undefined, error: content };
         }
-        return { data: body, error: undefined };
+        return { data: (await response.json()) as RESPONSE, error: undefined };
     } catch (error) {
         return { data: undefined, error };
     }
@@ -137,11 +145,20 @@ async function deleteJson(url: string, options?: RequestInit): Promise<FetchResp
     }
 }
 
-export function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>> {
+export async function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdResponse>> {
     const feilmelding = lagFnrFeilmelding(fnr);
 
     if (feilmelding.isJust()) {
         return Promise.reject('Ugyldig fødselsnummer, kan ikke hente aktørId');
+    }
+
+    const isOn = await FeatureToggleManager.getToggle(FeatureToggles.IKKE_FNR_I_PATH);
+
+    if (isOn) {
+        return postJson<AktorIdResponse, String>(
+            `${urls.modiacontextholderUrl}/api/v2/decorator/aktor/hent-fnr`,
+            fnr
+        );
     }
 
     return getJson<AktorIdResponse>(urls.aktorIdUrl(fnr));

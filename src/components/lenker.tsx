@@ -1,19 +1,17 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
     finnMiljoStreng,
     finnNaisInternNavMiljoStreng,
     finnNaisMiljoStreng,
     hentMiljoFraUrl
 } from '../utils/url-utils';
-import {WrappedState} from "../hooks/use-wrapped-state";
-import {useInitializedState} from "../hooks/use-initialized-state";
-import {useEnhetContextvalueState, useFnrContextvalueState} from "../hooks/use-contextvalue-state";
-import {Hotkey, ProxyConfig} from "../domain";
-import {lagModiacontextholderUrl} from "../redux/api";
-import {useDecoratorHotkeys} from "./hurtigtaster/hurtigtaster";
+import { WrappedState } from "../hooks/use-wrapped-state";
+import { useInitializedState } from "../hooks/use-initialized-state";
+import { useEnhetContextvalueState, useFnrContextvalueState } from "../hooks/use-contextvalue-state";
+import { Hotkey, ProxyConfig } from "../domain";
+import { lagModiacontextholderUrl } from "../redux/api";
+import { useDecoratorHotkeys } from "./hurtigtaster/hurtigtaster";
 import './lenker.css';
-import { FeatureToggles } from '../featureToggle/FeatureToggles';
-import { useFeatureToggle } from '../featureToggle/FeatureToggleProvider';
 
 function Lenke(props: { href: string; children: string; target?: string; }) {
     /* eslint-disable jsx-a11y/anchor-has-content */
@@ -57,10 +55,7 @@ const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesys
 export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
 const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
 const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
-function arbeidssokerregistreringURL(fnr: string, enhet: string) {
-    const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${enhet ? `enhetId=${enhet}` : ''}`;
-    return `https://arbeidssokerregistrering${finnNaisInternNavMiljoStreng()}${queryParams}`;
-}
+
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
     const miljo = hentMiljoFraUrl();
@@ -106,14 +101,6 @@ interface Props {
     proxyConfig: ProxyConfig;
 }
 
-const useArbeidssokerRegistreringUrl = (fnr: string, enhet: string) => {
-    const isOn = useFeatureToggle(FeatureToggles.NY_ARBEIDSSOKER_REGISTRERING_URL)
-    if (isOn) {
-        return `https://arbeidssokerregistrering-for-veileder${finnNaisInternNavMiljoStreng()}/`
-    }
-    return arbeidssokerregistreringURL(fnr, enhet)
-}
-
 function Lenker(props: Props) {
     const fnr = useFnrContextvalueState().withDefault('');
     const enhet = useEnhetContextvalueState().withDefault('');
@@ -121,12 +108,10 @@ function Lenker(props: Props) {
         .map((resp) => resp.aktorId)
         .withDefault('');
 
-    const {register} = useDecoratorHotkeys();
+    const { register } = useDecoratorHotkeys();
     useEffect(() => {
         lagHotkeys(fnr, aktorId).forEach(register);
     }, [register, fnr, aktorId])
-
-    const arbeidssokerregistreringURL = useArbeidssokerRegistreringUrl(fnr, enhet)
 
     if (!props.apen.value) {
         return null;
@@ -178,7 +163,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
                                 Aktivitetsplan
                             </Lenke>
-                            <Lenke href={arbeidssokerregistreringURL}>
+                            <Lenke href={`https://arbeidssokerregistrering-for-veileder${finnNaisInternNavMiljoStreng()}/`}>
                                 Registrer person
                             </Lenke>
                             <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStreng()}/tiltaksgjennomforing`}>

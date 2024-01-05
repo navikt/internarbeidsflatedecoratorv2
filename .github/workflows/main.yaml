@@ -7,7 +7,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  IMAGE: ghcr.io/${{ github.repository }}/internarbeidsflatedecorator:${{ github.sha }}
   CI: true
   TZ: Europe/Oslo
 
@@ -35,47 +34,56 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      contents: read
+      id-token: write
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
     steps:
       - uses: actions/checkout@v3
       - name: Publish Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker build --tag ${IMAGE} .
-          docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker push ${IMAGE}
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: personoversikt
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
   deploy-qa:
     name: Deploy to preprod
     needs: build-and-push
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       matrix:
         q_env: [q0, q1]
     steps:
       - uses: actions/checkout@v3
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           PRINT_PAYLOAD: true
           CLUSTER: dev-fss
           RESOURCE: .nais/qa-template.yaml
-          VAR: q_env=${{matrix.q_env}}
+          VAR: q_env=${{matrix.q_env}},image=${{ needs.build-and-push.outputs.image }}
 
   deploy-prod:
     name: Deploy to prod
     needs: build-and-push
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v3
-      - uses: nais/deploy/actions/deploy@v1
+      - uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           PRINT_PAYLOAD: true
           CLUSTER: prod-fss
           RESOURCE: .nais/prod.yaml
+          VAR: image=${{ needs.build-and-push.outputs.image }}
 
   deploy-gh-pages:
     name: Deploy til gh-pages

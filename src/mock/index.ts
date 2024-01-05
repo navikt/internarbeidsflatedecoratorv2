@@ -57,7 +57,7 @@ mock.get('/modiacontextholder/api/decorator/aktor/:fnr', (req, res, ctx) => {
 
 mock.get('/modiacontextholder/api/featuretoggle', (req, res, ctx) => {
     const response: FeatureTogglesResponse = {
-        'modiacontextholder.ny-arbeidssoker-registrering-url': true
+        'modiacontextholder.ikke-fnr-i-path': false
     };
     return res(ctx.status(200), ctx.statusText('Ok'), ctx.json(response));
 });
