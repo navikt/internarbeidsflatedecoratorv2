@@ -5,7 +5,7 @@ import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../inte
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
 import { FeatureToggles } from '../featureToggle/FeatureToggles';
-import FeatureToggleManager from '../featureToggle/FeatureToggleManager';
+// import FeatureToggleManager from '../featureToggle/FeatureToggleManager';
 
 export enum ContextApiType {
     NY_AKTIV_ENHET = 'NY_AKTIV_ENHET',
@@ -107,11 +107,7 @@ export async function getJson<T>(info: RequestInfo, init?: RequestInit): Promise
     }
 }
 
-async function postJson<RESPONSE, REQUEST = any>(
-    url: string,
-    body: REQUEST,
-    options?: RequestInit
-): Promise<FetchResponse<RESPONSE>> {
+async function postJson<T>(url: string, body: T, options?: RequestInit): Promise<FetchResponse<T>> {
     try {
         const response: Response = await doFetch(url, {
             ...(options || {}),
@@ -123,7 +119,7 @@ async function postJson<RESPONSE, REQUEST = any>(
             const content = await response.text();
             return { data: undefined, error: content };
         }
-        return { data: (await response.json()) as RESPONSE, error: undefined };
+        return { data: body, error: undefined };
     } catch (error) {
         return { data: undefined, error };
     }
@@ -152,14 +148,14 @@ export async function hentAktorId(fnr: string): Promise<FetchResponse<AktorIdRes
         return Promise.reject('Ugyldig fødselsnummer, kan ikke hente aktørId');
     }
 
-    const isOn = await FeatureToggleManager.getToggle(FeatureToggles.IKKE_FNR_I_PATH);
+    // const isOn = await FeatureToggleManager.getToggle(FeatureToggles.IKKE_FNR_I_PATH);
 
-    if (isOn) {
-        return postJson<AktorIdResponse, String>(
-            `${urls.modiacontextholderUrl}/api/v2/decorator/aktor/hent-fnr`,
-            fnr
-        );
-    }
+    // if (isOn) {
+    //     return postJson<AktorIdResponse, String>(
+    //         `${urls.modiacontextholderUrl}/api/v2/decorator/aktor/hent-fnr`,
+    //         fnr
+    //     );
+    // }
 
     return getJson<AktorIdResponse>(urls.aktorIdUrl(fnr));
 }
