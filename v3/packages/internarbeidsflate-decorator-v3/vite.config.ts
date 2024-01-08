@@ -1,26 +1,24 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import * as path from 'path'
 
 
-export default defineConfig(({ mode }) => {
-  return {
+export default defineConfig({
     plugins: [
-      react({ jsxRuntime: 'classic' }),
+      react(),
     ],
-    define: {
-      'process.env.NODE_ENV': JSON.stringify(mode)
-    },
     build: {
-      minify: true,
       cssMinify: true,
       manifest: 'asset-manifest.json',
-      lib: {
-        formats: ['umd'],
-        entry: path.resolve(__dirname, 'src/index.ts'),
-        name: 'InternarbeidsFlateDecoratorV3',
-        fileName: (fileEnding) => `internarbeidsflate-decorator-v3.${fileEnding}.js`
+      rollupOptions: {
+        input: "src/index.ts",
+        preserveEntrySignatures: "exports-only",
+        external: ["react", "react-dom"],
+        output: {
+          entryFileNames: "bundle.js",
+          format: "esm",
+          inlineDynamicImports: true,
+          assetFileNames: '[name].[ext]', 
+        },
       },
     },
-  }
 });

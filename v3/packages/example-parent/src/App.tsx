@@ -1,8 +1,5 @@
 import React from 'react'
-import NAVSPA from '@navikt/navspa'
-import { AppProps } from '../../internarbeidsflate-decorator-v3/src'
-
-const Decorator = NAVSPA.importer<AppProps>('internarbeidsflatedecorator')
+import Decorator from 'http://localhost:4173/bundle.js'
 
 function App() {
   return (
@@ -15,7 +12,7 @@ function App() {
           showEnhet={false}
           showEnheter={false}
           showSearchArea={false}
-          showHotkeys={false}
+          showHotkeys={true}
           environment={'q2'}
           urlFormat={'LOCAL'}
           veiledersIdent='12345'

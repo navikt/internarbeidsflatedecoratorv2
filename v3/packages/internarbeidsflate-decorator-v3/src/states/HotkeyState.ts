@@ -3,7 +3,7 @@ import { InternalHotkey, Hotkey, HotkeyObject } from '../types/Hotkey';
 
 export const useHotkeyState = create<HotkeyState>((set) => {
   let internalHotkeys: Record<string, InternalHotkey> = {};
-  console.log('hallo')
+  
   const register = (isDefaultKey: boolean = false, ...hotkeys: Hotkey[]) => {
     console.log(getHotkeyDescription)
     for (const hotkey of hotkeys) {
