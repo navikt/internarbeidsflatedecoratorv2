@@ -43,8 +43,10 @@ export class FnrValueManager extends ContextValueManager {
       );
       return;
     }
+    if (fnrKey) {
+      await this.changeFnrLocallyAndExternally(fnrKey);
+    }
 
-    await this.changeFnrLocallyAndExternally(fnrKey);
   };
 
   #registerPropsHandler = () => {
@@ -57,17 +59,16 @@ export class FnrValueManager extends ContextValueManager {
   };
 
   readonly updateFnrLocallyToMatchContextHolder = async (
-    veiledersIdent: string,
   ) => {
     const activeUser =
-      await this.contextHolderApi.getVeiledersActiveFnr(veiledersIdent);
+      await this.contextHolderApi.getVeiledersActiveFnr();
     if (activeUser.error) {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET,
       );
       return;
     }
-    this.changeFnrLocally(activeUser.data);
+    this.changeFnrLocally(activeUser.data?.aktivBruker);
   };
 
   readonly changeFnrLocally = (newFnr?: string | null) => {

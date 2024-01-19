@@ -8,14 +8,15 @@ export default defineConfig({
     ],
     build: {
       cssMinify: true,
+      minify: true,
       manifest: 'asset-manifest.json',
       rollupOptions: {
         input: "src/index.ts",
         preserveEntrySignatures: "exports-only",
-        external: ["react", "react-dom"],
+        // external: ["react", "react-dom"],
         output: {
           entryFileNames: "bundle.js",
-          format: "esm",
+          // format: "iife",
           inlineDynamicImports: true,
           assetFileNames: '[name].[ext]', 
         },

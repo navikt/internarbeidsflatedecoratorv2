@@ -63,23 +63,22 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
 
   readonly initialize = async (props: StoreProps) => {
     this.setProps(props)
+    this.resetState()
     if (!props.veiledersIdent?.length) {
-      this.resetState()
       return
     }
-    this.resetState();
     console.log('initialize');
     this.contextHolderApi = props.contextHolderApi;
     await Promise.all([
-      this.#fetchVeileder(props.veiledersIdent),
+      this.#fetchVeileder(),
       this.fnrValueManager.initialize(props),
       this.enhetValueManager.initialize(props),
     ]);
     this.eventHandler.initialize(props);
   };
 
-  readonly #fetchVeileder = async (veilederIdent: string) => {
-    const res = await this.contextHolderApi?.getVeilederDetails(veilederIdent);
+  readonly #fetchVeileder = async () => {
+    const res = await this.contextHolderApi?.getVeilederDetails();
     if (!res?.data || res.error) {
       this.errorManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET,

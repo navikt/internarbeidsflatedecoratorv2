@@ -37,10 +37,10 @@ export class EventHandler extends SubstateHandler {
   #onWSMessage = (message: MessageEvent) => {
     const data = JSON.parse(message.data) as WebSocketMessage;
     console.log('Recieved data', data);
-    if (data.type === 'NY_AKTIV_BRUKER') {
-      this.#handleFnrChangedExternally(data.payload);
-    } else if (data.type === 'NY_AKTIV_ENHET') {
-      this.#handleEnhetChangedExternally(data.payload);
+    if (data.eventType === 'NY_AKTIV_BRUKER') {
+      this.#handleFnrChangedExternally();
+    } else if (data.eventType === 'NY_AKTIV_ENHET') {
+      this.#handleEnhetChangedExternally();
     }
   };
 
@@ -51,26 +51,33 @@ export class EventHandler extends SubstateHandler {
     );
   };
 
-  #handleFnrChangedExternally = (newFnr?: string | null) => {
-    if (!newFnr) {
-      return;
+  #handleFnrChangedExternally = async () => {
+    const response = await this.contextHolderApi.getVeiledersActiveFnr()
+
+    if (response.error || !response.data || !response.data.aktivBruker) {
+      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
+      return
     }
+    const { aktivBruker } = response.data
     if (!this.state.fnr.value) {
-      this.#fnrValueManager.setWSFnrRequestedValue(newFnr);
+      this.#fnrValueManager.setWSFnrRequestedValue(aktivBruker);
       this.#fnrValueManager.changeFnrLocallyToWsRequestedValue();
     }
-    if (this.#checkThatUpdateIsNewAndNotAwaitingAccept('fnr', newFnr)) {
-      this.#fnrValueManager.setWSFnrRequestedValue(newFnr);
+    else if (this.#checkThatUpdateIsNewAndNotAwaitingAccept('fnr', aktivBruker)) {
+      this.#fnrValueManager.setWSFnrRequestedValue(aktivBruker);
       this.#fnrValueManager.openFnrModal();
     }
   };
 
-  #handleEnhetChangedExternally = (newEnhet?: string | null) => {
-    if (!newEnhet) {
-      return;
+  #handleEnhetChangedExternally = async () => {
+    const response = await this.contextHolderApi.getVeiledersActiveEnhet()
+    if (response.error || !response.data || !response.data.aktivEnhet) {
+      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_ENHET_FEILET)
+      return
     }
-    if (this.#checkThatUpdateIsNewAndNotAwaitingAccept('enhet', newEnhet)) {
-      this.#enhetValueManager.setWSEnhetRequestedValue(newEnhet);
+    const { aktivEnhet } = response.data
+    if (this.#checkThatUpdateIsNewAndNotAwaitingAccept('enhet', aktivEnhet)) {
+      this.#enhetValueManager.setWSEnhetRequestedValue(aktivEnhet);
       this.#enhetValueManager.openEnhetModal();
     }
   };

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@navikt/ds-react';
 import { useTempValue } from './hooks/useTempValue';
-import { WebSocketWrapper } from '../api/WebSocketWrapper';
+import { WebSocketWrapper} from '../api/WebSocketWrapper';
 import Decorator from '../App'
-import { useInitialSyncContextholderValues } from '..';
+import { useInitialSyncContextholderValues } from '../hooks/useInitialSyncContextholderValues';
 const WS_URL = 'ws://localhost:3000/ws';
 
 type MessageType = 'NY_AKTIV_BRUKER' | 'NY_AKTIV_ENHET';

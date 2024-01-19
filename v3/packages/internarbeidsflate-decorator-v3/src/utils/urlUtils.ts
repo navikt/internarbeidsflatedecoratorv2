@@ -82,20 +82,20 @@ export const modiaContextHolderUrl = (
   contextHolderProxy?: string | undefined | null,
 ): string => {
   if (contextHolderProxy) {
-    return `${contextHolderProxy}/modiacontextholder`;
+    return `${contextHolderProxy}/modiacontextholder/api/context`;
   }
 
   switch (urlFormat) {
     case 'LOCAL':
-      return 'http://localhost:3000/modiacontextholder';
+      return 'http://localhost:8080/modiacontextholder/api/context';
     case 'ADEO':
       return `https://app${findEnvString(
         environment,
-      )}.adeo.no/modiacontextholder`;
+      )}.adeo.no/modiacontextholder/api/context`;
     case 'NAV_NO':
       return `https://modiacontextholder${naisDomain(
         environment,
-      )}/modiacontextholder`;
+      )}/modiacontextholder/api/context`;
   }
 };
 

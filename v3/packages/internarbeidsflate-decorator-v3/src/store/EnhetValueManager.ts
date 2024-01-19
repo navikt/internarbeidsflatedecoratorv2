@@ -39,7 +39,7 @@ export class EnhetValueManager extends ContextValueManager {
       return;
     }
     const saksbehandler =
-      await this.contextHolderApi.getVeilederDetails(veiledersIdent);
+      await this.contextHolderApi.getVeilederDetails();
     if (saksbehandler.error) {
       return this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET,
@@ -47,7 +47,6 @@ export class EnhetValueManager extends ContextValueManager {
     }
 
     const enheter = saksbehandler.data?.enheter;
-
     if (!enheter?.length) {
       this.#resetFnrAndEnhetDueToNoLegalEnhet();
       return;
@@ -67,7 +66,6 @@ export class EnhetValueManager extends ContextValueManager {
   };
 
   readonly updateEnhetLocallyToMatchContextHolder = async (
-    veiledersIdent: string,
   ) => {
     const enheter = this.state.veileder?.enheter;
     if (!enheter?.length) return;
@@ -75,14 +73,14 @@ export class EnhetValueManager extends ContextValueManager {
     const passendeEnhet = enheter[0];
 
     const activeEnhet =
-      await this.contextHolderApi.getVeiledersActiveEnhet(veiledersIdent);
+      await this.contextHolderApi.getVeiledersActiveEnhet();
     if (activeEnhet.error || !activeEnhet.data) {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_ENHET_FEILET,
       );
       return this.changeEnhetLocallyAndExternally(passendeEnhet.enhetId);
     }
-    return this.changeEnhetLocally(activeEnhet.data);
+    return this.changeEnhetLocally(activeEnhet.data.aktivEnhet);
   };
 
   readonly #updateEnhetExternallyToMatchRequestedEnhet = async (
@@ -92,7 +90,7 @@ export class EnhetValueManager extends ContextValueManager {
     if (!this.#haveLegalEnhet(enhet, enheter)) {
       return this.changeEnhetLocallyAndExternally(enheter[0].enhetId);
     }
-    return this.changeEnhetLocally(enhet);
+    return this.changeEnhetLocallyAndExternally(enhet);
   };
 
   readonly #resetFnrAndEnhetDueToNoLegalEnhet = async () => {

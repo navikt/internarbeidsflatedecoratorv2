@@ -77,7 +77,7 @@ const checkExistingHotkeys = (
 
   if (!hotkey.forceOverride && !isDefaultKey) {
     throw new Error(
-      'Prøvde å legge til en hotkey som allerede er registrert. Hvis dette var med vilje; legg til forceOverride: true på hotkey objektet.',
+      'Prøvde å legge til en hotkey som allerede er registrert. Hvis dette var med vilje; legg til `forceOverride: true` på hotkey objektet.',
     );
   }
 };

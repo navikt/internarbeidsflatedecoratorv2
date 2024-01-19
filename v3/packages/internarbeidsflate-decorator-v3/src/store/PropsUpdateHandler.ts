@@ -1,4 +1,4 @@
-import { ContextHolderAPI } from '../api/ContextHolderAPI';
+import { ContextHolderAPIImpl } from '../api/ContextHolderAPI';
 import { AppProps } from '../types/AppProps';
 import { modiaContextHolderUrl, wsEventDistribusjon } from '../utils/urlUtils';
 import { StoreProps } from './StoreHandler';
@@ -94,7 +94,7 @@ export class PropsUpdateHandler extends SubstateHandler {
     } = props;
     const apiUrl =
       contextholderUrl ?? modiaContextHolderUrl(environment, urlFormat, proxy);
-    const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
+    const contextHolderApi = new ContextHolderAPIImpl(apiUrl, accessToken);
     const wsUrl = wsEventDistribusjon(environment, urlFormat);
     const storeProps = {
       ...props,
@@ -136,8 +136,7 @@ export class PropsUpdateHandler extends SubstateHandler {
       return;
     }
     if (!this.#previousStoreProps) return;
-    this.#onNonCritialPropsUpdated(
-      this.#mergeAppPropsAndStoreProps(newProps, this.#previousStoreProps),
-    );
+    const mergedProps = this.#mergeAppPropsAndStoreProps(newProps, this.#previousStoreProps)
+    this.#onNonCritialPropsUpdated(mergedProps);
   };
 }

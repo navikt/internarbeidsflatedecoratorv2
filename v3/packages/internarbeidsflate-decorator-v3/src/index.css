@@ -7,6 +7,10 @@
   display: block !important;
 }
 
+.dekorator .navds-text-field__input {
+  outline: 2px solid var(--a-gray-400);
+}
+
 .dekorator .navds-text-field__input:focus-visible {
   outline: 2px solid var(--a-orange-500);
 }
