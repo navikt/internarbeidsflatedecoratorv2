@@ -37,11 +37,12 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
       setState: this.setState,
       storeHandler: this,
     };
+    this.errorManager = new ErrorMessageManager(substateProps);
     this.propsUpdateHandler = new PropsUpdateHandler(
       substateProps,
       this.initialize,
+      this.errorManager
     );
-    this.errorManager = new ErrorMessageManager(substateProps);
     this.fnrValueManager = new FnrValueManager(
       substateProps,
       this.errorManager,
@@ -67,7 +68,6 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
     if (!props.veiledersIdent?.length) {
       return
     }
-    console.log('initialize');
     this.contextHolderApi = props.contextHolderApi;
     await Promise.all([
       this.#fetchVeileder(),

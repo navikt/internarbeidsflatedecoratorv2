@@ -15,7 +15,7 @@ export class ContextValueManager extends SubstateHandler {
   ) => {
     const currentValue = { ...this.state[key] };
     const newValue = { ...currentValue, ...update };
-    console.log(key, update);
+    
     this.setState({ [key]: newValue });
   };
 

@@ -10,25 +10,8 @@ interface AktivEnhetResponse {
   aktivEnhet: string | undefined
 }
 
-export interface ContextHolderAPI {
-  exhangeUserKeyForFnr: (
-    userKey: string,
-  ) => Promise<FetchResponse<string>>
 
-  changeFnr: (newFnr?: string | null) => Promise<FetchResponse<void>>
-
-  changeEnhet: (newEnhet?: string | null) => Promise<FetchResponse<void>>;
-
-  getEnhet: (enhetId: string) => Promise<FetchResponse<Enhet>>;
-
-  getVeilederDetails: () => Promise<FetchResponse<Veileder>>;
-
-  getVeiledersActiveFnr: () => Promise<FetchResponse<AktivBrukerResponse>>;
-
-  getVeiledersActiveEnhet: () => Promise<FetchResponse<AktivEnhetResponse>>
-}
-
-export class ContextHolderAPIImpl extends ApiClient implements ContextHolderAPI {
+export class ContextHolderAPI extends ApiClient {
   constructor(url: string, token?: string) {
     super(url, token);
   }

@@ -24,7 +24,7 @@ const getErrorResponse = (status = 500) => {
     return new HttpResponse(null, { status })
 }
 
-const getSuccessResponse = ({ status, body }: { status?: number | null, body?: any } = { status: 200, body: null }) => {
+const getSuccessResponse = ({ status, body }: { status?: number | null, body?: unknown } = { status: 200, body: null }) => {
     return new HttpResponse(JSON.stringify(body ?? {}), { status: status ?? 200 })
 }
 
@@ -85,7 +85,6 @@ export const getHandlers = (ws: WS, errorConfig: FailureConfig): HttpHandler[] =
             return getSuccessResponse({ body: { aktivEnhet: context.aktivEnhet } })
         }),
         http.get(getUrl('/aktivbruker'), () => {
-            console.log('HALLO')
             if (errorConfig.contextholder.getBruker) {
                 return getErrorResponse()
             }
@@ -127,6 +126,7 @@ export const getHandlers = (ws: WS, errorConfig: FailureConfig): HttpHandler[] =
         }),
         http.post(getUrl('/bytt-bruker-nokkel'), async ({ request }) => {
             const { userKey } = await request.json() as { userKey: string }
+            console.log(userKey)
             return getSuccessResponse({ body: `10108000398` })
         })
 

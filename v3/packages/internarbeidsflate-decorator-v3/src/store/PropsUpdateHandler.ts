@@ -1,6 +1,8 @@
-import { ContextHolderAPIImpl } from '../api/ContextHolderAPI';
+import { ContextHolderAPI } from '../api/ContextHolderAPI';
 import { AppProps } from '../types/AppProps';
 import { modiaContextHolderUrl, wsEventDistribusjon } from '../utils/urlUtils';
+import { ErrorMessageManager } from './ErrorMessageManager';
+import { FirstSyncContextValue } from './FirstSyncContextValue';
 import { StoreProps } from './StoreHandler';
 import { SubstateHandler, SubstateHandlerProps } from './SubstateHandler';
 
@@ -12,6 +14,7 @@ type Callback = (
 export class PropsUpdateHandler extends SubstateHandler {
   #previousStoreProps?: StoreProps;
   #previousAppProps?: AppProps;
+  #errorMessageManager: ErrorMessageManager
   #callBacks: {
     [key in keyof Partial<StoreProps>]: { id: string; callback: Callback }[];
   } = {};
@@ -28,9 +31,11 @@ export class PropsUpdateHandler extends SubstateHandler {
   constructor(
     substateProps: SubstateHandlerProps,
     initializeStore: (newProps: StoreProps) => void,
+    errorMessageManager: ErrorMessageManager
   ) {
     super(substateProps);
     this.#initializeStore = initializeStore;
+    this.#errorMessageManager = errorMessageManager
   }
 
   registerCallback = (
@@ -83,7 +88,7 @@ export class PropsUpdateHandler extends SubstateHandler {
     this.#previousStoreProps = newProps;
   };
 
-  #onCriticalPropsUpdated = (props: AppProps) => {
+  #onCriticalPropsUpdated = async (props: AppProps) => {
     const {
       environment,
       urlFormat,
@@ -94,16 +99,25 @@ export class PropsUpdateHandler extends SubstateHandler {
     } = props;
     const apiUrl =
       contextholderUrl ?? modiaContextHolderUrl(environment, urlFormat, proxy);
-    const contextHolderApi = new ContextHolderAPIImpl(apiUrl, accessToken);
+    const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
     const wsUrl = wsEventDistribusjon(environment, urlFormat);
+    const firstSyncContextValue = new FirstSyncContextValue(contextHolderApi, this.#errorMessageManager, !!props.fetchActiveUserOnMount, !!props.fetchActiveEnhetOnMount)
     const storeProps = {
       ...props,
       contextHolderApi,
       wsUrl,
       veiledersIdent,
     };
+    const [fnrRes, enhetRes] = await Promise.allSettled([firstSyncContextValue.getFnr(props.fnr), firstSyncContextValue.getEnhet(props.enhet)])
+    if (fnrRes.status === 'fulfilled') {
+      storeProps.fnr = fnrRes.value
+    }
+    if (enhetRes.status === 'fulfilled') {
+      storeProps.enhet = enhetRes.value
+    }
     this.#previousAppProps = props;
     this.#previousStoreProps = storeProps;
+
     this.#initializeStore(storeProps);
   };
 
