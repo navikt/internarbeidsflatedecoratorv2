@@ -21,8 +21,7 @@ export class FirstSyncContextValue {
     }
 
     getFnr = async (fnr: string | undefined): Promise<string | undefined> => {
-        console.log(this.#haveSyncedFnr)
-        if (this.#haveSyncedFnr) {
+        if (this.#haveSyncedFnr || fnr) {
             return fnr
         }
         const res = await this.#contextHolderApi.getVeiledersActiveFnr() 
@@ -35,7 +34,7 @@ export class FirstSyncContextValue {
     }
 
     getEnhet = async(enhet: string | undefined): Promise<string | undefined> => {
-        if (this.#haveSyncedEnhet) {
+        if (this.#haveSyncedEnhet || enhet) {
             return enhet
         }
 

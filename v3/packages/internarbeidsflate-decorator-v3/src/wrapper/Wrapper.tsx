@@ -4,26 +4,28 @@ import { useTempValue } from './hooks/useTempValue';
 import { WebSocketWrapper} from '../api/WebSocketWrapper';
 import Decorator from '../App'
 import { useInitialSyncContextholderValues } from '../hooks/useInitialSyncContextholderValues';
-const WS_URL = 'ws://localhost:3000/ws';
+import { ContextHolderAPI } from '../api/ContextHolderAPI';
+const WS_URL = 'ws://localhost:4000/ws';
+const URL = 'http://localhost:4000/modiacontextholder/api/context'
 
-type MessageType = 'NY_AKTIV_BRUKER' | 'NY_AKTIV_ENHET';
+const ident = 'Z999999'
 
 const Wrapper: React.FC = () => {
   const [enhet, tmpEnhet, setTmpEnhet, makeTheEnhetChange] = useTempValue('');
   const [fnr, tmpFnr, setTmpFnr, makeTheFnrChange] = useTempValue('');
-  const [ident, tmpIdent, setTmpIdent, makeTheIdentChange] = useTempValue('');
   const [wsEnhet, setWsEnhet] = useState('');
   const [wsFnr, setWsFnr] = useState('');
-  const [websocketHandler, setWebsocketHandler] = useState<WebSocketWrapper>();
+  const [_, setWebsocketHandler] = useState<WebSocketWrapper>();
   const [wsConnected, setWsConntected] = useState(false);
   const [wsMessages, setWsMessages] = useState<string[]>([]);
   const [propsUpdates, setPropsUpdates] = useState<string[]>([]);
+  const [api] = useState(() => new ContextHolderAPI(URL))
 
   useInitialSyncContextholderValues();
 
   useEffect(() => {
     if (ident) {
-      const websocketHandler = new WebSocketWrapper(`${WS_URL}/${ident}`, {
+      const websocketHandler = new WebSocketWrapper(`${WS_URL}/${ident}`, 'local', {
         onOpen: () => setWsConntected(true),
         onClose: () => setWsConntected(false),
         onMessage: (event) => {
@@ -36,18 +38,14 @@ const Wrapper: React.FC = () => {
       setWebsocketHandler(websocketHandler);
       return () => websocketHandler.close();
     }
-  }, [ident]);
+  }, []);
 
-  const sendMessage = (type: MessageType, payload: string | undefined) => {
-    websocketHandler?.sendMessage(JSON.stringify({ type, payload }));
+  const sendNewEnhet = async () => {
+    await api.changeEnhet(wsEnhet)
   };
 
-  const sendNewEnhet = () => {
-    sendMessage('NY_AKTIV_ENHET', wsEnhet);
-  };
-
-  const sendNewFnr = () => {
-    sendMessage('NY_AKTIV_BRUKER', wsFnr);
+  const sendNewFnr = async () => {
+    await api.changeFnr(wsFnr)
   };
 
   return (
@@ -64,7 +62,6 @@ const Wrapper: React.FC = () => {
           urlFormat={'LOCAL'}
           enhet={enhet}
           fnr={fnr}
-          veiledersIdent={ident}
           onEnhetChanged={(enhet) => {
             setTmpEnhet(enhet ?? '', true);
             setPropsUpdates((props) => [
@@ -86,15 +83,6 @@ const Wrapper: React.FC = () => {
         <div>
           <div className="dr-text-center dr-w-full dr-text-lg">Wrapper</div>
           <div className="dr-flex dr-justify-center dr-w-full">
-            <div className="dr-mx-2">
-              <TextField
-                className="dr-mb-2"
-                label="Veileders ident"
-                value={tmpIdent}
-                onChange={(e) => setTmpIdent(e.target.value)}
-              />
-              <Button onClick={makeTheIdentChange}>Endre veileder</Button>
-            </div>
             <div className="dr-mx-2">
               <TextField
                 className="dr-mb-2"

@@ -27,6 +27,7 @@ export class CustomServer {
   constructor() {
     this.#serverOptions = {
       development: true,
+      port: 4000,
       fetch: this.#fetch,
       websocket: {
         open: this.#openWS,

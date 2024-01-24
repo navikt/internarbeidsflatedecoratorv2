@@ -2,7 +2,6 @@ import { AppState } from '../states/AppState';
 
 interface DomainProps {
   enhet?: string | undefined;
-  veiledersIdent: string;
   accessToken?: string | undefined;
   fnr?: string | undefined;
   userKey?: string | undefined;

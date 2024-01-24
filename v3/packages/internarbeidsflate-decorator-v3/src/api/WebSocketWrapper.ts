@@ -1,4 +1,5 @@
 import { WebSocketListener } from '../types/WebSocketListener';
+import { Environment } from '../utils/environmentUtils';
 const SECONDS: number = 1000;
 const MINUTES: number = 60 * SECONDS;
 const MAX_RETRIES: number = 30;
@@ -33,15 +34,17 @@ export class WebSocketWrapper {
   #status: Status;
   #wsUrl: string;
   readonly #listener: WebSocketListener;
+  #environment: Environment
 
   private connection?: WebSocket;
   private resettimer?: ReturnType<typeof window.setTimeout> | null;
   private retrytimer?: ReturnType<typeof window.setTimeout> | null;
   private retryCounter = 0;
 
-  constructor(wsUrl: string, listener: WebSocketListener) {
+  constructor(wsUrl: string, environment: Environment, listener: WebSocketListener) {
     this.#wsUrl = wsUrl;
     this.#listener = listener;
+    this.#environment = environment;
     this.#status = Status.INIT;
   }
 
@@ -51,6 +54,10 @@ export class WebSocketWrapper {
       return;
     }
     WebSocketWrapper.#print('Opening WS', this.#wsUrl);
+    if (this.#environment === 'mock') {
+      console.warn('WebSocket er ikke støttet av MSW, derfor blir det ikke mocket. Se: https://github.com/mswjs/interceptors/pull/484')
+      return
+    }
     this.connection = new WebSocket(this.#wsUrl);
     this.connection.addEventListener('open', this.#onWSOpen);
     this.connection.addEventListener('message', this.#onWSMessage);

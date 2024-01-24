@@ -3,23 +3,14 @@ import { CustomServer } from './CustomServer';
 import { BadRequestResponse } from './responses/BadRequestResponse';
 import { InternalServerErrorResponse } from './responses/InternalServerErrorResponse';
 import { SuccessResponse } from './responses/SuccessResponse';
-import { Enhet, Veileder } from '../internarbeidsflate-decorator-v3/src/index';
+import { mockMe } from '../internarbeidsflate-decorator-v3/src/__mocks__/mock-handlers'
 import { NotFoundResponse } from './responses/NotFoundResponse';
 import { BunServerWebsocket } from './types';
 type Metadata = { ident: string };
 
-const enheter: Enhet[] = [
-  {
-    enhetId: 'IT29000',
-    navn: 'IT',
-  },
-  {
-    enhetId: 'FAKE',
-    navn: 'FAKE AVDELING',
-  },
-];
-
 const serve = () => {
+  type Context = { aktivEnhet: string | undefined; aktivBruker: string | undefined };
+  const context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
   const clients: Record<string, BunServerWebsocket> = {};
 
   const app = new CustomServer();
@@ -39,44 +30,24 @@ const serve = () => {
     return new SuccessResponse();
   });
 
-  app.get('/modiacontextholder/:ident/details', (request) => {
-    if (!request.haveParam('ident')) {
-      return new BadRequestResponse('Missing ident');
-    }
-
-    const response: Veileder = {
-      navn: 'Test Behandler',
-      ident: request.params['ident'],
-      enheter,
-      etternavn: 'Behandler',
-      fornavn: 'Test',
-    };
-
-    return new SuccessResponse(response);
+  app.get('/modiacontextholder/api/context/decorator', () => {
+    return new SuccessResponse(mockMe);
   });
 
-  app.get('/modiacontextholder/:ident/aktiv-bruker', (request) => {
-    if (!request.haveParam('ident')) {
-      return new BadRequestResponse('Missing ident');
-    }
-
-    return new SuccessResponse('10108000398');
+  app.get('/modiacontextholder/api/context/v2/aktivbruker', () => {
+    return new SuccessResponse({aktivBruker: context.aktivBruker });
   });
 
-  app.get('/modiacontextholder/:ident/aktiv-enhet', (request) => {
-    if (!request.haveParam('ident')) {
-      return new BadRequestResponse('Missing ident');
-    }
-
-    return new SuccessResponse(enheter[0].enhetId);
+  app.get('/modiacontextholder/api/context/v2/aktivenhet', () => {
+    return new SuccessResponse({aktivEnhet: context.aktivEnhet });
   });
 
-  app.get('/modiacontextholder/enhet/:enhetId', (request) => {
+  app.get('/modiacontextholder/api/context/enhet/:enhetId', (request) => {
     if (!request.haveParam('enhetId')) {
       return new BadRequestResponse('Missing enhetId');
     }
 
-    const response = enheter.find(
+    const response = mockMe.enheter.find(
       (enhet) => enhet.enhetId === request.params.enhetId,
     );
 
@@ -87,21 +58,26 @@ const serve = () => {
     return new SuccessResponse(response);
   });
 
-  app.post('/modiacontextholder', async (request) => {
+  app.post('/modiacontextholder/api/context', async (request) => {
+    console.log('HALLO')
     if (!request.body) {
       return new BadRequestResponse('No body provided');
     }
 
     const {
-      fnr,
-      enhet,
-    }: { fnr?: string | undefined; enhet?: string | undefined } =
+      eventType,
+      verdi,
+    }: { eventType: 'NY_AKTIV_ENHET' | 'NY_AKTIV_BRUKER'; verdi: string } =
       await Bun.readableStreamToJSON(request.body);
 
-    if (enhet) broadCastToClients({ type: 'NY_AKTIV_ENHET', payload: enhet });
-    if (fnr) broadCastToClients({ type: 'NY_AKTIV_BRUKER', payload: fnr });
+    if (eventType === 'NY_AKTIV_BRUKER') {
+      context.aktivBruker = verdi
+    } else if (eventType === 'NY_AKTIV_ENHET') {
+      context.aktivEnhet = verdi
+    }
+    broadCastToClients({ eventType, verdi });
 
-    return new SuccessResponse({ fnr, enhet });
+    return new SuccessResponse({...context});
   });
 
   app.addWebSocketHandler<Metadata>('/ws/:ident', {

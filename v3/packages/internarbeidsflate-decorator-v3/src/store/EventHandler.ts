@@ -25,8 +25,8 @@ export class EventHandler extends SubstateHandler {
     this.#enhetValueManager = enhetValueManager;
     this.#errorMessageManager = errorMessageManager;
   }
-  override initialize = ({ wsUrl, veiledersIdent }: StoreProps) => {
-    this.#webSocketWrapper = new WebSocketWrapper(`${wsUrl}${veiledersIdent}`, {
+  initialize = ({ wsUrl, environment, veiledersIdent }: StoreProps) => {
+    this.#webSocketWrapper = new WebSocketWrapper(`${wsUrl}${veiledersIdent}`, environment, {
       onMessage: this.#onWSMessage,
       onError: this.#onWSError,
     });
@@ -37,9 +37,9 @@ export class EventHandler extends SubstateHandler {
   #onWSMessage = (message: MessageEvent) => {
     const data = JSON.parse(message.data) as WebSocketMessage;
     console.log('Recieved data', data);
-    if (data.eventType === 'NY_AKTIV_BRUKER') {
+    if (data.data === 'NY_AKTIV_BRUKER') {
       this.#handleFnrChangedExternally();
-    } else if (data.eventType === 'NY_AKTIV_ENHET') {
+    } else if (data.data === 'NY_AKTIV_ENHET') {
       this.#handleEnhetChangedExternally();
     }
   };
@@ -53,7 +53,6 @@ export class EventHandler extends SubstateHandler {
 
   #handleFnrChangedExternally = async () => {
     const response = await this.contextHolderApi.getVeiledersActiveFnr()
-
     if (response.error || !response.data || !response.data.aktivBruker) {
       this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
       return

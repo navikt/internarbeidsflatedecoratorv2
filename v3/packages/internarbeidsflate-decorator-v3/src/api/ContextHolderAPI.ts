@@ -41,11 +41,11 @@ export class ContextHolderAPI extends ApiClient {
 
   readonly getVeiledersActiveFnr = (
   ): Promise<FetchResponse<AktivBrukerResponse>> => {
-    return this.get<AktivBrukerResponse>({ path: `/aktivbruker` });
+    return this.get<AktivBrukerResponse>({ path: `/v2/aktivbruker` });
   };
 
   readonly getVeiledersActiveEnhet = (
   ): Promise<FetchResponse<AktivEnhetResponse>> => {
-    return this.get<AktivEnhetResponse>({ path: `/aktivenhet` });
+    return this.get<AktivEnhetResponse>({ path: `/v2/aktivenhet` });
   };
 }

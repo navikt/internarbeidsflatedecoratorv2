@@ -28,14 +28,12 @@ export class EnhetValueManager extends ContextValueManager {
   }
 
   override initialize = async ({
-    veiledersIdent,
     enhet,
     onEnhetChanged,
   }: StoreProps) => {
     this.#registerPropsHandler();
     this.#onEnhetChanged = onEnhetChanged;
-    if (!veiledersIdent) return this.changeEnhetLocally();
-    if (enhet === this.state.enhet.value) {
+    if (enhet && enhet === this.state.enhet.value) {
       return;
     }
     const saksbehandler =

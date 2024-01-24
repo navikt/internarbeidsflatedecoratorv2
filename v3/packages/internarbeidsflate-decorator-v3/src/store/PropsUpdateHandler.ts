@@ -1,5 +1,6 @@
 import { ContextHolderAPI } from '../api/ContextHolderAPI';
 import { AppProps } from '../types/AppProps';
+import { PredefiniertFeilmeldinger } from '../types/ErrorMessage';
 import { modiaContextHolderUrl, wsEventDistribusjon } from '../utils/urlUtils';
 import { ErrorMessageManager } from './ErrorMessageManager';
 import { FirstSyncContextValue } from './FirstSyncContextValue';
@@ -25,7 +26,6 @@ export class PropsUpdateHandler extends SubstateHandler {
     'accessToken',
     'onBeforeRequest',
     'proxy',
-    'veiledersIdent',
   ];
 
   constructor(
@@ -95,19 +95,23 @@ export class PropsUpdateHandler extends SubstateHandler {
       proxy,
       accessToken,
       contextholderUrl,
-      veiledersIdent,
     } = props;
     const apiUrl =
       contextholderUrl ?? modiaContextHolderUrl(environment, urlFormat, proxy);
     const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
+    const veilederDetails = await contextHolderApi.getVeilederDetails()
+    if (veilederDetails.error || !veilederDetails.data) {
+      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET)
+      return
+    }
     const wsUrl = wsEventDistribusjon(environment, urlFormat);
-    const firstSyncContextValue = new FirstSyncContextValue(contextHolderApi, this.#errorMessageManager, !!props.fetchActiveUserOnMount, !!props.fetchActiveEnhetOnMount)
     const storeProps = {
       ...props,
       contextHolderApi,
       wsUrl,
-      veiledersIdent,
+      veiledersIdent: veilederDetails.data.ident,
     };
+    const firstSyncContextValue = new FirstSyncContextValue(contextHolderApi, this.#errorMessageManager, !!props.fetchActiveUserOnMount, !!props.fetchActiveEnhetOnMount)
     const [fnrRes, enhetRes] = await Promise.allSettled([firstSyncContextValue.getFnr(props.fnr), firstSyncContextValue.getEnhet(props.enhet)])
     if (fnrRes.status === 'fulfilled') {
       storeProps.fnr = fnrRes.value
@@ -140,7 +144,7 @@ export class PropsUpdateHandler extends SubstateHandler {
       ...appProps,
       wsUrl: storeProps.wsUrl,
       contextHolderApi: storeProps.contextHolderApi,
-      veiledersIdent: storeProps.veiledersIdent,
+      veiledersIdent: storeProps.veiledersIdent
     };
   };
 

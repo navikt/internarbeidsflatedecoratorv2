@@ -62,18 +62,28 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
     );
   }
 
+  // override onBeforeStateUpdated = (stateUpdate: Partial<State>, _oldState: State): Partial<State> => {
+  //   console.log('onBefore', stateUpdate.enhet?.value, _oldState.enhet.value)
+  //   if (stateUpdate.enhet?.value && stateUpdate.enhet.value !== _oldState.enhet.value) {
+  //     this.props?.onEnhetChanged(stateUpdate.enhet.value)
+  //   }
+  //   if (stateUpdate.fnr?.value && stateUpdate.fnr.value !== _oldState.fnr.value) {
+  //     this.props?.onFnrChanged(stateUpdate.fnr.value)
+  //   }
+  //   return stateUpdate
+  // }
+
   readonly initialize = async (props: StoreProps) => {
     this.setProps(props)
     this.resetState()
-    if (!props.veiledersIdent?.length) {
-      return
-    }
+
     this.contextHolderApi = props.contextHolderApi;
     await Promise.all([
       this.#fetchVeileder(),
       this.fnrValueManager.initialize(props),
       this.enhetValueManager.initialize(props),
     ]);
+
     this.eventHandler.initialize(props);
   };
 

@@ -87,7 +87,7 @@ export const modiaContextHolderUrl = (
 
   switch (urlFormat) {
     case 'LOCAL':
-      return 'http://localhost:8080/modiacontextholder/api/context';
+      return 'http://localhost:4000/modiacontextholder/api/context';
     case 'ADEO':
       return `https://app${findEnvString(
         environment,
@@ -105,7 +105,7 @@ export const wsEventDistribusjon = (
 ) => {
   switch (urlFormat) {
     case 'LOCAL':
-      return 'ws://localhost:3000/ws/';
+      return 'ws://localhost:4000/ws/';
     default:
       return `wss://veilederflatehendelser${findEnvString(environment)}.${
         environment === 'prod' ? '.dev' : ''
