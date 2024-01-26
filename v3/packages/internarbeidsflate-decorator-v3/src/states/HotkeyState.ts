@@ -5,7 +5,6 @@ export const useHotkeyState = create<HotkeyState>((set) => {
   let internalHotkeys: Record<string, InternalHotkey> = {};
   
   const register = (isDefaultKey: boolean = false, ...hotkeys: Hotkey[]) => {
-    console.log(getHotkeyDescription)
     for (const hotkey of hotkeys) {
       const hotkeyDescription = getHotkeyDescription(hotkey.key);
       checkExistingHotkeys(

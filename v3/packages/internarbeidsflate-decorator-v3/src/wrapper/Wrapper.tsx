@@ -3,7 +3,6 @@ import { Button, TextField } from '@navikt/ds-react';
 import { useTempValue } from './hooks/useTempValue';
 import { WebSocketWrapper} from '../api/WebSocketWrapper';
 import Decorator from '../App'
-import { useInitialSyncContextholderValues } from '../hooks/useInitialSyncContextholderValues';
 import { ContextHolderAPI } from '../api/ContextHolderAPI';
 const WS_URL = 'ws://localhost:4000/ws';
 const URL = 'http://localhost:4000/modiacontextholder/api/context'
@@ -20,8 +19,6 @@ const Wrapper: React.FC = () => {
   const [wsMessages, setWsMessages] = useState<string[]>([]);
   const [propsUpdates, setPropsUpdates] = useState<string[]>([]);
   const [api] = useState(() => new ContextHolderAPI(URL))
-
-  useInitialSyncContextholderValues();
 
   useEffect(() => {
     if (ident) {
@@ -62,6 +59,8 @@ const Wrapper: React.FC = () => {
           urlFormat={'LOCAL'}
           enhet={enhet}
           fnr={fnr}
+          fetchActiveEnhetOnMount
+          fetchActiveUserOnMount
           onEnhetChanged={(enhet) => {
             setTmpEnhet(enhet ?? '', true);
             setPropsUpdates((props) => [

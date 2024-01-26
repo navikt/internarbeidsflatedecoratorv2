@@ -73,7 +73,7 @@ const SearchArea: React.FC = () => {
           onChange={(e) => setInput(e.currentTarget.value)}
           label={undefined}
         />
-        <div className="dr-absolute dr-right-[1px] dr-top-[1px] dr-z-10 dr-bottom-0 dr-w-12">
+        <div className="dr-absolute dr-right-0 dr-top-0 dr-z-10 dr-bottom-0 dr-w-12">
           <Button
             className="focus:dr-outline-none focus:dr-ring focus:dr-ring-orange-500 dr-text-white hover:dr-text-white hover:dr-bg-gray-600"
             icon={config.icon}

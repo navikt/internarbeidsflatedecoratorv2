@@ -59,7 +59,6 @@ const serve = () => {
   });
 
   app.post('/modiacontextholder/api/context', async (request) => {
-    console.log('HALLO')
     if (!request.body) {
       return new BadRequestResponse('No body provided');
     }
@@ -75,7 +74,7 @@ const serve = () => {
     } else if (eventType === 'NY_AKTIV_ENHET') {
       context.aktivEnhet = verdi
     }
-    broadCastToClients({ eventType, verdi });
+    broadCastToClients({ type: 'control', data: eventType });
 
     return new SuccessResponse({...context});
   });

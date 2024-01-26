@@ -39,7 +39,6 @@ type Context = { aktivEnhet: string | null; aktivBruker: string | null };
 let context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
 
 export const updateMockContext = (newContext: Partial<Context>) => {
-  console.log('updating mock', newContext)
   context = {
   ...context,
   ...newContext,
@@ -55,7 +54,6 @@ export const getHandlers = (
   ws: WS,
   errorConfig: FailureConfig,
 ): HttpHandler[] => {
-  ws.on('message', console.log);
   return [
     http.post(getUrl(''), async ({ request }) => {
       const { eventType, verdi } = (await request.json()) as {

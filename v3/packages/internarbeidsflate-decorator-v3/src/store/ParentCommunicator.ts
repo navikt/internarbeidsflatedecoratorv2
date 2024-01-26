@@ -1,21 +1,17 @@
 import { EnhetValueManager } from './EnhetValueManager';
 import { FnrValueManager } from './FnrValueManager';
-import { StoreProps } from './StoreHandler';
 import { SubstateHandler, SubstateHandlerProps } from './SubstateHandler';
 
 export class ParentCommunicator extends SubstateHandler {
   #fnrValueManager: FnrValueManager;
   #enhetValueManager: EnhetValueManager;
-  #initialize: (props: StoreProps) => Promise<void>;
 
   constructor(
     substateProps: SubstateHandlerProps,
     fnrValueManager: FnrValueManager,
     enhetValueManager: EnhetValueManager,
-    initialize: (props: StoreProps) => Promise<void>,
   ) {
     super(substateProps);
-    this.#initialize = initialize;
     this.#fnrValueManager = fnrValueManager;
     this.#enhetValueManager = enhetValueManager;
   }
@@ -39,13 +35,6 @@ export class ParentCommunicator extends SubstateHandler {
 
   forceNewEnhet = (enhet: string): Promise<void> => {
     return this.#enhetValueManager.changeEnhetLocallyAndExternally(enhet);
-  };
-
-  forceNewVeileder = (veiledersIdent: string) => {
-    if (!this.props) {
-      throw new Error("Manglet props for å bytte veileder")
-    }
-    this.#initialize({ ...this.props, veiledersIdent });
   };
 
   clearFnr = () => {

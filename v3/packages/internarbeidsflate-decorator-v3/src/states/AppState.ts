@@ -26,5 +26,4 @@ export interface AppState {
   environment: Environment;
   urlFormat: UrlFormat;
   proxy?: string | undefined;
-  contextholderUrl?: string | undefined;
 }

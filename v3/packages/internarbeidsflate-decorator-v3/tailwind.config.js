@@ -17,7 +17,10 @@ export default {
       },
       transitionProperty: {
         'height': 'height'
-      }
+      },
+     maxWidth: {
+      '9xl': '96rem' 
+     } 
     },
   },
   presets: [dsTailwind],

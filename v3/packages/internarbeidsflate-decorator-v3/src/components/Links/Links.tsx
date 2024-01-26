@@ -19,7 +19,7 @@ const Links: React.FC = () => {
   }, [enhet, environment, fnr, urlFormat]);
 
   return (
-    <div className="dr-max-w-5xl dr-mr-auto dr-ml-auto dr-p-4 dr-text-left">
+    <div className="dr-max-w-6xl dr-mr-auto dr-ml-auto dr-p-4 dr-text-left">
       <div className="dr-flex dr-flex-wrap dr-mb-8">
         <Column linkSection={links.modia} />
         <Column linkSection={links.arbeidsrettet} />

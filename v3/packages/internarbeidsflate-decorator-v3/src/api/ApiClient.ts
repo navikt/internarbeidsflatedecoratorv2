@@ -37,6 +37,7 @@ export class ApiClient {
   #doRequest = async <T>(
     method: Method,
     { path, body, headers }: RequestConfig,
+    controller?: AbortController | null
   ): Promise<FetchResponse<T>> => {
     const fullUrl = this.#buildUrl(path);
 
@@ -47,6 +48,7 @@ export class ApiClient {
         method: method,
         headers: new Headers(newHeaders),
         body: JSON.stringify(body),
+        signal: controller?.signal ?? null
       });
 
       if (res.ok) {

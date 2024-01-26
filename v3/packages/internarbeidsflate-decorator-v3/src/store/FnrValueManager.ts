@@ -26,13 +26,13 @@ export class FnrValueManager extends ContextValueManager {
   }
 
   override initialize = async ({
-    veiledersIdent,
+    veileder,
     fnr,
     userKey,
     onFnrChanged,
   }: StoreProps) => {
     this.#onFnrUpdated = onFnrChanged;
-    if (!veiledersIdent) {
+    if (!veileder.ident) {
       this.changeFnrLocally();
       return;
     }

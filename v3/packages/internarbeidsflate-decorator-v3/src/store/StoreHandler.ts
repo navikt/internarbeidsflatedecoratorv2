@@ -5,7 +5,7 @@ import { ContextHolderAPI } from '../api/ContextHolderAPI';
 import { Enhet } from '../types/Enhet';
 import { Veileder } from '../types/Veileder';
 import { ContextValue, getInitialContextValue } from '../types/ContextValue';
-import { ErrorMessage, PredefiniertFeilmeldinger } from '../types/ErrorMessage';
+import { ErrorMessage } from '../types/ErrorMessage';
 import { ErrorMessageManager } from './ErrorMessageManager';
 import { AppProps } from '../types/AppProps';
 import { EnhetValueManager } from './EnhetValueManager';
@@ -14,7 +14,7 @@ import { StateHandler } from './StateHandler';
 import { SubstateHandlerProps } from './SubstateHandler';
 
 export interface StoreProps extends AppProps {
-  veiledersIdent: string;
+  veileder: Veileder;
   wsUrl: string;
   contextHolderApi: ContextHolderAPI;
 }
@@ -62,24 +62,13 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
     );
   }
 
-  // override onBeforeStateUpdated = (stateUpdate: Partial<State>, _oldState: State): Partial<State> => {
-  //   console.log('onBefore', stateUpdate.enhet?.value, _oldState.enhet.value)
-  //   if (stateUpdate.enhet?.value && stateUpdate.enhet.value !== _oldState.enhet.value) {
-  //     this.props?.onEnhetChanged(stateUpdate.enhet.value)
-  //   }
-  //   if (stateUpdate.fnr?.value && stateUpdate.fnr.value !== _oldState.fnr.value) {
-  //     this.props?.onFnrChanged(stateUpdate.fnr.value)
-  //   }
-  //   return stateUpdate
-  // }
-
   readonly initialize = async (props: StoreProps) => {
     this.setProps(props)
     this.resetState()
 
     this.contextHolderApi = props.contextHolderApi;
+    this.setState({ veileder: props.veileder })
     await Promise.all([
-      this.#fetchVeileder(),
       this.fnrValueManager.initialize(props),
       this.enhetValueManager.initialize(props),
     ]);
@@ -87,16 +76,6 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
     this.eventHandler.initialize(props);
   };
 
-  readonly #fetchVeileder = async () => {
-    const res = await this.contextHolderApi?.getVeilederDetails();
-    if (!res?.data || res.error) {
-      this.errorManager.addErrorMessage(
-        PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET,
-      );
-      return;
-    }
-    this.setState({ veileder: res?.data });
-  };
 
   readonly shutdown = () => {
     console.log('shutdown');

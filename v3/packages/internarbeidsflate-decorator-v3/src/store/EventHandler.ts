@@ -25,8 +25,8 @@ export class EventHandler extends SubstateHandler {
     this.#enhetValueManager = enhetValueManager;
     this.#errorMessageManager = errorMessageManager;
   }
-  initialize = ({ wsUrl, environment, veiledersIdent }: StoreProps) => {
-    this.#webSocketWrapper = new WebSocketWrapper(`${wsUrl}${veiledersIdent}`, environment, {
+  initialize = ({ wsUrl, environment, veileder }: StoreProps) => {
+    this.#webSocketWrapper = new WebSocketWrapper(`${wsUrl}${veileder.ident}`, environment, {
       onMessage: this.#onWSMessage,
       onError: this.#onWSError,
     });

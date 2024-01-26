@@ -30,21 +30,15 @@ export class EnhetValueManager extends ContextValueManager {
   override initialize = async ({
     enhet,
     onEnhetChanged,
+    veileder,
   }: StoreProps) => {
     this.#registerPropsHandler();
     this.#onEnhetChanged = onEnhetChanged;
     if (enhet && enhet === this.state.enhet.value) {
       return;
     }
-    const saksbehandler =
-      await this.contextHolderApi.getVeilederDetails();
-    if (saksbehandler.error) {
-      return this.#errorMessageManager.addErrorMessage(
-        PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET,
-      );
-    }
-
-    const enheter = saksbehandler.data?.enheter;
+    
+    const enheter = veileder.enheter;
     if (!enheter?.length) {
       this.#resetFnrAndEnhetDueToNoLegalEnhet();
       return;

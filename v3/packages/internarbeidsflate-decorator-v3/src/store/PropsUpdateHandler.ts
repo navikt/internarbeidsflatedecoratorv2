@@ -12,30 +12,34 @@ type Callback = (
   oldProps?: StoreProps | undefined,
 ) => void;
 
-export class PropsUpdateHandler extends SubstateHandler {
-  #previousStoreProps?: StoreProps;
-  #previousAppProps?: AppProps;
-  #errorMessageManager: ErrorMessageManager
-  #callBacks: {
-    [key in keyof Partial<StoreProps>]: { id: string; callback: Callback }[];
-  } = {};
-  #initializeStore: (newProps: StoreProps) => void;
-  #criticalProps: (keyof AppProps)[] = [
+type Callbacks = {
+  [key in keyof Partial<StoreProps>]: { id: string; callback: Callback }[];
+};
+
+const criticalProps: (keyof AppProps)[] = [
     'environment',
     'urlFormat',
     'accessToken',
     'onBeforeRequest',
     'proxy',
   ];
+ 
+
+export class PropsUpdateHandler extends SubstateHandler {
+  #previousStoreProps?: StoreProps;
+  #previousAppProps?: AppProps;
+  #errorMessageManager: ErrorMessageManager;
+  #callBacks: Callbacks = {};
+  #initializeStore: (newProps: StoreProps) => void;
 
   constructor(
     substateProps: SubstateHandlerProps,
     initializeStore: (newProps: StoreProps) => void,
-    errorMessageManager: ErrorMessageManager
+    errorMessageManager: ErrorMessageManager,
   ) {
     super(substateProps);
     this.#initializeStore = initializeStore;
-    this.#errorMessageManager = errorMessageManager
+    this.#errorMessageManager = errorMessageManager;
   }
 
   registerCallback = (
@@ -89,44 +93,47 @@ export class PropsUpdateHandler extends SubstateHandler {
   };
 
   #onCriticalPropsUpdated = async (props: AppProps) => {
-    const {
-      environment,
-      urlFormat,
-      proxy,
-      accessToken,
-      contextholderUrl,
-    } = props;
-    const apiUrl =
-      contextholderUrl ?? modiaContextHolderUrl(environment, urlFormat, proxy);
+    const { environment, urlFormat, proxy, accessToken  } =
+      props;
+    const apiUrl = modiaContextHolderUrl(environment, urlFormat, proxy);
     const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
-    const veilederDetails = await contextHolderApi.getVeilederDetails()
+    const veilederDetails = await contextHolderApi.getVeilederDetails();
     if (veilederDetails.error || !veilederDetails.data) {
-      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET)
-      return
+      this.#errorMessageManager.addErrorMessage(
+        PredefiniertFeilmeldinger.HENT_SAKSBEHANDLER_DATA_FEILET,
+      );
+      return;
     }
     const wsUrl = wsEventDistribusjon(environment, urlFormat);
-    const storeProps = {
+    const storeProps: StoreProps = {
       ...props,
       contextHolderApi,
       wsUrl,
-      veiledersIdent: veilederDetails.data.ident,
+      veileder: veilederDetails.data,
     };
-    const firstSyncContextValue = new FirstSyncContextValue(contextHolderApi, this.#errorMessageManager, !!props.fetchActiveUserOnMount, !!props.fetchActiveEnhetOnMount)
-    const [fnrRes, enhetRes] = await Promise.allSettled([firstSyncContextValue.getFnr(props.fnr), firstSyncContextValue.getEnhet(props.enhet)])
+    const firstSyncContextValue = new FirstSyncContextValue(
+      contextHolderApi,
+      this.#errorMessageManager,
+      !!props.fetchActiveUserOnMount,
+      !!props.fetchActiveEnhetOnMount,
+    );
+    const [fnrRes, enhetRes] = await Promise.allSettled([
+      firstSyncContextValue.getFnr(props.fnr),
+      firstSyncContextValue.getEnhet(props.enhet),
+    ]);
     if (fnrRes.status === 'fulfilled') {
-      storeProps.fnr = fnrRes.value
+      storeProps.fnr = fnrRes.value;
     }
     if (enhetRes.status === 'fulfilled') {
-      storeProps.enhet = enhetRes.value
+      storeProps.enhet = enhetRes.value;
     }
-    this.#previousAppProps = props;
     this.#previousStoreProps = storeProps;
-
     this.#initializeStore(storeProps);
   };
 
   #checkIfCritialPropsUpdate = (newProps: AppProps): boolean => {
-    for (const criticalKey of this.#criticalProps) {
+    if (!this.#previousAppProps) return true;
+    for (const criticalKey of criticalProps) {
       if (
         this.#checkIfPropUpdated(criticalKey, newProps, this.#previousAppProps)
       ) {
@@ -144,17 +151,21 @@ export class PropsUpdateHandler extends SubstateHandler {
       ...appProps,
       wsUrl: storeProps.wsUrl,
       contextHolderApi: storeProps.contextHolderApi,
-      veiledersIdent: storeProps.veiledersIdent
+      veileder: storeProps.veileder,
     };
   };
 
   onPropsUpdated = (newProps: AppProps) => {
     if (this.#checkIfCritialPropsUpdate(newProps)) {
+      this.#previousAppProps = newProps;
       this.#onCriticalPropsUpdated(newProps);
       return;
     }
     if (!this.#previousStoreProps) return;
-    const mergedProps = this.#mergeAppPropsAndStoreProps(newProps, this.#previousStoreProps)
+    const mergedProps = this.#mergeAppPropsAndStoreProps(
+      newProps,
+      this.#previousStoreProps,
+    );
     this.#onNonCritialPropsUpdated(mergedProps);
   };
 }

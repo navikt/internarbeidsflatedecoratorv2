@@ -5,6 +5,8 @@
 
 .dekorator .navds-form-field {
   display: block !important;
+  font-size: var(--a-front-size-large);
+  line-height: var(--a-font-line-height-large);
 }
 
 .dekorator .navds-text-field__input {

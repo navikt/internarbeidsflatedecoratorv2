@@ -38,7 +38,7 @@ const matches = (hotkey: HotkeyObject, event: KeyboardEvent): boolean => {
   const wantedKey = hotkey.char.toLowerCase();
   const actualKey = (
     event.code ? event.code.replace('Key', '') : event.key
-  ).toLowerCase();
+  )?.toLowerCase();
 
   return (
     isSameKey(wantedKey, actualKey) &&
