@@ -8,7 +8,7 @@ import { useAppState } from '../states/AppState';
 
 const SearchArea: React.FC = () => {
   const fnr = StoreHandler.store((state) => state.fnr?.value ?? '');
-  const showSearchArea = useAppState((state) => state.showSearchArea)
+  const showSearchArea = useAppState((state) => state.showSearchArea);
   const [input, setInput] = useState(fnr);
   const ref = useRef<HTMLInputElement>(null);
 
@@ -36,7 +36,7 @@ const SearchArea: React.FC = () => {
     setInput(fnr);
   }, [fnr]);
 
-  if (!showSearchArea) return null
+  if (!showSearchArea) return null;
 
   const showSearchIcon = !fnr || fnr !== input;
 
@@ -73,14 +73,12 @@ const SearchArea: React.FC = () => {
           onChange={(e) => setInput(e.currentTarget.value)}
           label={undefined}
         />
-        <div className="dr-absolute dr-right-0 dr-top-0 dr-z-10 dr-bottom-0 dr-w-12">
-          <Button
-            className="focus:dr-outline-none focus:dr-ring focus:dr-ring-orange-500 dr-text-white hover:dr-text-white hover:dr-bg-gray-600"
-            icon={config.icon}
-            variant="tertiary-neutral"
-            aria-label={config.label}
-          />
-        </div>
+        <Button
+          className="dr-absolute dr-top-0 dr-bottom-0 dr-right-0 dr-m-[1px] focus:dr-outline-none focus:dr-ring focus:dr-ring-orange-500 dr-text-white hover:dr-text-white hover:dr-bg-gray-600"
+          icon={config.icon}
+          variant="tertiary-neutral"
+          aria-label={config.label}
+        />
       </div>
     </form>
   );

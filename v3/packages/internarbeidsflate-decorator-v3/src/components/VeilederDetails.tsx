@@ -8,9 +8,8 @@ const VeilederDetails: React.FC = () => {
 
   return (
     <div>
-      <span>{veileder.ident ?? EMDASH}</span>
-      <span className='dr-p-1'/>
-      <span>{veileder.navn}</span>
+      <div>{veileder.ident ?? EMDASH}</div>
+      <div>{veileder.navn}</div>
     </div>
   );
 };

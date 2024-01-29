@@ -14,14 +14,14 @@ const Banner: React.FC = () => {
       <div className="dr-max-w-9xl dr-mx-auto">
         <div className="dr-flex dr-flex-wrap dr-items-center dr-justify-evenly dr-gap-1">
           <AppName />
-          <div className='dr-flex dr-flex-wrap dr-flex-1 dr-gap-4 lg:dr-gap-8 dr-w-full dr-justify-center dr-items-center'>
+          <div className="dr-flex dr-flex-wrap dr-flex-1 dr-gap-4 xl:dr-gap-8 dr-w-full dr-justify-center dr-items-center">
             <Enhet />
             <EnhetVelger />
             <SearchArea />
             <Markup />
+            <HotkeyMenuElement />
             <VeilederDetails />
           </div>
-            <HotkeyMenuElement />
           <MenuButton />
         </div>
       </div>
