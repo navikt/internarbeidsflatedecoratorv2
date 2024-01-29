@@ -32,4 +32,4 @@ jobs:
             cdn-team-name: personoversikt
             source: ./v3/packages/internarbeidsflate-decorator-v3/dist/
             destination: /internarbeidsflate-decorator-v3/dev/latest
-            no-cache-paths: internarbeidsflate-decorator-v3/dev/latest/dist/asset-manifest.json
+            no-cache-paths: "internarbeidsflate-decorator-v3/dev/latest/dist/asset-manifest.json,internarbeidsflate-decorator-v3/dev/latest/dist/index.js"
