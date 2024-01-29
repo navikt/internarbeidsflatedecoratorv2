@@ -35,7 +35,7 @@ export default Links;
 const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
   return (
     <section className="dr-min-w-[25%] dr-px-6">
-      <h2 className="dr-font-bold dr-border-white dr-border-b dr-mb-2">
+      <h2 className="dr-font-bold dr-border-white dr-border-solid dr-border-b dr-mb-2">
         {linkSection.title}
       </h2>
       <ul>
@@ -55,7 +55,7 @@ const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
 const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
   return (
     <section className="dr-px-6">
-      <h2 className="dr-font-bold dr-border-white dr-border-b dr-mb-2">
+      <h2 className="dr-font-bold dr-border-white dr-border-solid dr-border-b dr-mb-2">
         {linkSection.title}
       </h2>
       <ul className="dr-flex dr-flex-wrap dr-gap-x-8">

@@ -45,7 +45,7 @@ const EnhetVelger: React.FC = () => {
         value={enhetId ?? undefined}
         label={undefined}
         onChange={onChange}
-        className="dr-w-52 dr-border dr-border-gray-400 dr-rounded-medium dr-outline-none"
+        className="dr-w-52 dr-border dr-border-solid dr-border-gray-400 dr-rounded-medium dr-outline-none"
       >
         {options}
       </Select>

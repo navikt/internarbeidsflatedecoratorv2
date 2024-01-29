@@ -64,7 +64,7 @@ const SearchArea: React.FC = () => {
       <div className="dr-relative">
         <TextField
           ref={ref}
-          className="dr-border dr-border-gray-400 dr-rounded-medium"
+          className="dr-border dr-border-solid dr-border-gray-400 dr-rounded-medium"
           aria-label="Personsøk"
           type="text"
           autoComplete="off"
