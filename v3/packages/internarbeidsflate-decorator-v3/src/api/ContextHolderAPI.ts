@@ -10,6 +10,10 @@ interface AktivEnhetResponse {
   aktivEnhet: string | undefined;
 }
 
+interface FnrCodeResponse {
+  fnr: string;
+  code: string;
+}
 
 export class ContextHolderAPI extends ApiClient {
   constructor(url: string, token?: string) {
@@ -17,11 +21,11 @@ export class ContextHolderAPI extends ApiClient {
   }
 
   readonly exhangeUserKeyForFnr = (
-    userKey: string,
-  ): Promise<FetchResponse<string>> => {
-    return this.post<string>({
-      path: `/bytt-bruker-nokkel`,
-      body: { userKey },
+    code: string,
+  ): Promise<FetchResponse<FnrCodeResponse>> => {
+    return this.post<FnrCodeResponse>({
+      path: `/fnr-code/retrieve`,
+      body: { code },
     });
   };
 
@@ -40,22 +44,22 @@ export class ContextHolderAPI extends ApiClient {
   };
 
   readonly getEnhet = (enhetId: string): Promise<FetchResponse<Enhet>> => {
-    return this.get<Enhet>({ path: `/enhet/${enhetId}` })
+    return this.get<Enhet>({ path: `/enhet/${enhetId}` });
   };
 
   readonly getVeilederDetails = (): Promise<FetchResponse<Veileder>> => {
-    return this.get<Veileder>({ path: `/decorator` })
+    return this.get<Veileder>({ path: `/decorator` });
   };
 
   readonly getVeiledersActiveFnr = (): Promise<
     FetchResponse<AktivBrukerResponse>
   > => {
-    return this.get<AktivBrukerResponse>({ path: `/v2/aktivbruker` })
+    return this.get<AktivBrukerResponse>({ path: `/v2/aktivbruker` });
   };
 
   readonly getVeiledersActiveEnhet = (): Promise<
     FetchResponse<AktivEnhetResponse>
   > => {
-    return this.get<AktivEnhetResponse>({ path: `/v2/aktivenhet` })
+    return this.get<AktivEnhetResponse>({ path: `/v2/aktivenhet` });
   };
 }

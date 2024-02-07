@@ -6,12 +6,14 @@ import { SuccessResponse } from './responses/SuccessResponse';
 import { mockMe } from '../internarbeidsflate-decorator-v3/src/__mocks__/mock-handlers'
 import { NotFoundResponse } from './responses/NotFoundResponse';
 import { BunServerWebsocket } from './types';
+
 type Metadata = { ident: string };
 
 const serve = () => {
   type Context = { aktivEnhet: string | undefined; aktivBruker: string | undefined };
   const context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
   const clients: Record<string, BunServerWebsocket> = {};
+  const codeToFnr: Record<string, string> = {}
 
   const app = new CustomServer();
 
@@ -79,6 +81,35 @@ const serve = () => {
     return new SuccessResponse({...context});
   });
 
+  app.post('/modiacontextholder/api/fnr-code/retrieve', async (request) => {
+    if (!request.body) {
+      return new BadRequestResponse('No body provided');
+    }
+
+    const { code }: { code: string } = await Bun.readableStreamToJSON(request.body);
+
+    const fnr = codeToFnr[code]
+
+    if (!fnr) {
+      return new NotFoundResponse()
+    }
+
+    return new SuccessResponse({ fnr, code });
+  });
+
+  app.post('/modiacontextholder/api/fnr-code/generate', async (request) => {
+    if (!request.body) {
+      return new BadRequestResponse('No body provided');
+    }
+
+    const { fnr }: { fnr: string } = await Bun.readableStreamToJSON(request.body);
+
+    const code = crypto.randomUUID()
+
+    codeToFnr[code] = fnr
+
+    return new SuccessResponse({ fnr, code });
+  });
   app.addWebSocketHandler<Metadata>('/ws/:ident', {
     open: (ws, params) => {
       const ident = params.ident;

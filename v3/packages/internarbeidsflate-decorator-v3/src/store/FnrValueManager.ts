@@ -46,7 +46,6 @@ export class FnrValueManager extends ContextValueManager {
     if (fnrKey) {
       await this.changeFnrLocallyAndExternally(fnrKey);
     }
-
   };
 
   #registerPropsHandler = () => {
@@ -58,10 +57,8 @@ export class FnrValueManager extends ContextValueManager {
     );
   };
 
-  readonly updateFnrLocallyToMatchContextHolder = async (
-  ) => {
-    const activeUser =
-      await this.contextHolderApi.getVeiledersActiveFnr();
+  readonly updateFnrLocallyToMatchContextHolder = async () => {
+    const activeUser = await this.contextHolderApi.getVeiledersActiveFnr();
     if (activeUser.error) {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET,
@@ -132,16 +129,18 @@ export class FnrValueManager extends ContextValueManager {
   ): Promise<string | undefined> => {
     let fnr = initialFnr;
 
-    if (userKey?.length) {
+    if (userKey?.length && !erGyldigFodselsnummer(userKey)) {
       const res = await this.contextHolderApi.exhangeUserKeyForFnr(userKey);
-      if (res.error) {
+      if (res.error || !res.data) {
         this.#errorMessageManager.addErrorMessage({
           code: ErrorMessageCode.BYTT_BRUKERNØKKEL_FEILET,
           message: 'Klarte ikke å bytte inn brukernøkkel til fnr.',
         });
       } else {
-        fnr = res.data;
+        fnr = res.data.fnr;
       }
+    } else if (userKey?.length && erGyldigFodselsnummer(userKey)) {
+      fnr = userKey;
     }
     return fnr;
   };
