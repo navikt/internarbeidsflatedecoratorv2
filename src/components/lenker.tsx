@@ -169,7 +169,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStreng()}/tiltaksgjennomforing`}>
                                 Tiltaksgjennomføring - avtaler
                             </Lenke>
-                            <Lenke href="https://nav-arbeidsmarkedstiltak.intern.nav.no/" target="_blank">
+                            <Lenke href={`https://nav-arbeidsmarkedstiltak${naisInternNavDomain}/`} target="_blank">
                                 Arbeidsmarkedstiltak
                             </Lenke>
                         </ul>
