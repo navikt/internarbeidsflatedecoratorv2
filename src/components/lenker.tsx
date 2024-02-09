@@ -169,6 +169,9 @@ function Lenker(props: Props) {
                             <Lenke href={`https://tiltaksgjennomforing${finnNaisInternNavMiljoStreng()}/tiltaksgjennomforing`}>
                                 Tiltaksgjennomføring - avtaler
                             </Lenke>
+                            <Lenke href={`https://nav-arbeidsmarkedstiltak${naisInternNavDomain}/`} target="_blank">
+                                Arbeidsmarkedstiltak
+                            </Lenke>
                         </ul>
                     </section>
                     <section className="dekorator__kolonne">
