@@ -224,6 +224,9 @@ function Lenker(props: Props) {
                         <Lenke href={`${modiacontextholderUrl}/redirect/salesforce`} target="_blank">
                             Salesforce
                         </Lenke>
+                        <Lenke href={`https://data.intern.nav.no/quarto/e7b3e02a-0c45-4b5c-92a2-a6d364120dfb/`} target="_blank">
+                            Kunnskapsbasen NKS
+                        </Lenke>
                     </ul>
                 </section>
             </div>
