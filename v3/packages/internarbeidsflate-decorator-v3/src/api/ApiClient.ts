@@ -30,6 +30,7 @@ export class ApiClient {
   ): Record<string, string> => {
     const tmpHeaders = {
       Authorization: `Bearer ${this.#token}`,
+      'Content-Type': 'application/json'
     };
     return { ...tmpHeaders, ...headers };
   };
