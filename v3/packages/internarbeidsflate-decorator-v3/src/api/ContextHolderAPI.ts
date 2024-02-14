@@ -24,7 +24,7 @@ export class ContextHolderAPI extends ApiClient {
     code: string,
   ): Promise<FetchResponse<FnrCodeResponse>> => {
     return this.post<FnrCodeResponse>({
-      path: `/fnr-code/retrieve`,
+      path: `/context/fnr-code/retrieve`,
       body: { code },
     });
   };
@@ -44,7 +44,7 @@ export class ContextHolderAPI extends ApiClient {
   };
 
   readonly getEnhet = (enhetId: string): Promise<FetchResponse<Enhet>> => {
-    return this.get<Enhet>({ path: `/enhet/${enhetId}` });
+    return this.get<Enhet>({ path: `/context/enhet/${enhetId}` });
   };
 
   readonly getVeilederDetails = (): Promise<FetchResponse<Veileder>> => {
@@ -54,12 +54,12 @@ export class ContextHolderAPI extends ApiClient {
   readonly getVeiledersActiveFnr = (): Promise<
     FetchResponse<AktivBrukerResponse>
   > => {
-    return this.get<AktivBrukerResponse>({ path: `/v2/aktivbruker` });
+    return this.get<AktivBrukerResponse>({ path: `/context/v2/aktivbruker` });
   };
 
   readonly getVeiledersActiveEnhet = (): Promise<
     FetchResponse<AktivEnhetResponse>
   > => {
-    return this.get<AktivEnhetResponse>({ path: `/v2/aktivenhet` });
+    return this.get<AktivEnhetResponse>({ path: `/context/v2/aktivenhet` });
   };
 }
