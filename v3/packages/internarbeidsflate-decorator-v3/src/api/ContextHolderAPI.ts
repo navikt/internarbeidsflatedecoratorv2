@@ -1,4 +1,3 @@
-import { Enhet } from '../types/Enhet';
 import { Veileder } from '../types/Veileder';
 import { ApiClient, FetchResponse } from './ApiClient';
 
@@ -45,10 +44,6 @@ export class ContextHolderAPI extends ApiClient {
       path: '/context',
       body: { eventType: 'NY_AKTIV_ENHET', verdi: newEnhet },
     });
-  };
-
-  readonly getEnhet = (enhetId: string): Promise<FetchResponse<Enhet>> => {
-    return this.get<Enhet>({ path: `/context/enhet/${enhetId}` });
   };
 
   readonly getVeilederDetails = (): Promise<FetchResponse<Veileder>> => {

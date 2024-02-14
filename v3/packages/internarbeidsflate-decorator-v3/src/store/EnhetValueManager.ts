@@ -37,7 +37,7 @@ export class EnhetValueManager extends ContextValueManager {
     if (enhet && enhet === this.state.enhet.value) {
       return;
     }
-    
+
     const enheter = veileder.enheter;
     if (!enheter?.length) {
       this.#resetFnrAndEnhetDueToNoLegalEnhet();
@@ -57,22 +57,20 @@ export class EnhetValueManager extends ContextValueManager {
     );
   };
 
-  readonly updateEnhetLocallyToMatchContextHolder = async (
-  ) => {
+  readonly updateEnhetLocallyToMatchContextHolder = async () => {
     const enheter = this.state.veileder?.enheter;
     if (!enheter?.length) return;
 
     const passendeEnhet = enheter[0];
 
-    const activeEnhet =
-      await this.contextHolderApi.getVeiledersActiveEnhet();
+    const activeEnhet = await this.contextHolderApi.getVeiledersActiveEnhet();
     if (activeEnhet.error || !activeEnhet.data) {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_ENHET_FEILET,
       );
-      return this.changeEnhetLocallyAndExternally(passendeEnhet.enhetId);
+      return this.changeEnhetLocallyAndExternally(enheter, passendeEnhet.enhetId);
     }
-    return this.changeEnhetLocally(activeEnhet.data.aktivEnhet);
+    return this.changeEnhetLocally(enheter, activeEnhet.data.aktivEnhet);
   };
 
   readonly #updateEnhetExternallyToMatchRequestedEnhet = async (
@@ -80,14 +78,14 @@ export class EnhetValueManager extends ContextValueManager {
     enhet: string,
   ) => {
     if (!this.#haveLegalEnhet(enhet, enheter)) {
-      return this.changeEnhetLocallyAndExternally(enheter[0].enhetId);
+      return this.changeEnhetLocallyAndExternally(enheter, enheter[0].enhetId);
     }
-    return this.changeEnhetLocallyAndExternally(enhet);
+    return this.changeEnhetLocallyAndExternally(enheter, enhet);
   };
 
   readonly #resetFnrAndEnhetDueToNoLegalEnhet = async () => {
     await this.#fnrValueManager.changeFnrLocallyAndExternally();
-    await this.changeEnhetLocallyAndExternally();
+    await this.changeEnhetLocallyAndExternally([]);
     this.#errorMessageManager.addErrorMessage(
       PredefiniertFeilmeldinger.INGEN_GYLDIG_ENHET,
     );
@@ -108,20 +106,31 @@ export class EnhetValueManager extends ContextValueManager {
   readonly openEnhetModal = () => this.openModal('enhet');
 
   readonly changeEnhetLocallyToWsRequestedValue = () => {
-    this.changeEnhetLocally(this.state.enhet.wsRequestedValue);
+    if (!this.state.veileder?.enheter) {
+      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.WS_ERROR)
+      return
+    }
+
+    this.changeEnhetLocally(this.state.veileder.enheter, this.state.enhet.wsRequestedValue);
     this.closeModal('enhet');
   };
 
-  readonly changeEnhetLocally = async (newEnhetId?: string | null) => {
-    if (!newEnhetId) {
+  readonly changeEnhetLocally = async (
+    veiledersEnheter: Enhet[],
+    newEnhetId?: string | null,
+  ) => {
+    if (!newEnhetId || !veiledersEnheter.length) {
       const enhet = this.#updateEnhet(undefined);
       this.setState({ enhet });
       if (this.#onEnhetChanged) this.#onEnhetChanged(newEnhetId);
       return;
     }
 
-    const enhetResponse = await this.contextHolderApi.getEnhet(newEnhetId);
-    if (enhetResponse.error) {
+    const matchendeEnhet = veiledersEnheter.find(
+      (enhet) => enhet.enhetId === newEnhetId,
+    );
+
+    if (!matchendeEnhet) {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_ENHET_FEILET,
       );
@@ -130,15 +139,14 @@ export class EnhetValueManager extends ContextValueManager {
       if (this.#onEnhetChanged) this.#onEnhetChanged(null);
       return;
     }
-    if (!enhetResponse.error && enhetResponse.data) {
-      const enhet = this.#updateEnhet(enhetResponse.data);
-      this.setState({ enhet });
-      if (this.#onEnhetChanged) this.#onEnhetChanged(newEnhetId);
-    }
+
+    const enhet = this.#updateEnhet(matchendeEnhet);
+    this.setState({ enhet });
+    if (this.#onEnhetChanged) this.#onEnhetChanged(newEnhetId);
   };
 
-  readonly changeEnhetLocallyAndExternally = async (newEnhetId?: string) => {
-    await this.changeEnhetLocally(newEnhetId);
+  readonly changeEnhetLocallyAndExternally = async (enheter: Enhet[], newEnhetId?: string) => {
+    await this.changeEnhetLocally(enheter, newEnhetId);
     this.contextHolderApi.changeEnhet(newEnhetId);
   };
 
@@ -149,7 +157,7 @@ export class EnhetValueManager extends ContextValueManager {
   };
 
   readonly clearEnhet = () => {
-    this.changeEnhetLocally();
+    this.changeEnhetLocally([]);
   };
 
   #haveLegalEnhet = (requestedEnhet: string, enheter: Enhet[]) =>

@@ -103,7 +103,6 @@ export default new StoreHandler();
 export interface State {
   fnr: ContextValue<string>;
   enhet: ContextValue<Enhet>;
-  enheter?: Enhet[];
   veileder?: Veileder | undefined;
   errorMessages: Record<string, ErrorMessage>;
 }
