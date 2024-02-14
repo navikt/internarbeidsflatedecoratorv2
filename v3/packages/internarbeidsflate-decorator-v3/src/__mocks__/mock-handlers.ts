@@ -55,7 +55,7 @@ export const getHandlers = (
   errorConfig: FailureConfig,
 ): HttpHandler[] => {
   return [
-    http.post(getUrl(''), async ({ request }) => {
+    http.post(getUrl('/context'), async ({ request }) => {
       const { eventType, verdi } = (await request.json()) as {
         eventType: 'NY_AKTIV_ENHET' | 'NY_AKTIV_BRUKER';
         verdi: string;

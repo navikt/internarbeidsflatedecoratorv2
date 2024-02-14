@@ -32,13 +32,17 @@ export class ContextHolderAPI extends ApiClient {
   readonly changeFnr = (
     newFnr?: string | null,
   ): Promise<FetchResponse<void>> => {
-    return this.post({ body: { eventType: 'NY_AKTIV_BRUKER', verdi: newFnr } });
+    return this.post({
+      path: '/context',
+      body: { eventType: 'NY_AKTIV_BRUKER', verdi: newFnr },
+    });
   };
 
   readonly changeEnhet = (
     newEnhet?: string | null,
   ): Promise<FetchResponse<void>> => {
     return this.post({
+      path: '/context',
       body: { eventType: 'NY_AKTIV_ENHET', verdi: newEnhet },
     });
   };
