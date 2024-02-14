@@ -107,9 +107,7 @@ export const wsEventDistribusjon = (
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
     default:
-      return `wss://veilederflatehendelser${findEnvString(environment)}.${
-        environment === 'prod' ? '.dev' : ''
-      }.adeo.no/modiaeventdistribution/ws/`;
+      return `wss://veilederflatehendelser${findEnvString(environment)}.adeo.no/modiaeventdistribution/ws/`;
   }
 };
 
