@@ -18,7 +18,7 @@ export const mockMe: Veileder = {
 };
 
 const getUrl = (path: string) =>
-  `${urlPrefix}/modiacontextholder/api/context${path}`;
+  `${urlPrefix}/modiacontextholder/api${path}`;
 
 const getErrorResponse = (status = 500) => {
   return new HttpResponse(null, { status });
@@ -78,7 +78,7 @@ export const getHandlers = (
         return getErrorResponse();
       }
     }),
-    http.delete(getUrl('/aktivenhet'), () => {
+    http.delete(getUrl('/context/aktivenhet'), () => {
       if (errorConfig.contextholder.deleteEnhet) {
         return getErrorResponse();
       }
@@ -86,7 +86,7 @@ export const getHandlers = (
       ws.send(controlSignal('NY_AKTIV_ENHET'));
       return getSuccessResponse();
     }),
-    http.delete(getUrl('/aktivbruker'), () => {
+    http.delete(getUrl('/context/aktivbruker'), () => {
       if (errorConfig.contextholder.deleteBruker) {
         return getErrorResponse();
       }
@@ -94,13 +94,13 @@ export const getHandlers = (
       ws.send(controlSignal('NY_AKTIV_BRUKER'));
       return getSuccessResponse();
     }),
-    http.get(getUrl('/v2/aktivenhet'), () => {
+    http.get(getUrl('/context/v2/aktivenhet'), () => {
       if (errorConfig.contextholder.getEnhet) {
         return getErrorResponse();
       }
       return getSuccessResponse({ body: { aktivEnhet: context.aktivEnhet } });
     }),
-    http.get(getUrl('/v2/aktivbruker'), () => {
+    http.get(getUrl('/context/v2/aktivbruker'), () => {
       if (errorConfig.contextholder.getBruker) {
         return getErrorResponse();
       }
@@ -117,7 +117,7 @@ export const getHandlers = (
         },
       });
     }),
-    http.get(getUrl('/aktor/v2'), async ({ request }) => {
+    http.get(getUrl('/context/aktor/v2'), async ({ request }) => {
       const { fnr } = (await request.json()) as { fnr: string };
       const data = {
         fnr,
@@ -134,7 +134,7 @@ export const getHandlers = (
       }
       return getSuccessResponse({ body: mockMe });
     }),
-    http.get(getUrl('/enhet/:enhetId'), ({ params }) => {
+    http.get(getUrl('/context/enhet/:enhetId'), ({ params }) => {
       const { enhetId } = params;
       if (errorConfig.enhetEndpoint) {
         return getErrorResponse();
@@ -145,7 +145,7 @@ export const getHandlers = (
       }
       return getSuccessResponse({ body: enhet });
     }),
-    http.post(getUrl('/bytt-bruker-nokkel'), async ({ request }) => {
+    http.post(getUrl('/context/bytt-bruker-nokkel'), async ({ request }) => {
       const { userKey } = (await request.json()) as { userKey: string };
       console.log(userKey);
       return getSuccessResponse({ body: `10108000398` });

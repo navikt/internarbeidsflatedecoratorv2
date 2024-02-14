@@ -32,7 +32,7 @@ const serve = () => {
     return new SuccessResponse();
   });
 
-  app.get('/modiacontextholder/api/context/decorator', () => {
+  app.get('/modiacontextholder/api/decorator', () => {
     return new SuccessResponse(mockMe);
   });
 
