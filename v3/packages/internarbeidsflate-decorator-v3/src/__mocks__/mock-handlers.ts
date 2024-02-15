@@ -45,10 +45,6 @@ export const updateMockContext = (newContext: Partial<Context>) => {
   }
 };
 
-const controlSignal = (data: 'NY_AKTIV_ENHET' | 'NY_AKTIV_BRUKER') => {
-  return JSON.stringify({ type: 'control', data });
-};
-
 
 export const getHandlers = (
   ws: WS,
@@ -65,14 +61,14 @@ export const getHandlers = (
           return getErrorResponse();
         }
         context.aktivEnhet = verdi;
-        ws.send(controlSignal('NY_AKTIV_ENHET'));
+        ws.send('NY_AKTIV_ENHET');
         return getSuccessResponse();
       } else if (eventType === 'NY_AKTIV_BRUKER') {
         if (errorConfig.contextholder.updateBruker) {
           return getErrorResponse();
         }
         context.aktivBruker = verdi;
-        ws.send(controlSignal('NY_AKTIV_BRUKER'));
+        ws.send('NY_AKTIV_BRUKER');
         return getSuccessResponse();
       } else {
         return getErrorResponse();
@@ -83,7 +79,7 @@ export const getHandlers = (
         return getErrorResponse();
       }
       context.aktivEnhet = null;
-      ws.send(controlSignal('NY_AKTIV_ENHET'));
+      ws.send('NY_AKTIV_ENHET');
       return getSuccessResponse();
     }),
     http.delete(getUrl('/context/aktivbruker'), () => {
@@ -91,7 +87,7 @@ export const getHandlers = (
         return getErrorResponse();
       }
       context.aktivBruker = null;
-      ws.send(controlSignal('NY_AKTIV_BRUKER'));
+      ws.send('NY_AKTIV_BRUKER');
       return getSuccessResponse();
     }),
     http.get(getUrl('/context/v2/aktivenhet'), () => {

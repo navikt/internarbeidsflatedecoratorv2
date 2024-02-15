@@ -34,12 +34,12 @@ export class EventHandler extends SubstateHandler {
     this.registerShutdown('websocketwrapper', this.#webSocketWrapper.close);
   };
 
-  #onWSMessage = (message: MessageEvent) => {
-    const data = JSON.parse(message.data) as WebSocketMessage;
+  #onWSMessage = (message: MessageEvent<WebSocketMessage>) => {
+    const data = message.data;
     console.log('Recieved data', data);
-    if (data.data === 'NY_AKTIV_BRUKER') {
+    if (data === 'NY_AKTIV_BRUKER') {
       this.#handleFnrChangedExternally();
-    } else if (data.data === 'NY_AKTIV_ENHET') {
+    } else if (data === 'NY_AKTIV_ENHET') {
       this.#handleEnhetChangedExternally();
     }
   };

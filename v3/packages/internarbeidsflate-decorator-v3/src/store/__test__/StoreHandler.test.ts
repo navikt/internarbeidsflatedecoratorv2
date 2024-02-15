@@ -53,7 +53,7 @@ describe('StoreHandler test', () => {
   });
 
   const sendWSMessage = (message: 'NY_AKTIV_BRUKER' | 'NY_AKTIV_ENHET') => {
-    ws.send(JSON.stringify({ type: 'control', data: message }));
+    ws.send(message);
   };
 
   it('skal fungere så lenge den klarer å hente veileder detaljer', async () => {

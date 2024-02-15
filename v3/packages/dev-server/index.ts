@@ -76,7 +76,7 @@ const serve = () => {
     } else if (eventType === 'NY_AKTIV_ENHET') {
       context.aktivEnhet = verdi
     }
-    broadCastToClients({ type: 'control', data: eventType });
+    broadCastToClients(eventType);
 
     return new SuccessResponse({...context});
   });
@@ -137,10 +137,9 @@ const serve = () => {
     },
   });
 
-  const broadCastToClients = (message: any) => {
-    const stringifiedMessage = JSON.stringify(message);
+  const broadCastToClients = (message: string) => {
     for (const client of Object.values(clients)) {
-      client.send(stringifiedMessage);
+      client.send(message);
     }
   };
 
