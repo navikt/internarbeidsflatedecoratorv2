@@ -8,6 +8,7 @@ const NewUserModal: React.FC = () => {
   return (
     <Modal
       open={fnr?.showModal}
+      onClose={StoreHandler.fnrValueManager.changeFnrExternallyToLocalValue}
       header={{ heading: 'Du har endret bruker i kontekst' }}
     >
       <Modal.Body>

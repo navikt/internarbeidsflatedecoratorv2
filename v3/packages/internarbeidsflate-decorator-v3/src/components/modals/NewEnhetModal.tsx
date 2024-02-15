@@ -8,6 +8,7 @@ const NewEnhetModal: React.FC = () => {
   return (
     <Modal
       open={enhet?.showModal}
+      onClose={StoreHandler.enhetValueManager.changeEnhetExternallyToLocalValue}
       header={{ heading: 'Du har endret enhet i kontekst' }}
     >
       <Modal.Body>
