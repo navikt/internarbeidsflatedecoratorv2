@@ -26,6 +26,8 @@ export interface LinkObject {
   modiaSosialhjelp: Url;
   refusjon: Url;
   salesforce: Url;
+  arbeidsmarkedsTiltak: Url;
+  kunnskapsbasenNKS: Url;
 }
 
 const findEnvString = (environment: Environment) => {
@@ -107,7 +109,9 @@ export const wsEventDistribusjon = (
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
     default:
-      return `wss://veilederflatehendelser${findEnvString(environment)}.adeo.no/modiaeventdistribution/ws/`;
+      return `wss://veilederflatehendelser${findEnvString(
+        environment,
+      )}.adeo.no/modiaeventdistribution/ws/`;
   }
 };
 
@@ -286,6 +290,12 @@ export const buildLinks = ({
         environment,
         urlFormat,
       )}/redirect/salesforce`,
+    },
+    arbeidsmarkedsTiltak: {
+      url: `https://nav-arbeidsmarkedstiltak${naisDomain(environment)}/`,
+    },
+    kunnskapsbasenNKS: {
+      url: 'https://data.intern.nav.no/quarto/e7b3e02a-0c45-4b5c-92a2-a6d364120dfb/',
     },
   };
 };

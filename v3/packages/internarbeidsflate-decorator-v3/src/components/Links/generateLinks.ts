@@ -81,6 +81,7 @@ export const generateLinks = ({
         links.tiltaksGjennomforingUrl,
         'Tiltaksjennomføring - avtaler',
       ),
+      buildLinkWithTitle(links.arbeidsmarkedsTiltak, 'Arbeidsmarkedstiltak')
     ],
   };
   const sykefravaer: LinkSection = {
@@ -114,6 +115,7 @@ export const generateLinks = ({
       buildLinkWithTitle(links.modiaSosialhjelp, 'Modia sosialhjelp'),
       buildLinkWithTitle(links.refusjon, 'Refusjon tilskudd'),
       buildLinkWithTitle(links.salesforce, 'Salesforce'),
+      buildLinkWithTitle(links.kunnskapsbasenNKS, "Kunnskapsbasen NKS")
     ],
   };
 
