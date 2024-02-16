@@ -13,6 +13,7 @@ const HotkeyModal: React.FC<Props> = ({ hotkeys, open, close }) => {
     <Modal
       open={open}
       onClose={close}
+      className='!dr-text-gray-900'
       header={{ heading: 'Hurtigtaster', closeButton: true }}
     >
       <Modal.Body>

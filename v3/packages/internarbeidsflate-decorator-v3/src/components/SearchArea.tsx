@@ -64,7 +64,7 @@ const SearchArea: React.FC = () => {
       <div className="dr-relative">
         <TextField
           ref={ref}
-          className="dr-border dr-border-solid dr-border-gray-400 dr-rounded-medium"
+          className="!dr-border !dr-border-solid !dr-border-gray-400 !dr-rounded-medium"
           aria-label="Personsøk"
           type="text"
           autoComplete="off"
@@ -74,7 +74,7 @@ const SearchArea: React.FC = () => {
           label={undefined}
         />
         <Button
-          className="dr-absolute dr-top-0 dr-bottom-0 dr-right-0 dr-m-[1px] focus:dr-outline-none focus:dr-ring focus:dr-ring-orange-500 dr-text-white hover:dr-text-white hover:dr-bg-gray-600"
+          className="!dr-absolute !dr-top-0 !dr-bottom-0 !dr-right-0 !dr-m-[1px] focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-500 !dr-text-white hover:!dr-text-white hover:!dr-bg-gray-600"
           icon={config.icon}
           variant="tertiary-neutral"
           aria-label={config.label}
