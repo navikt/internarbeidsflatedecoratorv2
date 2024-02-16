@@ -20,7 +20,7 @@ const HotkeyModal: React.FC<Props> = ({ hotkeys, open, close }) => {
           <div>Ingen hurtigtaster er registrert</div>
         ) : (
           <div>
-            <Table className="dr-min-w-[350px]">
+            <Table className="!dr-min-w-[350px]">
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell scope="col">Tast</Table.HeaderCell>
