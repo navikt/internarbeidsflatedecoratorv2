@@ -39,5 +39,6 @@
   --ac-select-bg: var(--a-gray-900);
   --ac-textfield-text: #fff;
   --ac-select-text: #fff;
+  --a-text-default: #fff;
   --ac-textfield-placeholder:	var(--a-gray-500);
 }
