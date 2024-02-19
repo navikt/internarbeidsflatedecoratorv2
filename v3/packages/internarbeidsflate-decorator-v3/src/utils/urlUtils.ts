@@ -105,13 +105,14 @@ export const wsEventDistribusjon = (
   environment: Environment,
   urlFormat: UrlFormat,
 ) => {
+  const subdomain = environment === "prod" ? '' : '.dev'
   switch (urlFormat) {
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
     default:
       return `wss://veilederflatehendelser${findEnvString(
         environment,
-      )}.adeo.no/modiaeventdistribution/ws/`;
+      )}${subdomain}.adeo.no/modiaeventdistribution/ws/`;
   }
 };
 
