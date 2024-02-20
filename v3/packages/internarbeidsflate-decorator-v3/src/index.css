@@ -34,6 +34,14 @@
   border: 1px solid transparent; 
 }
 
+.dekorator .navds-button--tertiary-neutral:hover {
+  color: var(--a-gray-900)
+}
+
+.dekorator .navds-button--tertiary-neutral:active {
+  color: #fff
+}
+
 [data-theme="internarbeidsflatedecorator-theme"]{
   --ac-textfield-bg: var(--a-gray-900);
   --ac-select-bg: var(--a-gray-900);
@@ -41,4 +49,5 @@
   --ac-select-text: #fff;
   --a-text-default: #fff;
   --ac-textfield-placeholder:	var(--a-gray-500);
+  --ac-button-tertiary-neutral-text: var(--a-gray-900)
 }
