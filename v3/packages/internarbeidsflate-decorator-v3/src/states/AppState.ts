@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { Hotkey } from '../types/Hotkey';
-import { TogglesConfig } from '../types/TogglesConfig';
 import { Markup } from '../types/Markup';
 import { Environment, UrlFormat } from '../utils/environmentUtils';
 
@@ -18,7 +17,6 @@ export interface AppState {
   appName: string;
   open: boolean;
   hotkeys?: Hotkey[];
-  toggles?: TogglesConfig;
   markup?: Markup;
   showEnheter: boolean;
   showSearchArea: boolean;
