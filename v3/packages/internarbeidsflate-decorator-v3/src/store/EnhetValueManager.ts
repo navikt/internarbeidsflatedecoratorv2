@@ -44,9 +44,7 @@ export class EnhetValueManager extends ContextValueManager {
       return;
     }
 
-    if (enhet?.length) {
-      return this.#updateEnhetExternallyToMatchRequestedEnhet(enheter, enhet);
-    }
+    return this.#updateEnhetExternallyToMatchRequestedEnhet(enheter, enhet);
   };
 
   readonly #registerPropsHandler = () => {
@@ -68,16 +66,19 @@ export class EnhetValueManager extends ContextValueManager {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.HENT_ENHET_FEILET,
       );
-      return this.changeEnhetLocallyAndExternally(enheter, passendeEnhet.enhetId);
+      return this.changeEnhetLocallyAndExternally(
+        enheter,
+        passendeEnhet.enhetId,
+      );
     }
     return this.changeEnhetLocally(enheter, activeEnhet.data.aktivEnhet);
   };
 
   readonly #updateEnhetExternallyToMatchRequestedEnhet = async (
     enheter: Enhet[],
-    enhet: string,
+    enhet?: string | undefined,
   ) => {
-    if (!this.#haveLegalEnhet(enhet, enheter)) {
+    if (!enhet || !this.#haveLegalEnhet(enhet, enheter)) {
       return this.changeEnhetLocallyAndExternally(enheter, enheter[0].enhetId);
     }
     return this.changeEnhetLocallyAndExternally(enheter, enhet);
@@ -107,11 +108,16 @@ export class EnhetValueManager extends ContextValueManager {
 
   readonly changeEnhetLocallyToWsRequestedValue = () => {
     if (!this.state.veileder?.enheter) {
-      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.WS_ERROR)
-      return
+      this.#errorMessageManager.addErrorMessage(
+        PredefiniertFeilmeldinger.WS_ERROR,
+      );
+      return;
     }
 
-    this.changeEnhetLocally(this.state.veileder.enheter, this.state.enhet.wsRequestedValue);
+    this.changeEnhetLocally(
+      this.state.veileder.enheter,
+      this.state.enhet.wsRequestedValue,
+    );
     this.closeModal('enhet');
   };
 
@@ -145,7 +151,10 @@ export class EnhetValueManager extends ContextValueManager {
     if (this.#onEnhetChanged) this.#onEnhetChanged(newEnhetId);
   };
 
-  readonly changeEnhetLocallyAndExternally = async (enheter: Enhet[], newEnhetId?: string) => {
+  readonly changeEnhetLocallyAndExternally = async (
+    enheter: Enhet[],
+    newEnhetId?: string,
+  ) => {
     await this.changeEnhetLocally(enheter, newEnhetId);
     this.contextHolderApi.changeEnhet(newEnhetId);
   };
