@@ -71,7 +71,7 @@ export class EnhetValueManager extends ContextValueManager {
         passendeEnhet.enhetId,
       );
     }
-    return this.changeEnhetLocally(enheter, activeEnhet.data.aktivEnhet);
+    return this.#changeEnhetLocally(enheter, activeEnhet.data.aktivEnhet);
   };
 
   readonly #updateEnhetExternallyToMatchRequestedEnhet = async (
@@ -114,14 +114,14 @@ export class EnhetValueManager extends ContextValueManager {
       return;
     }
 
-    this.changeEnhetLocally(
+    this.#changeEnhetLocally(
       this.state.veileder.enheter,
       this.state.enhet.wsRequestedValue,
     );
     this.closeModal('enhet');
   };
 
-  readonly changeEnhetLocally = async (
+  readonly #changeEnhetLocally = (
     veiledersEnheter: Enhet[],
     newEnhetId?: string | null,
   ) => {
@@ -155,8 +155,8 @@ export class EnhetValueManager extends ContextValueManager {
     enheter: Enhet[],
     newEnhetId?: string,
   ) => {
-    await this.changeEnhetLocally(enheter, newEnhetId);
-    this.contextHolderApi.changeEnhet(newEnhetId);
+    this.#changeEnhetLocally(enheter, newEnhetId);
+    return this.contextHolderApi.changeEnhet(newEnhetId);
   };
 
   readonly changeEnhetExternallyToLocalValue = async () => {
@@ -166,7 +166,7 @@ export class EnhetValueManager extends ContextValueManager {
   };
 
   readonly clearEnhet = () => {
-    this.changeEnhetLocally([]);
+    this.#changeEnhetLocally([]);
   };
 
   #haveLegalEnhet = (requestedEnhet: string, enheter: Enhet[]) =>
