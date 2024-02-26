@@ -55,7 +55,7 @@ export class WebSocketWrapper {
     }
     WebSocketWrapper.#print('Opening WS', this.#wsUrl);
     if (this.#environment === 'mock') {
-      console.warn('WebSocket er ikke støttet av MSW, derfor blir det ikke mocket. Se: https://github.com/mswjs/interceptors/pull/484')
+      console.warn('WebSocket er ikke støttet av MSW ennå, derfor blir det ikke mocket. Se: https://github.com/mswjs/msw/issues/156')
       return
     }
     this.connection = new WebSocket(this.#wsUrl);
