@@ -26,10 +26,19 @@ jobs:
       - name: Build application
         working-directory: './v3/packages/internarbeidsflate-decorator-v3'
         run: bun run build
-      - name: Upload to CDN
+      - name: Upload to CDN dev path
+        if: github.ref == 'refs/heads/v3' || github.ref == 'refs/heads/dev'
         uses: navikt/frontend/actions/cdn-upload/v1@main
         with:
             cdn-team-name: personoversikt
             source: ./v3/packages/internarbeidsflate-decorator-v3/dist/
             destination: /internarbeidsflate-decorator-v3/dev/latest
             no-cache-paths: "internarbeidsflate-decorator-v3/dev/latest/dist/asset-manifest.json,internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js,internarbeidsflate-decorator-v3/dev/latest/dist/index.css"
+      - name: Upload to CDN prod path
+        if: github.ref == 'refs/heads/main'
+        uses: navikt/frontend/actions/cdn-upload/v1@main
+        with:
+            cdn-team-name: personoversikt
+            source: ./v3/packages/internarbeidsflate-decorator-v3/dist/
+            destination: /internarbeidsflate-decorator-v3/prod/latest
+            no-cache-paths: "internarbeidsflate-decorator-v3/prod/latest/dist/asset-manifest.json,internarbeidsflate-decorator-v3/prod/latest/dist/bundle.js,internarbeidsflate-decorator-v3/prod/latest/dist/index.css"
