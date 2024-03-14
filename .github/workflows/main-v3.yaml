@@ -28,7 +28,7 @@ jobs:
         run: bun run build
       - name: Upload to CDN dev path
         if: github.ref == 'refs/heads/v3' || github.ref == 'refs/heads/dev'
-        uses: navikt/deploy/actions/cdn-upload/v2@master
+        uses: nais/deploy/actions/cdn-upload/v2@master
         with:
             team: personoversikt
             source: ./v3/packages/internarbeidsflate-decorator-v3/dist/
@@ -38,7 +38,7 @@ jobs:
             project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
       - name: Upload to CDN prod path
         if: github.ref == 'refs/heads/main'
-        uses: navikt/deploy/actions/cdn-upload/v2@master
+        uses: nais/deploy/actions/cdn-upload/v2@master
         with:
             team: personoversikt
             source: ./v3/packages/internarbeidsflate-decorator-v3/dist/
