@@ -53,12 +53,12 @@ export const generateLinks = ({
     title: 'Personoversikt',
     links: [
       buildLinkWithTitle(links.modiaUrl, 'Oversikt'),
-      buildLinkWithTitle(links.modiaUrl, 'Saksoversikt', '/saker'),
-      buildLinkWithTitle(links.modiaUrl, 'Meldinger', '/meldinger'),
-      buildLinkWithTitle(links.modiaUrl, 'Varslinger', '/varsler'),
-      buildLinkWithTitle(links.modiaUrl, 'Utbetalinger', '/utbetaling'),
       buildLinkWithTitle(links.modiaUrl, 'Oppfølging', '/oppfolging'),
+      buildLinkWithTitle(links.modiaUrl, 'Kommunikasjon', '/meldinger'),
+      buildLinkWithTitle(links.modiaUrl, 'Utbetalinger', '/utbetaling'),
+      buildLinkWithTitle(links.modiaUrl, 'Saksoversikt', '/saker'),
       buildLinkWithTitle(links.modiaUrl, 'Ytelser', '/ytelser'),
+      buildLinkWithTitle(links.modiaUrl, 'Varslinger', '/varsler'),
     ],
   };
   const arbeidsrettet: LinkSection = {
