@@ -13,7 +13,7 @@ export const mockMe: Veileder = {
     { enhetId: '0219', navn: 'NAV Bærum' },
     { enhetId: '0118', navn: 'NAV Aremark' },
     { enhetId: '0604', navn: 'NAV Kongsberg' },
-    { enhetId: '0602', navn: 'NAV Drammer' },
+    { enhetId: '0602', navn: 'NAV Drammen' },
   ],
 };
 

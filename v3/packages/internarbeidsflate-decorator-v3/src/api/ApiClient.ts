@@ -30,7 +30,7 @@ export class ApiClient {
   ): Record<string, string> => {
     const tmpHeaders = {
       Authorization: `Bearer ${this.#token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
     return { ...tmpHeaders, ...headers };
   };
@@ -38,7 +38,7 @@ export class ApiClient {
   #doRequest = async <T>(
     method: Method,
     { path, body, headers }: RequestConfig,
-    controller?: AbortController | null
+    controller?: AbortController | null,
   ): Promise<FetchResponse<T>> => {
     const fullUrl = this.#buildUrl(path);
 
@@ -49,18 +49,25 @@ export class ApiClient {
         method: method,
         headers: new Headers(newHeaders),
         body: JSON.stringify(body),
-        signal: controller?.signal ?? null
+        signal: controller?.signal ?? null,
       });
 
       if (res.ok) {
-        const data = (await res.json()) as T;
-        return { data, error: undefined };
+        try {
+          const data = (await res.json()) as T;
+          return { data, error: undefined };
+        } catch (e) {
+          return { data: undefined as T, error: undefined };
+        }
       } else {
-        const error = await res.text()
-        return { data: undefined, error: error?.length ? error : 'Det skjedde en uventet feil' };
+        const error = await res.text();
+        return {
+          data: undefined,
+          error: error?.length ? error : 'Det skjedde en uventet feil',
+        };
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (typeof error == 'string') {
         return { data: undefined, error };
       }
