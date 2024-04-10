@@ -3,7 +3,7 @@ name: Build, push, and deploy
 on: [push]
 
 concurrency:
-  group: v3-${{ github.ref }}
+  group: ${{ github.ref }}
 
 jobs:
   deploy:
@@ -12,30 +12,35 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    if: github.ref == 'refs/heads/v3'
     steps:
       - uses: actions/checkout@v4
+
       - name: Install bun
         uses: oven-sh/setup-bun@v1
+
       - name: Install dependencies (bun)
-        working-directory: './v3/packages/internarbeidsflate-decorator-v3'
+        working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun install
+
       - name: Run tests
-        working-directory: './v3/packages/internarbeidsflate-decorator-v3'
+        working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun run test
+
       - name: Build application
-        working-directory: './v3/packages/internarbeidsflate-decorator-v3'
+        working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun run build
+
       - name: Upload to CDN dev path
-        if: github.ref == 'refs/heads/v3' || github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/dev'
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
             team: personoversikt
-            source: ./v3/packages/internarbeidsflate-decorator-v3/dist/
+            source: ./packages/internarbeidsflate-decorator-v3/dist/
             destination: /internarbeidsflate-decorator-v3/dev/latest
             no_cache_paths: "internarbeidsflate-decorator-v3/dev/latest/dist/asset-manifest.json,internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js,internarbeidsflate-decorator-v3/dev/latest/dist/index.css"
             identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
             project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+
       - name: Upload to CDN prod path
         if: github.ref == 'refs/heads/main'
         uses: nais/deploy/actions/cdn-upload/v2@master
