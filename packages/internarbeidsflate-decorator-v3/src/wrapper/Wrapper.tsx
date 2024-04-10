@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@navikt/ds-react';
 import { useTempValue } from './hooks/useTempValue';
-import { WebSocketWrapper} from '../api/WebSocketWrapper';
-import Decorator from '../App'
+import { WebSocketWrapper } from '../api/WebSocketWrapper';
+import Decorator from '../App';
 import { ContextHolderAPI } from '../api/ContextHolderAPI';
 const WS_URL = 'ws://localhost:4000/ws';
-const URL = 'http://localhost:4000/modiacontextholder/api/context'
+const URL = 'http://localhost:4000/modiacontextholder/api/context';
 
-const ident = 'Z999999'
+const ident = 'Z999999';
 
 const Wrapper: React.FC = () => {
   const [enhet, tmpEnhet, setTmpEnhet, makeTheEnhetChange] = useTempValue('');
   const [fnr, tmpFnr, setTmpFnr, makeTheFnrChange] = useTempValue('');
   const [wsEnhet, setWsEnhet] = useState('');
   const [wsFnr, setWsFnr] = useState('');
-  const [_, setWebsocketHandler] = useState<WebSocketWrapper>();
+  const [, setWebsocketHandler] = useState<WebSocketWrapper>();
   const [wsConnected, setWsConntected] = useState(false);
   const [wsMessages, setWsMessages] = useState<string[]>([]);
   const [propsUpdates, setPropsUpdates] = useState<string[]>([]);
-  const [api] = useState(() => new ContextHolderAPI(URL))
+  const [api] = useState(() => new ContextHolderAPI(URL));
 
   useEffect(() => {
     if (ident) {
-      const websocketHandler = new WebSocketWrapper(`${WS_URL}/${ident}`, 'local', {
-        onOpen: () => setWsConntected(true),
-        onClose: () => setWsConntected(false),
-        onMessage: (event) => {
-          setWsMessages((messages) => {
-            return [...messages, event.data];
-          });
+      const websocketHandler = new WebSocketWrapper(
+        `${WS_URL}/${ident}`,
+        'local',
+        {
+          onOpen: () => setWsConntected(true),
+          onClose: () => setWsConntected(false),
+          onMessage: (event) => {
+            setWsMessages((messages) => {
+              return [...messages, event.data];
+            });
+          },
         },
-      });
+      );
       websocketHandler.open();
       setWebsocketHandler(websocketHandler);
       return () => websocketHandler.close();
@@ -38,11 +42,11 @@ const Wrapper: React.FC = () => {
   }, []);
 
   const sendNewEnhet = async () => {
-    await api.changeEnhet(wsEnhet)
+    await api.changeEnhet(wsEnhet);
   };
 
   const sendNewFnr = async () => {
-    await api.changeFnr(wsFnr)
+    await api.changeFnr(wsFnr);
   };
 
   return (
@@ -111,7 +115,9 @@ const Wrapper: React.FC = () => {
           </div>
         </div>
         <hr className="dr-my-12" />
-        <div className="dr-text-center dr-w-full dr-mt-8 dr-mb-2">WS oppdatering</div>
+        <div className="dr-text-center dr-w-full dr-mt-8 dr-mb-2">
+          WS oppdatering
+        </div>
         <div className="dr-text-center">WS tilkoblet: {`${wsConnected}`}</div>
         <div className="dr-flex dr-justify-center dr-w-full">
           <div className="dr-mx-2">
@@ -144,6 +150,6 @@ const Wrapper: React.FC = () => {
       </div>
     </>
   );
-}
+};
 
 export default Wrapper;

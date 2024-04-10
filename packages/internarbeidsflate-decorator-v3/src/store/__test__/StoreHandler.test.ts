@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+ 
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import { WS } from 'vitest-websocket-mock';
 import { HttpHandler } from 'msw';

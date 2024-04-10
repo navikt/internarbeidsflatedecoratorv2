@@ -1,6 +1,7 @@
 {
   "name": "internarbeidsflate-decorator",
   "private": "true",
+  "type": "module",
   "workspaces": [
     "packages/dev-server",
     "packages/internarbeidsflate-decorator-v3"
