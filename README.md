@@ -1,5 +1,8 @@
 # Dekoratør for interne arbeidsflater V3
 
+> [!NOTE]
+> v2.1 kjører fortsatt i prod. Du kan finne denne i [v2.1 branchen](https://github.com/navikt/internarbeidsflatedecorator/tree/v2.1)
+
 Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplikasjoner i NAV.
 
 Appen har ansvar for kommunikasjon med contextholderen (modia-contextholder og modia-eventdistribution).
