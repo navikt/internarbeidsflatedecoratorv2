@@ -96,7 +96,7 @@ function lagHotkeys(fnr: string, aktorId: string, enhet: string): Array<Hotkey> 
         },
         {
             key: { char: 'A', altKey: true },
-            action: openUrl(aktivitetsplanUrl(fnr, enhet)),
+            action: () => window.location.assign(aktivitetsplanUrl(fnr, enhet)),
             description: 'Gå til aktivitetsplan'
         }
     ];
