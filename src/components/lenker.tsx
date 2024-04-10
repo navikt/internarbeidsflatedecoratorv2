@@ -55,6 +55,7 @@ const pesysUrl = (fnr: string, path: string) => (fnr ? pesysDomain(path) : pesys
 export const gosysUrl = (fnr: string, path: string) => fnr ? gosysDomain(path) : gosysDomain('/gosys/');
 const fpsakUrl = `https://fpsak${finnNaisInternNavMiljoStreng()}`
 const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/${aktoerId}` : `${fpsakUrl}/`;
+const aktivitetsplanUrl = (fnr: string, enhet: string) => `https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`;
 
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
 function k9Url(aktorId: string): string {
@@ -71,7 +72,7 @@ function openUrl(url: string): () => void {
     return () => { window.open(url, '_blank'); };
 }
 
-function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
+function lagHotkeys(fnr: string, aktorId: string, enhet: string): Array<Hotkey> {
     return [
         {
             key: { char: 'G', altKey: true },
@@ -92,6 +93,11 @@ function lagHotkeys(fnr: string, aktorId: string): Array<Hotkey> {
             key: { char: 'K', altKey: true },
             action: openUrl(foreldrePengerUrl(aktorId)),
             description: 'Gå til fpsak'
+        },
+        {
+            key: { char: 'A', altKey: true },
+            action: openUrl(aktivitetsplanUrl(fnr, enhet)),
+            description: 'Gå til aktivitetsplan'
         }
     ];
 }
@@ -110,8 +116,8 @@ function Lenker(props: Props) {
 
     const { register } = useDecoratorHotkeys();
     useEffect(() => {
-        lagHotkeys(fnr, aktorId).forEach(register);
-    }, [register, fnr, aktorId])
+        lagHotkeys(fnr, aktorId, enhet).forEach(register);
+    }, [register, fnr, aktorId, enhet])
 
     if (!props.apen.value) {
         return null;
@@ -160,7 +166,7 @@ function Lenker(props: Props) {
                             <Lenke href={`https://beslutteroversikt${finnNaisInternNavMiljoStreng()}`}>
                                 Kvalitetssikring 14a
                             </Lenke>
-                            <Lenke href={`https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`}>
+                            <Lenke href={aktivitetsplanUrl(fnr, enhet)}>
                                 Aktivitetsplan
                             </Lenke>
                             <Lenke href={`https://arbeidssokerregistrering-for-veileder${finnNaisInternNavMiljoStreng()}/`}>
