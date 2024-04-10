@@ -1,4 +1,5 @@
 import { AppState } from '../states/AppState';
+import { Enhet } from './Enhet';
 
 interface DomainProps {
   enhet?: string | undefined;
@@ -9,8 +10,9 @@ interface DomainProps {
   fetchActiveEnhetOnMount?: boolean | undefined;
   fetchActiveUserOnMount?: boolean | undefined;
   onBeforeRequest?: (headers: HeadersInit) => HeadersInit | undefined;
-  onEnhetChanged: (enhet?: string | null) => void;
+  onEnhetChanged: (enhet?: string | null, enhetObjekt?: Enhet) => void;
   onFnrChanged: (fnr?: string | null) => void;
+  onLinkClick?: (link: { text: string; url: string }) => void;
 }
 
-export interface AppProps extends DomainProps, Omit<AppState, 'open'> { }
+export interface AppProps extends DomainProps, Omit<AppState, 'open'> {}

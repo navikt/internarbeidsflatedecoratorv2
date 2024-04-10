@@ -1,8 +1,9 @@
 import { Link } from '@navikt/ds-react';
-import React, { PropsWithChildren, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useAppState } from '../../states/AppState';
 import { LinkSection, LinkSections, generateLinks } from './generateLinks';
 import StoreHandler from '../../store/StoreHandler';
+import useGlobalHandlers from '../../store/GlobalHandlers';
 
 const Links: React.FC = () => {
   const { fnr, enhet } = StoreHandler.store((state) => ({
@@ -42,9 +43,12 @@ const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
         {linkSection.links.map((link) => {
           const href = `${link.url}${link.subPath}`;
           return (
-            <LinkComponent key={href} href={href} newPage={linkSection.newPage}>
-              {link.title}
-            </LinkComponent>
+            <LinkComponent
+              key={href}
+              href={href}
+              newPage={linkSection.newPage}
+              linkText={link.title}
+            />
           );
         })}
       </ul>
@@ -62,9 +66,12 @@ const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
         {linkSection.links.map((link) => {
           const href = `${link.url}${link.subPath}`;
           return (
-            <LinkComponent key={href} href={href} newPage={linkSection.newPage}>
-              {link.title}
-            </LinkComponent>
+            <LinkComponent
+              key={href}
+              href={href}
+              newPage={linkSection.newPage}
+              linkText={link.title}
+            />
           );
         })}
       </ul>
@@ -72,9 +79,17 @@ const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
   );
 };
 
-const LinkComponent: React.FC<
-  PropsWithChildren & { href: string; newPage?: boolean | undefined }
-> = ({ href, children, newPage = false }) => {
+const LinkComponent: React.FC<{
+  href: string;
+  newPage?: boolean | undefined;
+  linkText: string;
+}> = ({ href, linkText, newPage = false }) => {
+  const onLinkClick = useGlobalHandlers((state) => state.onLinkClick);
+
+  const onClick = () => {
+    onLinkClick?.(linkText, href);
+  };
+
   return (
     <li className="dr-block dr-text-white dr-py-1">
       <Link
@@ -82,8 +97,10 @@ const LinkComponent: React.FC<
         rel="nooppener noreferrer"
         target={newPage ? '_blank' : '_self'}
         className="!dr-block !dr-text-white !dr-py-1 !dr-no-underline focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-400 focus:!dr-bg-transparent hover:!dr-text-orange-400 hover:before:!dr-w-2 hover:before:!dr-h-2 hover:before:!-dr-mr-2 hover:before:!dr-bg-orange-400 hover:before:!dr-rounded-full hover:before:!dr-inline-block hover:before:!-dr-left-4 hover:before:!dr-relative hover:before:!dr-mb-[2px] hover:visited:!dr-text-orange-400"
-        children={children}
-      />
+        onClick={onClick}
+      >
+        {linkText}
+      </Link>
     </li>
   );
 };
