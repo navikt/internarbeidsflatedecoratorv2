@@ -105,7 +105,7 @@ export const wsEventDistribusjon = (
   environment: Environment,
   urlFormat: UrlFormat,
 ) => {
-  const subdomain = environment === "prod" ? '' : '.dev'
+  const subdomain = environment === 'prod' ? '' : '.dev';
   switch (urlFormat) {
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
@@ -198,6 +198,16 @@ export const arenaUrl = ({
   )}.adeo.no/forms/frmservlet?config=${arenaConfig(environment)}`;
 };
 
+export const veilarbpersonflateUrl = ({
+  environment,
+  enhet,
+  fnr,
+}: Pick<BuildLinksProps, 'environment' | 'enhet' | 'fnr'>) => {
+  return `https://veilarbpersonflate${naisDomain(environment)}/${
+    fnr ? fnr : ''
+  }?enhet=${enhet ? enhet : ''}`;
+};
+
 interface BuildLinksProps {
   environment: Environment;
   urlFormat: UrlFormat;
@@ -223,9 +233,7 @@ export const buildLinks = ({
       url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
     },
     veilarbpersonUrl: {
-      url: `https://veilarbpersonflate${naisDomain(environment)}/${
-        fnr ? fnr : ''
-      }?enhet=${enhet ? enhet : ''}`,
+      url: veilarbpersonflateUrl({ environment, enhet, fnr }),
     },
     beslutterUrl: {
       url: `https://beslutteroversikt${naisDomain(environment)}`,

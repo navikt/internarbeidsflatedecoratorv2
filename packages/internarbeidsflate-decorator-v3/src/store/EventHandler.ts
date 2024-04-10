@@ -36,7 +36,6 @@ export class EventHandler extends SubstateHandler {
 
   #onWSMessage = (message: MessageEvent<WebSocketMessage>) => {
     const data = message.data;
-    console.log('Recieved data', data);
     if (data === 'NY_AKTIV_BRUKER') {
       this.#handleFnrChangedExternally();
     } else if (data === 'NY_AKTIV_ENHET') {
