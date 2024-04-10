@@ -14,7 +14,7 @@ export class EnhetValueManager extends ContextValueManager {
   #errorMessageManager: ErrorMessageManager;
   #fnrValueManager: FnrValueManager;
   #propsUpdateHandler: PropsUpdateHandler;
-  #onEnhetChanged?: (newEnhet?: string | null) => void;
+  #onEnhetChanged?: (newEnhet?: string | null, enhetObject?: Enhet) => void;
   constructor(
     substateProps: SubstateHandlerProps,
     errorMessageManager: ErrorMessageManager,
@@ -148,7 +148,7 @@ export class EnhetValueManager extends ContextValueManager {
 
     const enhet = this.#updateEnhet(matchendeEnhet);
     this.setState({ enhet });
-    if (this.#onEnhetChanged) this.#onEnhetChanged(newEnhetId);
+    if (this.#onEnhetChanged) this.#onEnhetChanged(newEnhetId, matchendeEnhet);
   };
 
   readonly changeEnhetLocallyAndExternally = async (

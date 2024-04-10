@@ -13,8 +13,11 @@ import { useEffect } from 'react';
 import NewUserModal from './components/modals/NewUserModal';
 import NewEnhetModal from './components/modals/NewEnhetModal';
 import { useSyncStore } from './hooks/useSyncStore';
+import useGlobalHandlers from './store/GlobalHandlers';
 
 const App: React.FC<AppProps> = (props: AppProps) => {
+  const { onLinkClick } = props;
+
   useSyncStore(props);
   useSyncAppState(props);
   useSyncHotkeys(props);
@@ -30,6 +33,16 @@ const App: React.FC<AppProps> = (props: AppProps) => {
   const ref = useOnOutsideClick<HTMLElement>(() =>
     useAppState.setState({ open: false }),
   );
+
+  const setHandler = useGlobalHandlers((state) => state.setHandler);
+
+  useEffect(() => {
+    if (onLinkClick) {
+      setHandler('onLinkClick', (linkText, url) =>
+        onLinkClick({ text: linkText, url }),
+      );
+    }
+  }, [setHandler, onLinkClick]);
 
   return (
     <>
