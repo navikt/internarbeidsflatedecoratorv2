@@ -51,7 +51,7 @@ jobs:
   deploy-qa:
     name: Deploy to preprod
     needs: build-and-push
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/v2.1'
     runs-on: ubuntu-latest
     permissions:
       contents: read
