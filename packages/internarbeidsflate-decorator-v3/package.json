@@ -51,11 +51,11 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "^5.12.4",
-    "@navikt/ds-css": "^5.12.4",
-    "@navikt/ds-react": "^5.12.4",
-    "@navikt/ds-tailwind": "^5.12.4",
-    "@navikt/ds-tokens": "^5.12.4",
+    "@navikt/aksel-icons": "^6.4.1",
+    "@navikt/ds-css": "^6.4.1",
+    "@navikt/ds-react": "^6.4.1",
+    "@navikt/ds-tailwind": "^6.4.1",
+    "@navikt/ds-tokens": "^6.4.1",
     "@tanstack/query-core": "^5.29.0",
     "use-sync-external-store": "^1.2.0",
     "zustand": "^4.5.2"
