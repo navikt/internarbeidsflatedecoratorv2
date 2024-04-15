@@ -14,11 +14,23 @@ Ved eventuelle endringer i andre flater vil det vises en bekreftelse-modal, og h
 
 Legg til følgende i index.html
 
+**I dev**
+
 ```html
 <script src="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js"></script>
 <link
   rel="stylesheet"
   href="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/dev/latest/dist/index.css"
+/>
+```
+
+**I prod**
+
+```html
+<script src="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/prod/latest/dist/bundle.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.nav.no/personoversikt/internarbeidsflate-decorator-v3/prod/latest/dist/index.css"
 />
 ```
 

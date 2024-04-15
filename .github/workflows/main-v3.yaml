@@ -42,7 +42,7 @@ jobs:
             project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
       - name: Upload to CDN prod path
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
             team: personoversikt
