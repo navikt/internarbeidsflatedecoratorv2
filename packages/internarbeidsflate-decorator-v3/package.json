@@ -22,6 +22,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "build-and-preview": "bunx --bun vite build && bunx --bun vite preview",
     "preview": "bunx --bun vite preview",
+    "build:preview": "bunx --bun vite build --config preview.vite.config.ts",
     "test": "vitest"
   },
   "devDependencies": {
