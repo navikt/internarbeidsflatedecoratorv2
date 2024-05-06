@@ -30,7 +30,7 @@ jobs:
 
   build-and-push:
     name: Build and push Docker container
-    if: github.ref == 'refs/heads/v2.1' || github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/v2.1''
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -71,7 +71,7 @@ jobs:
   deploy-prod:
     name: Deploy to prod
     needs: build-and-push
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/v2.1'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -84,32 +84,3 @@ jobs:
           CLUSTER: prod-fss
           RESOURCE: .nais/prod.yaml
           VAR: image=${{ needs.build-and-push.outputs.image }}
-
-  deploy-gh-pages:
-    name: Deploy til gh-pages
-    needs: build-and-push
-    if: github.ref == 'refs/heads/dev'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.13.1'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Bundle
-        run: |
-          mv build v2.1
-          mkdir build
-          mv v2.1 build
-      - name: Deploy gh-pages
-        uses: peaceiris/actions-gh-pages@v3.9.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: build
