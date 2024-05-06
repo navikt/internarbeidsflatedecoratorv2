@@ -4,8 +4,10 @@ import Wrapper from './Wrapper';
 import FullScreenWrapper from './FullScreenWrapper';
 
 
+const isFullscreen = import.meta.env.VITE_DECORATOR_MODE === 'fullscreen';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {import.meta.env.VITE_DECORATOR_MODE === 'fullscreen' ? <FullScreenWrapper /> : <Wrapper />}
+    {isFullscreen ? <FullScreenWrapper /> : <Wrapper />}
   </React.StrictMode>
 );
