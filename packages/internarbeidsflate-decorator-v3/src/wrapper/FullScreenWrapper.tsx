@@ -1,5 +1,5 @@
 import React from 'react';
-import Decorator from '../../App';
+import Decorator from '../App';
 
 const FullScreenWrapper = () => {
   // En minimal Decorator som viser en fullskjermvisning av applikasjonen

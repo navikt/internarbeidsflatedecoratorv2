@@ -17,7 +17,7 @@
   },
   "scripts": {
     "dev": "bunx --bun vite",
-    "dev:fullscreen": "cross-env INTERNARBEIDSFLATE_DECORATOR_HTML_PATH='src/wrapper/fullscreen/index-fullscreen.html' bunx --bun vite",
+    "dev:fullscreen": "VITE_DECORATOR_MODE=fullscreen bunx --bun vite",
     "build": "bunx --bun vite build",
     "build:watch": "bunx --bun vite build --watch",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -34,7 +34,6 @@
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
