@@ -17,6 +17,7 @@
   },
   "scripts": {
     "dev": "bunx --bun vite",
+    "dev:fullscreen": "VITE_DECORATOR_MODE=fullscreen bunx --bun vite",
     "build": "bunx --bun vite build",
     "build:watch": "bunx --bun vite build --watch",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -58,6 +59,7 @@
     "@navikt/ds-tailwind": "^6.4.1",
     "@navikt/ds-tokens": "^6.4.1",
     "@tanstack/query-core": "^5.29.0",
+    "classnames": "^2.5.1",
     "use-sync-external-store": "^1.2.0",
     "zustand": "^4.5.2"
   }
