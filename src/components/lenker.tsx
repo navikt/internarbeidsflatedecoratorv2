@@ -58,14 +58,11 @@ const foreldrePengerUrl = (aktoerId: string) => aktoerId ? `${fpsakUrl}/aktoer/$
 const aktivitetsplanUrl = (fnr: string, enhet: string) => `https://veilarbpersonflate${finnNaisInternNavMiljoStreng()}/${fnr ? fnr : ''}?enhet=${enhet}`;
 
 const inst2 = () => `https://inst2-web${finnNaisMiljoStreng(true)}/`;
-function k9Url(aktorId: string): string {
+function k9Url(): string {
     const miljo = hentMiljoFraUrl();
-    const domain = miljo.environment === 'p' ? 'https://k9-los-web.nais.adeo.no/' : 'https://k9-los-web.dev.adeo.no/';
-    if (aktorId) {
-        return `${domain}aktoer/${aktorId}`
-    } else {
-        return domain
-    }
+    const domain = miljo.environment === 'p' ? 'https://k9-los-web.intern.nav.no/' : 'https://k9-los-web.intern.dev.nav.no/';
+
+    return domain
 }
 
 function openUrl(url: string): () => void {
@@ -209,7 +206,7 @@ function Lenker(props: Props) {
                         <Lenke href={foreldrePengerUrl(aktorId)} target="_blank">
                             Foreldrepenger
                         </Lenke>
-                        <Lenke href={k9Url(aktorId)} target="_blank">
+                        <Lenke href={k9Url()} target="_blank">
                             K9-sak
                         </Lenke>
                         <Lenke href={`https://rekrutteringsbistand${naisInternNavDomain}`} target="_blank">
