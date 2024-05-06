@@ -13,7 +13,7 @@ import NewUserModal from './components/modals/NewUserModal';
 import NewEnhetModal from './components/modals/NewEnhetModal';
 import { useSyncStore } from './hooks/useSyncStore';
 import useGlobalHandlers from './store/GlobalHandlers';
-import { condClassNames } from './utils/condClassNames';
+import classNames from 'classnames';
 
 const App: React.FC<AppProps> = (props: AppProps) => {
   const { onLinkClick, isFullScreen } = props;
@@ -52,10 +52,10 @@ const App: React.FC<AppProps> = (props: AppProps) => {
 
   return (
     <>
-      <div className={`dekorator ${condClassNames(isFullScreen, 'dr-h-screen')}`}
+      <div className={classNames('dekorator', { 'dr-h-screen': isFullScreen })}
            data-theme="internarbeidsflatedecorator-theme">
         <header ref={ref}
-                className={`dr-font-arial dr-text-white ${condClassNames(isFullScreen, 'dr-h-full dr-flex dr-flex-col')}`}>
+                className={classNames('dr-font-arial', 'dr-text-white', { 'dr-h-full dr-flex dr-flex-col': isFullScreen })}>
           <Banner />
           <Menu />
           <ErrorMessage />
