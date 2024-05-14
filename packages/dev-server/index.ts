@@ -3,17 +3,20 @@ import { CustomServer } from './CustomServer';
 import { BadRequestResponse } from './responses/BadRequestResponse';
 import { InternalServerErrorResponse } from './responses/InternalServerErrorResponse';
 import { SuccessResponse } from './responses/SuccessResponse';
-import { mockMe } from '../internarbeidsflate-decorator-v3/src/__mocks__/mock-handlers'
+import { mockMe } from '../internarbeidsflate-decorator-v3/src/__mocks__/mock-handlers';
 import { NotFoundResponse } from './responses/NotFoundResponse';
 import { BunServerWebsocket } from './types';
 
 type Metadata = { ident: string };
 
 const serve = () => {
-  type Context = { aktivEnhet: string | undefined; aktivBruker: string | undefined };
+  type Context = {
+    aktivEnhet: string | undefined;
+    aktivBruker: string | undefined;
+  };
   const context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
   const clients: Record<string, BunServerWebsocket> = {};
-  const codeToFnr: Record<string, string> = {}
+  const codeToFnr: Record<string, string> = {};
 
   const app = new CustomServer();
 
@@ -37,11 +40,11 @@ const serve = () => {
   });
 
   app.get('/modiacontextholder/api/context/v2/aktivbruker', () => {
-    return new SuccessResponse({aktivBruker: context.aktivBruker });
+    return new SuccessResponse({ aktivBruker: context.aktivBruker });
   });
 
   app.get('/modiacontextholder/api/context/v2/aktivenhet', () => {
-    return new SuccessResponse({aktivEnhet: context.aktivEnhet });
+    return new SuccessResponse({ aktivEnhet: context.aktivEnhet });
   });
 
   app.get('/modiacontextholder/api/context/enhet/:enhetId', (request) => {
@@ -72,13 +75,18 @@ const serve = () => {
       await Bun.readableStreamToJSON(request.body);
 
     if (eventType === 'NY_AKTIV_BRUKER') {
-      context.aktivBruker = verdi
+      context.aktivBruker = verdi;
     } else if (eventType === 'NY_AKTIV_ENHET') {
-      context.aktivEnhet = verdi
+      context.aktivEnhet = verdi;
     }
     broadCastToClients(eventType);
 
-    return new SuccessResponse({...context});
+    return new SuccessResponse({ ...context });
+  });
+
+  app.delete('/modiacontextholder/api/context/aktivbruker', () => {
+    context.aktivBruker = undefined;
+    return new SuccessResponse({ aktivBruker: context.aktivBruker });
   });
 
   app.post('/modiacontextholder/api/fnr-code/retrieve', async (request) => {
@@ -86,12 +94,14 @@ const serve = () => {
       return new BadRequestResponse('No body provided');
     }
 
-    const { code }: { code: string } = await Bun.readableStreamToJSON(request.body);
+    const { code }: { code: string } = await Bun.readableStreamToJSON(
+      request.body,
+    );
 
-    const fnr = codeToFnr[code]
+    const fnr = codeToFnr[code];
 
     if (!fnr) {
-      return new NotFoundResponse()
+      return new NotFoundResponse();
     }
 
     return new SuccessResponse({ fnr, code });
@@ -102,11 +112,13 @@ const serve = () => {
       return new BadRequestResponse('No body provided');
     }
 
-    const { fnr }: { fnr: string } = await Bun.readableStreamToJSON(request.body);
+    const { fnr }: { fnr: string } = await Bun.readableStreamToJSON(
+      request.body,
+    );
 
-    const code = crypto.randomUUID()
+    const code = crypto.randomUUID();
 
-    codeToFnr[code] = fnr
+    codeToFnr[code] = fnr;
 
     return new SuccessResponse({ fnr, code });
   });
