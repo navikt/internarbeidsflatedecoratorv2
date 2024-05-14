@@ -1,9 +1,9 @@
 import React from 'react';
-import Decorator from '../App';
+import LandingPage from '../LandingPage';
 
 const FullScreenWrapper = () => {
   // En minimal Decorator som viser en fullskjermvisning av applikasjonen
-  return <Decorator
+  return <LandingPage
     appName="Test app"
     enableHotkeys
     showEnheter={true}
@@ -19,7 +19,6 @@ const FullScreenWrapper = () => {
     }}
     onFnrChanged={() => {
     }}
-    isFullScreen={true}
   />;
 };
 
