@@ -118,8 +118,18 @@ export class FnrValueManager extends ContextValueManager {
 
   readonly openFnrModal = () => this.openModal('fnr');
 
+  readonly clearFnrExternally = async () => {
+    const res = await this.contextHolderApi.clearFnr();
+    if (res.error) {
+      this.#errorMessageManager.addErrorMessage(
+        PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
+      );
+    }
+  };
+
   readonly clearFnr = () => {
     this.changeFnrLocally();
+    this.clearFnrExternally();
     this.#propsUpdateHandler.clearOldValue('fnr');
   };
 
