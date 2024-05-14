@@ -46,6 +46,8 @@ export class ContextHolderAPI extends ApiClient {
     });
   };
 
+  readonly clearFnr = () => this.delete<void>({ path: '/context/aktivbruker' });
+
   readonly getVeilederDetails = (): Promise<FetchResponse<Veileder>> => {
     return this.get<Veileder>({ path: `/decorator` });
   };
