@@ -7,7 +7,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy application to dev
+    name: Build and deploy
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'

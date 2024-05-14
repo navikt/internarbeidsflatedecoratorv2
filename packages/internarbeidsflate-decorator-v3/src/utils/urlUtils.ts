@@ -155,17 +155,10 @@ export const fpSakUrl = (
     ? `${fpSakDomain(enironment)}/aktoer/${aktoerId}`
     : `${fpSakDomain(enironment)}`;
 
-const k9domain = (environment: Environment) =>
+const k9url = (environment: Environment) =>
   environment === 'prod'
-    ? 'https://k9-los-web.nais.adeo.no'
-    : 'https://k9-los-web.dev.adeo.no';
-const k9url = (
-  environment: Environment,
-  aktoerId?: string | undefined | null,
-) =>
-  aktoerId
-    ? `${k9domain(environment)}/aktoer/${aktoerId}`
-    : k9domain(environment);
+    ? 'https://k9-los-web.intern.nav.no'
+    : 'https://k9-los-web.intern.dev.nav.no';
 
 const arbeidssokerUrl = ({
   environment,
@@ -278,7 +271,7 @@ export const buildLinks = ({
       url: fpSakUrl(environment, aktoerId),
     },
     k9: {
-      url: k9url(environment, aktoerId),
+      url: k9url(environment),
     },
     rekrutteringsBistand: {
       url: `https://rekrutteringsbistand${naisDomain(environment)}`,
