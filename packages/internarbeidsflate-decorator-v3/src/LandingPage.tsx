@@ -21,11 +21,20 @@ const LandingPage: React.FC<AppProps> = (props) => {
 
   return (
     <div
-      className={classNames('dr-text-white dr-font-arial dr-bg-background', 'dr-min-h-screen', 'dr-flex', 'dr-flex-col', 'dr-items-center', 'dr-pt-10')}
+      className={classNames(
+        'dr-text-white dr-font-arial dr-bg-background',
+        'dr-min-h-screen',
+        'dr-flex',
+        'dr-flex-col',
+        'dr-items-center',
+        'dr-pt-10',
+      )}
       data-theme="internarbeidsflatedecorator-theme"
     >
       <NAVLogo className="dr-w-24 dr-pb-3" />
-      <Heading className="dr-pb-3" size={'large'}>Modia</Heading>
+      <Heading className="dr-pb-3" size={'large'}>
+        Modia
+      </Heading>
       <Enhet />
       <EnhetVelger />
       <FullScreenLinks {...links} />

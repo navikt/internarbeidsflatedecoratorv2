@@ -13,21 +13,22 @@ import { useAppState } from './states/AppState';
 const Decorator: React.FC<PropsWithChildren<AppProps>> = (props) => {
   useAppLogic(props);
   const ref = useOnOutsideClick<HTMLElement>(() =>
-    useAppState.setState({ open: false })
+    useAppState.setState({ open: false }),
   );
 
-  return (<>
-    <div className="dekorator"
-         data-theme="internarbeidsflatedecorator-theme">
-      <header ref={ref} className="dr-font-arial dr-text-white">
-        <Banner />
-        <Menu />
-        <ErrorMessage />
-      </header>
-    </div>
-    <NewUserModal />
-    <NewEnhetModal />
-  </>);
+  return (
+    <>
+      <div className="dekorator" data-theme="internarbeidsflatedecorator-theme">
+        <header ref={ref} className="dr-font-arial dr-text-white">
+          <Banner />
+          <Menu />
+          <ErrorMessage />
+        </header>
+      </div>
+      <NewUserModal />
+      <NewEnhetModal />
+    </>
+  );
 };
 
 export default Decorator;

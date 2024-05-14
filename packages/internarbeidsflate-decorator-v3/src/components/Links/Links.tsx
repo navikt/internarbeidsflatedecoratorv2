@@ -1,6 +1,6 @@
 import { Link } from '@navikt/ds-react';
 import React from 'react';
-import { LinkSection, LinkSections } from './useGenerateLinks';
+import { LinkSection, LinkSections, LinkWithTitle } from './useGenerateLinks';
 import useGlobalHandlers from '../../store/GlobalHandlers';
 
 export const DecoratorLinks: React.FC<LinkSections> = (links) => {
@@ -36,7 +36,7 @@ const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
         {linkSection.title}
       </h2>
       <ul>
-        {linkSection.links.map((link) => {
+        {linkSection.links.map((link: LinkWithTitle) => {
           const href = `${link.url}${link.subPath}`;
           return (
             <LinkComponent
@@ -59,7 +59,7 @@ const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
         {linkSection.title}
       </h2>
       <ul className="dr-flex dr-flex-wrap dr-gap-x-8">
-        {linkSection.links.map((link) => {
+        {linkSection.links.map((link: LinkWithTitle) => {
           const href = `${link.url}${link.subPath}`;
           return (
             <LinkComponent

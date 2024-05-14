@@ -14,15 +14,17 @@ const Menu: React.FC = () => {
 
   const { fnr, aktoerId } = StoreHandler.store((state) => ({
     fnr: state.fnr.value,
-    aktoerId: ''
+    aktoerId: '',
   }));
 
   useLinkHotkeys({ environment, fnr, aktoerId });
-  const links = useGenerateLinks()
+  const links = useGenerateLinks();
   if (!isOpen) return null;
 
   return (
-    <div className={classNames('dr-bg-background', { 'dr-h-full': isFullScreen })}>
+    <div
+      className={classNames('dr-bg-background', { 'dr-h-full': isFullScreen })}
+    >
       <DecoratorLinks {...links} />
     </div>
   );

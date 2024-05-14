@@ -3,7 +3,11 @@
     "composite": true,
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     "exactOptionalPropertyTypes": true,
@@ -11,7 +15,7 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "emitDeclarationOnly": true, 
+    "emitDeclarationOnly": true,
     "jsx": "react",
     "strict": true,
     "noUnusedLocals": true,
@@ -19,5 +23,9 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   },
-  "include": ["packages/internarbeidsflate-decorator-v3/src", "packages/internarbeidsflate-decorator-v3/Decorator.tsx", "packages/internarbeidsflate-decorator-v3/LandingPage.tsx"]
+  "include": [
+    "packages/internarbeidsflate-decorator-v3/src",
+    "packages/internarbeidsflate-decorator-v3/Decorator.tsx",
+    "packages/internarbeidsflate-decorator-v3/LandingPage.tsx"
+  ]
 }

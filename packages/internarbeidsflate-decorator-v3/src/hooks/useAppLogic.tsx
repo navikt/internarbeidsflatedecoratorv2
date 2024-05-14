@@ -26,7 +26,7 @@ const useAppLogic = (props: AppProps) => {
   useEffect(() => {
     if (onLinkClick) {
       setHandler('onLinkClick', (linkText, url) =>
-        onLinkClick({ text: linkText, url })
+        onLinkClick({ text: linkText, url }),
       );
     }
   }, [setHandler, onLinkClick]);
