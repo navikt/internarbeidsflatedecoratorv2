@@ -84,20 +84,20 @@ export const modiaContextHolderUrl = (
   contextHolderProxy?: string | undefined | null,
 ): string => {
   if (contextHolderProxy) {
-    return `${contextHolderProxy}/modiacontextholder/api`;
+    return `${contextHolderProxy}/modiacontextholder`;
   }
 
   switch (urlFormat) {
     case 'LOCAL':
-      return 'http://localhost:4000/modiacontextholder/api';
+      return 'http://localhost:4000/modiacontextholder';
     case 'ADEO':
       return `https://app${findEnvString(
         environment,
-      )}.adeo.no/modiacontextholder/api`;
+      )}.adeo.no/modiacontextholder`;
     case 'NAV_NO':
       return `https://modiacontextholder${naisDomain(
         environment,
-      )}/modiacontextholder/api`;
+      )}/modiacontextholder`;
   }
 };
 
@@ -226,7 +226,7 @@ export const buildLinks = ({
       url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
     },
     veilarbpersonUrl: {
-      url: veilarbpersonflateUrl({ environment, enhet, fnr }),
+      url: veilarbpersonflateUrl({ environment }),
     },
     beslutterUrl: {
       url: `https://beslutteroversikt${naisDomain(environment)}`,
