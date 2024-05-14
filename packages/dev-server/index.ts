@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CustomServer } from './CustomServer';
 import { BadRequestResponse } from './responses/BadRequestResponse';
 import { InternalServerErrorResponse } from './responses/InternalServerErrorResponse';
@@ -8,6 +7,10 @@ import { NotFoundResponse } from './responses/NotFoundResponse';
 import { BunServerWebsocket } from './types';
 
 type Metadata = { ident: string };
+type Veileder = {
+  enheter: { enhetId: string }[];
+};
+type Event = { eventType: 'NY_AKTIV_ENHET' | 'NY_AKTIV_BRUKER'; verdi: string };
 
 const serve = () => {
   type Context = {
@@ -52,7 +55,7 @@ const serve = () => {
       return new BadRequestResponse('Missing enhetId');
     }
 
-    const response = mockMe.enheter.find(
+    const response = (mockMe as Veileder).enheter.find(
       (enhet) => enhet.enhetId === request.params.enhetId,
     );
 
@@ -68,11 +71,9 @@ const serve = () => {
       return new BadRequestResponse('No body provided');
     }
 
-    const {
-      eventType,
-      verdi,
-    }: { eventType: 'NY_AKTIV_ENHET' | 'NY_AKTIV_BRUKER'; verdi: string } =
-      await Bun.readableStreamToJSON(request.body);
+    const { eventType, verdi } = (await Bun.readableStreamToJSON(
+      request.body,
+    )) as Event;
 
     if (eventType === 'NY_AKTIV_BRUKER') {
       context.aktivBruker = verdi;
@@ -94,9 +95,9 @@ const serve = () => {
       return new BadRequestResponse('No body provided');
     }
 
-    const { code }: { code: string } = await Bun.readableStreamToJSON(
-      request.body,
-    );
+    const { code } = (await Bun.readableStreamToJSON(request.body)) as {
+      code: string;
+    };
 
     const fnr = codeToFnr[code];
 
@@ -112,9 +113,9 @@ const serve = () => {
       return new BadRequestResponse('No body provided');
     }
 
-    const { fnr }: { fnr: string } = await Bun.readableStreamToJSON(
-      request.body,
-    );
+    const { fnr } = (await Bun.readableStreamToJSON(request.body)) as {
+      fnr: string;
+    };
 
     const code = crypto.randomUUID();
 

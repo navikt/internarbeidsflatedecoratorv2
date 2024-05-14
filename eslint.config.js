@@ -7,16 +7,28 @@ export default tseslint.config(
   prettier,
   ...tseslint.configs.recommendedTypeChecked,
   {
-    ignores: ['**/dist/**/*',],
+    ignores: ['**/dist/**/*'],
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.json', './packages/*/tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        {
+          checksVoidReturn: false,
+        },
+      ],
+    },
   },
   {
-    files: ['**/*.js','vitest.workspace.ts'],
-    extends: [tseslint.configs.disableTypeChecked]
-  }
+    files: ['**/*.js', 'vitest.workspace.ts'],
+    extends: [tseslint.configs.disableTypeChecked],
+  },
+  {
+    ignores: ['**/postcss.config.cjs'],
+  },
 );

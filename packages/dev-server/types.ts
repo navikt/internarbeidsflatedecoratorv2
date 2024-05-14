@@ -37,7 +37,7 @@ export interface WebSocketRoute<T = any> extends BaseRoute {
   };
 }
 
-export type Params = Record<string, any>;
+export type Params = Record<string, string>;
 export type BunServerMetadata = BaseRoute & {
   metadata?: Record<string, any> | undefined;
 };
