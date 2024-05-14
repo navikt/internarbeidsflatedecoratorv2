@@ -2,8 +2,9 @@ import React from 'react';
 import { useLinkHotkeys } from '../hooks/useLinkHotkeys';
 import { useAppState } from '../states/AppState';
 import StoreHandler from '../store/StoreHandler';
-import Links from './Links/Links';
+import { DecoratorLinks } from './Links/Links';
 import classNames from 'classnames';
+import { useGenerateLinks } from './Links/useGenerateLinks';
 
 const Menu: React.FC = () => {
   const isOpen = useAppState((state) => state.open);
@@ -13,15 +14,18 @@ const Menu: React.FC = () => {
 
   const { fnr, aktoerId } = StoreHandler.store((state) => ({
     fnr: state.fnr.value,
-    aktoerId: ''
+    aktoerId: '',
   }));
 
   useLinkHotkeys({ environment, fnr, aktoerId });
+  const links = useGenerateLinks();
   if (!isOpen) return null;
 
   return (
-    <div className={classNames('dr-bg-background', { 'dr-h-full': isFullScreen })}>
-      <Links />
+    <div
+      className={classNames('dr-bg-background', { 'dr-h-full': isFullScreen })}
+    >
+      <DecoratorLinks {...links} />
     </div>
   );
 };

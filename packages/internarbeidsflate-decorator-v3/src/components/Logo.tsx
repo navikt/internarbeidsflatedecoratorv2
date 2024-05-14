@@ -1,7 +1,8 @@
 import React from 'react';
-const NAVLogo = () => {
+
+const NAVLogo = (props: React.SVGProps<SVGSVGElement>) => {
   return (
-    <svg viewBox="0 0 148.2 94.9">
+    <svg viewBox="0 0 148.2 94.9" {...props}>
       <title>NAV-logo</title>
       <g>
         <path

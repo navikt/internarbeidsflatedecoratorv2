@@ -1,5 +1,8 @@
 import { Environment, UrlFormat } from '../../utils/environmentUtils';
-import { Url, buildLinks } from '../../utils/urlUtils';
+import { buildLinks, Url } from '../../utils/urlUtils';
+import { useAppState } from '../../states/AppState';
+import StoreHandler from '../../store/StoreHandler';
+import { useMemo } from 'react';
 
 export interface LinkWithTitle extends Url {
   title: string;
@@ -29,7 +32,7 @@ const buildLinkWithTitle = (
   subPath,
 });
 
-export const generateLinks = ({
+const generateLinks = ({
   environment,
   urlFormat,
   fnr,
@@ -81,7 +84,7 @@ export const generateLinks = ({
         links.tiltaksGjennomforingUrl,
         'Tiltaksjennomføring - avtaler',
       ),
-      buildLinkWithTitle(links.arbeidsmarkedsTiltak, 'Arbeidsmarkedstiltak')
+      buildLinkWithTitle(links.arbeidsmarkedsTiltak, 'Arbeidsmarkedstiltak'),
     ],
   };
   const sykefravaer: LinkSection = {
@@ -115,9 +118,24 @@ export const generateLinks = ({
       buildLinkWithTitle(links.modiaSosialhjelp, 'Modia sosialhjelp'),
       buildLinkWithTitle(links.refusjon, 'Refusjon tilskudd'),
       buildLinkWithTitle(links.salesforce, 'Salesforce'),
-      buildLinkWithTitle(links.kunnskapsbasenNKS, "Kunnskapsbasen NKS")
+      buildLinkWithTitle(links.kunnskapsbasenNKS, 'Kunnskapsbasen NKS'),
     ],
   };
 
   return { modia, arbeidsrettet, sykefravaer, andre };
+};
+
+export const useGenerateLinks = (): LinkSections => {
+  const { fnr, enhet } = StoreHandler.store((state) => ({
+    fnr: state.fnr.value,
+    enhet: state.enhet.value,
+  }));
+  const { environment, urlFormat } = useAppState((state) => ({
+    environment: state.environment,
+    urlFormat: state.urlFormat,
+  }));
+
+  return useMemo((): LinkSections => {
+    return generateLinks({ environment, enhet, fnr, urlFormat, aktoerId: '' });
+  }, [enhet, environment, fnr, urlFormat]);
 };

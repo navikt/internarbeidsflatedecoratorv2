@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@navikt/ds-react';
 import { useTempValue } from './hooks/useTempValue';
 import { WebSocketWrapper } from '../api/WebSocketWrapper';
-import Decorator from '../App';
 import { ContextHolderAPI } from '../api/ContextHolderAPI';
+import Decorator from '../Decorator';
+
 const WS_URL = 'ws://localhost:4000/ws';
 const URL = 'http://localhost:4000/modiacontextholder/api/context';
 
