@@ -26,10 +26,14 @@ export class EventHandler extends SubstateHandler {
     this.#errorMessageManager = errorMessageManager;
   }
   initialize = ({ wsUrl, environment, veileder }: StoreProps) => {
-    this.#webSocketWrapper = new WebSocketWrapper(`${wsUrl}${veileder.ident}`, environment, {
-      onMessage: this.#onWSMessage,
-      onError: this.#onWSError,
-    });
+    this.#webSocketWrapper = new WebSocketWrapper(
+      `${wsUrl}${veileder.ident}`,
+      environment,
+      {
+        onMessage: this.#onWSMessage,
+        onError: this.#onWSError,
+      },
+    );
     this.#webSocketWrapper.open();
     this.registerShutdown('websocketwrapper', this.#webSocketWrapper.close);
   };
@@ -51,29 +55,34 @@ export class EventHandler extends SubstateHandler {
   };
 
   #handleFnrChangedExternally = async () => {
-    const response = await this.contextHolderApi.getVeiledersActiveFnr()
+    const response = await this.contextHolderApi.getVeiledersActiveFnr();
     if (response.error || !response.data || !response.data.aktivBruker) {
-      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET)
-      return
+      this.#errorMessageManager.addErrorMessage(
+        PredefiniertFeilmeldinger.HENT_BRUKER_CONTEXT_FEILET,
+      );
+      return;
     }
-    const { aktivBruker } = response.data
+    const { aktivBruker } = response.data;
     if (!this.state.fnr.value) {
       this.#fnrValueManager.setWSFnrRequestedValue(aktivBruker);
       this.#fnrValueManager.changeFnrLocallyToWsRequestedValue();
-    }
-    else if (this.#checkThatUpdateIsNewAndNotAwaitingAccept('fnr', aktivBruker)) {
+    } else if (
+      this.#checkThatUpdateIsNewAndNotAwaitingAccept('fnr', aktivBruker)
+    ) {
       this.#fnrValueManager.setWSFnrRequestedValue(aktivBruker);
       this.#fnrValueManager.openFnrModal();
     }
   };
 
   #handleEnhetChangedExternally = async () => {
-    const response = await this.contextHolderApi.getVeiledersActiveEnhet()
+    const response = await this.contextHolderApi.getVeiledersActiveEnhet();
     if (response.error || !response.data || !response.data.aktivEnhet) {
-      this.#errorMessageManager.addErrorMessage(PredefiniertFeilmeldinger.HENT_ENHET_FEILET)
-      return
+      this.#errorMessageManager.addErrorMessage(
+        PredefiniertFeilmeldinger.HENT_ENHET_FEILET,
+      );
+      return;
     }
-    const { aktivEnhet } = response.data
+    const { aktivEnhet } = response.data;
     if (this.#checkThatUpdateIsNewAndNotAwaitingAccept('enhet', aktivEnhet)) {
       this.#enhetValueManager.setWSEnhetRequestedValue(aktivEnhet);
       this.#enhetValueManager.openEnhetModal();
