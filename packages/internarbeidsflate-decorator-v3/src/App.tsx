@@ -14,6 +14,13 @@ import NewEnhetModal from './components/modals/NewEnhetModal';
 import { useSyncStore } from './hooks/useSyncStore';
 import useGlobalHandlers from './store/GlobalHandlers';
 import classNames from 'classnames';
+import LandingPage from './LandingPage';
+import NAVLogo from './components/Logo';
+import Enhet from './components/Enhet';
+import EnhetVelger from './components/EnhetVelger';
+import { FullScreenLinks } from './components/Links/Links';
+import { Heading } from '@navikt/ds-react';
+import { useGenerateLinks } from './components/Links/useGenerateLinks';
 
 const App: React.FC<AppProps> = (props: AppProps) => {
   const { onLinkClick, isFullScreen } = props;
@@ -50,9 +57,21 @@ const App: React.FC<AppProps> = (props: AppProps) => {
     }
   }, [props.isFullScreen]);
 
+  const links = useGenerateLinks();
+
+  if (isFullScreen) {
+    return <LandingPage>
+      <NAVLogo className="dr-w-24 dr-pb-3" />
+      <Heading className="dr-pb-3" size={'large'}>Modia</Heading>
+      <Enhet />
+      <EnhetVelger />
+      <FullScreenLinks {...links} />
+    </LandingPage>;
+  }
+
   return (
     <>
-      <div className={classNames('dekorator', { 'dr-h-screen': isFullScreen })}
+      <div className="dekorator"
            data-theme="internarbeidsflatedecorator-theme">
         <header ref={ref}
                 className={classNames('dr-font-arial', 'dr-text-white', { 'dr-h-full dr-flex dr-flex-col': isFullScreen })}>
