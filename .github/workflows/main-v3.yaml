@@ -18,12 +18,15 @@ jobs:
       - name: Install bun
         uses: oven-sh/setup-bun@v1
 
-      - name: Install dependencies (bun)
-        working-directory: './packages/internarbeidsflate-decorator-v3'
+      - name: Install lint dependencies
         run: bun install
 
       - name: Run lint
         run: bun run lint
+
+      - name: Install dependencies (bun)
+        working-directory: './packages/internarbeidsflate-decorator-v3'
+        run: bun install
 
       - name: Run tests
         working-directory: './packages/internarbeidsflate-decorator-v3'
