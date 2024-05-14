@@ -22,6 +22,7 @@ const LandingPage: React.FC<AppProps> = (props) => {
   return (
     <div
       className={classNames(
+        'dekorator',
         'dr-text-white dr-font-arial dr-bg-background',
         'dr-min-h-screen',
         'dr-flex',
