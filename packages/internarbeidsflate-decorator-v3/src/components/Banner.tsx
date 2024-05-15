@@ -7,11 +7,8 @@ import Markup from './Markup';
 import MenuButton from './MenuButton';
 import SearchArea from './SearchArea';
 import VeilederDetails from './VeilederDetails';
-import { useAppState } from '../states/AppState';
 
 const Banner: React.FC = () => {
-  const isFullScreen = useAppState((state) => state.isFullScreen);
-
   return (
     <div className="dr-p-2 dr-bg-background dr-text-white">
       <div className="dr-max-w-full dr-mx-auto">
@@ -25,7 +22,7 @@ const Banner: React.FC = () => {
             <HotkeyMenuElement />
             <VeilederDetails />
           </div>
-          {!isFullScreen && <MenuButton />}
+          <MenuButton />
         </div>
       </div>
     </div>

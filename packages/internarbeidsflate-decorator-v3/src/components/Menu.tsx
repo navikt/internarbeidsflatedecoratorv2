@@ -8,7 +8,6 @@ import { useGenerateLinks } from './Links/useGenerateLinks';
 
 const Menu: React.FC = () => {
   const isOpen = useAppState((state) => state.open);
-  const isFullScreen = useAppState((state) => state.isFullScreen);
 
   const environment = useAppState((state) => state.environment);
 
@@ -22,9 +21,7 @@ const Menu: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className={classNames('dr-bg-background', { 'dr-h-full': isFullScreen })}
-    >
+    <div className={classNames('dr-bg-background')}>
       <DecoratorLinks {...links} />
     </div>
   );

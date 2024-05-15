@@ -11,7 +11,6 @@ export const useAppState = create<AppState>(() => ({
   showHotkeys: true,
   environment: 'q2',
   urlFormat: 'NAV_NO',
-  isFullScreen: false,
 }));
 
 export interface AppState {
@@ -25,5 +24,4 @@ export interface AppState {
   environment: Environment;
   urlFormat: UrlFormat;
   proxy?: string | undefined;
-  isFullScreen?: boolean;
 }
