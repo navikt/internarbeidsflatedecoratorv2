@@ -117,10 +117,14 @@ export const wsEventDistribusjon = (
   switch (urlFormat) {
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
-    default:
-      return `wss://veilederflatehendelser${findEnvString(
-        environment,
-      )}${subdomain}.adeo.no/modiaeventdistribution/ws/`;
+    default: {
+      if (environment === 'q2')
+        return `wss://modiaeventdistribution${naisDomain(environment)}/ws/`;
+      else
+        return `wss://veilederflatehendelser${findEnvString(
+          environment,
+        )}${subdomain}.adeo.no/modiaeventdistribution/ws/`;
+    }
   }
 };
 
