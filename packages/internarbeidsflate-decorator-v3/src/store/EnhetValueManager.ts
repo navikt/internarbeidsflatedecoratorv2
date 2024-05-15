@@ -40,7 +40,7 @@ export class EnhetValueManager extends ContextValueManager {
 
     const enheter = veileder.enheter;
     if (!enheter?.length) {
-      this.#resetFnrAndEnhetDueToNoLegalEnhet();
+      await this.#resetFnrAndEnhetDueToNoLegalEnhet();
       return;
     }
 
@@ -160,7 +160,7 @@ export class EnhetValueManager extends ContextValueManager {
   };
 
   readonly changeEnhetExternallyToLocalValue = async () => {
-    this.contextHolderApi.changeEnhet(this.state.enhet.value);
+    await this.contextHolderApi.changeEnhet(this.state.enhet.value);
     this.clearWSRequestedValue('enhet');
     this.closeModal('enhet');
   };

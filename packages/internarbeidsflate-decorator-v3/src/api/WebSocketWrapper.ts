@@ -34,14 +34,18 @@ export class WebSocketWrapper {
   #status: Status;
   #wsUrl: string;
   readonly #listener: WebSocketListener;
-  #environment: Environment
+  #environment: Environment;
 
   private connection?: WebSocket;
   private resettimer?: ReturnType<typeof window.setTimeout> | null;
   private retrytimer?: ReturnType<typeof window.setTimeout> | null;
   private retryCounter = 0;
 
-  constructor(wsUrl: string, environment: Environment, listener: WebSocketListener) {
+  constructor(
+    wsUrl: string,
+    environment: Environment,
+    listener: WebSocketListener,
+  ) {
     this.#wsUrl = wsUrl;
     this.#listener = listener;
     this.#environment = environment;
@@ -55,8 +59,10 @@ export class WebSocketWrapper {
     }
     WebSocketWrapper.#print('Opening WS', this.#wsUrl);
     if (this.#environment === 'mock') {
-      console.warn('WebSocket er ikke støttet av MSW ennå, derfor blir det ikke mocket. Se: https://github.com/mswjs/msw/issues/156')
-      return
+      console.warn(
+        'WebSocket er ikke støttet av MSW ennå, derfor blir det ikke mocket. Se: https://github.com/mswjs/msw/issues/156',
+      );
+      return;
     }
     this.connection = new WebSocket(this.#wsUrl);
     this.connection.addEventListener('open', this.#onWSOpen);

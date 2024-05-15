@@ -22,8 +22,8 @@ export class SubstateHandler {
       get: this.storeHandler.getState,
     });
     Object.defineProperty(this, 'props', {
-      get: () => this.storeHandler.props
-    })
+      get: () => this.storeHandler.props,
+    });
   }
 
   protected get contextHolderApi() {

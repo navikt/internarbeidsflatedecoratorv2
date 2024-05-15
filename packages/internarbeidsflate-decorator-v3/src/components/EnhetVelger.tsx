@@ -33,10 +33,13 @@ const EnhetVelger: React.FC = () => {
 
   const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
     if (!enheter) {
-      throw new Error("Hadde ingen enheter når veileder prøvde å endre enhet")
+      throw new Error('Hadde ingen enheter når veileder prøvde å endre enhet');
     }
     const value = e.currentTarget.value;
-    StoreHandler.enhetValueManager.changeEnhetLocallyAndExternally(enheter, value);
+    StoreHandler.enhetValueManager.changeEnhetLocallyAndExternally(
+      enheter,
+      value,
+    );
   };
 
   if (!options.length || enheter?.length === 1) return null;

@@ -1,4 +1,3 @@
- 
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import { WS } from 'vitest-websocket-mock';
 import { HttpHandler } from 'msw';
@@ -112,7 +111,7 @@ describe('StoreHandler test', () => {
 
   it('skal vise modal om bruker endrer aktiv bruker i annet vindu, gitt at det ikke er samme fnr', async () => {
     const storeHandler = new StoreHandler();
-    updateMockContext({aktivBruker: '07063000250'})
+    updateMockContext({ aktivBruker: '07063000250' });
     storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       fnr: '07063000250',
@@ -145,7 +144,7 @@ describe('StoreHandler test', () => {
     sendWSMessage('NY_AKTIV_ENHET');
     expect(storeHandler.state.enhet.value).toBe('0118');
 
-    updateMockContext({aktivEnhet: '0219'});
+    updateMockContext({ aktivEnhet: '0219' });
     sendWSMessage('NY_AKTIV_ENHET');
 
     await awaitTimeout(10, 'For å la staten bli propagert');

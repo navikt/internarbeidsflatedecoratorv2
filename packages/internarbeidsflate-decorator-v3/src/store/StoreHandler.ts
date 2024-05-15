@@ -41,7 +41,7 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
     this.propsUpdateHandler = new PropsUpdateHandler(
       substateProps,
       this.initialize,
-      this.errorManager
+      this.errorManager,
     );
     this.fnrValueManager = new FnrValueManager(
       substateProps,
@@ -63,11 +63,11 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
   }
 
   readonly initialize = async (props: StoreProps) => {
-    this.setProps(props)
-    this.resetState()
+    this.setProps(props);
+    this.resetState();
 
     this.contextHolderApi = props.contextHolderApi;
-    this.setState({ veileder: props.veileder })
+    this.setState({ veileder: props.veileder });
     await Promise.all([
       this.fnrValueManager.initialize(props),
       this.enhetValueManager.initialize(props),
@@ -75,7 +75,6 @@ export class StoreHandler extends StateHandler<State, StoreProps> {
 
     this.eventHandler.initialize(props);
   };
-
 
   readonly shutdown = () => {
     console.log('shutdown');

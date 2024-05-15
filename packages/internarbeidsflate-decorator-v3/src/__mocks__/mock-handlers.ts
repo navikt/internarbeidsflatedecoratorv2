@@ -17,8 +17,7 @@ export const mockMe: Veileder = {
   ],
 };
 
-const getUrl = (path: string) =>
-  `${urlPrefix}/modiacontextholder/api${path}`;
+const getUrl = (path: string) => `${urlPrefix}/modiacontextholder/api${path}`;
 
 const getErrorResponse = (status = 500) => {
   return new HttpResponse(null, { status });
@@ -40,11 +39,10 @@ let context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
 
 export const updateMockContext = (newContext: Partial<Context>) => {
   context = {
-  ...context,
-  ...newContext,
-  }
+    ...context,
+    ...newContext,
+  };
 };
-
 
 export const getHandlers = (
   ws: WS,

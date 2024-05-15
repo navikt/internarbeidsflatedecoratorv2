@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Serve, Server } from 'bun';
 import {
   Route,
@@ -248,9 +247,9 @@ export class CustomServer {
   };
 }
 
-const hasParam = <T extends Record<string, any>>(
+const hasParam = <T extends Record<string, string>>(
   key: string,
   params: T,
-): params is T & { [K in typeof key]: any } => {
+): params is T & { [K in typeof key]: string } => {
   return key in params && params[key] !== '';
 };

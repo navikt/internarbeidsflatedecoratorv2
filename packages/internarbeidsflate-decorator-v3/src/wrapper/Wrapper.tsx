@@ -29,7 +29,7 @@ const Wrapper: React.FC = () => {
         {
           onOpen: () => setWsConntected(true),
           onClose: () => setWsConntected(false),
-          onMessage: (event) => {
+          onMessage: (event: MessageEvent<string>) => {
             setWsMessages((messages) => {
               return [...messages, event.data];
             });
@@ -46,7 +46,7 @@ const Wrapper: React.FC = () => {
     await api.changeEnhet(wsEnhet);
   };
 
-  const sendNewFnr = async () => {
+  const sendNewFnr = () => {
     await api.changeFnr(wsFnr);
   };
 
