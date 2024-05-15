@@ -153,10 +153,10 @@ export class PropsUpdateHandler extends SubstateHandler {
     };
   };
 
-  onPropsUpdated = (newProps: AppProps) => {
+  onPropsUpdated = async (newProps: AppProps) => {
     if (this.#checkIfCritialPropsUpdate(newProps)) {
       this.#previousAppProps = newProps;
-      this.#onCriticalPropsUpdated(newProps);
+      await this.#onCriticalPropsUpdated(newProps);
       return;
     }
     if (!this.#previousStoreProps) return;
