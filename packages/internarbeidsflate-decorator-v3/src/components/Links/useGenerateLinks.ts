@@ -38,12 +38,14 @@ const generateLinks = ({
   fnr,
   enhet,
   aktoerId,
+  proxy,
 }: {
   environment: Environment;
   urlFormat: UrlFormat;
   fnr?: string | undefined | null;
   enhet?: string | undefined | null;
   aktoerId?: string | undefined | null;
+  proxy?: string | undefined | null;
 }): LinkSections => {
   const links = buildLinks({
     environment,
@@ -51,6 +53,7 @@ const generateLinks = ({
     fnr,
     enhet,
     aktoerId,
+    contextHolderProxy: proxy,
   });
   const modia: LinkSection = {
     title: 'Personoversikt',
@@ -130,12 +133,20 @@ export const useGenerateLinks = (): LinkSections => {
     fnr: state.fnr.value,
     enhet: state.enhet.value,
   }));
-  const { environment, urlFormat } = useAppState((state) => ({
+  const { environment, urlFormat, proxy } = useAppState((state) => ({
     environment: state.environment,
     urlFormat: state.urlFormat,
+    proxy: state.proxy,
   }));
 
   return useMemo((): LinkSections => {
-    return generateLinks({ environment, enhet, fnr, urlFormat, aktoerId: '' });
+    return generateLinks({
+      environment,
+      enhet,
+      fnr,
+      urlFormat,
+      aktoerId: '',
+      proxy,
+    });
   }, [enhet, environment, fnr, urlFormat]);
 };

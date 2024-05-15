@@ -46,7 +46,7 @@ const Wrapper: React.FC = () => {
     await api.changeEnhet(wsEnhet);
   };
 
-  const sendNewFnr = () => {
+  const sendNewFnr = async () => {
     await api.changeFnr(wsFnr);
   };
 
