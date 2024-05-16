@@ -137,7 +137,7 @@ export const pesysUrl = (
   if (!fnr) {
     return pesysDomain(environment, '/psak');
   }
-  return pesysDomain(environment, `/psak/brukeroversokt/fnr=${fnr}`);
+  return pesysDomain(environment, `/psak/brukeroversikt/fnr=${fnr}`);
 };
 
 const gosysDomain = (environment: Environment, path: string) => {
@@ -154,7 +154,7 @@ export const gosysUrl = (
   if (!fnr) {
     return gosysDomain(environment, '/gosys');
   }
-  return gosysDomain(environment, `/psak/brukeroversokt/fnr=${fnr}`);
+  return gosysDomain(environment, `/gosys/personoversikt/fnr=${fnr}`);
 };
 
 const fpSakDomain = (environment: Environment) =>
