@@ -39,8 +39,8 @@ const findEnvString = (environment: Environment) => {
   }
   return `-${environment}`;
 };
-const adeoDomain = (path: string, environment: Environment) =>
-  `https://app${findEnvString(environment)}.adeo.no${path}`;
+const adeoDomain = (environment: Environment) =>
+  `https://app${findEnvString(environment)}.adeo.no`;
 
 const naisAdeoDomain = (
   environment: Environment,
@@ -65,7 +65,15 @@ const modiaUrl = (
   fnr: string | undefined | null,
   path: string,
   environment: Environment,
-) => adeoDomain(fnr ? path : '/modiapersonoversikt', environment);
+  urlFormat: UrlFormat,
+) => {
+  const basePath =
+    urlFormat === 'ADEO'
+      ? adeoDomain(environment) + '/modiapersonoversikt'
+      : 'https://modiapersonoversikt' + naisDomain(environment);
+
+  return fnr ? basePath + path : basePath;
+};
 
 const arenaConfig = (environment: Environment): string => {
   const env = findEnvString(environment).replace('-', '');
@@ -84,20 +92,20 @@ export const modiaContextHolderUrl = (
   contextHolderProxy?: string | undefined | null,
 ): string => {
   if (contextHolderProxy) {
-    return `${contextHolderProxy}/modiacontextholder/api`;
+    return `${contextHolderProxy}/modiacontextholder`;
   }
 
   switch (urlFormat) {
     case 'LOCAL':
-      return 'http://localhost:4000/modiacontextholder/api';
+      return 'http://localhost:4000/modiacontextholder';
     case 'ADEO':
       return `https://app${findEnvString(
         environment,
-      )}.adeo.no/modiacontextholder/api`;
+      )}.adeo.no/modiacontextholder`;
     case 'NAV_NO':
       return `https://modiacontextholder${naisDomain(
         environment,
-      )}/modiacontextholder/api`;
+      )}/modiacontextholder`;
   }
 };
 
@@ -109,10 +117,14 @@ export const wsEventDistribusjon = (
   switch (urlFormat) {
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
-    default:
-      return `wss://veilederflatehendelser${findEnvString(
-        environment,
-      )}${subdomain}.adeo.no/modiaeventdistribution/ws/`;
+    default: {
+      if (environment === 'q2')
+        return `wss://modiaeventdistribution${naisDomain(environment)}/ws/`;
+      else
+        return `wss://veilederflatehendelser${findEnvString(
+          environment,
+        )}${subdomain}.adeo.no/modiaeventdistribution/ws/`;
+    }
   }
 };
 
@@ -220,13 +232,13 @@ export const buildLinks = ({
 }: BuildLinksProps): LinkObject => {
   return {
     modiaUrl: {
-      url: modiaUrl(fnr, `/modiapersonoversikt/person/${fnr}`, environment),
+      url: modiaUrl(fnr, `/person/${fnr}`, environment, urlFormat),
     },
     veilarbportefoljeUrl: {
       url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
     },
     veilarbpersonUrl: {
-      url: veilarbpersonflateUrl({ environment, enhet, fnr }),
+      url: veilarbpersonflateUrl({ environment }),
     },
     beslutterUrl: {
       url: `https://beslutteroversikt${naisDomain(environment)}`,

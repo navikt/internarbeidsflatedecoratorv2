@@ -14,15 +14,15 @@ const ErrorMessageDisplay: React.FC<{ errorMessages: ErrorMessage[] }> = ({
         {`${firstMessage.code}: ${firstMessage.message}`}
         <Button
           variant="tertiary-neutral"
-          size='small'
-          className='!dr-ml-2 !dr-text-white hover:!dr-text-white hover:!dr-bg-red-700 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-white active:!dr-bg-red-600'
+          size="small"
+          className="!dr-ml-2 !dr-text-white hover:!dr-text-white hover:!dr-bg-red-700 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-white active:!dr-bg-red-600"
           onClick={() =>
             StoreHandler.errorManager.removeErrorMessage(firstMessage.code)
           }
         >
           Fjern
         </Button>
-      </ErrorMessageContainer >
+      </ErrorMessageContainer>
     );
   }
 

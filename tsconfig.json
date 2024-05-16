@@ -11,7 +11,7 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "emitDeclarationOnly": true, 
+    "emitDeclarationOnly": true,
     "jsx": "react",
     "strict": true,
     "noUnusedLocals": true,
@@ -19,5 +19,9 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   },
-  "include": ["packages/internarbeidsflate-decorator-v3/src", "packages/internarbeidsflate-decorator-v3/App.tsx"],
+  "include": [
+    "packages/internarbeidsflate-decorator-v3/src",
+    "packages/internarbeidsflate-decorator-v3/Decorator.tsx",
+    "packages/internarbeidsflate-decorator-v3/LandingPage.tsx"
+  ]
 }

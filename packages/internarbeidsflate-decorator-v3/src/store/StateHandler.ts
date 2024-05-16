@@ -17,16 +17,22 @@ export class StateHandler<T, P> {
   getState = () => this.#store.getState();
 
   setState = (stateUpdate: Partial<T>, replace?: boolean | undefined) => {
-    const modifiedState = this.onBeforeStateUpdated(stateUpdate, this.#store.getState())
+    const modifiedState = this.onBeforeStateUpdated(
+      stateUpdate,
+      this.#store.getState(),
+    );
     this.#store.setState(modifiedState, replace);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onBeforeStateUpdated = (stateUpdate: Partial<T>, _oldState: T): Partial<T> => { 
-    return stateUpdate
-  }
+  onBeforeStateUpdated = (
+    stateUpdate: Partial<T>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _oldState: T,
+  ): Partial<T> => {
+    return stateUpdate;
+  };
 
-  setProps = (props: P) => this.props = props
+  setProps = (props: P) => (this.props = props);
 
   #createProxyStore = (): UseBoundStore<Omit<StoreApi<T>, 'setState'>> => {
     return new Proxy(this.#store, {

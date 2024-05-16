@@ -1,5 +1,8 @@
 import { Environment, UrlFormat } from '../../utils/environmentUtils';
-import { Url, buildLinks } from '../../utils/urlUtils';
+import { buildLinks, Url } from '../../utils/urlUtils';
+import { useAppState } from '../../states/AppState';
+import StoreHandler from '../../store/StoreHandler';
+import { useMemo } from 'react';
 
 export interface LinkWithTitle extends Url {
   title: string;
@@ -29,18 +32,20 @@ const buildLinkWithTitle = (
   subPath,
 });
 
-export const generateLinks = ({
+const generateLinks = ({
   environment,
   urlFormat,
   fnr,
   enhet,
   aktoerId,
+  proxy,
 }: {
   environment: Environment;
   urlFormat: UrlFormat;
   fnr?: string | undefined | null;
   enhet?: string | undefined | null;
   aktoerId?: string | undefined | null;
+  proxy?: string | undefined | null;
 }): LinkSections => {
   const links = buildLinks({
     environment,
@@ -48,6 +53,7 @@ export const generateLinks = ({
     fnr,
     enhet,
     aktoerId,
+    contextHolderProxy: proxy,
   });
   const modia: LinkSection = {
     title: 'Personoversikt',
@@ -81,7 +87,7 @@ export const generateLinks = ({
         links.tiltaksGjennomforingUrl,
         'Tiltaksjennomføring - avtaler',
       ),
-      buildLinkWithTitle(links.arbeidsmarkedsTiltak, 'Arbeidsmarkedstiltak')
+      buildLinkWithTitle(links.arbeidsmarkedsTiltak, 'Arbeidsmarkedstiltak'),
     ],
   };
   const sykefravaer: LinkSection = {
@@ -115,9 +121,32 @@ export const generateLinks = ({
       buildLinkWithTitle(links.modiaSosialhjelp, 'Modia sosialhjelp'),
       buildLinkWithTitle(links.refusjon, 'Refusjon tilskudd'),
       buildLinkWithTitle(links.salesforce, 'Salesforce'),
-      buildLinkWithTitle(links.kunnskapsbasenNKS, "Kunnskapsbasen NKS")
+      buildLinkWithTitle(links.kunnskapsbasenNKS, 'Kunnskapsbasen NKS'),
     ],
   };
 
   return { modia, arbeidsrettet, sykefravaer, andre };
+};
+
+export const useGenerateLinks = (): LinkSections => {
+  const { fnr, enhet } = StoreHandler.store((state) => ({
+    fnr: state.fnr.value,
+    enhet: state.enhet.value,
+  }));
+  const { environment, urlFormat, proxy } = useAppState((state) => ({
+    environment: state.environment,
+    urlFormat: state.urlFormat,
+    proxy: state.proxy,
+  }));
+
+  return useMemo((): LinkSections => {
+    return generateLinks({
+      environment,
+      enhet,
+      fnr,
+      urlFormat,
+      aktoerId: '',
+      proxy,
+    });
+  }, [enhet, environment, fnr, urlFormat]);
 };

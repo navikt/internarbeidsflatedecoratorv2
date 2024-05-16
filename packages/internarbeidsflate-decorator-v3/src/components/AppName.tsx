@@ -9,7 +9,9 @@ const AppName: React.FC = () => {
       <div className="dr-w-14 dr-border-solid dr-border-r dr-border-gray-200 dr-pr-2">
         <NAVLogo />
       </div>
-      <div className="dr-min-w-[7.75rem] dr-max-w-[16rem] dr-pl-2">{appName}</div>
+      <div className="dr-min-w-[7.75rem] dr-max-w-[16rem] dr-pl-2">
+        {appName}
+      </div>
     </div>
   );
 };

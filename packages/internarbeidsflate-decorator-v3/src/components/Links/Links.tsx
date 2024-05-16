@@ -1,24 +1,9 @@
 import { Link } from '@navikt/ds-react';
-import React, { useMemo } from 'react';
-import { useAppState } from '../../states/AppState';
-import { LinkSection, LinkSections, generateLinks } from './generateLinks';
-import StoreHandler from '../../store/StoreHandler';
+import React from 'react';
+import { LinkSection, LinkSections, LinkWithTitle } from './useGenerateLinks';
 import useGlobalHandlers from '../../store/GlobalHandlers';
 
-const Links: React.FC = () => {
-  const { fnr, enhet } = StoreHandler.store((state) => ({
-    fnr: state.fnr.value,
-    enhet: state.enhet.value,
-  }));
-  const { environment, urlFormat } = useAppState((state) => ({
-    environment: state.environment,
-    urlFormat: state.urlFormat,
-  }));
-
-  const links = useMemo((): LinkSections => {
-    return generateLinks({ environment, enhet, fnr, urlFormat, aktoerId: '' });
-  }, [enhet, environment, fnr, urlFormat]);
-
+export const DecoratorLinks: React.FC<LinkSections> = (links) => {
   return (
     <div className="dr-max-w-6xl dr-mr-auto dr-ml-auto dr-p-4 dr-text-left">
       <div className="dr-flex dr-flex-wrap dr-mb-8">
@@ -31,7 +16,18 @@ const Links: React.FC = () => {
   );
 };
 
-export default Links;
+export const FullScreenLinks: React.FC<LinkSections> = (links) => {
+  return (
+    <div className="dr-max-w-6xl dr-mr-auto dr-ml-auto dr-p-8 dr-text-left dr-grid dr-grid-cols-1 sm:dr-grid-cols-3 dr-gap-y-8">
+      <Column linkSection={links.modia} />
+      <Column linkSection={links.arbeidsrettet} />
+      <Column linkSection={links.sykefravaer} />
+      <div className="sm:dr-col-span-3">
+        <Row linkSection={links.andre} />
+      </div>
+    </div>
+  );
+};
 
 const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
   return (
@@ -40,7 +36,7 @@ const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
         {linkSection.title}
       </h2>
       <ul>
-        {linkSection.links.map((link) => {
+        {linkSection.links.map((link: LinkWithTitle) => {
           const href = `${link.url}${link.subPath}`;
           return (
             <LinkComponent
@@ -63,7 +59,7 @@ const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
         {linkSection.title}
       </h2>
       <ul className="dr-flex dr-flex-wrap dr-gap-x-8">
-        {linkSection.links.map((link) => {
+        {linkSection.links.map((link: LinkWithTitle) => {
           const href = `${link.url}${link.subPath}`;
           return (
             <LinkComponent

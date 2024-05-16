@@ -17,13 +17,12 @@ type Callbacks = {
 };
 
 const criticalProps: (keyof AppProps)[] = [
-    'environment',
-    'urlFormat',
-    'accessToken',
-    'onBeforeRequest',
-    'proxy',
-  ];
- 
+  'environment',
+  'urlFormat',
+  'accessToken',
+  'onBeforeRequest',
+  'proxy',
+];
 
 export class PropsUpdateHandler extends SubstateHandler {
   #previousStoreProps?: StoreProps;
@@ -93,9 +92,8 @@ export class PropsUpdateHandler extends SubstateHandler {
   };
 
   #onCriticalPropsUpdated = async (props: AppProps) => {
-    const { environment, urlFormat, proxy, accessToken  } =
-      props;
-    const apiUrl = modiaContextHolderUrl(environment, urlFormat, proxy);
+    const { environment, urlFormat, proxy, accessToken } = props;
+    const apiUrl = `${modiaContextHolderUrl(environment, urlFormat, proxy)}/api`;
     const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
     const veilederDetails = await contextHolderApi.getVeilederDetails();
     if (veilederDetails.error || !veilederDetails.data) {
@@ -155,10 +153,10 @@ export class PropsUpdateHandler extends SubstateHandler {
     };
   };
 
-  onPropsUpdated = (newProps: AppProps) => {
+  onPropsUpdated = async (newProps: AppProps) => {
     if (this.#checkIfCritialPropsUpdate(newProps)) {
       this.#previousAppProps = newProps;
-      this.#onCriticalPropsUpdated(newProps);
+      await this.#onCriticalPropsUpdated(newProps);
       return;
     }
     if (!this.#previousStoreProps) return;

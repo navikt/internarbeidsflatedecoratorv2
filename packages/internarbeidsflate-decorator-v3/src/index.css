@@ -1,7 +1,7 @@
-@import "tailwindcss/base";
-@import "@navikt/ds-css";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import '@navikt/ds-css';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 .dekorator .navds-form-field {
   display: block !important;
@@ -23,7 +23,7 @@
 
 .dekorator .navds-text-field__input:hover {
   outline: 2px solid var(--a-orange-500);
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
 }
 
 .dekorator .navds-select__input:focus-visible {
@@ -31,23 +31,23 @@
 }
 .dekorator .navds-select__input:hover {
   outline: 2px solid var(--a-orange-500);
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
 }
 
 .dekorator .navds-button--tertiary-neutral:hover {
-  color: var(--a-gray-900)
+  color: var(--a-gray-900);
 }
 
 .dekorator .navds-button--tertiary-neutral:active {
-  color: #fff
+  color: #fff;
 }
 
-[data-theme="internarbeidsflatedecorator-theme"]{
+[data-theme='internarbeidsflatedecorator-theme'] {
   --ac-textfield-bg: var(--a-gray-900);
   --ac-select-bg: var(--a-gray-900);
   --ac-textfield-text: #fff;
   --ac-select-text: #fff;
   --a-text-default: #fff;
-  --ac-textfield-placeholder:	var(--a-gray-500);
-  --ac-button-tertiary-neutral-text: var(--a-gray-900)
+  --ac-textfield-placeholder: var(--a-gray-500);
+  --ac-button-tertiary-neutral-text: var(--a-gray-900);
 }

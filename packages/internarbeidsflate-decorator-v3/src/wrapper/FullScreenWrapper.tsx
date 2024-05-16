@@ -1,26 +1,25 @@
 import React from 'react';
-import Decorator from '../App';
+import LandingPage from '../LandingPage';
 
 const FullScreenWrapper = () => {
   // En minimal Decorator som viser en fullskjermvisning av applikasjonen
-  return <Decorator
-    appName="Test app"
-    enableHotkeys
-    showEnheter={true}
-    showSearchArea={true}
-    showHotkeys={true}
-    environment={'q2'}
-    urlFormat={'LOCAL'}
-    enhet={''}
-    fnr={''}
-    fetchActiveEnhetOnMount
-    fetchActiveUserOnMount
-    onEnhetChanged={() => {
-    }}
-    onFnrChanged={() => {
-    }}
-    isFullScreen={true}
-  />;
+  return (
+    <LandingPage
+      appName="Test app"
+      enableHotkeys
+      showEnheter={true}
+      showSearchArea={true}
+      showHotkeys={true}
+      environment={'q2'}
+      urlFormat={'LOCAL'}
+      enhet={''}
+      fnr={''}
+      fetchActiveEnhetOnMount
+      fetchActiveUserOnMount
+      onEnhetChanged={() => {}}
+      onFnrChanged={() => {}}
+    />
+  );
 };
 
 export default FullScreenWrapper;
