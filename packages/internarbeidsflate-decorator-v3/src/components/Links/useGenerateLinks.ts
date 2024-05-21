@@ -97,7 +97,7 @@ const generateLinks = ({
       buildLinkWithTitle(links.syfooversiktUrl, 'Min oversikt', '/minoversikt'),
       buildLinkWithTitle(links.syfomoteOversikt, 'Dialogmøteoversikt'),
       buildLinkWithTitle(links.finnfastlege, 'Finn fastlege'),
-      buildLinkWithTitle(links.syfomodiaperson, 'Sykmeld enkeltperson'),
+      buildLinkWithTitle(links.syfomodiaperson, 'Sykmeldt enkeltperson'),
     ],
   };
 
