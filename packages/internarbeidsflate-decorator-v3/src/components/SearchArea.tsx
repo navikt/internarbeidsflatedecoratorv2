@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, TextField } from '@navikt/ds-react';
-import { useEffect, useRef, useState } from 'react';
 import { MagnifyingGlassIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { useHotkeyState } from '../states/HotkeyState';
 import StoreHandler from '../store/StoreHandler';
@@ -87,7 +86,7 @@ const SearchArea: React.FC = () => {
 export default SearchArea;
 
 interface Config {
-  icon: JSX.Element;
+  icon: React.JSX.Element;
   label: string;
   onClick: () => void;
 }
