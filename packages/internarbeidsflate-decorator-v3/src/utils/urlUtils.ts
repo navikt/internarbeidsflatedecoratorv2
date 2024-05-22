@@ -289,7 +289,7 @@ export const buildLinks = ({
       url: `https://rekrutteringsbistand${naisDomain(environment)}`,
     },
     INST2: {
-      url: `https://inst2-web-local${naisAdeoDomain(environment)}`,
+      url: `https://inst2-web${naisAdeoDomain(environment)}`,
     },
     modiaSosialhjelp: {
       url: `https://sosialhjelp-modia${naisDomain(
