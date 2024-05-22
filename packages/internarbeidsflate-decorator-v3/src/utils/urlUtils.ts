@@ -180,7 +180,7 @@ const arbeidssokerUrl = ({
   const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${
     enhet ? `enhetId=${enhet}` : ''
   }`;
-  return `https://arbeidssokerregistrering${naisDomain(
+  return `https://arbeidssokerregistrering-for-veileder${naisDomain(
     environment,
   )}${queryParams}`;
 };
