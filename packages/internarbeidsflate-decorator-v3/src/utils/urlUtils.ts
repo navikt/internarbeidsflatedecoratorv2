@@ -61,6 +61,13 @@ const naisDomain = (environment: Environment) => {
   return '.intern.dev.nav.no';
 };
 
+const ansattDomain = (environment: Environment) => {
+  if (environment === 'prod') {
+    return '.ansatt.nav.no';
+  }
+  return '.ansatt.dev.nav.no';
+};
+
 const modiaUrl = (
   fnr: string | undefined | null,
   path: string,
@@ -103,6 +110,7 @@ export const modiaContextHolderUrl = (
         environment,
       )}.adeo.no/modiacontextholder`;
     case 'NAV_NO':
+    case 'ANSATT':
       return `https://modiacontextholder${naisDomain(
         environment,
       )}/modiacontextholder`;
@@ -117,6 +125,8 @@ export const wsEventDistribusjon = (
   switch (urlFormat) {
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
+    case 'ANSATT':
+      return `wss://modiaeventdistribution${ansattDomain(environment)}/ws/`;
     default: {
       if (environment === 'q2')
         return `wss://modiaeventdistribution${naisDomain(environment)}/ws/`;

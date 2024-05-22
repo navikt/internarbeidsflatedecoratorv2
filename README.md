@@ -99,7 +99,7 @@ export interface Markup {
   etterSokefelt?: string; // Gir muligheten for sende inn egen html som blir en del av dekoratøren
 }
 
-// Miljø. Foreløpig er kun q0 og q1 støttet.
+// Miljø
 export type Environment =
   | 'q0'
   | 'q1'
@@ -110,7 +110,7 @@ export type Environment =
   | 'local'
   | 'mock';
 
-export type UrlFormat = 'LOCAL' | 'ADEO' | 'NAV_NO'; // UrlFormat. Brukes om proxy ikke er satt.
+export type UrlFormat = 'LOCAL' | 'ADEO' | 'NAV_NO' | 'ANSATT'; // UrlFormat. Brukes om proxy ikke er satt & i url til websocket.
 ```
 
 # Henvendelser
