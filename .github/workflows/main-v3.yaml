@@ -43,7 +43,7 @@ jobs:
           team: personoversikt
           source: ./packages/internarbeidsflate-decorator-v3/dist/
           destination: /internarbeidsflate-decorator-v3/dev/latest
-          no_cache_paths: 'internarbeidsflate-decorator-v3/dev/latest/dist/asset-manifest.json,internarbeidsflate-decorator-v3/dev/latest/dist/bundle.js,internarbeidsflate-decorator-v3/dev/latest/dist/index.css'
+          cache_invalidation: true
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
@@ -54,6 +54,6 @@ jobs:
           team: personoversikt
           source: ./packages/internarbeidsflate-decorator-v3/dist/
           destination: /internarbeidsflate-decorator-v3/prod/latest
-          no_cache_paths: 'internarbeidsflate-decorator-v3/prod/latest/dist/asset-manifest.json,internarbeidsflate-decorator-v3/prod/latest/dist/bundle.js,internarbeidsflate-decorator-v3/prod/latest/dist/index.css'
+          cache_invalidation: true
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
