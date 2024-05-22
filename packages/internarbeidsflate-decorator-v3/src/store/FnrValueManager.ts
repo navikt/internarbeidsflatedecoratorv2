@@ -88,14 +88,13 @@ export class FnrValueManager extends ContextValueManager {
   };
 
   readonly changeFnrLocallyAndExternally = async (newFnr?: string) => {
-    const revert = this.optimisticUpdate('fnr');
+    this.optimisticUpdate('fnr');
     this.changeFnrLocally(newFnr);
     const res = await this.contextHolderApi.changeFnr(newFnr);
     if (res.error) {
       this.#errorMessageManager.addErrorMessage(
         PredefiniertFeilmeldinger.OPPDATER_BRUKER_CONTEXT_FEILET,
       );
-      revert();
     }
   };
 
@@ -127,9 +126,9 @@ export class FnrValueManager extends ContextValueManager {
     }
   };
 
-  readonly clearFnr = () => {
+  readonly clearFnr = async () => {
     this.changeFnrLocally();
-    this.clearFnrExternally();
+    await this.clearFnrExternally();
     this.#propsUpdateHandler.clearOldValue('fnr');
   };
 
