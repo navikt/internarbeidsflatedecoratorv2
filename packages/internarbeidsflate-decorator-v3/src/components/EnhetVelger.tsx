@@ -9,16 +9,15 @@ const EnhetVelger: React.FC = () => {
   }));
 
   const options: React.JSX.Element[] = useMemo(() => {
-    if (!enheter?.length) return [];
-
-    const enhetOptions = enheter.map((enhet) => (
-      <option key={enhet.enhetId} value={enhet.enhetId}>
-        {`${enhet.enhetId} ${enhet.navn}`}
-      </option>
-    ));
+    const enhetOptions =
+      enheter?.map((enhet) => (
+        <option key={enhet.enhetId} value={enhet.enhetId}>
+          {`${enhet.enhetId} ${enhet.navn}`}
+        </option>
+      )) ?? [];
 
     return [
-      <option value="" key="velg_enhet" disabled>
+      <option value="" key="velg_enhet" disabled selected>
         Velg enhet
       </option>,
       ...enhetOptions,
@@ -42,6 +41,7 @@ const EnhetVelger: React.FC = () => {
       label="Velg enhet"
       onChange={onChange}
       hideLabel
+      className="dr-min-w-64"
     >
       {options}
     </Select>
