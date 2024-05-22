@@ -6,7 +6,7 @@ const VeilederDetails: React.FC = () => {
   const veileder = StoreHandler.store((state) => state.veileder);
 
   return (
-    <div className="dr-min-w-72">
+    <div className="dr-w-72">
       {veileder ? (
         <>
           <BodyShort>{veileder.ident ?? EMDASH}</BodyShort>
@@ -14,12 +14,8 @@ const VeilederDetails: React.FC = () => {
         </>
       ) : (
         <>
-          <BodyShort as={Skeleton} className="dr-bg-gray-400">
-            Placeholder
-          </BodyShort>
-          <BodyShort as={Skeleton} className="dr-bg-gray-400">
-            Fornavn Mellomsen Ettersen
-          </BodyShort>
+          <Skeleton variant="text" className="dr-bg-gray-400" width="100%" />
+          <Skeleton variant="text" className="dr-bg-gray-400" width="100%" />
         </>
       )}
     </div>

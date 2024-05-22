@@ -41,7 +41,7 @@ const EnhetVelger: React.FC = () => {
       label="Velg enhet"
       onChange={onChange}
       hideLabel
-      className="dr-min-w-64"
+      className="dr-w-64"
     >
       {options}
     </Select>
