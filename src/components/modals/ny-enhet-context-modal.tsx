@@ -45,10 +45,10 @@ function NyEnhetContextModal() {
                     {enhetState.wsRequestedValue.withDefault('Ukjent enhet')}?
                 </Normaltekst>
                 <div className="decorator-context-modal__footer">
-                    <Hovedknapp onClick={onAcceptHandler}>Endre</Hovedknapp>
                     <Knapp onClick={onDecline} type="standard" autoDisableVedSpinner>
                         Behold
                     </Knapp>
+                    <Hovedknapp onClick={onAcceptHandler}>Endre</Hovedknapp>
                 </div>
             </div>
         </Modal>

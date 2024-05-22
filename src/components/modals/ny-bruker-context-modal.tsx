@@ -43,10 +43,10 @@ function NyBrukerContextModal() {
                     'Ukjent FNR'
                 )}?`}</Normaltekst>
                 <div className="decorator-context-modal__footer">
-                    <Hovedknapp onClick={onAcceptHandler}>Endre</Hovedknapp>
                     <Knapp type="standard" onClick={onDecline} autoDisableVedSpinner>
                         Behold
                     </Knapp>
+                    <Hovedknapp onClick={onAcceptHandler}>Endre</Hovedknapp>
                 </div>
             </div>
         </Modal>
