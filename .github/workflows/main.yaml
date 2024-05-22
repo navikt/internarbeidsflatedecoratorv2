@@ -30,7 +30,7 @@ jobs:
 
   build-and-push:
     name: Build and push Docker container
-    if: github.ref == 'refs/heads/v2.1''
+    if: github.ref == 'refs/heads/v2.1'
     runs-on: ubuntu-latest
     permissions:
       packages: write
