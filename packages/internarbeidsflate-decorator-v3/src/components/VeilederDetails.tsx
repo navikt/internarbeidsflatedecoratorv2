@@ -14,7 +14,7 @@ const VeilederDetails: React.FC = () => {
         </>
       ) : (
         <>
-          <Skeleton variant="text" className="dr-bg-gray-400" width="100%" />
+          <Skeleton variant="text" className="dr-bg-gray-400" width="40%" />
           <Skeleton variant="text" className="dr-bg-gray-400" width="100%" />
         </>
       )}
