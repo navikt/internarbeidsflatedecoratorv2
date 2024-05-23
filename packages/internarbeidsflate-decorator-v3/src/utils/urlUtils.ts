@@ -68,7 +68,7 @@ const modiaUrl = (
   urlFormat: UrlFormat,
 ) => {
   const basePath =
-    urlFormat === 'ADEO'
+    urlFormat === 'ADEO' || environment === 'prod'
       ? adeoDomain(environment) + '/modiapersonoversikt'
       : 'https://modiapersonoversikt' + naisDomain(environment);
 
