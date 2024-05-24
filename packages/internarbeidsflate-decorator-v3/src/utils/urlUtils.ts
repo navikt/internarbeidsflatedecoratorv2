@@ -242,7 +242,7 @@ export const buildLinks = ({
 }: BuildLinksProps): LinkObject => {
   return {
     modiaUrl: {
-      url: modiaUrl(fnr, `/person/${fnr}`, environment, urlFormat),
+      url: modiaUrl(fnr, `/person`, environment, urlFormat),
     },
     veilarbportefoljeUrl: {
       url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
