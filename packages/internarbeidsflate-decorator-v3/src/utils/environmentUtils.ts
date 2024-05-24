@@ -8,4 +8,4 @@ export type Environment =
   | 'local'
   | 'mock';
 
-export type UrlFormat = 'LOCAL' | 'ADEO' | 'NAV_NO';
+export type UrlFormat = 'LOCAL' | 'ADEO' | 'NAV_NO' | 'ANSATT';

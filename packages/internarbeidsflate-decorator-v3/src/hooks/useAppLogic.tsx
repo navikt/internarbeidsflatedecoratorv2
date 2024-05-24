@@ -14,8 +14,10 @@ const useAppLogic = (props: AppProps) => {
   useSyncHotkeys(props);
   const { startListening, stopListening } = useHotkeys();
 
+  const { enableHotkeys = true } = props;
+
   useEffect(() => {
-    if (props.enableHotkeys) {
+    if (enableHotkeys) {
       startListening();
     }
     return () => stopListening();
