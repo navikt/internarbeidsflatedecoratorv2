@@ -48,7 +48,10 @@ const SearchArea: React.FC = () => {
   const clearConfig: Config = {
     icon: <XMarkIcon />,
     label: 'Resett',
-    onClick: StoreHandler.fnrValueManager.clearFnr,
+    onClick: async () => {
+      await StoreHandler.fnrValueManager.clearFnr();
+      ref.current?.focus();
+    },
   };
 
   const config = showSearchIcon ? searchConfig : clearConfig;
