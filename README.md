@@ -62,8 +62,6 @@ Ett eksempel på hvordan dette kan gjøres kan ses i [index.html](../public/inde
 
 ## Konfigurasjon
 
-Eksempler på konfigurasjoner kan ses i [index.html](../public/index.html).
-
 ```typescript jsx
 export interface DecoratorProps {
   useProxy?: boolean | string; // Manuell overstyring av urlene til BFFs. Gjør alle kall til relativt path hvis true, og bruker verdien som domene om satt til en string. Default: false
@@ -89,13 +87,13 @@ export interface DecoratorProps {
   proxy?: string | undefined; // Manuell overstyring av urlene til BFFs. Gjør alle kall til relativt path hvis true, og bruker verdien som domene om satt til en string. Default: false
 }
 
-// export interface TogglesConfig {
-//     visVeileder?: boolean;          // Styrer om man skal vise informasjon om innlogget veileder
-//     visHotkeys?: boolean;           // Styrer om man skal vise knappen for hotkeys
-// }
-
 export interface Markup {
   etterSokefelt?: string; // Gir muligheten for sende inn egen html som blir en del av dekoratøren
+}
+
+export interface Enhet {
+  readonly enhetId: string;
+  readonly navn: string;
 }
 
 // Miljø
