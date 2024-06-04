@@ -108,6 +108,30 @@ export type Environment =
   | 'mock';
 
 export type UrlFormat = 'LOCAL' | 'ADEO' | 'NAV_NO' | 'ANSATT'; // UrlFormat. Brukes om proxy ikke er satt & i url til websocket.
+
+export interface HotkeyObject {
+  char: string;
+  altKey?: boolean;
+  ctrlKey?: boolean;
+  metaKey?: boolean;
+  shiftKey?: boolean;
+}
+
+export interface HotkeyDescription {
+  key: HotkeyObject;
+  description: string;
+  forceOverride?: boolean;
+}
+
+export interface ActionHotKey extends HotkeyDescription {
+  action(event: KeyboardEvent): void;
+}
+
+export interface DocumentingHotKey extends HotkeyDescription {
+  documentationOnly: boolean;
+}
+
+export type Hotkey = ActionHotKey | DocumentingHotKey;
 ```
 
 # Henvendelser
