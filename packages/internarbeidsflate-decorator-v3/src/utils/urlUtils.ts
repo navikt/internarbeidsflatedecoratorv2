@@ -87,9 +87,7 @@ export const modiaContextHolderUrl = (
   contextHolderProxy?: string | undefined | null,
 ): string => {
   if (contextHolderProxy) {
-    if (environment === 'q2') {
-      return `${contextHolderProxy}`;
-    } else return `${contextHolderProxy}/modiacontextholder`;
+    return `${contextHolderProxy}/modiacontextholder`;
   }
 
   switch (urlFormat) {
