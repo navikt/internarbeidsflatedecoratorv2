@@ -87,7 +87,7 @@ export const modiaContextHolderUrl = (
   contextHolderProxy?: string | undefined | null,
 ): string => {
   if (contextHolderProxy) {
-    return `${contextHolderProxy}/modiacontextholder`;
+    return contextHolderProxy;
   }
 
   switch (urlFormat) {
