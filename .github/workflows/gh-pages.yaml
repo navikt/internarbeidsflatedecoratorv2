@@ -25,6 +25,7 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           registry-url: https://npm.pkg.github.com
+          scope: "@navikt"
 
       - run: bun install
         working-directory: './packages/internarbeidsflate-decorator-v3'
