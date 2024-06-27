@@ -1,6 +1,6 @@
 import { MaybeCls } from '@nutgaard/maybe-ts';
 import { lagFnrFeilmelding } from '../utils/fnr-utils';
-import { finnMiljoStreng, hentMiljoFraUrl, UrlFormat } from '../utils/url-utils';
+import { hentMiljoFraUrl, UrlFormat } from '../utils/url-utils';
 import { AktivBruker, AktivEnhet, AktorIdResponse, Saksbehandler } from '../internal-domain';
 import failureConfig from './../mock/mock-error-config';
 import { ProxyConfig } from '../domain';
@@ -222,7 +222,7 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 
 export function getVeilederflatehendelserUrl(ident: string) {
     let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
-    return `wss://veilederflatehendelser${finnMiljoStreng()}${subdomain}.adeo.no/modiaeventdistribution/ws/${ident}`;
+    return `wss://modiaeventdistribution.intern${subdomain}.nav.no/ws/${ident}`;
 }
 
 export type FeatureTogglesResponse = {
