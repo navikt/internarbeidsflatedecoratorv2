@@ -107,20 +107,13 @@ export const wsEventDistribusjon = (
   environment: Environment,
   urlFormat: UrlFormat,
 ) => {
-  const subdomain = environment === 'prod' ? '' : '.dev';
   switch (urlFormat) {
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
     case 'ANSATT':
       return `wss://modiaeventdistribution${ansattDomain(environment)}/ws/`;
-    default: {
-      if (environment === 'q2')
-        return `wss://modiaeventdistribution${naisDomain(environment)}/ws/`;
-      else
-        return `wss://veilederflatehendelser${findEnvString(
-          environment,
-        )}${subdomain}.adeo.no/modiaeventdistribution/ws/`;
-    }
+    default:
+      return `wss://modiaeventdistribution${naisDomain(environment)}/ws/`;
   }
 };
 
