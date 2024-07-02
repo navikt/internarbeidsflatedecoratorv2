@@ -100,7 +100,7 @@ describe('api', () => {
         it('skal ha riktig wss-url i dev.adeo.no', () => {
             withLocation('https://navn.dev.adeo.no/contextpath/', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q1.dev.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.dev.nav.no/ws/navident'
                 );
             });
         });
@@ -108,7 +108,7 @@ describe('api', () => {
         it('skal ha riktig wss-url i app-q6.dev.adeo.no', () => {
             withLocation('https://app-q6.dev.adeo.no/contextpath/', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q6.dev.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.dev.nav.no/ws/navident'
                 );
             });
         });
@@ -116,13 +116,13 @@ describe('api', () => {
         it('skal ha riktig nais-url ved kjøring på nais-preprod', () => {
             withLocation('https://navn-q6.nais.preprod.local/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q6.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.nav.no/ws/navident'
                 );
             });
 
             withLocation('https://navn.nais.preprod.local/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q1.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.nav.no/ws/navident'
                 );
             });
         });
@@ -130,7 +130,7 @@ describe('api', () => {
         it('skal ha riktig nais-url ved kjøring på nais-prod', () => {
             withLocation('https://navn-q.nais.adeo.no/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.nav.no/ws/navident'
                 );
             });
         });
@@ -138,7 +138,7 @@ describe('api', () => {
         it('skal ha riktig url ved kjøring på app-XX.adeo.no', () => {
             withLocation('https://app-q6.adeo.no/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser-q6.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.nav.no/ws/navident'
                 );
             });
         });
@@ -146,7 +146,7 @@ describe('api', () => {
         it('skal ha riktig url ved kjøring på app.adeo.no', () => {
             withLocation('https://app.adeo.no/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.nav.no/ws/navident'
                 );
             });
         });
@@ -154,7 +154,7 @@ describe('api', () => {
         it('skal ha fallback til prod om alt feiler', () => {
             withLocation('https://vg.no/contextpath', () => {
                 expect(getVeilederflatehendelserUrl('navident')).toBe(
-                    'wss://veilederflatehendelser.adeo.no/modiaeventdistribution/ws/navident'
+                    'wss://modiaeventdistribution.intern.nav.no/ws/navident'
                 );
             });
         });
