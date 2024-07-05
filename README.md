@@ -43,7 +43,7 @@ import NAVSPA from '@navikt/navspa';
 import type DecoratorProps from './decorator-props';
 import decoratorConfig from './decorator-config';
 
-const InternflateDecorator = NAVSPA.importer<DecoratorProps>('internarbeidsflatefs');
+const InternflateDecorator = NAVSPA.importer<DecoratorProps>('internarbeidsflate-decorator-v3');
 
 function App() {
     return (
