@@ -64,7 +64,6 @@ jobs:
         with:
           name: app-dist
       - name: Upload to CDN dev path
-        if: github.ref == 'refs/heads/dev'
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           team: personoversikt
@@ -88,7 +87,6 @@ jobs:
         with:
           name: app-dist
       - name: Upload to CDN prod path
-        if: github.ref == 'refs/heads/master'
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           team: personoversikt
