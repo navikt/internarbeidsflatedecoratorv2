@@ -6,7 +6,7 @@ concurrency:
   group: ${{ github.ref }}
 
 jobs:
-  deploy:
+  build:
     name: Build and deploy
     runs-on: ubuntu-latest
     permissions:
@@ -43,23 +43,56 @@ jobs:
         working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun run build
 
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/master'
+        with:
+          name: app-dist
+          path: packages/internarbeidsflate-decorator-v3/dist
+
+  deploy-dev:
+    name: Deploy to dev
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    environment: dev-cdn
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-dist
       - name: Upload to CDN dev path
         if: github.ref == 'refs/heads/dev'
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           team: personoversikt
-          source: ./packages/internarbeidsflate-decorator-v3/dist/
+          source: dist
           destination: /internarbeidsflate-decorator-v3/dev/latest
           cache_invalidation: true
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
+  deploy-prod:
+    name: Deploy to prod
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    environment: prod-cdn
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-dist
       - name: Upload to CDN prod path
         if: github.ref == 'refs/heads/master'
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
           team: personoversikt
-          source: ./packages/internarbeidsflate-decorator-v3/dist/
+          source: dist
           destination: /internarbeidsflate-decorator-v3/prod/latest
           cache_invalidation: true
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
