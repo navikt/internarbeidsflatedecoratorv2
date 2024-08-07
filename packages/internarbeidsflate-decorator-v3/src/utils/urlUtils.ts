@@ -38,8 +38,6 @@ const findEnvString = (environment: Environment) => {
   }
   return `-${environment}`;
 };
-const adeoDomain = (environment: Environment) =>
-  `https://app${findEnvString(environment)}.adeo.no`;
 
 const naisAdeoDomain = (
   environment: Environment,
@@ -71,12 +69,8 @@ const modiaUrl = (
   fnr: string | undefined | null,
   path: string,
   environment: Environment,
-  urlFormat: UrlFormat,
 ) => {
-  const basePath =
-    urlFormat === 'ADEO' || environment === 'prod'
-      ? adeoDomain(environment) + '/modiapersonoversikt'
-      : 'https://modiapersonoversikt' + naisDomain(environment);
+  const basePath = 'https://modiapersonoversikt' + naisDomain(environment);
 
   return fnr ? basePath + path : basePath;
 };
@@ -93,10 +87,6 @@ export const modiaContextHolderUrl = (
   switch (urlFormat) {
     case 'LOCAL':
       return 'http://localhost:4000';
-    case 'ADEO':
-      return `https://app${findEnvString(
-        environment,
-      )}.adeo.no/modiacontextholder`;
     case 'NAV_NO':
     case 'ANSATT':
       return `https://modiacontextholder${naisDomain(environment)}`;
@@ -203,7 +193,7 @@ export const buildLinks = ({
 }: BuildLinksProps): LinkObject => {
   return {
     modiaUrl: {
-      url: modiaUrl(fnr, `/person`, environment, urlFormat),
+      url: modiaUrl(fnr, `/person`, environment),
     },
     veilarbportefoljeUrl: {
       url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
