@@ -107,7 +107,7 @@ export type Environment =
   | 'local'
   | 'mock';
 
-export type UrlFormat = 'LOCAL' | 'ADEO' | 'NAV_NO' | 'ANSATT'; // UrlFormat. Brukes om proxy ikke er satt & i url til websocket.
+export type UrlFormat = 'LOCAL' | 'NAV_NO' | 'ANSATT'; // UrlFormat. Brukes om proxy ikke er satt & i url til websocket.
 
 export interface HotkeyObject {
   char: string;
