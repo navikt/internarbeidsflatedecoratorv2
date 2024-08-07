@@ -64,6 +64,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: app-dist
+          path: dist
       - name: Upload to CDN dev path
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
@@ -87,6 +88,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: app-dist
+          path: dist
       - name: Upload to CDN prod path
         uses: nais/deploy/actions/cdn-upload/v2@master
         with:
