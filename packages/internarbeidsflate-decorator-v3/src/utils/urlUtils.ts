@@ -101,9 +101,9 @@ export const wsEventDistribusjon = (
     case 'LOCAL':
       return 'ws://localhost:4000/ws/';
     case 'ANSATT':
-      return `wss://modiaeventdistribution${ansattDomain(environment)}/ws/`;
+      return `wss://modiacontextholder${ansattDomain(environment)}/ws/`;
     default:
-      return `wss://modiaeventdistribution${naisDomain(environment)}/ws/`;
+      return `wss://modiacontextholder${naisDomain(environment)}/ws/`;
   }
 };
 
