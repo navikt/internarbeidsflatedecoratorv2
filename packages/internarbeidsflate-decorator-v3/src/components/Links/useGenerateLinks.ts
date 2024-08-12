@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 export interface LinkWithTitle extends Url {
   title: string;
   subPath?: string | undefined;
+  target?: string | undefined;
 }
 
 export interface LinkSection {
@@ -26,10 +27,12 @@ const buildLinkWithTitle = (
   link: Url,
   title: string,
   subPath: string | undefined = '',
+  target?: string,
 ): LinkWithTitle => ({
   ...link,
   title,
   subPath,
+  target,
 });
 
 const generateLinks = ({
@@ -107,7 +110,7 @@ const generateLinks = ({
     links: [
       buildLinkWithTitle(links.aaRegister, 'AA register'),
       buildLinkWithTitle(links.pesys, 'Pesys'),
-      buildLinkWithTitle(links.gosys, 'Gosys'),
+      buildLinkWithTitle(links.gosys, 'Gosys', undefined, 'gosys'),
       buildLinkWithTitle(links.foreldrepenger, 'Foreldrepenger'),
       buildLinkWithTitle(links.k9, 'K9-sak'),
       buildLinkWithTitle(links.rekrutteringsBistand, 'Rekrutteringsbistand'),
