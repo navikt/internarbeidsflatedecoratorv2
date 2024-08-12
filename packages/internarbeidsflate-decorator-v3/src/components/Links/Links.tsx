@@ -67,6 +67,7 @@ const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
               href={href}
               newPage={linkSection.newPage}
               linkText={link.title}
+              target={link.target}
             />
           );
         })}
@@ -79,7 +80,8 @@ const LinkComponent: React.FC<{
   href: string;
   newPage?: boolean | undefined;
   linkText: string;
-}> = ({ href, linkText, newPage = false }) => {
+  target?: string | undefined;
+}> = ({ href, linkText, newPage = false, target }) => {
   const onLinkClick = useGlobalHandlers((state) => state.onLinkClick);
 
   const onClick = () => {
@@ -90,8 +92,8 @@ const LinkComponent: React.FC<{
     <li className="dr-block dr-text-white dr-py-1">
       <Link
         href={href}
-        rel="nooppener noreferrer"
-        target={newPage ? '_blank' : '_self'}
+        rel={target ? '' : 'nooppener noreferrer'}
+        target={target ?? (newPage ? '_blank' : '_self')}
         className="!dr-block !dr-text-white !dr-py-1 !dr-no-underline focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-400 focus:!dr-bg-transparent hover:!dr-text-orange-400 hover:before:!dr-w-2 hover:before:!dr-h-2 hover:before:!-dr-mr-2 hover:before:!dr-bg-orange-400 hover:before:!dr-rounded-full hover:before:!dr-inline-block hover:before:!-dr-left-4 hover:before:!dr-relative hover:before:!dr-mb-[2px] hover:visited:!dr-text-orange-400"
         onClick={onClick}
       >
