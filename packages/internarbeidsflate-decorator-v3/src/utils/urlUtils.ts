@@ -268,7 +268,7 @@ export const buildLinks = ({
       url: `https://nav-arbeidsmarkedstiltak${naisDomain(environment)}/`,
     },
     kunnskapsbasenNKS: {
-      url: 'https://data.intern.nav.no/quarto/e7b3e02a-0c45-4b5c-92a2-a6d364120dfb/',
+      url: 'https://data.ansatt.nav.no/story/e7b3e02a-0c45-4b5c-92a2-a6d364120dfb',
     },
   };
 };
