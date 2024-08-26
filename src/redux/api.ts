@@ -222,7 +222,7 @@ export function getWebSocketUrl(maybeSaksbehandler: MaybeCls<Saksbehandler>): st
 
 export function getVeilederflatehendelserUrl(ident: string) {
     let subdomain = hentMiljoFraUrl().envclass === 'dev' ? '.dev' : '';
-    return `wss://modiaeventdistribution.intern${subdomain}.nav.no/ws/${ident}`;
+    return `wss://modiacontextholder.intern${subdomain}.nav.no/ws/${ident}`;
 }
 
 export type FeatureTogglesResponse = {
