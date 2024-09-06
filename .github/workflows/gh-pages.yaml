@@ -2,10 +2,10 @@ name: Deploy to GitHub pages
 
 on:
   push:
-    branches: [dev]
+    branches: [master]
 
 concurrency:
-  group: gh-pages-dev
+  group: gh-pages-master
   cancel-in-progress: true
 
 permissions:
@@ -22,7 +22,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         with:
           registry-url: https://npm.pkg.github.com
           scope: "@navikt"
