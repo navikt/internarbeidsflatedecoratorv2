@@ -4,6 +4,9 @@ const SECONDS: number = 1000;
 const MINUTES: number = 60 * SECONDS;
 const MAX_RETRIES: number = 30;
 
+const CLOSE_DELAY = 2 * SECONDS;
+const RETRY_DELAY = 5 * SECONDS;
+
 export enum Status {
   INIT = 'INIT',
   OPEN = 'OPEN',
@@ -26,7 +29,7 @@ const createRetrytime = (tryCount: number): number => {
     return Number.MAX_SAFE_INTEGER;
   }
 
-  const basedelay = Math.min(Math.pow(2, tryCount), 180) * SECONDS;
+  const basedelay = RETRY_DELAY;
   return basedelay + fuzzy(5 * SECONDS, 15 * SECONDS);
 };
 
@@ -119,6 +122,12 @@ export class WebSocketWrapper {
 
   #onWSError = (event: Event) => {
     WebSocketWrapper.#print('error', event);
+    if (this.retryCounter < MAX_RETRIES) {
+      const delay = createRetrytime(this.retryCounter++);
+      this.#clearRetryTimer();
+      this.retrytimer = setTimeout(() => this.open(), delay);
+      return;
+    }
     if (this.#listener.onError) {
       this.#listener.onError(event);
     }
@@ -132,8 +141,7 @@ export class WebSocketWrapper {
     }
 
     if (this.#status !== Status.CLOSE) {
-      const delay = createRetrytime(this.retryCounter++);
-      WebSocketWrapper.#print('Creating retrytimer', delay);
+      const delay = CLOSE_DELAY;
       this.retrytimer = setTimeout(() => this.open(), delay);
     }
 
