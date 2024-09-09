@@ -1,12 +1,14 @@
 import React, { ChangeEvent, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import StoreHandler from '../store/StoreHandler';
+import { useAppState } from '../states/AppState';
 
 const EnhetVelger: React.FC = () => {
   const { enheter, enhetId } = StoreHandler.store((state) => ({
     enheter: state.veileder?.enheter,
     enhetId: state.enhet.value,
   }));
+  const showEnheter = useAppState((state) => state.showEnheter);
 
   const options: React.JSX.Element[] = useMemo(() => {
     const enhetOptions =
@@ -35,7 +37,7 @@ const EnhetVelger: React.FC = () => {
     );
   };
 
-  return (
+  return !showEnheter ? undefined : (
     <Select
       value={enhetId ?? undefined}
       label="Velg enhet"
