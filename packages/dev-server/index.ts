@@ -38,19 +38,19 @@ const serve = () => {
     return new SuccessResponse();
   });
 
-  app.get('/modiacontextholder/api/decorator', () => {
+  app.get('/api/decorator', () => {
     return new SuccessResponse(mockMe);
   });
 
-  app.get('/modiacontextholder/api/context/v2/aktivbruker', () => {
+  app.get('/api/context/v2/aktivbruker', () => {
     return new SuccessResponse({ aktivBruker: context.aktivBruker });
   });
 
-  app.get('/modiacontextholder/api/context/v2/aktivenhet', () => {
+  app.get('/api/context/v2/aktivenhet', () => {
     return new SuccessResponse({ aktivEnhet: context.aktivEnhet });
   });
 
-  app.get('/modiacontextholder/api/context/enhet/:enhetId', (request) => {
+  app.get('/api/context/enhet/:enhetId', (request) => {
     if (!request.haveParam('enhetId')) {
       return new BadRequestResponse('Missing enhetId');
     }
@@ -66,7 +66,7 @@ const serve = () => {
     return new SuccessResponse(response);
   });
 
-  app.post('/modiacontextholder/api/context', async (request) => {
+  app.post('/api/context', async (request) => {
     if (!request.body) {
       return new BadRequestResponse('No body provided');
     }
@@ -85,12 +85,12 @@ const serve = () => {
     return new SuccessResponse({ ...context });
   });
 
-  app.delete('/modiacontextholder/api/context/aktivbruker', () => {
+  app.delete('/api/context/aktivbruker', () => {
     context.aktivBruker = undefined;
     return new SuccessResponse({ aktivBruker: context.aktivBruker });
   });
 
-  app.post('/modiacontextholder/api/fnr-code/retrieve', async (request) => {
+  app.post('/api/fnr-code/retrieve', async (request) => {
     if (!request.body) {
       return new BadRequestResponse('No body provided');
     }
@@ -108,7 +108,7 @@ const serve = () => {
     return new SuccessResponse({ fnr, code });
   });
 
-  app.post('/modiacontextholder/api/fnr-code/generate', async (request) => {
+  app.post('/api/fnr-code/generate', async (request) => {
     if (!request.body) {
       return new BadRequestResponse('No body provided');
     }

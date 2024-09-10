@@ -2,7 +2,7 @@ import { WebSocketListener } from '../types/WebSocketListener';
 import { Environment } from '../utils/environmentUtils';
 const SECONDS: number = 1000;
 const MINUTES: number = 60 * SECONDS;
-const MAX_RETRIES: number = 30;
+const MAX_RETRIES: number = 3;
 
 const CLOSE_DELAY = 2 * SECONDS;
 const RETRY_DELAY = 5 * SECONDS;
@@ -30,7 +30,7 @@ const createRetrytime = (tryCount: number): number => {
   }
 
   const basedelay = RETRY_DELAY;
-  return basedelay + fuzzy(5 * SECONDS, 15 * SECONDS);
+  return basedelay;
 };
 
 export class WebSocketWrapper {
@@ -165,7 +165,7 @@ export class WebSocketWrapper {
   };
 
   static #print = (...args: unknown[]) => {
-    if (import.meta.env.REACT_APP_MOCK === 'true') {
+    if (import.meta.env.DEV) {
       console.log('WS:', ...args);
     }
   };
