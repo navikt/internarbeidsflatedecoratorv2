@@ -3,7 +3,6 @@ import './index.css';
 import classNames from 'classnames';
 import useAppLogic from './hooks/useAppLogic';
 import { AppProps } from './types/AppProps';
-import NAVLogo from './components/Logo';
 import { Heading } from '@navikt/ds-react';
 import Enhet from './components/Enhet';
 import EnhetVelger from './components/EnhetVelger';
@@ -32,7 +31,6 @@ const LandingPage: React.FC<AppProps> = (props) => {
       )}
       data-theme="internarbeidsflatedecorator-theme"
     >
-      <NAVLogo className="dr-w-24 dr-pb-3" />
       <Heading className="dr-pb-3" size={'large'}>
         Modia
       </Heading>
