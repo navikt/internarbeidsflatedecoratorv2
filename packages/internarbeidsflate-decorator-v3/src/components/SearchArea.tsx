@@ -74,6 +74,7 @@ const SearchArea: React.FC = () => {
           placeholder="Personsøk"
           onChange={(e) => setInput(e.currentTarget.value)}
           label={undefined}
+          size="small"
         />
         <Button
           className="!dr-absolute !dr-top-0 !dr-bottom-0 !dr-right-0 !dr-m-[1px] focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-500 !dr-text-white hover:!dr-text-white hover:!dr-bg-gray-600"

@@ -44,6 +44,7 @@ const EnhetVelger: React.FC = () => {
       onChange={onChange}
       hideLabel
       className="dr-w-64"
+      size="small"
     >
       {options}
     </Select>
