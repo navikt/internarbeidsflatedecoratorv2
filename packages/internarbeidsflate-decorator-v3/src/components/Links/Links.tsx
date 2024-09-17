@@ -6,7 +6,7 @@ import useGlobalHandlers from '../../store/GlobalHandlers';
 export const DecoratorLinks: React.FC<LinkSections> = (links) => {
   return (
     <div className="dr-max-w-6xl dr-mr-auto dr-ml-auto dr-p-4 dr-text-left">
-      <div className="dr-flex dr-flex-wrap dr-mb-8">
+      <div className="dr-flex dr-flex-wrap dr-mb-4">
         <Column linkSection={links.modia} />
         <Column linkSection={links.arbeidsrettet} />
         <Column linkSection={links.sykefravaer} />
@@ -89,12 +89,12 @@ const LinkComponent: React.FC<{
   };
 
   return (
-    <li className="dr-block dr-text-white dr-py-1">
+    <li className="dr-block dr-text-white">
       <Link
         href={href}
         rel={target ? '' : 'nooppener noreferrer'}
         target={target ?? (newPage ? '_blank' : '_self')}
-        className="!dr-block !dr-text-white !dr-py-1 !dr-no-underline focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-400 focus:!dr-bg-transparent hover:!dr-text-orange-400 hover:before:!dr-w-2 hover:before:!dr-h-2 hover:before:!-dr-mr-2 hover:before:!dr-bg-orange-400 hover:before:!dr-rounded-full hover:before:!dr-inline-block hover:before:!-dr-left-4 hover:before:!dr-relative hover:before:!dr-mb-[2px] hover:visited:!dr-text-orange-400"
+        className="!dr-block !dr-text-white !dr-no-underline focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-400 focus:!dr-bg-transparent hover:!dr-text-orange-400 hover:before:!dr-w-2 hover:before:!dr-h-2 hover:before:!-dr-mr-2 hover:before:!dr-bg-orange-400 hover:before:!dr-rounded-full hover:before:!dr-inline-block hover:before:!-dr-left-4 hover:before:!dr-relative hover:before:!dr-mb-[2px] hover:visited:!dr-text-orange-400"
         onClick={onClick}
       >
         {linkText}

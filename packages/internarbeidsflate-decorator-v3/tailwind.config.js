@@ -17,6 +17,7 @@ export default {
       },
       maxWidth: {
         '9xl': '96rem',
+        'screen-hd': '1920px',
       },
     },
   },

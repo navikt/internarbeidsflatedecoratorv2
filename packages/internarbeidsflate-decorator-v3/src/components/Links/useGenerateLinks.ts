@@ -59,7 +59,7 @@ const generateLinks = ({
     contextHolderProxy: proxy,
   });
   const modia: LinkSection = {
-    title: 'Personoversikt',
+    title: 'Modia Personoversikt',
     links: [
       buildLinkWithTitle(links.modiaUrl, 'Oversikt'),
       buildLinkWithTitle(links.modiaUrl, 'Oppfølging', '/oppfolging'),
@@ -71,7 +71,7 @@ const generateLinks = ({
     ],
   };
   const arbeidsrettet: LinkSection = {
-    title: 'Arbeidsrettet oppfølging',
+    title: 'Modia Arbeidsrettet oppfølging',
     links: [
       buildLinkWithTitle(
         links.veilarbportefoljeUrl,
@@ -94,7 +94,7 @@ const generateLinks = ({
     ],
   };
   const sykefravaer: LinkSection = {
-    title: 'Sykefraværsoppfølging',
+    title: 'Modia Sykefraværsoppfølging',
     links: [
       buildLinkWithTitle(links.syfooversiktUrl, 'Enhetens oversikt', '/enhet'),
       buildLinkWithTitle(links.syfooversiktUrl, 'Min oversikt', '/minoversikt'),
@@ -120,7 +120,7 @@ const generateLinks = ({
         'Søk etter stilling',
         '/stillingssok?standardsok',
       ),
-      buildLinkWithTitle(links.modiaSosialhjelp, 'Modia sosialhjelp'),
+      buildLinkWithTitle(links.modiaSosialhjelp, 'Sosialhjelp'),
       buildLinkWithTitle(links.refusjon, 'Refusjon tilskudd'),
       buildLinkWithTitle(links.salesforce, 'Salesforce'),
       buildLinkWithTitle(links.kunnskapsbasenNKS, 'Kunnskapsbasen NKS'),

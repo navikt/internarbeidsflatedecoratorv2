@@ -10,8 +10,8 @@ import VeilederDetails from './VeilederDetails';
 const Banner: React.FC = () => {
   return (
     <div className="dr-p-2 dr-bg-background dr-text-white">
-      <div className="dr-max-w-full dr-mx-auto">
-        <div className="dr-flex dr-flex-wrap dr-items-center dr-justify-evenly dr-gap-1">
+      <div className="dr-flex dr-justify-center dr-w-full dr-mx-auto">
+        <div className="dr-flex dr-flex-wrap dr-items-center dr-justify-between dr-gap-1 dr-w-full dr-max-w-screen-hd">
           <AppName />
           <div className="dr-flex dr-flex-1 dr-gap-4 xl:dr-gap-8 dr-w-full dr-justify-center dr-items-center">
             <EnhetVelger />
