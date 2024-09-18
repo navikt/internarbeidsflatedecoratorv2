@@ -89,7 +89,7 @@ const LinkComponent: React.FC<{
   };
 
   return (
-    <li className="dr-block dr-text-white">
+    <li className="dr-block dr-text-white dr-py-0.5">
       <Link
         href={href}
         rel={target ? '' : 'nooppener noreferrer'}
