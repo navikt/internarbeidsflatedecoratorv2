@@ -9,7 +9,7 @@ const MenuButton: React.FC = () => {
     (open: boolean) => useAppState.setState({ open }),
   ]);
   return (
-    <div className="dr-border-l dr-border-solid dr-border-white dr-pl-2">
+    <div>
       <Button
         aria-pressed={isOpen}
         onClick={() => setIsOpen(!isOpen)}
