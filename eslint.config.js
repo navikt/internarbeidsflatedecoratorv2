@@ -6,7 +6,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
-    ignores: ['**/dist/**/*'],
+    ignores: ['*/dist/**/*'],
     languageOptions: {
       parserOptions: {
         project: ['./tsconfig.json', './packages/*/tsconfig.json'],

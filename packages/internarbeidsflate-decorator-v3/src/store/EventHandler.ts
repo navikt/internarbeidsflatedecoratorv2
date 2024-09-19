@@ -117,7 +117,7 @@ export class EventHandler extends SubstateHandler {
     newValue !== this.state[key].value &&
     newValue !== this.state[key].wsRequestedValue;
 
-  readonly changeFnr = (newFnr?: string | undefined) => {
+  readonly changeFnr = (newFnr?: string) => {
     this.#errorMessageManager.clearAllErrorMessages();
     if (!newFnr) {
       this.#fnrValueManager.clearFnr();

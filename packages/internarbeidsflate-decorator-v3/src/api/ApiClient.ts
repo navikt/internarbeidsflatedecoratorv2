@@ -59,7 +59,7 @@ export class ApiClient {
         try {
           const data = (await res.json()) as T;
           return { data, error: undefined };
-        } catch (e) {
+        } catch {
           return { data: undefined as T, error: undefined };
         }
       } else {

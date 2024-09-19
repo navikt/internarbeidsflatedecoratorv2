@@ -2,12 +2,7 @@ import { useState } from 'react';
 
 export const useTempValue = <T>(
   initialValue: T,
-): [
-  T,
-  T,
-  (newValue: T, updateMainValue?: boolean | undefined) => void,
-  () => void,
-] => {
+): [T, T, (newValue: T, updateMainValue?: boolean) => void, () => void] => {
   const [value, setValue] = useState<T>(initialValue);
   const [tempValue, setTempValue] = useState<T>(initialValue);
 
@@ -15,10 +10,7 @@ export const useTempValue = <T>(
     setValue(tempValue);
   };
 
-  const setTempValueWrapper = (
-    newValue: T,
-    updateMainValue?: boolean | undefined,
-  ) => {
+  const setTempValueWrapper = (newValue: T, updateMainValue?: boolean) => {
     setTempValue(newValue);
     if (updateMainValue) setValue(newValue);
   };
