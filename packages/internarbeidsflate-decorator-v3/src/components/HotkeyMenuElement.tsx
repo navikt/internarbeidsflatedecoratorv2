@@ -23,6 +23,7 @@ const HotkeyMenuElement: React.FC = () => {
         icon={<QuestionmarkIcon aria-hidden color="white" />}
         variant="tertiary-neutral"
         color="white"
+        size="small"
       />
       <HotkeyModal
         open={isOpen}

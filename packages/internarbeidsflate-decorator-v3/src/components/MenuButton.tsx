@@ -9,14 +9,14 @@ const MenuButton: React.FC = () => {
     (open: boolean) => useAppState.setState({ open }),
   ]);
   return (
-    <div className="dr-border-l dr-border-solid dr-border-white dr-pl-2">
+    <div>
       <Button
         aria-pressed={isOpen}
         onClick={() => setIsOpen(!isOpen)}
         icon={<ChevronIcon isOpen={isOpen} />}
         iconPosition="right"
         variant="tertiary-neutral"
-        className="!dr-text-white hover:!dr-text-white hover:!dr-bg-gray-800 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-500"
+        className="!dr-text-white hover:!dr-text-white hover:!dr-bg-gray-800 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-inset focus:!dr-ring-orange-500"
       >
         Meny
       </Button>
