@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppState } from '../states/AppState';
 import HotkeyModal from './modals/HotkeyModal';
 import { Button } from '@navikt/ds-react';
-import { QuestionmarkIcon } from '@navikt/aksel-icons';
+import { InformationIcon } from '@navikt/aksel-icons';
 import { useHotkeyState } from '../states/HotkeyState';
 
 const HotkeyMenuElement: React.FC = () => {
@@ -17,13 +16,12 @@ const HotkeyMenuElement: React.FC = () => {
   return (
     <>
       <Button
-        className="hover:!dr-bg-gray-800 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-500"
+        className="hover:!dr-bg-gray-800 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-inset focus:!dr-ring-orange-500"
         title="Åpne hurtigtaster"
         onClick={() => setIsOpen(true)}
-        icon={<QuestionmarkIcon aria-hidden color="white" />}
+        icon={<InformationIcon aria-hidden color="white" />}
         variant="tertiary-neutral"
         color="white"
-        size="small"
       />
       <HotkeyModal
         open={isOpen}
