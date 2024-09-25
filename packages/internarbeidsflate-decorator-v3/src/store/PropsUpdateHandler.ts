@@ -7,10 +7,7 @@ import { FirstSyncContextValue } from './FirstSyncContextValue';
 import { StoreProps } from './StoreHandler';
 import { SubstateHandler, SubstateHandlerProps } from './SubstateHandler';
 
-type Callback = (
-  newProps: StoreProps,
-  oldProps?: StoreProps | undefined,
-) => void;
+type Callback = (newProps: StoreProps, oldProps?: StoreProps) => void;
 
 type Callbacks = {
   [key in keyof Partial<StoreProps>]: { id: string; callback: Callback }[];
@@ -19,6 +16,7 @@ type Callbacks = {
 const criticalProps: (keyof AppProps)[] = [
   'environment',
   'urlFormat',
+  'websocketUrl',
   'accessToken',
   'onBeforeRequest',
   'proxy',
@@ -62,7 +60,7 @@ export class PropsUpdateHandler extends SubstateHandler {
   #checkIfPropUpdated = <T = AppProps | StoreProps>(
     key: keyof T,
     newProps: T,
-    previousProps?: T | undefined,
+    previousProps?: T,
   ): boolean => {
     if (!previousProps) return true;
     const oldValue = previousProps[key];
@@ -92,7 +90,7 @@ export class PropsUpdateHandler extends SubstateHandler {
   };
 
   #onCriticalPropsUpdated = async (props: AppProps) => {
-    const { environment, urlFormat, proxy, accessToken } = props;
+    const { environment, urlFormat, proxy, accessToken, websocketUrl } = props;
     const apiUrl = `${modiaContextHolderUrl(environment, urlFormat, proxy)}/api`;
     const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
     const veilederDetails = await contextHolderApi.getVeilederDetails();
@@ -102,7 +100,7 @@ export class PropsUpdateHandler extends SubstateHandler {
       );
       return;
     }
-    const wsUrl = wsEventDistribusjon(environment, urlFormat);
+    const wsUrl = websocketUrl ?? wsEventDistribusjon(environment, urlFormat);
     const storeProps: StoreProps = {
       ...props,
       contextHolderApi,
