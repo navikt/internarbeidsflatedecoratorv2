@@ -13,6 +13,7 @@ interface DomainProps {
   onEnhetChanged: (enhet?: string | null, enhetObjekt?: Enhet) => void;
   onFnrChanged: (fnr?: string | null) => void;
   onLinkClick?: (link: { text: string; url: string }) => void;
+  websocketUrl?: string | undefined;
 }
 
 export interface AppProps extends DomainProps, Omit<AppState, 'open'> {}
