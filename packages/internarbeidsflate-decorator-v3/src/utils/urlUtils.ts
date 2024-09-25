@@ -78,7 +78,7 @@ const modiaUrl = (
 export const modiaContextHolderUrl = (
   environment: Environment,
   urlFormat: UrlFormat,
-  contextHolderProxy?: string | undefined | null,
+  contextHolderProxy?: string | null,
 ): string => {
   if (contextHolderProxy) {
     return contextHolderProxy;
@@ -111,7 +111,7 @@ const pesysDomain = (environment: Environment, path: string) =>
   `https://pensjon-psak${naisAdeoDomain(environment)}${path}`;
 export const pesysUrl = (
   environment: Environment,
-  fnr?: string | undefined | null,
+  fnr?: string | null,
 ): string => {
   if (!fnr) {
     return pesysDomain(environment, '/psak');
@@ -128,7 +128,7 @@ const gosysDomain = (environment: Environment, path: string) => {
 };
 export const gosysUrl = (
   environment: Environment,
-  fnr?: string | undefined | null,
+  fnr?: string | null,
 ): string => {
   if (!fnr) {
     return gosysDomain(environment, '/gosys');
@@ -138,10 +138,7 @@ export const gosysUrl = (
 
 const fpSakDomain = (environment: Environment) =>
   `https://fpsak${naisDomain(environment)}`;
-export const fpSakUrl = (
-  enironment: Environment,
-  aktoerId?: string | undefined | null,
-) =>
+export const fpSakUrl = (enironment: Environment, aktoerId?: string | null) =>
   aktoerId
     ? `${fpSakDomain(enironment)}/aktoer/${aktoerId}`
     : `${fpSakDomain(enironment)}`;
@@ -153,15 +150,10 @@ const k9url = (environment: Environment) =>
 
 const arbeidssokerUrl = ({
   environment,
-  enhet,
-  fnr,
-}: Pick<BuildLinksProps, 'environment' | 'enhet' | 'fnr'>) => {
-  const queryParams = `?${fnr ? `fnr=${fnr}` : ''}${fnr && enhet ? '&' : ''}${
-    enhet ? `enhetId=${enhet}` : ''
-  }`;
+}: Pick<BuildLinksProps, 'environment'>) => {
   return `https://arbeidssokerregistrering-for-veileder${naisDomain(
     environment,
-  )}${queryParams}`;
+  )}`;
 };
 
 export const veilarbpersonflateUrl = ({
@@ -186,7 +178,6 @@ interface BuildLinksProps {
 export const buildLinks = ({
   environment,
   urlFormat,
-  enhet,
   fnr,
   aktoerId,
   contextHolderProxy,
@@ -205,7 +196,7 @@ export const buildLinks = ({
       url: `https://beslutteroversikt${naisDomain(environment)}`,
     },
     arbeidssokerUrl: {
-      url: arbeidssokerUrl({ environment, enhet, fnr }),
+      url: arbeidssokerUrl({ environment }),
     },
     tiltaksGjennomforingUrl: {
       url: `https://tiltaksgjennomforing${naisDomain(
