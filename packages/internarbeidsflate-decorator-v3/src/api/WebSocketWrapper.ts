@@ -121,7 +121,7 @@ export class WebSocketWrapper {
   };
 
   #onWSError = (event: Event) => {
-    WebSocketWrapper.#print('error', event);
+    WebSocketWrapper.#printError('error', event);
     if (this.retryCounter < MAX_RETRIES) {
       const delay = createRetrytime(this.retryCounter++);
       this.#clearRetryTimer();
@@ -168,5 +168,9 @@ export class WebSocketWrapper {
     if (import.meta.env.DEV) {
       console.log('WS:', ...args);
     }
+  };
+
+  static #printError = (...args: unknown[]) => {
+    console.error('[Decorator WS]: ', ...args);
   };
 }
