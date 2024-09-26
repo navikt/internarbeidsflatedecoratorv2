@@ -18,6 +18,7 @@ const criticalProps: (keyof AppProps)[] = [
   'urlFormat',
   'websocketUrl',
   'accessToken',
+  'includeCredentials',
   'onBeforeRequest',
   'proxy',
 ];
@@ -90,9 +91,20 @@ export class PropsUpdateHandler extends SubstateHandler {
   };
 
   #onCriticalPropsUpdated = async (props: AppProps) => {
-    const { environment, urlFormat, proxy, accessToken, websocketUrl } = props;
+    const {
+      environment,
+      urlFormat,
+      proxy,
+      accessToken,
+      includeCredentials,
+      websocketUrl,
+    } = props;
     const apiUrl = `${modiaContextHolderUrl(environment, urlFormat, proxy)}/api`;
-    const contextHolderApi = new ContextHolderAPI(apiUrl, accessToken);
+    const contextHolderApi = new ContextHolderAPI(
+      apiUrl,
+      accessToken,
+      includeCredentials,
+    );
     const veilederDetails = await contextHolderApi.getVeilederDetails();
     if (veilederDetails.error || !veilederDetails.data) {
       this.#errorMessageManager.addErrorMessage(

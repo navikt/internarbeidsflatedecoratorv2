@@ -15,8 +15,8 @@ interface FnrCodeResponse {
 }
 
 export class ContextHolderAPI extends ApiClient {
-  constructor(url: string, token?: string) {
-    super(url, token);
+  constructor(url: string, token?: string, includeCredentials?: boolean) {
+    super(url, token, includeCredentials);
   }
 
   readonly exhangeUserKeyForFnr = (
