@@ -4,6 +4,7 @@ import { Enhet } from './Enhet';
 interface DomainProps {
   enhet?: string | undefined;
   accessToken?: string | undefined;
+  includeCredentials?: boolean | undefined;
   fnr?: string | undefined;
   userKey?: string | undefined;
   enableHotkeys?: boolean | undefined;

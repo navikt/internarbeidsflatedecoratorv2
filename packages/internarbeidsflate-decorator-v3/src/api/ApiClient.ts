@@ -13,10 +13,12 @@ type Method = 'GET' | 'PUT' | 'PATCH' | 'POST' | 'DELETE';
 export class ApiClient {
   #url: string;
   #token?: string | undefined;
+  #includeCredentials = false;
 
-  constructor(url: string, token?: string) {
+  constructor(url: string, token?: string, includeCredentials?: boolean) {
     this.#url = url;
     this.#token = token;
+    this.#includeCredentials = !!includeCredentials;
   }
 
   setToken = (token?: string) => (this.#token = token);
@@ -50,6 +52,7 @@ export class ApiClient {
         headers: new Headers(newHeaders),
         body: JSON.stringify(body),
         signal: controller?.signal ?? null,
+        credentials: this.#includeCredentials ? 'include' : 'same-origin',
       });
 
       if (res.ok) {

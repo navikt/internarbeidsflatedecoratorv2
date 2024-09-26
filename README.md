@@ -68,6 +68,7 @@ Ett eksempel på hvordan dette kan gjøres kan ses i [index.html](../public/inde
 export interface DecoratorProps {
   enhet?: string | undefined; // Konfigurasjon av enhet-kontekst
   accessToken?: string | undefined; // Manuell innsending av JWT, settes som Authorization-header. Om null sendes cookies vha credentials: 'include'
+  includeCredentials?: boolean | undefined; // Sett `credentials: 'include'` på outgoing requests til contextholderen
   fnr?: string | undefined; // Konfigurasjon av fødselsnummer-kontekst
   userKey?: string | undefined; // Om man ikke ønsker å bruke fnr i urler, kan andre apper kalle contextholder for å generere en midlertidig kode. Hvis App A skal navigere til App B som har dekoratøren, må App A først sende en post request til /fnr-code/generate med {fnr: string} i bodyen, dette returnerer {fnr: string, code: string} til App A. App A kan så navigere til App B og sende med denne koden. App B kan så sende den koden inn til dekoratøren i userKey  propen og så henter dekoratøren fnr for den koden fra contextholderen.
   enableHotkeys?: boolean | undefined; // Aktivere hurtigtaster
