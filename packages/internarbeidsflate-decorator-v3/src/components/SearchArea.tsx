@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, TextField } from '@navikt/ds-react';
-import { MagnifyingGlassIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { Search } from '@navikt/ds-react';
 import { useHotkeyState } from '../states/HotkeyState';
 import StoreHandler from '../store/StoreHandler';
 import { useAppState } from '../states/AppState';
@@ -37,50 +36,35 @@ const SearchArea: React.FC = () => {
 
   if (!showSearchArea) return null;
 
-  const showSearchIcon = !fnr || fnr !== input;
+  const onSearch = () => StoreHandler.eventHandler.changeFnr(input);
 
-  const searchConfig: Config = {
-    icon: <MagnifyingGlassIcon />,
-    label: 'Søk',
-    onClick: () => StoreHandler.eventHandler.changeFnr(input),
+  const onClear = async () => {
+    await StoreHandler.fnrValueManager.clearFnr();
+    console.log('delete');
+    ref.current?.focus();
   };
-
-  const clearConfig: Config = {
-    icon: <XMarkIcon />,
-    label: 'Resett',
-    onClick: async () => {
-      await StoreHandler.fnrValueManager.clearFnr();
-      ref.current?.focus();
-    },
-  };
-
-  const config = showSearchIcon ? searchConfig : clearConfig;
 
   return (
     <form
+      data-theme="dark"
+      role="search"
       onSubmit={(e) => {
         e.preventDefault();
-        config.onClick();
+        onSearch();
       }}
     >
       <div className="dr-relative">
-        <TextField
+        <Search
+          variant="secondary"
           ref={ref}
-          className="!dr-border !dr-border-solid !dr-border-gray-400 !dr-rounded-medium"
           aria-label="Personsøk"
-          type="text"
           autoComplete="off"
           value={input}
           placeholder="Personsøk"
-          onChange={(e) => setInput(e.currentTarget.value)}
-          label={undefined}
+          onChange={(value) => setInput(value)}
+          label="Søk etter person med fødselsnummer/D-nummer"
           size="small"
-        />
-        <Button
-          className="!dr-absolute !dr-top-0 !dr-bottom-0 !dr-right-0 !dr-m-[1px] focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-500 !dr-text-white hover:!dr-text-white hover:!dr-bg-gray-600"
-          icon={config.icon}
-          variant="tertiary-neutral"
-          aria-label={config.label}
+          onClear={onClear}
         />
       </div>
     </form>
@@ -88,9 +72,3 @@ const SearchArea: React.FC = () => {
 };
 
 export default SearchArea;
-
-interface Config {
-  icon: React.JSX.Element;
-  label: string;
-  onClick: () => void;
-}

@@ -3,51 +3,22 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-.dekorator .navds-form-field {
-  display: block !important;
-  font-size: var(--a-font-size-large);
-  line-height: var(--a-font-line-height-large);
-}
-
-.dekorator .navds-text-field__input {
-  outline: 2px solid var(--a-gray-400);
-}
-
-.dekorator .navds-select__input {
-  outline: 2px solid var(--a-gray-400);
-}
-
-.dekorator .navds-text-field__input:focus-visible {
-  outline: 2px solid var(--a-orange-500);
-}
-
-.dekorator .navds-text-field__input:hover {
-  outline: 2px solid var(--a-orange-500);
-  border: 1px solid transparent;
-}
-
-.dekorator .navds-select__input:focus-visible {
-  outline: 2px solid var(--a-orange-500);
-}
-.dekorator .navds-select__input:hover {
-  outline: 2px solid var(--a-orange-500);
-  border: 1px solid transparent;
-}
-
-.dekorator .navds-button--tertiary-neutral:hover {
-  color: var(--a-gray-900);
-}
-
-.dekorator .navds-button--tertiary-neutral:active {
-  color: #fff;
-}
-
 [data-theme='internarbeidsflatedecorator-theme'] {
-  --ac-textfield-bg: var(--a-gray-900);
   --ac-select-bg: var(--a-gray-900);
-  --ac-textfield-text: #fff;
   --ac-select-text: #fff;
+  --ac-select-border: var(--a-gray-500);
+  --ac-select-hover-border: var(--a-orange-500);
+  --ac-select-active-border: var(--a-orange-500);
+
+  --ac-textfield-border: var(--a-gray-500);
+  --ac-textfield-hover-border: var(--a-orange-500);
+  --ac-textfield-active-border: var(--a-orange-500);
+
+  --ac-search-button-border: var(--a-gray-500);
+  --ac-search-button-border-hover: var(--a-orange-500);
+
   --a-text-default: #fff;
   --ac-textfield-placeholder: var(--a-gray-500);
   --ac-button-tertiary-neutral-text: var(--a-gray-900);
+  --a-shadow-focus-inverted: 0 0 0 3px var(--a-orange-500);
 }
