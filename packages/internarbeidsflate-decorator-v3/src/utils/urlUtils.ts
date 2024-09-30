@@ -51,7 +51,12 @@ const naisAdeoDomain = (
   }.nais.preprod.local`;
 };
 
-const naisDomain = (environment: Environment) => {
+const naisDomain = (
+  environment: Environment,
+  urlFormat: UrlFormat = 'NAV_NO',
+) => {
+  if (urlFormat === 'ANSATT') return ansattDomain(environment);
+
   if (environment === 'prod') {
     return '.intern.nav.no';
   }
@@ -69,8 +74,10 @@ const modiaUrl = (
   fnr: string | undefined | null,
   path: string,
   environment: Environment,
+  urlFormat: UrlFormat,
 ) => {
-  const basePath = 'https://modiapersonoversikt' + naisDomain(environment);
+  const basePath =
+    'https://modiapersonoversikt' + naisDomain(environment, urlFormat);
 
   return fnr ? basePath + path : basePath;
 };
@@ -158,12 +165,9 @@ const arbeidssokerUrl = ({
 
 export const veilarbpersonflateUrl = ({
   environment,
-  enhet,
-  fnr,
-}: Pick<BuildLinksProps, 'environment' | 'enhet' | 'fnr'>) => {
-  return `https://veilarbpersonflate${naisDomain(environment)}/${
-    fnr ? fnr : ''
-  }?enhet=${enhet ? enhet : ''}`;
+  urlFormat,
+}: Pick<BuildLinksProps, 'environment' | 'urlFormat'>) => {
+  return `https://veilarbpersonflate${naisDomain(environment, urlFormat)}`;
 };
 
 interface BuildLinksProps {
@@ -184,13 +188,13 @@ export const buildLinks = ({
 }: BuildLinksProps): LinkObject => {
   return {
     modiaUrl: {
-      url: modiaUrl(fnr, `/person`, environment),
+      url: modiaUrl(fnr, `/person`, environment, urlFormat),
     },
     veilarbportefoljeUrl: {
       url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
     },
     veilarbpersonUrl: {
-      url: veilarbpersonflateUrl({ environment }),
+      url: veilarbpersonflateUrl({ environment, urlFormat }),
     },
     beslutterUrl: {
       url: `https://beslutteroversikt${naisDomain(environment)}`,
@@ -204,16 +208,16 @@ export const buildLinks = ({
       )}/tiltaksgjennomforing`,
     },
     syfooversiktUrl: {
-      url: `https://syfooversikt${naisDomain(environment)}`,
+      url: `https://syfooversikt${naisDomain(environment, urlFormat)}`,
     },
     syfomoteOversikt: {
-      url: `https://syfomoteoversikt${naisDomain(environment)}`,
+      url: `https://syfomoteoversikt${naisDomain(environment, urlFormat)}`,
     },
     finnfastlege: {
-      url: `https://finnfastlege${naisDomain(environment)}/fastlege/`,
+      url: `https://finnfastlege${naisDomain(environment, urlFormat)}/fastlege/`,
     },
     syfomodiaperson: {
-      url: `https://syfomodiaperson${naisDomain(environment)}/sykefravaer`,
+      url: `https://syfomodiaperson${naisDomain(environment, urlFormat)}/sykefravaer`,
     },
     aaRegister: {
       url: `${modiaContextHolderUrl(
