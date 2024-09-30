@@ -46,11 +46,11 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "^7.0.0",
-    "@navikt/ds-css": "^7.0.0",
-    "@navikt/ds-react": "^7.0.0",
-    "@navikt/ds-tailwind": "^7.0.0",
-    "@navikt/ds-tokens": "^7.0.0",
+    "@navikt/aksel-icons": "^7.1.0",
+    "@navikt/ds-css": "^7.1.0",
+    "@navikt/ds-react": "^7.1.0",
+    "@navikt/ds-tailwind": "^7.1.0",
+    "@navikt/ds-tokens": "^7.1.0",
     "@tanstack/query-core": "^5.29.0",
     "classnames": "^2.5.1",
     "use-sync-external-store": "^1.2.0",
