@@ -133,6 +133,27 @@ describe('StoreHandler test', () => {
     expect(storeHandler.state.veileder).toStrictEqual(mockMe);
   });
 
+  it('skal ignorere events fra websocket om igoreExternalFnr er true', async () => {
+    const storeHandler = new StoreHandler();
+    updateMockContext({ aktivBruker: '07063000250' });
+    storeHandler.propsUpdateHandler.onPropsUpdated({
+      enhet: '0118',
+      fnr: undefined,
+      ignoreExternalFnr: true,
+      ...defaultProps,
+    });
+    await ws.connected;
+    sendWSMessage('NY_AKTIV_BRUKER');
+    await awaitTimeout(100, 'for å la staten bli propagert');
+    expect(storeHandler.state.fnr.value).toBe(undefined);
+    expect(storeHandler.state.fnr.showModal).toBeFalsy();
+
+    updateMockContext({ aktivEnhet: '0219' });
+    sendWSMessage('NY_AKTIV_ENHET');
+    await awaitTimeout(100, 'for å la staten bli propagert');
+    expect(storeHandler.state.enhet.showModal).toBeTruthy();
+  });
+
   it('skal vise modal om bruker endrer aktiv enhet i annet vindu, gitt at det ikke er samme enhet', async () => {
     const storeHandler = new StoreHandler();
 

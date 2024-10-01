@@ -8,11 +8,18 @@ import { FnrValueManager } from './FnrValueManager';
 import { StoreProps } from './StoreHandler';
 import { SubstateHandler, SubstateHandlerProps } from './SubstateHandler';
 
+export type EventHandlerOptions = {
+  ignoreExternalFnr?: boolean | undefined;
+  ignoreExternalEnhet?: boolean | undefined;
+};
+
 export class EventHandler extends SubstateHandler {
   #webSocketWrapper?: WebSocketWrapper | undefined;
   #errorMessageManager: ErrorMessageManager;
   #fnrValueManager: FnrValueManager;
   #enhetValueManager: EnhetValueManager;
+
+  #options: EventHandlerOptions = {};
 
   constructor(
     substateProps: SubstateHandlerProps,
@@ -25,7 +32,14 @@ export class EventHandler extends SubstateHandler {
     this.#enhetValueManager = enhetValueManager;
     this.#errorMessageManager = errorMessageManager;
   }
-  initialize = ({ wsUrl, environment, veileder }: StoreProps) => {
+
+  initialize = ({
+    wsUrl,
+    environment,
+    veileder,
+    ignoreExternalEnhet,
+    ignoreExternalFnr,
+  }: StoreProps) => {
     this.#webSocketWrapper = new WebSocketWrapper(
       `${wsUrl}${veileder.ident}`,
       environment,
@@ -36,14 +50,17 @@ export class EventHandler extends SubstateHandler {
     );
     this.#webSocketWrapper.open();
     this.registerShutdown('websocketwrapper', this.#webSocketWrapper.close);
+
+    this.#options.ignoreExternalFnr = ignoreExternalFnr;
+    this.#options.ignoreExternalEnhet = ignoreExternalEnhet;
   };
 
   #onWSMessage = (message: MessageEvent<WebSocketMessage>) => {
     const data = message.data;
     if (data === 'NY_AKTIV_BRUKER') {
-      this.#handleFnrChangedExternally();
+      void this.#handleFnrChangedExternally();
     } else if (data === 'NY_AKTIV_ENHET') {
-      this.#handleEnhetChangedExternally();
+      void this.#handleEnhetChangedExternally();
     }
   };
 
@@ -55,6 +72,8 @@ export class EventHandler extends SubstateHandler {
   };
 
   #handleFnrChangedExternally = async () => {
+    if (this.#options.ignoreExternalFnr) return;
+
     const response = await this.contextHolderApi.getVeiledersActiveFnr();
     if (response.error || !response.data || !response.data.aktivBruker) {
       this.#errorMessageManager.addErrorMessage(
@@ -75,6 +94,8 @@ export class EventHandler extends SubstateHandler {
   };
 
   #handleEnhetChangedExternally = async () => {
+    if (this.#options.ignoreExternalEnhet) return;
+
     const response = await this.contextHolderApi.getVeiledersActiveEnhet();
     if (response.error || !response.data || !response.data.aktivEnhet) {
       this.#errorMessageManager.addErrorMessage(

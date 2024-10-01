@@ -62,12 +62,14 @@ konfigurasjonen til å passe v3.
 
    **Nye props**
 
-   | v3                        | Kommentar                                                              |
-   | ------------------------- | ---------------------------------------------------------------------- |
-   | `showHotkeys: boolean`    | Vis knapp som åpner modal med liste om registrete hotkeys.             |
-   | `environment`             | Hvilket miljø appen kjører i                                           |
-   | `urlFormat`               | Hvilket URL format som brukes (ansatt eller intern)                    |
-   | `fetchActiveUserOnMount`  | Om bruker fra context skal hentes dersom `fnr` er `undefined`          |
-   | `fetchActiveEnhetOnMount` | Om enhet fra context skal hentes dersom `enhet` er `undefined`         |
-   | `enableHotkeys`           | Skru på hotkeys (NB: ikke på by default)                               |
-   | `includeCredentials`      | Sett `credentials: "include"` på outgoing requests til contextholderen |
+   | v3                        | Kommentar                                                                                                                                                                                                                   |
+   | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | `showHotkeys: boolean`    | Vis knapp som åpner modal med liste om registrete hotkeys.                                                                                                                                                                  |
+   | `environment`             | Hvilket miljø appen kjører i                                                                                                                                                                                                |
+   | `urlFormat`               | Hvilket URL format som brukes (ansatt eller intern)                                                                                                                                                                         |
+   | `fetchActiveUserOnMount`  | Om bruker fra context skal hentes dersom `fnr` er `undefined`                                                                                                                                                               |
+   | `fetchActiveEnhetOnMount` | Om enhet fra context skal hentes dersom `enhet` er `undefined`                                                                                                                                                              |
+   | `fnrSyncMode`             | "sync" eller "writeOnly". Styrer om state skal synkroniseres eller om endringer kun skal gå en vei. Brukes for oversikts apper der man ikke har bruker i kontekst men ønsker å kunne navigere til personview med søkefeltet |
+   | `enhetSyncMode`           | Fungerer likt som `fnrSyncMode` men for brukers enhet                                                                                                                                                                       |
+   | `enableHotkeys`           | Skru på hotkeys (NB: ikke på by default)                                                                                                                                                                                    |
+   | `includeCredentials`      | Sett `credentials: "include"` på outgoing requests til contextholderen                                                                                                                                                      |

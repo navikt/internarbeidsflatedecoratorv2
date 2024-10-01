@@ -15,6 +15,15 @@ interface DomainProps {
   onFnrChanged: (fnr?: string | null) => void;
   onLinkClick?: (link: { text: string; url: string }) => void;
   websocketUrl?: string | undefined;
+
+  ignoreExternalFnr?: boolean;
+  ignoreExternalEnhet?: boolean;
 }
 
 export interface AppProps extends DomainProps, Omit<AppState, 'open'> {}
+
+export interface DecoratorProps
+  extends Omit<AppProps, 'ignoreExternalFnr' | 'ignoreExternalEnhet'> {
+  fnrSyncMode?: 'writeOnly' | 'sync';
+  enhetSyncMode?: 'writeOnly' | 'sync';
+}

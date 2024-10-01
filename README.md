@@ -1,8 +1,5 @@
 # Dekoratør for interne arbeidsflater V3
 
-> [!NOTE]
-> v2.1 kjører fortsatt i prod. Du kan finne denne i [v2.1 branchen](https://github.com/navikt/internarbeidsflatedecorator/tree/v2.1)
-
 **[Migrasjonsguide for V3](./Migrating-v3.md)**
 
 Dekoratøren er en navigasjonsmeny som skal kunne brukes på tvers av fagapplikasjoner i NAV.
@@ -60,7 +57,6 @@ function App() {
 ### Manuelt oppsett
 
 Om man ikke bruker react så kan man fortsatt ta ibruk decoratoren, men man må da kalle render-funksjonen selv.
-Ett eksempel på hvordan dette kan gjøres kan ses i [index.html](../public/index.html).
 
 ## Konfigurasjon
 
@@ -74,6 +70,8 @@ export interface DecoratorProps {
   enableHotkeys?: boolean | undefined; // Aktivere hurtigtaster
   fetchActiveEnhetOnMount?: boolean | undefined; // Om enhet er undefined fra container appen, og denne er satt til true, henter den sist aktiv enhet og bruker denne.
   fetchActiveUserOnMount?: boolean | undefined; // Om fnr er undefined fra container appen, og denne er satt til true for at den skal hente siste aktiv fnr.
+  fnrSyncMode?: 'sync' | 'writeOnly'; // Modus til fnr state management. "sync" er default. "writeOnly" gjør at endringer aldri hentes men vil settes dersom det oppdateres lokalt i appen
+  enhetSyncMode?: 'sync' | 'writeOnly'; // Samme som fnrSyncMode, men for enhet state.
   onEnhetChanged: (enhetId?: string | null, enhet?: Enhet) => void; // Kalles når enheten endres
   onFnrChanged: (fnr?: string | null) => void; // Kalles når fnr enheten endres
   onLinkClick?: (link: { text: string; url: string }) => void; // Kan brukes for å legge til callbacks ved klikk på lenker i menyen. Merk at callbacken ikke kan awaites og man må selv håndtere at siden lukkes. Nyttig for å f.eks tracke navigasjon events i amplitude
@@ -108,7 +106,7 @@ export type Environment =
   | 'local'
   | 'mock';
 
-export type UrlFormat = 'LOCAL' | 'NAV_NO' | 'ANSATT'; // UrlFormat. Brukes om proxy ikke er satt & i url til websocket.
+export type UrlFormat = 'LOCAL' | 'NAV_NO' | 'ANSATT'; // UrlFormat. Brukes til lenker i menyen & WS urlen
 
 export interface HotkeyObject {
   char: string;
