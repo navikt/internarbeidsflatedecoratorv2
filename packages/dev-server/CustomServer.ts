@@ -103,7 +103,7 @@ export class CustomServer {
     );
   };
 
-  setAllowedOrigin = (allowedOrigin?: string | undefined) => {
+  setAllowedOrigin = (allowedOrigin?: string) => {
     this.#corsAllowedOrigins = allowedOrigin;
   };
 

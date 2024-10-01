@@ -76,7 +76,7 @@ export class EnhetValueManager extends ContextValueManager {
 
   readonly #updateEnhetExternallyToMatchRequestedEnhet = async (
     enheter: Enhet[],
-    enhet?: string | undefined,
+    enhet?: string,
   ) => {
     if (!enhet || !this.#haveLegalEnhet(enhet, enheter)) {
       return this.changeEnhetLocallyAndExternally(enheter, enheter[0].enhetId);

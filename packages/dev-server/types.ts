@@ -4,7 +4,7 @@ import { Server, ServerWebSocket } from 'bun';
 export interface BunRequest extends Request {
   params: Params;
   haveParam: (key: string) => boolean;
-  upgrade: <T = any>(metadata?: T | undefined) => boolean | undefined;
+  upgrade: <T = any>(metadata?: T) => boolean | undefined;
 }
 
 export interface BaseRoute {

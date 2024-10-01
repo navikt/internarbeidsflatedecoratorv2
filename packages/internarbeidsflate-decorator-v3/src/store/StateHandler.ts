@@ -16,7 +16,7 @@ export class StateHandler<T, P> {
 
   getState = () => this.#store.getState();
 
-  setState = (stateUpdate: Partial<T>, replace?: boolean | undefined) => {
+  setState = (stateUpdate: Partial<T>, replace?: boolean) => {
     const modifiedState = this.onBeforeStateUpdated(
       stateUpdate,
       this.#store.getState(),

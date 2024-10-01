@@ -2,16 +2,13 @@ import { State, StoreHandler, StoreProps } from './StoreHandler';
 
 export interface SubstateHandlerProps {
   storeHandler: StoreHandler;
-  setState: (state: Partial<State>, replace?: boolean | undefined) => void;
+  setState: (state: Partial<State>, replace?: boolean) => void;
 }
 
 export class SubstateHandler {
   protected readonly state!: State;
   protected readonly props?: StoreProps | undefined;
-  protected setState: (
-    partial: Partial<State>,
-    replace?: boolean | undefined,
-  ) => void;
+  protected setState: (partial: Partial<State>, replace?: boolean) => void;
   protected storeHandler: StoreHandler;
   #shutDownHooks: Record<string, () => void> = {};
 

@@ -6,7 +6,7 @@ export type ContextValue<T> = {
 };
 
 export const getInitialContextValue = <T>(
-  value?: string | undefined | null,
+  value?: string | null,
 ): ContextValue<T> => ({
   display: null,
   value,
