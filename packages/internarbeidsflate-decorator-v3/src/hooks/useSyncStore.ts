@@ -4,6 +4,6 @@ import StoreHandler from '../store/StoreHandler';
 
 export const useSyncStore = (appProps: AppProps) => {
   useEffect(() => {
-    StoreHandler.propsUpdateHandler.onPropsUpdated(appProps);
+    void StoreHandler.propsUpdateHandler.onPropsUpdated(appProps);
   }, [appProps]);
 };
