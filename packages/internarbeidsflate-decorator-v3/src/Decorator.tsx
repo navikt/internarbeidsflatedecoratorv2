@@ -15,11 +15,11 @@ const Decorator: React.FC<PropsWithChildren<DecoratorProps>> = (props) => {
     ...props,
     ignoreExternalFnr: props.fnrSyncMode === 'writeOnly',
     fetchActiveUserOnMount:
-      props.fnrSyncMode === 'writeOnly' || props.fetchActiveUserOnMount,
+      props.fnrSyncMode !== 'writeOnly' && props.fetchActiveUserOnMount,
 
-    ignoreExternalEnhet: props.fnrSyncMode === 'writeOnly',
+    ignoreExternalEnhet: props.enhetSyncMode === 'writeOnly',
     fetchActiveEnhetOnMount:
-      props.enhetSyncMode === 'writeOnly' || props.fetchActiveEnhetOnMount,
+      props.enhetSyncMode !== 'writeOnly' && props.fetchActiveEnhetOnMount,
   });
 
   const ref = useOnOutsideClick<HTMLElement>(() =>
