@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import './index.css';
 import useAppLogic from './hooks/useAppLogic';
 import Banner from './components/Banner';
@@ -11,16 +11,20 @@ import { useAppState } from './states/AppState';
 import { DecoratorProps } from './types/AppProps';
 
 const Decorator: React.FC<PropsWithChildren<DecoratorProps>> = (props) => {
-  useAppLogic({
-    ...props,
-    ignoreExternalFnr: props.fnrSyncMode === 'writeOnly',
-    fetchActiveUserOnMount:
-      props.fnrSyncMode !== 'writeOnly' && props.fetchActiveUserOnMount,
+  const memoizedProps = useMemo(
+    () => ({
+      ...props,
+      ignoreExternalFnr: props.fnrSyncMode === 'writeOnly',
+      fetchActiveUserOnMount:
+        props.fnrSyncMode !== 'writeOnly' && props.fetchActiveUserOnMount,
 
-    ignoreExternalEnhet: props.enhetSyncMode === 'writeOnly',
-    fetchActiveEnhetOnMount:
-      props.enhetSyncMode !== 'writeOnly' && props.fetchActiveEnhetOnMount,
-  });
+      ignoreExternalEnhet: props.enhetSyncMode === 'writeOnly',
+      fetchActiveEnhetOnMount:
+        props.enhetSyncMode !== 'writeOnly' && props.fetchActiveEnhetOnMount,
+    }),
+    [props],
+  );
+  useAppLogic(memoizedProps);
 
   const ref = useOnOutsideClick<HTMLElement>(() =>
     useAppState.setState({ open: false }),
