@@ -55,7 +55,10 @@ const Wrapper: React.FC = () => {
       <div className="dr-w-full dr-top-0">
         <Decorator
           appName="Test app"
-          markup={{ etterSokefelt: '<button>Min knapp</button>' }}
+          markup={{
+            etterSokefelt:
+              '<button class="dr-font-black dr-bg-none dr-border-none">Min knapp</button>',
+          }}
           enableHotkeys
           showEnheter={true}
           showSearchArea={true}
