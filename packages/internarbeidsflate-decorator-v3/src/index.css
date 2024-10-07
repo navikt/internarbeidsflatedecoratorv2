@@ -1,4 +1,4 @@
-@layer tw-base-dr, aksel-dr, tw-dr;
+@layer tw-base-dr !important, aksel-dr !important, tw-dr !important;
 
 @import 'tailwindcss/base' layer(tw-base-dr);
 @import '@navikt/ds-css' layer(aksel-dr);
