@@ -13,7 +13,7 @@ const HotkeyModal: React.FC<Props> = ({ hotkeys, open, close }) => {
     <Modal
       open={open}
       onClose={close}
-      className="!dr-text-gray-900"
+      className="dr-text-gray-900"
       header={{ heading: 'Hurtigtaster', closeButton: true }}
     >
       <Modal.Body>
@@ -21,7 +21,7 @@ const HotkeyModal: React.FC<Props> = ({ hotkeys, open, close }) => {
           <div>Ingen hurtigtaster er registrert</div>
         ) : (
           <div>
-            <Table className="!dr-min-w-[350px]">
+            <Table className="dr-min-w-[350px]">
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell scope="col">Tast</Table.HeaderCell>

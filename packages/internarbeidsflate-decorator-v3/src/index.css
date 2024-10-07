@@ -1,4 +1,5 @@
-@layer tw-base, aksel-dr, tw-dr;
+@layer tw-base-dr, aksel-dr, tw-dr;
+
 @import 'tailwindcss/base' layer(tw-base-dr);
 @import '@navikt/ds-css' layer(aksel-dr);
 @import 'tailwindcss/components' layer(tw-dr);
@@ -25,7 +26,7 @@
 }
 
 .dekorator {
-  @layer tw-base {
+  @layer tw-base-dr {
     h1,
     h2,
     h3,
