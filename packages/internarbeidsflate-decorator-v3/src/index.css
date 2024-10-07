@@ -1,7 +1,8 @@
-@import 'tailwindcss/base';
-@import '@navikt/ds-css';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@layer tw-base, aksel-dr, tw-dr;
+@import 'tailwindcss/base' layer(tw-base-dr);
+@import '@navikt/ds-css' layer(aksel-dr);
+@import 'tailwindcss/components' layer(tw-dr);
+@import 'tailwindcss/utilities' layer(tw-dr);
 
 [data-theme='internarbeidsflatedecorator-theme'] {
   --ac-select-bg: var(--a-gray-900);
@@ -21,4 +22,38 @@
   --ac-textfield-placeholder: var(--a-gray-500);
   --ac-button-tertiary-neutral-text: var(--a-gray-900);
   --a-shadow-focus-inverted: 0 0 0 3px var(--a-orange-500);
+}
+
+.dekorator {
+  @layer tw-base {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    ol,
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    *,
+    ::before,
+    ::after {
+      border-width: 0;
+      border-style: solid;
+      border-color: theme('borderColor.DEFAULT', currentColor);
+    }
+
+    ::before,
+    ::after {
+      --tw-content: '';
+    }
+  }
 }
