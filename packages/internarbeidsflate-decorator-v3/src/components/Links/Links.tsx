@@ -94,7 +94,7 @@ const LinkComponent: React.FC<{
         href={href}
         rel={target ? '' : 'nooppener noreferrer'}
         target={target ?? (newPage ? '_blank' : '_self')}
-        className="dr-block dr-text-white dr-no-underline focus:dr-outline-none focus:dr-ring focus:dr-ring-orange-400 focus:dr-bg-transparent hover:dr-text-orange-400 hover:before:dr-w-2 hover:before:dr-h-2 hover:before:-dr-mr-2 hover:before:dr-bg-orange-400 hover:before:dr-rounded-full hover:before:dr-inline-block hover:before:-dr-left-4 hover:before:dr-relative hover:before:dr-mb-[2px] hover:visited:dr-text-orange-400"
+        className="!dr-block !dr-text-white !dr-no-underline focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-400 focus:!dr-bg-transparent hover:!dr-text-orange-400 hover:before:!dr-w-2 hover:before:!dr-h-2 hover:before:!-dr-mr-2 hover:before:!dr-bg-orange-400 hover:before:!dr-rounded-full hover:before:!dr-inline-block hover:before:!-dr-left-4 hover:before:!dr-relative hover:before:!dr-mb-[2px] hover:visited:!dr-text-orange-400"
         onClick={onClick}
       >
         {linkText}
