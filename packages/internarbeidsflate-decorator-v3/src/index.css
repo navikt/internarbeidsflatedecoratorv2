@@ -24,7 +24,7 @@
 }
 
 .dekorator {
-  @layer tw-base-dr {
+  @layer tw-base {
     h1,
     h2,
     h3,

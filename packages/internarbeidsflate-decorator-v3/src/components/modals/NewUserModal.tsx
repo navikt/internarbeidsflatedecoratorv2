@@ -17,7 +17,7 @@ const NewUserModal: React.FC = () => {
           samtidig. Velger du å endre bruker mister du arbeidet du ikke har
           lagret.
         </Alert>
-        <Heading className="dr-mt-4" level="2" size="small">
+        <Heading className="!dr-mt-4" level="2" size="small">
           {`Ønsker du å endre bruker til ${
             fnr?.wsRequestedValue ?? 'ukjent fnr'
           }?`}
