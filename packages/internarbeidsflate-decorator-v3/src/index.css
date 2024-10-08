@@ -1,9 +1,7 @@
-@layer tw-dr !important,  aksel-dr !important, tw-base-dr !important;
-
-@import 'tailwindcss/base' layer(tw-base-dr);
-@import '@navikt/ds-css' layer(aksel-dr);
-@import 'tailwindcss/components' layer(tw-dr);
-@import 'tailwindcss/utilities' layer(tw-dr);
+@import 'tailwindcss/base';
+@import '@navikt/ds-css';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 [data-theme='internarbeidsflatedecorator-theme'] {
   --ac-select-bg: var(--a-gray-900);
