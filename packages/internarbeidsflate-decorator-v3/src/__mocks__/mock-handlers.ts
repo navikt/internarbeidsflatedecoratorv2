@@ -37,6 +37,8 @@ const getSuccessResponse = (
 type Context = { aktivEnhet: string | null; aktivBruker: string | null };
 let context: Context = { aktivEnhet: '0118', aktivBruker: '10108000398' };
 
+export const getMockContext = () => context;
+
 export const updateMockContext = (newContext: Partial<Context>) => {
   context = {
     ...context,

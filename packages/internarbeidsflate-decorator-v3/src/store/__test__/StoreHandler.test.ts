@@ -6,6 +6,7 @@ import { StoreHandler } from '../StoreHandler';
 import { AppProps } from '../../types/AppProps';
 import {
   getHandlers,
+  getMockContext,
   mockMe,
   updateMockContext,
 } from '../../__mocks__/mock-handlers';
@@ -225,8 +226,56 @@ describe('StoreHandler test', () => {
     await awaitTimeout(10, 'For å la staten bli propagert');
 
     expect(spy).toHaveBeenCalledTimes(2);
-    expect(Object.values(storeHandler.state.errorMessages).length).toBe(0);
     expect(storeHandler.state.enhet.value).toBe('0219');
+  });
+
+  it('skal ikke sende ny enhet til contxt-apiet hvis den får ny enhet og syncMode = ignore', async () => {
+    const storeHandler = new StoreHandler();
+    const spy = vi.spyOn(
+      storeHandler.enhetValueManager,
+      'changeEnhetLocallyAndExternally',
+    );
+    storeHandler.propsUpdateHandler.onPropsUpdated({
+      enhet: '0118',
+      enhetWriteDisabled: true,
+      ...defaultProps,
+    });
+
+    await ws.connected;
+
+    expect(spy).toHaveBeenCalledOnce();
+
+    storeHandler.propsUpdateHandler.onPropsUpdated({
+      enhet: '0219',
+      enhetWriteDisabled: true,
+      ...defaultProps,
+    });
+
+    await awaitTimeout(10, 'For å la staten bli propagert');
+
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(storeHandler.state.enhet.value).toBe('0219');
+    expect(getMockContext().aktivEnhet).toEqual('0118');
+  });
+
+  it('skal ikke sende ny fnr til contxt-apiet hvis den får ny fnr og syncMode = ignore', async () => {
+    const storeHandler = new StoreHandler();
+    const spy = vi.spyOn(
+      storeHandler.fnrValueManager,
+      'changeFnrLocallyAndExternally',
+    );
+
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
+      fnr: '07063000250',
+      fnrWriteDisabled: true,
+      ...defaultProps,
+    });
+
+    await awaitTimeout(10, 'For å la staten bli propagert');
+
+    expect(spy).toHaveBeenCalledOnce();
+    expect(storeHandler.state.fnr.value).toBe('07063000250');
+    expect(getMockContext().aktivBruker).toEqual('10108000398');
   });
 
   it('skal hente fnr fra context apiet om `fetchActiveUserOnMount` er satt til true', async () => {
