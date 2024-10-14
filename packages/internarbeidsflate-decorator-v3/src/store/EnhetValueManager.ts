@@ -15,6 +15,8 @@ export class EnhetValueManager extends ContextValueManager {
   #fnrValueManager: FnrValueManager;
   #propsUpdateHandler: PropsUpdateHandler;
   #onEnhetChanged?: (newEnhet?: string | null, enhetObject?: Enhet) => void;
+
+  #writeDisabled?: boolean;
   constructor(
     substateProps: SubstateHandlerProps,
     errorMessageManager: ErrorMessageManager,
@@ -31,9 +33,11 @@ export class EnhetValueManager extends ContextValueManager {
     enhet,
     onEnhetChanged,
     veileder,
+    enhetWriteDisabled,
   }: StoreProps) => {
     this.#registerPropsHandler();
     this.#onEnhetChanged = onEnhetChanged;
+    this.#writeDisabled = !!enhetWriteDisabled;
     if (enhet && enhet === this.state.enhet.value) {
       return;
     }
@@ -156,6 +160,11 @@ export class EnhetValueManager extends ContextValueManager {
     newEnhetId?: string,
   ) => {
     this.#changeEnhetLocally(enheter, newEnhetId);
+
+    if (this.#writeDisabled) {
+      return;
+    }
+
     return this.contextHolderApi.changeEnhet(newEnhetId);
   };
 

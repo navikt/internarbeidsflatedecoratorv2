@@ -18,12 +18,20 @@ interface DomainProps {
 
   ignoreExternalFnr?: boolean;
   ignoreExternalEnhet?: boolean;
+  enhetWriteDisabled?: boolean;
+  fnrWriteDisabled?: boolean;
 }
 
 export interface AppProps extends DomainProps, Omit<AppState, 'open'> {}
 
 export interface DecoratorProps
-  extends Omit<AppProps, 'ignoreExternalFnr' | 'ignoreExternalEnhet'> {
-  fnrSyncMode?: 'writeOnly' | 'sync';
-  enhetSyncMode?: 'writeOnly' | 'sync';
+  extends Omit<
+    AppProps,
+    | 'ignoreExternalFnr'
+    | 'ignoreExternalEnhet'
+    | 'enhetWriteDisabled'
+    | 'fnrWriteDisabled'
+  > {
+  fnrSyncMode?: 'writeOnly' | 'sync' | 'ignore';
+  enhetSyncMode?: 'writeOnly' | 'sync' | 'ignore';
 }

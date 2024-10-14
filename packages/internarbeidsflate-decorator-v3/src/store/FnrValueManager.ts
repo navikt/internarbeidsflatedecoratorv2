@@ -14,6 +14,8 @@ export class FnrValueManager extends ContextValueManager {
   #propsUpdateHandler: PropsUpdateHandler;
   #onFnrUpdated?: (fnr?: string | null) => void;
 
+  #writeDisabled?: boolean;
+
   constructor(
     substateProps: SubstateHandlerProps,
     errorMessageMaanger: ErrorMessageManager,
@@ -30,8 +32,10 @@ export class FnrValueManager extends ContextValueManager {
     fnr,
     userKey,
     onFnrChanged,
+    fnrWriteDisabled,
   }: StoreProps) => {
     this.#onFnrUpdated = onFnrChanged;
+    this.#writeDisabled = !!fnrWriteDisabled;
     if (!veileder.ident) {
       this.changeFnrLocally();
       return;
@@ -90,6 +94,10 @@ export class FnrValueManager extends ContextValueManager {
   readonly changeFnrLocallyAndExternally = async (newFnr?: string) => {
     this.optimisticUpdate('fnr');
     this.changeFnrLocally(newFnr);
+    if (this.#writeDisabled) {
+      return;
+    }
+
     const res = await this.contextHolderApi.changeFnr(newFnr);
     if (res.error) {
       this.#errorMessageManager.addErrorMessage(

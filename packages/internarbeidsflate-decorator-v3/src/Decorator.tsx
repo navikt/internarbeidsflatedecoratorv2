@@ -8,20 +8,31 @@ import NewEnhetModal from './components/modals/NewEnhetModal';
 import ErrorMessage from './components/ErrorMessageDisplay';
 import { useOnOutsideClick } from './hooks/useOnOutsideClick';
 import { useAppState } from './states/AppState';
-import { DecoratorProps } from './types/AppProps';
+import { AppProps, DecoratorProps } from './types/AppProps';
 
 const Decorator: React.FC<PropsWithChildren<DecoratorProps>> = (props) => {
   const memoizedProps = useMemo(
-    () => ({
-      ...props,
-      ignoreExternalFnr: props.fnrSyncMode === 'writeOnly',
-      fetchActiveUserOnMount:
-        props.fnrSyncMode !== 'writeOnly' && props.fetchActiveUserOnMount,
+    () =>
+      ({
+        ...props,
+        ignoreExternalFnr:
+          props.fnrSyncMode === 'writeOnly' || props.fnrSyncMode === 'ignore',
+        fetchActiveUserOnMount:
+          props.fnrSyncMode !== 'writeOnly' &&
+          props.fnrSyncMode !== 'ignore' &&
+          props.fetchActiveUserOnMount,
 
-      ignoreExternalEnhet: props.enhetSyncMode === 'writeOnly',
-      fetchActiveEnhetOnMount:
-        props.enhetSyncMode !== 'writeOnly' && props.fetchActiveEnhetOnMount,
-    }),
+        ignoreExternalEnhet:
+          props.enhetSyncMode === 'writeOnly' ||
+          props.enhetSyncMode === 'ignore',
+        fetchActiveEnhetOnMount:
+          props.enhetSyncMode !== 'writeOnly' &&
+          props.enhetSyncMode !== 'ignore' &&
+          props.fetchActiveEnhetOnMount,
+
+        fnrWriteDisabled: props.fnrSyncMode === 'ignore',
+        enhetWriteDisabled: props.enhetSyncMode === 'ignore',
+      }) satisfies AppProps,
     [props],
   );
   useAppLogic(memoizedProps);
