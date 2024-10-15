@@ -56,6 +56,6 @@
     "@tanstack/query-core": "^5.29.0",
     "classnames": "^2.5.1",
     "use-sync-external-store": "^1.2.0",
-    "zustand": "^4.5.2"
+    "zustand": "^5.0.0"
   }
 }
