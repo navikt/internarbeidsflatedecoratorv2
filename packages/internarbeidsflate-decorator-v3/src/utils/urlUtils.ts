@@ -191,7 +191,7 @@ export const buildLinks = ({
       url: modiaUrl(fnr, `/person`, environment, urlFormat),
     },
     veilarbportefoljeUrl: {
-      url: `https://veilarbportefoljeflate${naisDomain(environment)}`,
+      url: `https://veilarbportefoljeflate${naisDomain(environment, urlFormat)}`,
     },
     veilarbpersonUrl: {
       url: veilarbpersonflateUrl({ environment, urlFormat }),
