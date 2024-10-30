@@ -20,7 +20,7 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           registry-url: https://npm.pkg.github.com
-          scope: "@navikt"
+          scope: '@navikt'
 
       - name: Install lint dependencies
         run: bun install
