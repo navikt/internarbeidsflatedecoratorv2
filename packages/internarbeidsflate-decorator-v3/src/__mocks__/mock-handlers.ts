@@ -1,7 +1,7 @@
-import { http, HttpHandler, HttpResponse } from 'msw';
-import WS from 'vitest-websocket-mock';
+import { http, ws, WebSocketHandler, HttpHandler, HttpResponse } from 'msw';
 import { FailureConfig } from './mock-error-config';
 import { Veileder } from '../types/Veileder';
+import WS from 'vitest-websocket-mock';
 export const urlPrefix = 'http://localhost:4000';
 
 export const mockMe: Veileder = {
@@ -46,10 +46,12 @@ export const updateMockContext = (newContext: Partial<Context>) => {
   };
 };
 
+export const wsLink = ws.link('ws://localhost:4000/ws/*');
+
 export const getHandlers = (
-  ws: WS,
   errorConfig: FailureConfig,
-): HttpHandler[] => {
+  ws?: WS,
+): (HttpHandler | WebSocketHandler)[] => {
   return [
     http.post(getUrl('/context'), async ({ request }) => {
       const { eventType, verdi } = (await request.json()) as {
@@ -61,14 +63,16 @@ export const getHandlers = (
           return getErrorResponse();
         }
         context.aktivEnhet = verdi;
-        ws.send('NY_AKTIV_ENHET');
+        wsLink.broadcast('NY_AKTIV_ENHET');
+        ws?.send('NY_AKTIV_ENHET');
         return getSuccessResponse();
       } else if (eventType === 'NY_AKTIV_BRUKER') {
         if (errorConfig.contextholder.updateBruker) {
           return getErrorResponse();
         }
         context.aktivBruker = verdi;
-        ws.send('NY_AKTIV_BRUKER');
+        wsLink.broadcast('NY_AKTIV_BRUKER');
+        ws?.send('NY_AKTIV_BRUKER');
         return getSuccessResponse();
       } else {
         return getErrorResponse();
@@ -79,7 +83,8 @@ export const getHandlers = (
         return getErrorResponse();
       }
       context.aktivEnhet = null;
-      ws.send('NY_AKTIV_ENHET');
+      wsLink.broadcast('NY_AKTIV_ENHET');
+      ws?.send('NY_AKTIV_ENHET');
       return getSuccessResponse();
     }),
     http.delete(getUrl('/context/aktivbruker'), () => {
@@ -87,7 +92,8 @@ export const getHandlers = (
         return getErrorResponse();
       }
       context.aktivBruker = null;
-      ws.send('NY_AKTIV_BRUKER');
+      wsLink.broadcast('NY_AKTIV_BRUKER');
+      ws?.send('NY_AKTIV_BRUKER');
       return getSuccessResponse();
     }),
     http.get(getUrl('/context/v2/aktivenhet'), () => {
@@ -141,10 +147,7 @@ export const getHandlers = (
       }
       return getSuccessResponse({ body: enhet });
     }),
-    http.post(getUrl('/context/bytt-bruker-nokkel'), async ({ request }) => {
-      const { userKey } = (await request.json()) as { userKey: string };
-      console.log(userKey);
-      return getSuccessResponse({ body: `10108000398` });
-    }),
+
+    wsLink.addEventListener('connection', () => {}),
   ];
 };

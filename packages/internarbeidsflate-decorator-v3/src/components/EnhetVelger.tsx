@@ -19,7 +19,7 @@ const EnhetVelger: React.FC = () => {
       )) ?? [];
 
     return [
-      <option value="" key="velg_enhet" disabled selected>
+      <option value="" key="velg_enhet" disabled>
         Velg enhet
       </option>,
       ...enhetOptions,
@@ -39,7 +39,7 @@ const EnhetVelger: React.FC = () => {
 
   return !showEnheter ? undefined : (
     <Select
-      value={enhetId ?? undefined}
+      value={enhetId ?? ''}
       label="Velg enhet"
       onChange={onChange}
       hideLabel
