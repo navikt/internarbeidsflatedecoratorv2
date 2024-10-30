@@ -23,19 +23,15 @@ const Wrapper: React.FC = () => {
 
   useEffect(() => {
     if (ident) {
-      const websocketHandler = new WebSocketWrapper(
-        `${WS_URL}/${ident}`,
-        'local',
-        {
-          onOpen: () => setWsConntected(true),
-          onClose: () => setWsConntected(false),
-          onMessage: (event: MessageEvent<string>) => {
-            setWsMessages((messages) => {
-              return [...messages, event.data];
-            });
-          },
+      const websocketHandler = new WebSocketWrapper(`${WS_URL}/${ident}`, {
+        onOpen: () => setWsConntected(true),
+        onClose: () => setWsConntected(false),
+        onMessage: (event: MessageEvent<string>) => {
+          setWsMessages((messages) => {
+            return [...messages, event.data];
+          });
         },
-      );
+      });
       websocketHandler.open();
       setWebsocketHandler(websocketHandler);
       return () => websocketHandler.close();

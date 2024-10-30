@@ -35,19 +35,14 @@ export class EventHandler extends SubstateHandler {
 
   initialize = ({
     wsUrl,
-    environment,
     veileder,
     ignoreExternalEnhet,
     ignoreExternalFnr,
   }: StoreProps) => {
-    this.#webSocketWrapper = new WebSocketWrapper(
-      `${wsUrl}${veileder.ident}`,
-      environment,
-      {
-        onMessage: this.#onWSMessage,
-        onError: this.#onWSError,
-      },
-    );
+    this.#webSocketWrapper = new WebSocketWrapper(`${wsUrl}${veileder.ident}`, {
+      onMessage: this.#onWSMessage,
+      onError: this.#onWSError,
+    });
     this.#webSocketWrapper.open();
     this.registerShutdown('websocketwrapper', this.#webSocketWrapper.close);
 

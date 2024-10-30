@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import { WS } from 'vitest-websocket-mock';
-import { HttpHandler } from 'msw';
+import { HttpHandler, WebSocketHandler } from 'msw';
 import { SetupServer, setupServer } from 'msw/node';
 import { StoreHandler } from '../StoreHandler';
 import { AppProps } from '../../types/AppProps';
@@ -9,6 +9,7 @@ import {
   getMockContext,
   mockMe,
   updateMockContext,
+  wsLink,
 } from '../../__mocks__/mock-handlers';
 import config from '../../__mocks__/mock-error-config';
 
@@ -35,13 +36,13 @@ const defaultProps: Pick<
 
 describe('StoreHandler test', () => {
   let ws: WS;
-  let handlers: HttpHandler[];
+  let handlers: (HttpHandler | WebSocketHandler)[];
   let server: SetupServer;
 
   beforeEach(() => {
     updateMockContext({ aktivBruker: '10108000398', aktivEnhet: '0118' });
     ws = new WS(`ws://localhost:4000/ws/${mockMe.ident}`);
-    handlers = getHandlers(ws, config);
+    handlers = getHandlers(config, ws);
     server = setupServer(...handlers);
     server.listen();
   });
@@ -53,6 +54,7 @@ describe('StoreHandler test', () => {
   });
 
   const sendWSMessage = (message: 'NY_AKTIV_BRUKER' | 'NY_AKTIV_ENHET') => {
+    wsLink.broadcast(message);
     ws.send(message);
   };
 
@@ -63,8 +65,7 @@ describe('StoreHandler test', () => {
       'changeFnrExternallyToLocalValue',
     );
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({ ...defaultProps });
-    await ws.connected;
+    await storeHandler.propsUpdateHandler.onPropsUpdated({ ...defaultProps });
 
     expect(spy).toHaveBeenCalledTimes(0);
     expect(Object.values(storeHandler.state.errorMessages).length).toBe(0);
@@ -78,7 +79,7 @@ describe('StoreHandler test', () => {
       'changeFnrLocallyAndExternally',
     );
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       fnr: '10108000398',
       ...defaultProps,
     });
@@ -98,7 +99,7 @@ describe('StoreHandler test', () => {
       'changeEnhetLocallyAndExternally',
     );
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       ...defaultProps,
     });
@@ -113,7 +114,7 @@ describe('StoreHandler test', () => {
   it('skal vise modal om bruker endrer aktiv bruker i annet vindu, gitt at det ikke er samme fnr', async () => {
     const storeHandler = new StoreHandler();
     updateMockContext({ aktivBruker: '07063000250' });
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       fnr: '07063000250',
       ...defaultProps,
@@ -137,7 +138,7 @@ describe('StoreHandler test', () => {
   it('skal ignorere events fra websocket om igoreExternalFnr er true', async () => {
     const storeHandler = new StoreHandler();
     updateMockContext({ aktivBruker: '07063000250' });
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       fnr: undefined,
       ignoreExternalFnr: true,
@@ -158,7 +159,7 @@ describe('StoreHandler test', () => {
   it('skal vise modal om bruker endrer aktiv enhet i annet vindu, gitt at det ikke er samme enhet', async () => {
     const storeHandler = new StoreHandler();
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       ...defaultProps,
     });
@@ -183,7 +184,7 @@ describe('StoreHandler test', () => {
       'changeFnrLocallyAndExternally',
     );
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       fnr: '10108000398',
       ...defaultProps,
     });
@@ -191,7 +192,7 @@ describe('StoreHandler test', () => {
 
     expect(spy).toHaveBeenCalledOnce();
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       fnr: '07063000250',
       ...defaultProps,
     });
@@ -209,7 +210,7 @@ describe('StoreHandler test', () => {
       storeHandler.enhetValueManager,
       'changeEnhetLocallyAndExternally',
     );
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       ...defaultProps,
     });
@@ -218,7 +219,7 @@ describe('StoreHandler test', () => {
 
     expect(spy).toHaveBeenCalledOnce();
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0219',
       ...defaultProps,
     });
@@ -235,7 +236,7 @@ describe('StoreHandler test', () => {
       storeHandler.enhetValueManager,
       'changeEnhetLocallyAndExternally',
     );
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0118',
       enhetWriteDisabled: true,
       ...defaultProps,
@@ -245,7 +246,7 @@ describe('StoreHandler test', () => {
 
     expect(spy).toHaveBeenCalledOnce();
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       enhet: '0219',
       enhetWriteDisabled: true,
       ...defaultProps,
@@ -281,7 +282,7 @@ describe('StoreHandler test', () => {
   it('skal hente fnr fra context apiet om `fetchActiveUserOnMount` er satt til true', async () => {
     const storeHandler = new StoreHandler();
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       fetchActiveUserOnMount: true,
       ...defaultProps,
     });
@@ -296,7 +297,7 @@ describe('StoreHandler test', () => {
   it('skal hente enhet fra context-apiet om `fetchActiveEnhetOnMount` er satt til true', async () => {
     const storeHandler = new StoreHandler();
 
-    storeHandler.propsUpdateHandler.onPropsUpdated({
+    await storeHandler.propsUpdateHandler.onPropsUpdated({
       fetchActiveEnhetOnMount: true,
       ...defaultProps,
     });
