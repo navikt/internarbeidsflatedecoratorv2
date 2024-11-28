@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLinkHotkeys } from '../hooks/useLinkHotkeys';
 import { useAppState } from '../states/AppState';
 import StoreHandler from '../store/StoreHandler';
@@ -7,16 +7,13 @@ import classNames from 'classnames';
 import { useGenerateLinks } from './Links/useGenerateLinks';
 
 const Menu: React.FC = () => {
+  const useStore = useMemo(() => StoreHandler.getStore(), []);
+
   const isOpen = useAppState((state) => state.open);
-
   const environment = useAppState((state) => state.environment);
+  const fnr = useStore((state) => state.fnr.value);
 
-  const { fnr, aktoerId } = StoreHandler.store((state) => ({
-    fnr: state.fnr.value,
-    aktoerId: '',
-  }));
-
-  useLinkHotkeys({ environment, fnr, aktoerId });
+  useLinkHotkeys({ environment, fnr, aktoerId: null });
   const links = useGenerateLinks();
   if (!isOpen) return null;
 

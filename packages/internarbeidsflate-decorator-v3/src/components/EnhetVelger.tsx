@@ -2,12 +2,16 @@ import React, { ChangeEvent, useMemo } from 'react';
 import { Select } from '@navikt/ds-react';
 import StoreHandler from '../store/StoreHandler';
 import { useAppState } from '../states/AppState';
+import { useShallow } from 'zustand/shallow';
 
 const EnhetVelger: React.FC = () => {
-  const { enheter, enhetId } = StoreHandler.store((state) => ({
-    enheter: state.veileder?.enheter,
-    enhetId: state.enhet.value,
-  }));
+  const useStore = useMemo(() => StoreHandler.getStore(), []);
+  const { enheter, enhetId } = useStore(
+    useShallow((state) => ({
+      enheter: state.veileder?.enheter,
+      enhetId: state.enhet.value,
+    })),
+  );
   const showEnheter = useAppState((state) => state.showEnheter);
 
   const options: React.JSX.Element[] = useMemo(() => {

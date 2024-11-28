@@ -5,7 +5,7 @@ import StoreHandler from '../store/StoreHandler';
 import { useAppState } from '../states/AppState';
 
 const SearchArea: React.FC = () => {
-  const fnr = StoreHandler.store((state) => state.fnr?.value ?? '');
+  const fnr = StoreHandler.store((state) => state.fnr?.value);
   const showSearchArea = useAppState((state) => state.showSearchArea);
   const [input, setInput] = useState(fnr);
   const ref = useRef<HTMLInputElement>(null);
@@ -36,7 +36,7 @@ const SearchArea: React.FC = () => {
 
   if (!showSearchArea) return null;
 
-  const onSearch = () => StoreHandler.eventHandler.changeFnr(input);
+  const onSearch = () => StoreHandler.eventHandler.changeFnr(input ?? '');
 
   const onClear = async () => {
     await StoreHandler.fnrValueManager.clearFnr();
@@ -59,7 +59,7 @@ const SearchArea: React.FC = () => {
           ref={ref}
           aria-label="Personsøk"
           autoComplete="off"
-          value={input}
+          value={input ?? ''}
           placeholder="Personsøk"
           onChange={(value) => setInput(value)}
           label="Søk etter person med fødselsnummer/D-nummer"

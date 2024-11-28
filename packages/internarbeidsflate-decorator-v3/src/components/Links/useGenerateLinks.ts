@@ -3,6 +3,7 @@ import { buildLinks, Url } from '../../utils/urlUtils';
 import { useAppState } from '../../states/AppState';
 import StoreHandler from '../../store/StoreHandler';
 import { useMemo } from 'react';
+import { useShallow } from 'zustand/shallow';
 
 export interface LinkWithTitle extends Url {
   title: string;
@@ -131,15 +132,13 @@ const generateLinks = ({
 };
 
 export const useGenerateLinks = (): LinkSections => {
-  const { fnr, enhet } = StoreHandler.store((state) => ({
-    fnr: state.fnr.value,
-    enhet: state.enhet.value,
-  }));
-  const { environment, urlFormat, proxy } = useAppState((state) => ({
-    environment: state.environment,
-    urlFormat: state.urlFormat,
-    proxy: state.proxy,
-  }));
+  const useStore = useMemo(() => StoreHandler.getStore(), []);
+  const [fnr, enhet] = useStore(
+    useShallow((state) => [state.fnr.value, state.enhet.value]),
+  );
+  const [environment, urlFormat, proxy] = useAppState(
+    useShallow((state) => [state.environment, state.urlFormat, state.proxy]),
+  );
 
   return useMemo((): LinkSections => {
     return generateLinks({

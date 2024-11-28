@@ -1,13 +1,14 @@
 import React from 'react';
+import { useShallow } from 'zustand/shallow';
 import { Button } from '@navikt/ds-react';
 import { useAppState } from '../states/AppState';
 import { ChevronIcon } from './ChevronIcon';
 
 const MenuButton: React.FC = () => {
-  const [isOpen, setIsOpen] = useAppState((state) => [
-    state.open,
-    (open: boolean) => useAppState.setState({ open }),
-  ]);
+  const [isOpen, setIsOpen] = useAppState(
+    useShallow((state) => [state.open, state.setIsOpen]),
+  );
+
   return (
     <div>
       <Button
