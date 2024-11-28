@@ -14,6 +14,8 @@ export class StateHandler<T, P> {
     });
   }
 
+  getStore = () => this.#store;
+
   getState = () => this.#store.getState();
 
   setState = (stateUpdate: Partial<T>, replace?: boolean) => {

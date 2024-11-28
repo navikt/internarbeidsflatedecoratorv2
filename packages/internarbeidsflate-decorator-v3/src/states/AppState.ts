@@ -3,7 +3,7 @@ import { Hotkey } from '../types/Hotkey';
 import { Markup } from '../types/Markup';
 import { Environment, UrlFormat } from '../utils/environmentUtils';
 
-export const useAppState = create<AppState>(() => ({
+export const useAppState = create<AppState>((set) => ({
   appName: '',
   open: false,
   showEnheter: true,
@@ -11,6 +11,8 @@ export const useAppState = create<AppState>(() => ({
   showHotkeys: true,
   environment: 'q2',
   urlFormat: 'NAV_NO',
+
+  setIsOpen: (open) => set({ open }),
 }));
 
 export interface AppState {
@@ -24,4 +26,6 @@ export interface AppState {
   environment: Environment;
   urlFormat: UrlFormat;
   proxy?: string | undefined;
+
+  setIsOpen: (open: boolean) => void;
 }
