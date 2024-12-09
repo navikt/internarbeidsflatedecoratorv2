@@ -6,6 +6,7 @@ export interface Url {
 
 export interface LinkObject {
   modiaUrl: Url;
+  modiaUtenPersonUrl: Url;
   veilarbpersonUrl: Url;
   veilarbportefoljeUrl: Url;
   beslutterUrl: Url;
@@ -189,6 +190,9 @@ export const buildLinks = ({
   return {
     modiaUrl: {
       url: modiaUrl(fnr, `/person`, environment, urlFormat),
+    },
+    modiaUtenPersonUrl: {
+      url: modiaUrl(fnr, '', environment, urlFormat),
     },
     veilarbportefoljeUrl: {
       url: `https://veilarbportefoljeflate${naisDomain(environment, urlFormat)}`,
