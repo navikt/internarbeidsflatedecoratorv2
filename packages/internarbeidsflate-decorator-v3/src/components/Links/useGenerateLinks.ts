@@ -69,6 +69,11 @@ const generateLinks = ({
       buildLinkWithTitle(links.modiaUrl, 'Saksoversikt', '/saker'),
       buildLinkWithTitle(links.modiaUrl, 'Ytelser', '/ytelser'),
       buildLinkWithTitle(links.modiaUrl, 'Varslinger', '/varsler'),
+      buildLinkWithTitle(
+        links.modiaUtenPersonUrl,
+        'Innkrevingskrav',
+        '/innkrevingskrav',
+      ),
     ],
   };
   const arbeidsrettet: LinkSection = {
