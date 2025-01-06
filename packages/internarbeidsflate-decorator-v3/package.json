@@ -18,7 +18,7 @@
   "scripts": {
     "dev": "bunx --bun vite",
     "dev:fullscreen": "VITE_DECORATOR_MODE=fullscreen bunx --bun vite",
-    "build": "vite build",
+    "build": "bunx --bun vite build",
     "build:watch": "bunx --bun vite build --watch",
     "build-and-preview": "bunx --bun vite build && bunx --bun vite preview",
     "preview": "bunx --bun vite preview",
@@ -26,16 +26,16 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.3",
+    "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.0",
     "msw": "^2.6.6",
     "postcss": "^8.4.49",
     "postcss-import": "^16.1.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.7.2",
     "vite": "^6.0.1",
@@ -43,8 +43,8 @@
     "vitest-websocket-mock": "^0.4.0"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
   },
   "dependencies": {
     "@navikt/aksel-icons": "^7.5.3",
