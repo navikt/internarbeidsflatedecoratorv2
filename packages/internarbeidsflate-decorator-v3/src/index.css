@@ -1,8 +1,35 @@
-@import 'tailwindcss/base';
-@import './preflight.css';
-@import '@navikt/ds-css';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import 'tailwindcss' prefix(dr);
+@import '@navikt/ds-css' layer(dr-aksel);
+
+@config '../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+/*
+ * Tailwind preflight styles set margin: 0 on all elements. This breaks dialogs auto-centering so we
+ * add it back.
+ */
+@layer base {
+  dialog {
+    margin: auto;
+  }
+}
 
 [data-theme='internarbeidsflatedecorator-theme'] {
   --ac-select-bg: var(--a-gray-900);

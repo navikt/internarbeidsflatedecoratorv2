@@ -16,7 +16,7 @@ const HotkeyMenuElement: React.FC = () => {
   return (
     <>
       <Button
-        className="hover:!dr-bg-gray-800 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-inset focus:!dr-ring-orange-500"
+        className="dr:hover:bg-gray-800! dr:focus:outline-hidden! dr:focus:ring! dr:focus:ring-inset! dr:focus:ring-orange-500!"
         title="Åpne hurtigtaster"
         onClick={() => setIsOpen(true)}
         icon={<InformationIcon aria-hidden color="white" />}

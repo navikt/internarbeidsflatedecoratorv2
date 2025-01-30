@@ -11,12 +11,12 @@ import VeilederDetails from './VeilederDetails';
 const Banner: React.FC = () => {
   const appName: string = useAppState((state) => state.appName);
   return (
-    <div className="dr-bg-background dr-text-white dr-flex dr-justify-center">
-      <InternalHeader className="dr-max-w-screen-hd dr-w-full dr-items-center">
-        <InternalHeader.Title as="h1" className="dr-h-full">
+    <div className="dr:bg-background dr:text-white dr:flex dr:justify-center">
+      <InternalHeader className="dr:max-w-[theme(screens.hd)] dr:w-full dr:items-center">
+        <InternalHeader.Title as="h1" className="dr:h-full">
           {appName}
         </InternalHeader.Title>
-        <div className="dr-flex dr-flex-1 dr-gap-4 xl:dr-gap-8 dr-w-full dr-justify-center dr-items-center">
+        <div className="dr:flex dr:flex-1 dr:gap-4 dr:xl:gap-8 dr:w-full dr:justify-center dr:items-center">
           <EnhetVelger />
           <SearchArea />
           <Markup />

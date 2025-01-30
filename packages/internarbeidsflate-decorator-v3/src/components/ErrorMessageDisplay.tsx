@@ -15,7 +15,7 @@ const ErrorMessageDisplay: React.FC<{ errorMessages: ErrorMessage[] }> = ({
         <Button
           variant="tertiary-neutral"
           size="small"
-          className="!dr-ml-2 !dr-text-white hover:!dr-text-white hover:!dr-bg-red-700 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-white active:!dr-bg-red-600"
+          className="dr:ml-2! dr:text-white! dr:hover:text-white! dr:hover:bg-red-700! dr:focus:outline-hidden! dr:focus:ring! dr:focus:ring-white! dr:active:bg-red-600!"
           onClick={() =>
             StoreHandler.errorManager.removeErrorMessage(firstMessage.code)
           }
@@ -59,7 +59,7 @@ const ErrorMessageWrapper: React.FC = () => {
   return (
     <div
       aria-hidden={!open}
-      className={`dr-duration-1000 dr-transition-height ${open ? 'dr-h-auto' : 'dr-h-0'}`}
+      className={`dr:duration-1000 dr:transition-height ${open ? 'dr:h-auto' : 'dr:h-0'}`}
     >
       {open ? <ErrorMessageDisplay errorMessages={messages} /> : null}
     </div>
@@ -69,7 +69,7 @@ const ErrorMessageWrapper: React.FC = () => {
 const ErrorMessageContainer: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div
-      className="dr-p-4 dr-bg-red-600 dr-text-center dr-block dr-text-white dr-italic"
+      className="dr:p-4 dr:bg-red-600 dr:text-center dr:block dr:text-white dr:italic"
       aria-live="assertive"
       role="alert"
     >

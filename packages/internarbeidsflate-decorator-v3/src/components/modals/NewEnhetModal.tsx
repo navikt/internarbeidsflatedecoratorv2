@@ -17,7 +17,7 @@ const NewEnhetModal: React.FC = () => {
           samtidig. Velger du 'endre' mister du arbeidet du ikke har lagret.
         </Alert>
         <Heading
-          className="!dr-mt-4"
+          className="dr:mt-4!"
           level="2"
           size="small"
         >{`Ønsker du å endre enhet til ${enhet.wsRequestedValue}?`}</Heading>

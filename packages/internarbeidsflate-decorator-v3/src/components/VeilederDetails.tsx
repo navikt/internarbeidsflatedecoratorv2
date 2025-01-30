@@ -6,19 +6,19 @@ const VeilederDetails: React.FC = () => {
   const veileder = StoreHandler.store((state) => state.veileder);
 
   return (
-    <div className="dr-w-72">
+    <div className="dr:w-72">
       {veileder ? (
         <>
           <InternalHeader.User
             name={veileder.navn}
             description={veileder.ident ?? EMDASH}
-            className="dr-h-full"
+            className="dr:h-full"
           />
         </>
       ) : (
         <>
-          <Skeleton variant="text" className="dr-bg-gray-400" width="100%" />
-          <Skeleton variant="text" className="dr-bg-gray-400" width="40%" />
+          <Skeleton variant="text" className="dr:bg-gray-400" width="100%" />
+          <Skeleton variant="text" className="dr:bg-gray-400" width="40%" />
         </>
       )}
     </div>

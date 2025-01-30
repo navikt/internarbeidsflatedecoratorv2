@@ -5,8 +5,8 @@ import useGlobalHandlers from '../../store/GlobalHandlers';
 
 export const DecoratorLinks: React.FC<LinkSections> = (links) => {
   return (
-    <div className="dr-max-w-6xl dr-mr-auto dr-ml-auto dr-p-4 dr-text-left">
-      <div className="dr-flex dr-flex-wrap dr-mb-4">
+    <div className="dr:max-w-6xl dr:mr-auto dr:ml-auto dr:p-4 dr:text-left">
+      <div className="dr:flex dr:flex-wrap dr:mb-4">
         <Column linkSection={links.modia} />
         <Column linkSection={links.arbeidsrettet} />
         <Column linkSection={links.sykefravaer} />
@@ -18,11 +18,11 @@ export const DecoratorLinks: React.FC<LinkSections> = (links) => {
 
 export const FullScreenLinks: React.FC<LinkSections> = (links) => {
   return (
-    <div className="dr-max-w-6xl dr-mr-auto dr-ml-auto dr-p-8 dr-text-left dr-grid dr-grid-cols-1 sm:dr-grid-cols-3 dr-gap-y-8">
+    <div className="dr:max-w-6xl dr:mr-auto dr:ml-auto dr:p-8 dr:text-left dr:grid dr:grid-cols-1 dr:sm:grid-cols-3 dr:gap-y-8">
       <Column linkSection={links.modia} />
       <Column linkSection={links.arbeidsrettet} />
       <Column linkSection={links.sykefravaer} />
-      <div className="sm:dr-col-span-3">
+      <div className="dr:sm:col-span-3">
         <Row linkSection={links.andre} />
       </div>
     </div>
@@ -31,8 +31,8 @@ export const FullScreenLinks: React.FC<LinkSections> = (links) => {
 
 const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
   return (
-    <section className="dr-min-w-[25%] dr-px-6">
-      <h2 className="dr-font-bold dr-border-white dr-border-solid dr-border-b dr-mb-2 dr-pb-1">
+    <section className="dr:min-w-[25%] dr:px-6">
+      <h2 className="dr:font-bold dr:border-white dr:border-solid dr:border-b dr:mb-2 dr:pb-1">
         {linkSection.title}
       </h2>
       <ul>
@@ -54,11 +54,11 @@ const Column: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
 
 const Row: React.FC<{ linkSection: LinkSection }> = ({ linkSection }) => {
   return (
-    <section className="dr-px-6">
-      <h2 className="dr-font-bold dr-border-white dr-border-solid dr-border-b dr-mb-2">
+    <section className="dr:px-6">
+      <h2 className="dr:font-bold dr:border-white dr:border-solid dr:border-b dr:mb-2">
         {linkSection.title}
       </h2>
-      <ul className="dr-flex dr-flex-wrap dr-gap-x-8">
+      <ul className="dr:flex dr:flex-wrap dr:gap-x-8">
         {linkSection.links.map((link: LinkWithTitle) => {
           const href = `${link.url}${link.subPath}`;
           return (
@@ -89,12 +89,12 @@ const LinkComponent: React.FC<{
   };
 
   return (
-    <li className="dr-block dr-text-white dr-py-0.5">
+    <li className="dr:block dr:text-white dr:py-0.5">
       <Link
         href={href}
         rel={target ? '' : 'nooppener noreferrer'}
         target={target ?? (newPage ? '_blank' : '_self')}
-        className="!dr-block !dr-text-white !dr-no-underline focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-orange-400 focus:!dr-bg-transparent hover:!dr-text-orange-400 hover:before:!dr-w-2 hover:before:!dr-h-2 hover:before:!-dr-mr-2 hover:before:!dr-bg-orange-400 hover:before:!dr-rounded-full hover:before:!dr-inline-block hover:before:!-dr-left-4 hover:before:!dr-relative hover:before:!dr-mb-[2px] hover:visited:!dr-text-orange-400"
+        className="dr:block! dr:text-white! dr:no-underline! dr:focus:outline-hidden! dr:focus:ring! dr:focus:ring-orange-400! dr:focus:bg-transparent! dr:hover:text-orange-400! dr:hover:before:w-2! dr:hover:before:h-2! dr:hover:before:-mr-2! dr:hover:before:bg-orange-400! dr:hover:before:rounded-full! dr:hover:before:inline-block! dr:hover:before:-left-4! dr:hover:before:relative! dr:hover:before:mb-[2px]! dr:hover:visited:text-orange-400!"
         onClick={onClick}
       >
         {linkText}

@@ -17,7 +17,7 @@ const MenuButton: React.FC = () => {
         icon={<ChevronIcon isOpen={isOpen} />}
         iconPosition="right"
         variant="tertiary-neutral"
-        className="!dr-text-white hover:!dr-text-white hover:!dr-bg-gray-800 focus:!dr-outline-none focus:!dr-ring focus:!dr-ring-inset focus:!dr-ring-orange-500"
+        className="dr:text-white! dr:hover:text-white! dr:hover:bg-gray-800! dr:focus:outline-hidden! dr:focus:ring! dr:focus:ring-inset! dr:focus:ring-orange-500!"
       >
         Meny
       </Button>

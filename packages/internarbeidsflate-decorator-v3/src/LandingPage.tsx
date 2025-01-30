@@ -22,16 +22,16 @@ const LandingPage: React.FC<AppProps> = (props) => {
     <div
       className={classNames(
         'dekorator',
-        'dr-text-white dr-font-arial dr-bg-background',
-        'dr-min-h-screen',
-        'dr-flex',
-        'dr-flex-col',
-        'dr-items-center',
-        'dr-pt-10',
+        'dr:text-white dr:font-arial dr:bg-background',
+        'dr:min-h-screen',
+        'dr:flex',
+        'dr:flex-col',
+        'dr:items-center',
+        'dr:pt-10',
       )}
       data-theme="internarbeidsflatedecorator-theme"
     >
-      <Heading className="dr-pb-3" size={'large'}>
+      <Heading className="dr:pb-3" size={'large'}>
         Modia
       </Heading>
       <Enhet />

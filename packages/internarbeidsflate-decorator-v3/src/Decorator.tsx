@@ -44,7 +44,7 @@ const Decorator: React.FC<PropsWithChildren<DecoratorProps>> = (props) => {
   return (
     <>
       <div className="dekorator" data-theme="internarbeidsflatedecorator-theme">
-        <header ref={ref} className="dr-font-arial dr-text-white">
+        <header ref={ref} className="dr:font-arial dr:text-white">
           <Banner />
           <Menu />
           <ErrorMessage />
