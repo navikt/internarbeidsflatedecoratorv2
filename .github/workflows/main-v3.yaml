@@ -64,8 +64,6 @@ jobs:
           source: dist
           destination: /internarbeidsflate-decorator-v3/dev/latest
           cache_invalidation: true
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           headers: |-
             cache-control: public, max-age=300
 
@@ -90,7 +88,5 @@ jobs:
           source: dist
           destination: /internarbeidsflate-decorator-v3/prod/latest
           cache_invalidation: true
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           headers: |-
             cache-control: public, max-age=600

@@ -11,3 +11,8 @@ updates:
         patterns:
           - '@navikt/ds-*'
           - '@navikt/aksel-icons'
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: 'daily'
