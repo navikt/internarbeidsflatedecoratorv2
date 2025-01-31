@@ -1,17 +1,47 @@
 {
-  "name": "internarbeidsflate-decorator",
-  "private": "true",
+  "name": "internarbeidsflate-decorator-v3",
+  "private": true,
+  "version": "0.0.0",
+  "types": "./dist/index.d.ts",
   "type": "module",
-  "workspaces": [
-    "packages/dev-server",
-    "packages/internarbeidsflate-decorator-v3"
-  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/internarbeidsflate-decorator-v3.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/internarbeidsflate-decorator-v3.umd.js"
+      }
+    }
+  },
   "scripts": {
-    "clean": "rm -rf node_modules packages/dev-server/node_modules packages/internarbeidsflate-decorator-v3/node_modules bun.lockb packages/dev-server/bun.lockb packages/internarbeidsflate-decorator-v3/bun.lockb",
+    "dev": "bunx --bun vite",
+    "dev:fullscreen": "VITE_DECORATOR_MODE=fullscreen bunx --bun vite",
+    "build": "vite build",
+    "build:watch": "bunx --bun vite build --watch",
+    "build-and-preview": "bunx --bun vite build && bunx --bun vite preview",
+    "preview": "bunx --bun vite preview",
+    "build:preview": "bunx --bun vite build --config preview.vite.config.ts",
+    "test": "vitest",
     "lint": "eslint",
     "format": "prettier . --write"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.0.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "msw": "^2.7.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.0.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11",
+    "vitest": "^3.0.4",
+    "vitest-websocket-mock": "^0.4.0",
     "@eslint/js": "^9.19.0",
     "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
@@ -20,5 +50,26 @@
     "eslint-plugin-react-refresh": "^0.4.18",
     "prettier": "^3.4.2",
     "typescript-eslint": "^8.22.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "@navikt/aksel-icons": "^7.10.0",
+    "@navikt/ds-css": "^7.10.0",
+    "@navikt/ds-react": "^7.10.0",
+    "@navikt/ds-tailwind": "^7.10.0",
+    "@navikt/ds-tokens": "^7.10.0",
+    "@navikt/navspa": "^6.2.0",
+    "@tanstack/query-core": "^5.65.0",
+    "classnames": "^2.5.1",
+    "use-sync-external-store": "^1.4.0",
+    "zustand": "^5.0.3"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

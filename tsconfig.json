@@ -17,8 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "types": ["vite/client"]
+    "esModuleInterop": true
   },
   "include": [
     "packages/internarbeidsflate-decorator-v3/src",
