@@ -115,7 +115,7 @@ export class EventHandler extends SubstateHandler {
   readonly changeFnr = (newFnr?: string) => {
     this.#errorMessageManager.clearAllErrorMessages();
     if (!newFnr) {
-      this.#fnrValueManager.clearFnr();
+      void this.#fnrValueManager.clearFnr();
       return;
     }
     if (!erGyldigFodselsnummer(newFnr)) {
@@ -125,6 +125,6 @@ export class EventHandler extends SubstateHandler {
       }
       return;
     }
-    this.#fnrValueManager.changeFnrLocallyAndExternally(newFnr);
+    void this.#fnrValueManager.changeFnrLocallyAndExternally(newFnr);
   };
 }
