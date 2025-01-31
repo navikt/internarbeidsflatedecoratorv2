@@ -2,7 +2,7 @@ import { CustomServer } from './CustomServer';
 import { BadRequestResponse } from './responses/BadRequestResponse';
 import { InternalServerErrorResponse } from './responses/InternalServerErrorResponse';
 import { SuccessResponse } from './responses/SuccessResponse';
-import { mockMe } from '../internarbeidsflate-decorator-v3/src/__mocks__/mock-handlers';
+import { mockMe } from '../src/__mocks__/mock-handlers';
 import { NotFoundResponse } from './responses/NotFoundResponse';
 import { BunServerWebsocket } from './types';
 

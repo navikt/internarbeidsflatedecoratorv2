@@ -20,8 +20,9 @@
     "esModuleInterop": true
   },
   "include": [
-    "packages/internarbeidsflate-decorator-v3/src",
-    "packages/internarbeidsflate-decorator-v3/Decorator.tsx",
-    "packages/internarbeidsflate-decorator-v3/LandingPage.tsx"
+    "src",
+    "dev-server",
+    "vite.config.ts",
+    "preview.vite.config.ts"
   ]
 }

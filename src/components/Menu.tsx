@@ -18,7 +18,7 @@ const Menu: React.FC = () => {
   if (!isOpen) return null;
 
   return (
-    <div className={classNames('dr-bg-background')}>
+    <div className={classNames('dr:bg-background')}>
       <DecoratorLinks {...links} />
     </div>
   );

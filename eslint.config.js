@@ -9,7 +9,7 @@ export default tseslint.config(
     ignores: ['*/dist/**/*'],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.json', './packages/*/tsconfig.json'],
+        project: ['./tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -26,9 +26,6 @@ export default tseslint.config(
   {
     files: ['**/*.js', 'vitest.workspace.ts'],
     extends: [tseslint.configs.disableTypeChecked],
-  },
-  {
-    ignores: ['**/postcss.config.cjs'],
   },
   prettier,
 );

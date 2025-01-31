@@ -28,17 +28,16 @@ jobs:
           scope: '@navikt'
 
       - run: bun install
-        working-directory: './packages/internarbeidsflate-decorator-v3'
         env:
           BUN_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
       - name: Build preview
-        working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun run build:preview
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./packages/internarbeidsflate-decorator-v3/dist
+          path: ./dist
+
       - uses: actions/deploy-pages@v4
         id: deployment

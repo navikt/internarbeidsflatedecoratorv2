@@ -243,7 +243,7 @@ export class CustomServer {
   };
 
   stop = () => {
-    this.#server?.stop();
+    void this.#server?.stop();
   };
 }
 

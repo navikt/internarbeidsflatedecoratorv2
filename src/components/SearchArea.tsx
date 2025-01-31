@@ -53,7 +53,7 @@ const SearchArea: React.FC = () => {
         onSearch();
       }}
     >
-      <div className="dr-relative">
+      <div className="dr:relative">
         <Search
           variant="secondary"
           ref={ref}

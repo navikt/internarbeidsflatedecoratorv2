@@ -30,18 +30,10 @@ jobs:
       - name: Run lint
         run: bun run lint
 
-      - name: Install dependencies (bun)
-        working-directory: './packages/internarbeidsflate-decorator-v3'
-        run: bun install
-        env:
-          BUN_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-
       - name: Run tests
-        working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun run test
 
       - name: Build application
-        working-directory: './packages/internarbeidsflate-decorator-v3'
         run: bun run build
 
       - name: Upload build
@@ -49,7 +41,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         with:
           name: app-dist
-          path: packages/internarbeidsflate-decorator-v3/dist
+          path: dist
 
   deploy-dev:
     name: Deploy to dev
