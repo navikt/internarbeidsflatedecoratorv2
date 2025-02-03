@@ -201,7 +201,7 @@ export const buildLinks = ({
       url: veilarbpersonflateUrl({ environment, urlFormat }),
     },
     beslutterUrl: {
-      url: `https://beslutteroversikt${naisDomain(environment)}`,
+      url: `https://beslutteroversikt${naisDomain(environment, urlFormat)}`,
     },
     arbeidssokerUrl: {
       url: arbeidssokerUrl({ environment }),
