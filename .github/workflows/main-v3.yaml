@@ -1,10 +1,20 @@
 name: Build, push, and deploy
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      destination:
+        type: string
+        description: Destination path in the CDN for the deployment
+        required: true
 
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  CDN_PATH: ${{ inputs.destination || 'latest' }}
 
 jobs:
   build:
@@ -62,7 +72,7 @@ jobs:
         with:
           team: personoversikt
           source: dist
-          destination: /internarbeidsflate-decorator-v3/dev/latest
+          destination: /internarbeidsflate-decorator-v3/dev/${{ env.CDN_PATH }}
           cache_invalidation: true
           headers: |-
             cache-control: public, max-age=300
@@ -86,7 +96,7 @@ jobs:
         with:
           team: personoversikt
           source: dist
-          destination: /internarbeidsflate-decorator-v3/prod/latest
+          destination: /internarbeidsflate-decorator-v3/prod/${{ env.CDN_PATH }}
           cache_invalidation: true
           headers: |-
             cache-control: public, max-age=600
