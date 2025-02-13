@@ -1,11 +1,18 @@
 version: 2
 enable-beta-ecosystems: true
+registries:
+  nav-ghpr:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{ secrets.READER_TOKEN }}
+
 updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
     open-pull-requests-limit: 20
+    registries: '*'
     groups:
       navikt-aksel:
         patterns:
